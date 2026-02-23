@@ -54,8 +54,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\_ViewStart.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-11T19:46:50.86Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:46:50.86Z"
             },
             {
               "$type": "Document",
@@ -67,8 +66,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Home\\OverOns.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-11T19:30:20.884Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:30:20.884Z"
             },
             {
               "$type": "Document",
@@ -80,8 +78,7 @@
               "RelativeToolTip": "CommeChesSwa\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T19:25:23.224Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:25:23.224Z"
             },
             {
               "$type": "Document",
@@ -93,8 +90,7 @@
               "RelativeToolTip": "CommeChesSwa\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-11T19:25:21.941Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:25:21.941Z"
             },
             {
               "$type": "Document",
@@ -119,8 +115,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Home\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-11T19:19:47.594Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:19:47.594Z"
             },
             {
               "$type": "Document",
@@ -132,8 +127,7 @@
               "RelativeToolTip": "CommeChesSwa\\Controllers\\HomeController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T19:16:48.017Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:16:48.017Z"
             }
           ]
         }
