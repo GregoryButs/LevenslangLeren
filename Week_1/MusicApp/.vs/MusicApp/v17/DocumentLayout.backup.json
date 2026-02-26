@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\controllers\\albumcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\controllers\\albumcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\models\\song.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\models\\song.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -11,16 +27,8 @@
       "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\views\\album\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\views\\album\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\views\\album\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\controllers\\albumcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\controllers\\albumcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\models\\album.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -45,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\models\\song.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|solutionrelative:musicapp\\models\\song.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C3005B73-E2D7-4A06-95D1-9EF68F1F7CE2}|MusicApp\\MusicApp.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\musicapp\\musicapp\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -66,7 +66,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,7 +74,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\appsettings.json",
               "RelativeDocumentMoniker": "MusicApp\\appsettings.json",
@@ -82,11 +82,12 @@
               "RelativeToolTip": "MusicApp\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-11T18:35:18.702Z"
+              "WhenOpened": "2026-02-11T18:35:18.702Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\_ViewStart.cshtml",
@@ -98,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\_ViewImports.cshtml",
@@ -110,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -122,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Error.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\Shared\\Error.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\Shared\\Error.cshtml",
@@ -146,20 +147,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "MusicApp\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwCMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-11T18:01:29.357Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\Album\\Details.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\Album\\Details.cshtml",
@@ -167,24 +168,24 @@
               "RelativeToolTip": "MusicApp\\Views\\Album\\Details.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-11T17:47:34.252Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T17:47:34.252Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Program.cs",
               "RelativeDocumentMoniker": "MusicApp\\Program.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Program.cs",
               "RelativeToolTip": "MusicApp\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T19:32:07.13Z"
+              "WhenOpened": "2026-02-10T19:32:07.13Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Views\\Album\\Index.cshtml",
               "RelativeDocumentMoniker": "MusicApp\\Views\\Album\\Index.cshtml",
@@ -196,19 +197,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "AlbumController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Controllers\\AlbumController.cs",
               "RelativeDocumentMoniker": "MusicApp\\Controllers\\AlbumController.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Controllers\\AlbumController.cs",
               "RelativeToolTip": "MusicApp\\Controllers\\AlbumController.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T19:13:55.567Z"
+              "WhenOpened": "2026-02-10T19:13:55.567Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 3,
               "Title": "Song.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Models\\Song.cs",
               "RelativeDocumentMoniker": "MusicApp\\Models\\Song.cs",
@@ -216,7 +218,8 @@
               "RelativeToolTip": "MusicApp\\Models\\Song.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T19:13:21.125Z"
+              "WhenOpened": "2026-02-10T19:13:21.125Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -232,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Album.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\MusicApp\\MusicApp\\Models\\Album.cs",
               "RelativeDocumentMoniker": "MusicApp\\Models\\Album.cs",

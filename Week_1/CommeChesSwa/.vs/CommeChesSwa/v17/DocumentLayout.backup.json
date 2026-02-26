@@ -3,8 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\menu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\menu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\controllers\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\controllers\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\models\\menurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\models\\menurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\viewmodel\\detailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\viewmodel\\detailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\models\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\models\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\models\\gerecht.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\models\\gerecht.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\home\\overons.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\home\\overons.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -19,14 +51,6 @@
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\home\\overons.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\home\\overons.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -38,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +70,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Menu\\Index.cshtml",
+              "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Menu\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Menu\\Index.cshtml",
+              "RelativeToolTip": "CommeChesSwa\\Views\\Menu\\Index.cshtml",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAGQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-25T10:54:27.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DetailViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\ViewModel\\DetailViewModel.cs",
+              "RelativeDocumentMoniker": "CommeChesSwa\\ViewModel\\DetailViewModel.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\ViewModel\\DetailViewModel.cs",
+              "RelativeToolTip": "CommeChesSwa\\ViewModel\\DetailViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T10:50:27.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MenuController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Controllers\\MenuController.cs",
+              "RelativeDocumentMoniker": "CommeChesSwa\\Controllers\\MenuController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Controllers\\MenuController.cs",
+              "RelativeToolTip": "CommeChesSwa\\Controllers\\MenuController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T10:23:07.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MenuRepository.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Models\\MenuRepository.cs",
+              "RelativeDocumentMoniker": "CommeChesSwa\\Models\\MenuRepository.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Models\\MenuRepository.cs",
+              "RelativeToolTip": "CommeChesSwa\\Models\\MenuRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T10:20:02.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Menu.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Models\\Menu.cs",
+              "RelativeDocumentMoniker": "CommeChesSwa\\Models\\Menu.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Models\\Menu.cs",
+              "RelativeToolTip": "CommeChesSwa\\Models\\Menu.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T10:19:06.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Gerecht.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Models\\Gerecht.cs",
+              "RelativeDocumentMoniker": "CommeChesSwa\\Models\\Gerecht.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Models\\Gerecht.cs",
+              "RelativeToolTip": "CommeChesSwa\\Models\\Gerecht.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T10:18:40.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\_ViewStart.cshtml",
@@ -58,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "OverOns.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Home\\OverOns.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Home\\OverOns.cshtml",
@@ -66,11 +168,12 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Home\\OverOns.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-11T19:30:20.884Z"
+              "WhenOpened": "2026-02-11T19:30:20.884Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Program.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Program.cs",
@@ -82,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\appsettings.json",
               "RelativeDocumentMoniker": "CommeChesSwa\\appsettings.json",
@@ -94,32 +197,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "CommeChesSwa\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-11T19:22:36.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Home\\Index.cshtml",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "CommeChesSwa\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-11T19:19:47.594Z"
+              "WhenOpened": "2026-02-11T19:19:47.594Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Controllers\\HomeController.cs",
