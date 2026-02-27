@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container text-center">
+    <img src="/img/logo_comme_chez_swa.png" alt="Comme Chez Swa Logo" style="max-width: 300px; height: auto;" />
+    <div class="text-center">
+        @if (DateTime.Now.Hour < 11)
+        {
+            <h1>Goedemorgen!</h1>
+            <p>Neem snel een kijkje naar ons heerlijk ontbijtmenu!</p>
+        }
+        else if (DateTime.Now.Hour >= 11 && DateTime.Now.Hour < 14)
+        {
+            <h1>Goeiemiddag!</h1>
+            <p>Neem snel een kijkje naar ons heerlijk lunchmenu!</p>
+        }
+        else if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 17)
+        {
+            <h1>Welkom!</h1>
+            <p>Neem snel een kijkje naar ons heerlijk suggestiemenu!</p>
+        }
+        else
+        {
+            <h1>Goeienavond!</h1>
+            <p>Neem snel een kijkje naar ons heerlijk suggestiemenu!</p>
+        }
+    </div>
+</div>
