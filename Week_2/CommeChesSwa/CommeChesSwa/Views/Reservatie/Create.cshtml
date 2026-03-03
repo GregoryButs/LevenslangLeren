@@ -1,4 +1,5 @@
 ﻿@using CommeChesSwa.ViewModel
+@using CommeChesSwa.Models
 @model CommeChesSwa.ViewModel.GastViewModel
 
 @{
@@ -18,10 +19,9 @@
                     <p class="lead mb-4">Reserveer je plek bij Comme Chez Swa</p>
 
                     <form asp-action="Create" method="post">
-                        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
-                        {
-                            <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
-                        }
+
+                        <div asp-validation-summary="All" class="alert-danger" role="alert"></div>
+
                         <!-- Persoonlijke Gegevens -->
                         <div class="mb-4">
                             <h5 class="border-bottom pb-2 mb-3">
@@ -79,17 +79,17 @@
                                 <div class="btn-group w-100" role="group" aria-label="Tijd selectie">
                                     <input type="radio" class="btn-check" asp-for="Time" value="@Time.Ochtend" id="timeOchtend" />
                                     <label class="btn btn-outline-primary btn-lg" for="timeOchtend">
-                                        <i class="bi bi-sunrise me-2"></i>@Time.Ochtend
+                                        <i class="bi bi-sunrise me-2"></i>@Time.Ochtend (8u30 - 11u)
                                     </label>
 
                                     <input type="radio" class="btn-check" asp-for="Time" value="@Time.Middag" id="timeMiddag" />
                                     <label class="btn btn-outline-primary btn-lg" for="timeMiddag">
-                                        <i class="bi bi-sun me-2"></i>@Time.Middag
+                                        <i class="bi bi-sun me-2"></i>@Time.Middag (11u - 14u)
                                     </label>
 
                                     <input type="radio" class="btn-check" asp-for="Time" value="@Time.Avond" id="timeAvond" />
                                     <label class="btn btn-outline-primary btn-lg" for="timeAvond">
-                                        <i class="bi bi-moon-stars me-2"></i>@Time.Avond
+                                        <i class="bi bi-moon-stars me-2"></i>@Time.Avond (17u - 20u)
                                     </label>
                                 </div>
                                 <span asp-validation-for="Time" class="text-danger small d-block mt-2"></span>

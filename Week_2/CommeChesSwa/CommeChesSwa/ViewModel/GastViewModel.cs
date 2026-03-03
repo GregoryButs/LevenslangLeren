@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CommeChesSwa.Validation;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.Extensions.Options;
 
 namespace CommeChesSwa.ViewModel
 {
@@ -46,6 +48,17 @@ namespace CommeChesSwa.ViewModel
         public bool AcceptTerms { get; set; }
 
     }
-    public enum Time { Ochtend, Middag, Avond }
+
+    public enum Time
+    {
+        [Display(Name = "Ochtend (8u30 - 11u)")]
+        Ochtend,
+
+        [Display(Name = "Middag (11u - 14u)")]
+        Middag,
+
+        [Display(Name = "Avond (17u - 20u)")]
+        Avond
+    }
 }
 

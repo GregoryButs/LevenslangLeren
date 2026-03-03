@@ -1,4 +1,6 @@
-﻿namespace CommeChesSwa.Models
+﻿using CommeChesSwa.Models;
+
+namespace CommeChesSwa.Repository
 {
     public class MenuRepository
     {
