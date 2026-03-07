@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\reservatie\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\reservatie\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\controllers\\reservatiecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\controllers\\reservatiecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\reservatie\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\views\\reservatie\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_1\\commechesswa\\commechesswa\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -86,7 +86,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -106,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Views\\Reservatie\\Create.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Reservatie\\Create.cshtml",
@@ -155,7 +155,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ReservatieController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_1\\CommeChesSwa\\CommeChesSwa\\Controllers\\ReservatieController.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Controllers\\ReservatieController.cs",
@@ -163,7 +163,8 @@
               "RelativeToolTip": "CommeChesSwa\\Controllers\\ReservatieController.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAABsAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T08:38:14.684Z"
+              "WhenOpened": "2026-02-27T08:38:14.684Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

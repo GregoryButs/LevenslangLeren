@@ -1,0 +1,500 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\book\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\book\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\book\\booklist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\book\\booklist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\migrations\\20260307093918_addcoverimagetobook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\migrations\\20260307093918_addcoverimagetobook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\book\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\book\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\book\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\book\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\shared\\_bookform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\shared\\_bookform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\models\\bookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\models\\bookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\data\\entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\data\\entities\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\genre\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\genre\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\controllers\\genrecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\controllers\\genrecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\models\\genreviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\models\\genreviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\models\\authorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\models\\authorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\data\\entities\\genre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\data\\entities\\genre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\data\\entities\\author.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\data\\entities\\author.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\data\\bibservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\data\\bibservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\controllers\\authorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\controllers\\authorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\author\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\author\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\shared\\_authorform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\shared\\_authorform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\author\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\author\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\migrations\\20260307080001_isbn13tolong.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\migrations\\20260307080001_isbn13tolong.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\data\\bibdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\data\\bibdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_3\\mvc_bibliotheek\\mvc_bibliotheek\\views\\author\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32EF896F-79F3-4240-91A4-F8A479E0FE4D}|MVC_Bibliotheek\\MVC_Bibliotheek.csproj|solutionrelative:mvc_bibliotheek\\views\\author\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20260307093918_AddCoverImageToBook.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Migrations\\20260307093918_AddCoverImageToBook.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Migrations\\20260307093918_AddCoverImageToBook.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Migrations\\20260307093918_AddCoverImageToBook.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Migrations\\20260307093918_AddCoverImageToBook.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T09:39:19.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Genre\\Index.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Genre\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Genre\\Index.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Genre\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T09:13:34.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GenreViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Models\\GenreViewModel.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Models\\GenreViewModel.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Models\\GenreViewModel.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Models\\GenreViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T08:59:23.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "GenreController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\GenreController.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Controllers\\GenreController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\GenreController.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Controllers\\GenreController.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAAE0AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T08:54:14.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "20260307080001_ISBN13ToLong.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Migrations\\20260307080001_ISBN13ToLong.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Migrations\\20260307080001_ISBN13ToLong.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Migrations\\20260307080001_ISBN13ToLong.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Migrations\\20260307080001_ISBN13ToLong.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T08:00:02.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\Edit.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Book\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\Edit.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Book\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T07:21:54.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\Create.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Book\\Create.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\Create.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Book\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T07:21:38.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_BookForm.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Shared\\_BookForm.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Shared\\_BookForm.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Shared\\_BookForm.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Shared\\_BookForm.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAQwEYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T07:18:12.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\Details.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Book\\Details.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\Details.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Book\\Details.cshtml",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-06T18:14:17.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Program.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Program.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Program.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T18:07:19.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\appsettings.json",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\appsettings.json",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\appsettings.json",
+              "RelativeToolTip": "MVC_Bibliotheek\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-06T18:07:16.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-06T18:01:10.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BookList.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\BookList.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Book\\BookList.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Book\\BookList.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Book\\BookList.cshtml",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-06T18:00:48.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BookController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\BookController.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Controllers\\BookController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\BookController.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Controllers\\BookController.cs",
+              "ViewState": "AgIAAKYAAAAAAAAAAAAAALcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T13:49:21.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BookViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Models\\BookViewModel.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Models\\BookViewModel.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Models\\BookViewModel.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Models\\BookViewModel.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAACwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T19:08:52.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AuthorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Models\\AuthorViewModel.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Models\\AuthorViewModel.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Models\\AuthorViewModel.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Models\\AuthorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T18:29:28.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Author\\Edit.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Author\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Author\\Edit.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Author\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:56:12.186Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Author\\Create.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Author\\Create.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Author\\Create.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Author\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:51:21.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "_AuthorForm.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Shared\\_AuthorForm.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Shared\\_AuthorForm.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Shared\\_AuthorForm.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Shared\\_AuthorForm.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:45:50.002Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T16:38:32.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAwB0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:28:57.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Author\\Index.cshtml",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Views\\Author\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Views\\Author\\Index.cshtml",
+              "RelativeToolTip": "MVC_Bibliotheek\\Views\\Author\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:21:36.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "BibService.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\BibService.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Data\\BibService.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\BibService.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Data\\BibService.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAAAHUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T15:38:25.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AuthorController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\AuthorController.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Controllers\\AuthorController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Controllers\\AuthorController.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Controllers\\AuthorController.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T15:33:57.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "BibDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\BibDbContext.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Data\\BibDbContext.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\BibDbContext.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Data\\BibDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T15:05:36.485Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Genre.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\Entities\\Genre.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Data\\Entities\\Genre.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\Entities\\Genre.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Data\\Entities\\Genre.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T15:03:13.651Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Book.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\Entities\\Book.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Data\\Entities\\Book.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\Entities\\Book.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Data\\Entities\\Book.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T15:00:05.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Author.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\Entities\\Author.cs",
+              "RelativeDocumentMoniker": "MVC_Bibliotheek\\Data\\Entities\\Author.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_3\\MVC_Bibliotheek\\MVC_Bibliotheek\\Data\\Entities\\Author.cs",
+              "RelativeToolTip": "MVC_Bibliotheek\\Data\\Entities\\Author.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T14:58:14.678Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

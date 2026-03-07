@@ -1,0 +1,138 @@
+﻿@model IEnumerable<MVC_Bibliotheek.Data.Entities.Genre>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Genres</h1>
+
+<div class="mb-3">
+    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#createForm">
+        <i class="bi bi-plus-circle"></i> Nieuw Genre Toevoegen
+    </button>
+</div>
+
+<div class="collapse mb-4" id="createForm">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Nieuw Genre</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label asp-for="@(new MVC_Bibliotheek.Models.GenreViewModel().Name)" class="form-label"></label>
+                    <input type="text" class="form-control" name="Name" required maxlength="100" />
+                    <span class="text-danger field-validation-error" asp-validation-for="@(new MVC_Bibliotheek.Models.GenreViewModel().Name)"></span>
+                </div>
+                <button type="submit" class="btn btn-success">Opslaan</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#createForm">Annuleren</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Genre Lijst</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th style="width: 150px;">Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr data-genre-id="@item.GenreId">
+                        <td>
+                            <span class="genre-name">@item.Name</span>
+                            <form asp-action="Edit" method="post" class="genre-edit-form" style="display:none;">
+                                <input type="hidden" name="GenreId" value="@item.GenreId" />
+                                <input type="text" class="form-control form-control-sm" name="Name" value="@item.Name" maxlength="100" required />
+                                <span class="text-danger edit-error" style="display:none;"></span>
+                            </form>
+                        </td>
+                        <td>
+                            <div class="genre-actions">
+                                <button type="button" class="btn btn-sm btn-warning edit-btn">
+                                    <i class="bi bi-pencil"></i> Wijzigen
+                                </button>
+                                <form asp-action="Delete" asp-route-id="@item.GenreId" method="post" style="display:inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Weet je zeker dat je dit genre wilt verwijderen?');">
+                                        <i class="bi bi-trash"></i> Verwijderen
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="genre-save-actions" style="display:none;">
+                                <button type="button" class="btn btn-sm btn-success save-btn">
+                                    <i class="bi bi-check-circle"></i> Opslaan
+                                </button>
+                                <button type="button" class="btn btn-sm btn-secondary cancel-btn">
+                                    <i class="bi bi-x-circle"></i> Annuleren
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const nameSpan = row.querySelector('.genre-name');
+                const editForm = row.querySelector('.genre-edit-form');
+                
+                nameSpan.style.display = 'none';
+                editForm.style.display = 'block';
+                row.querySelector('.genre-actions').style.display = 'none';
+                row.querySelector('.genre-save-actions').style.display = 'block';
+                row.querySelector('.edit-error').style.display = 'none';
+            });
+        });
+
+        document.querySelectorAll('.cancel-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const nameSpan = row.querySelector('.genre-name');
+                const editForm = row.querySelector('.genre-edit-form');
+                
+                // Reset form to original value
+                const originalName = nameSpan.textContent;
+                editForm.querySelector('input[name="Name"]').value = originalName;
+                
+                nameSpan.style.display = 'block';
+                editForm.style.display = 'none';
+                row.querySelector('.genre-actions').style.display = 'block';
+                row.querySelector('.genre-save-actions').style.display = 'none';
+                row.querySelector('.edit-error').style.display = 'none';
+            });
+        });
+
+        document.querySelectorAll('.save-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const editForm = row.querySelector('.genre-edit-form');
+                const nameInput = editForm.querySelector('input[name="Name"]');
+                const errorSpan = row.querySelector('.edit-error');
+                
+                // Client-side validatie
+                if (!nameInput.value.trim()) {
+                    errorSpan.textContent = 'Genrenaam is verreist.';
+                    errorSpan.style.display = 'block';
+                    return;
+                }
+                
+                // Submit het formulier
+                editForm.submit();
+            });
+        });
+    </script>
+}
