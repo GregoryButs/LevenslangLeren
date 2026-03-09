@@ -21,7 +21,15 @@ namespace MVC_Bibliotheek.Controllers
         public ActionResult Index()
         {
             IEnumerable<Genre> genres = _service.GetGenres();
-            return View(genres);
+            var viewModel = new GenreIndexViewModel
+            {
+                Genres = genres.Select(g => new GenreViewModel
+                {
+                    GenreId = g.GenreId,
+                    Name = g.Name
+                })
+            };
+            return View(viewModel);
         }
 
         // GET: GenreController/Details/5
@@ -55,15 +63,20 @@ namespace MVC_Bibliotheek.Controllers
         }
 
         // GET: GenreController/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-            Genre genre = _service.GetGenreById(id);
-            GenreViewModel genreVm = new GenreViewModel
+            IEnumerable<Genre> genres = _service.GetGenres();
+            var viewModel = new GenreIndexViewModel
             {
-                GenreId = genre.GenreId,
-                Name = genre.Name
+                Genres = genres.Select(g => new GenreViewModel
+                {
+                    GenreId = g.GenreId,
+                    Name = g.Name
+                }),
+                EditingGenreId = id
             };
-            return View(genreVm);
+            return View("Index", viewModel);
         }
 
         // POST: GenreController/Edit/5
@@ -80,7 +93,19 @@ namespace MVC_Bibliotheek.Controllers
                 });
                 return RedirectToAction("Index");
             }
-            return View(genreVm);
+            
+            // Als validatie faalt, toon de index pagina opnieuw met de edit mode actief
+            IEnumerable<Genre> genres = _service.GetGenres();
+            var viewModel = new GenreIndexViewModel
+            {
+                Genres = genres.Select(g => new GenreViewModel
+                {
+                    GenreId = g.GenreId,
+                    Name = g.Name
+                }),
+                EditingGenreId = genreVm.GenreId
+            };
+            return View("Index", viewModel);
         }
 
 

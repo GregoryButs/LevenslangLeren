@@ -14,5 +14,10 @@
         public Author Author { get; set; }
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
+
+        public bool HasCoverImage => !string.IsNullOrEmpty(CoverImagePath);
+
+        // Alleen de URL logic
+        public string CoverImageUrl => CoverImagePath ?? "/images/no-cover-placeholder.png";
     }
 }

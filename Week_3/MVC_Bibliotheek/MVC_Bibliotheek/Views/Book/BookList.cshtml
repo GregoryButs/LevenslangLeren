@@ -35,9 +35,9 @@
                 {
                     <tr>
                         <td>
-                            @if (!string.IsNullOrEmpty(item.CoverImagePath))
+                            @if (item.HasCoverImage)
                             {
-                                <img src="@item.CoverImagePath" alt="Cover van @item.Title" class="img-thumbnail" style="max-width: 60px; max-height: 80px; object-fit: cover;" />
+                                <img src="@item.CoverImageUrl" alt="Cover van @item.Title" class="img-thumbnail" style="max-width: 60px; max-height: 80px; object-fit: cover;" />
                             }
                             else
                             {

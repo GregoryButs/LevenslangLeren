@@ -57,7 +57,7 @@
         </div>
     }
 
-    <div id="imagePreview" class="mt-2" style="display: none;">
+    <div id="imagePreview" class="mt-2 d-none">
         <p class="text-muted">Nieuwe cover preview:</p>
         <img id="preview" class="img-thumbnail" style="max-width: 200px;" />
     </div>
@@ -67,15 +67,17 @@
     <script>
         document.getElementById('coverImageInput')?.addEventListener('change', function(e) {
             const file = e.target.files[0];
+            const imagePreview = document.getElementById('imagePreview');
+            
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('preview').src = e.target.result;
-                    document.getElementById('imagePreview').style.display = 'block';
+                    imagePreview.classList.remove('d-none'); // Bootstrap class
                 }
                 reader.readAsDataURL(file);
             } else {
-                document.getElementById('imagePreview').style.display = 'none';
+                imagePreview.classList.add('d-none'); // Bootstrap class
             }
         });
     </script>

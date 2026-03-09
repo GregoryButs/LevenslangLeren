@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\repository\\reservatierepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\repository\\reservatierepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\viewmodel\\detailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\viewmodel\\detailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\viewmodel\\gastviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\viewmodel\\gastviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\repository\\reservatierepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\repository\\reservatierepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\views\\reservatie\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -67,10 +71,6 @@
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\models\\gerecht.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\viewmodel\\detailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\viewmodel\\detailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_2\\commechesswa\\commechesswa\\validation\\expectedvalue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41BE246E-0548-49C3-A685-3DD187972A8B}|CommeChesSwa\\CommeChesSwa.csproj|solutionrelative:commechesswa\\validation\\expectedvalue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -102,7 +102,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Reservatie\\Details.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Reservatie\\Details.cshtml",
@@ -122,7 +122,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Reservatie\\Index.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Reservatie\\Index.cshtml",
@@ -134,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ReservatieRepository.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Repository\\ReservatieRepository.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Repository\\ReservatieRepository.cs",
@@ -147,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Reservatie.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Models\\Reservatie.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Models\\Reservatie.cs",
@@ -159,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Succes.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Reservatie\\Succes.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Reservatie\\Succes.cshtml",
@@ -171,7 +171,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Reservatie\\Create.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Reservatie\\Create.cshtml",
@@ -183,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -213,14 +213,14 @@
               "RelativeDocumentMoniker": "CommeChesSwa\\ViewModel\\GastViewModel.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\ViewModel\\GastViewModel.cs",
               "RelativeToolTip": "CommeChesSwa\\ViewModel\\GastViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-27T08:49:36.47Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "ReservatieController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Controllers\\ReservatieController.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Controllers\\ReservatieController.cs",
@@ -232,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Menu\\Index.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Menu\\Index.cshtml",
@@ -244,7 +244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 0,
               "Title": "DetailViewModel.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\ViewModel\\DetailViewModel.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\ViewModel\\DetailViewModel.cs",
@@ -252,11 +252,12 @@
               "RelativeToolTip": "CommeChesSwa\\ViewModel\\DetailViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T10:50:27.996Z"
+              "WhenOpened": "2026-02-25T10:50:27.996Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "MenuController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Controllers\\MenuController.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Controllers\\MenuController.cs",
@@ -268,7 +269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "MenuRepository.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Repository\\MenuRepository.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Repository\\MenuRepository.cs",
@@ -280,7 +281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Menu.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Models\\Menu.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Models\\Menu.cs",
@@ -292,7 +293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Gerecht.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Models\\Gerecht.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Models\\Gerecht.cs",
@@ -352,7 +353,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "CommeChesSwa\\Views\\Shared\\_Layout.cshtml",
@@ -376,7 +377,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "CommeChesSwa\\Controllers\\HomeController.cs",
