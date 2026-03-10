@@ -23,11 +23,7 @@ namespace MVC_Bibliotheek.Controllers
             IEnumerable<Genre> genres = _service.GetGenres();
             var viewModel = new GenreIndexViewModel
             {
-                Genres = genres.Select(g => new GenreViewModel
-                {
-                    GenreId = g.GenreId,
-                    Name = g.Name
-                })
+                Genres = genres.ToList(), // <-- Fix: assign List<Genre>
             };
             return View(viewModel);
         }
@@ -49,17 +45,17 @@ namespace MVC_Bibliotheek.Controllers
         // POST: GenreController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(GenreViewModel genreVm)
+        public ActionResult Create(GenreIndexViewModel genreVm)
         {
             if (ModelState.IsValid)
             {
                 _service.AddGenre(new Genre
                 {
-                    Name = genreVm.Name
+                    Name = genreVm.NewGenre.Name
                 });
                 return RedirectToAction("Index");
             }
-            return View(genreVm);
+            return View("Index", genreVm);
         }
 
         // GET: GenreController/Edit/5
@@ -69,11 +65,7 @@ namespace MVC_Bibliotheek.Controllers
             IEnumerable<Genre> genres = _service.GetGenres();
             var viewModel = new GenreIndexViewModel
             {
-                Genres = genres.Select(g => new GenreViewModel
-                {
-                    GenreId = g.GenreId,
-                    Name = g.Name
-                }),
+                Genres = genres.ToList(), // <-- Fix: assign List<Genre>
                 EditingGenreId = id
             };
             return View("Index", viewModel);
@@ -94,15 +86,10 @@ namespace MVC_Bibliotheek.Controllers
                 return RedirectToAction("Index");
             }
             
-            // Als validatie faalt, toon de index pagina opnieuw met de edit mode actief
             IEnumerable<Genre> genres = _service.GetGenres();
             var viewModel = new GenreIndexViewModel
             {
-                Genres = genres.Select(g => new GenreViewModel
-                {
-                    GenreId = g.GenreId,
-                    Name = g.Name
-                }),
+                Genres = genres.ToList(), // <-- Fix: assign List<Genre>
                 EditingGenreId = genreVm.GenreId
             };
             return View("Index", viewModel);

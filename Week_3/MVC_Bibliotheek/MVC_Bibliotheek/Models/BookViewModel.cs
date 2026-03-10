@@ -39,10 +39,12 @@ namespace MVC_Bibliotheek.Models
         [Display(Name = "Genre")]
         public int GenreId { get; set; }
 
-        [Display(Name = "Cover afbeelding")]
+        public string? ExistingCoverImagePath { get; set; }
+
         public IFormFile? CoverImage { get; set; }
 
-        public string? ExistingCoverImagePath { get; set; }
+        // Computed property voor conditional rendering
+        public bool HasExistingCover => !string.IsNullOrEmpty(ExistingCoverImagePath);
 
 
         // Voor dropdowns (in plaats van Author/Genre objecten):
