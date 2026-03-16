@@ -1,0 +1,59 @@
+﻿@model IEnumerable<test3_model.Models.Viewmodels.EventViewModel>
+
+@{
+    ViewData["Title"] = "Lijst";
+}
+
+<h1>Kalender Odisee Wellness</h1>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Nieuw evenement aanmaken</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                
+                @Html.DisplayNameFor(model => model.Titel)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.StartDatumTijd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EindDatumTijd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BegeleiderNaam)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.LocatieNaam)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                       <a asp-action="Details" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Titel) </a>
+                </td>
+           
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDatumTijd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EindDatumTijd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BegeleiderNaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocatieNaam)
+                </td>
+              
+            </tr>
+        }
+    </tbody>
+</table>

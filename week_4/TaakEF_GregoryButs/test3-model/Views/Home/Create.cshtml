@@ -1,0 +1,57 @@
+﻿@using test3_model.Models.Viewmodels
+@model CreateEventCommand
+
+@{
+    ViewData["Title"] = "Maak Evenement";
+}
+
+<h1>Maak evenement</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titel" class="control-label"></label>
+                <input asp-for="Titel" class="form-control" />
+                <span asp-validation-for="Titel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Beschrijving" class="control-label"></label>
+                <input asp-for="Beschrijving" class="form-control" />
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDatumTijd" class="control-label"></label>
+                <input asp-for="StartDatumTijd" class="form-control" />
+                <span asp-validation-for="StartDatumTijd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EindDatumTijd" class="control-label"></label>
+                <input asp-for="EindDatumTijd" class="form-control" />
+                <span asp-validation-for="EindDatumTijd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocatieId" class="control-label"></label>
+                <select asp-for="LocatieId" asp-items="@(new SelectList(Model.AllLocaties, "Id", "Naam", Model.LocatieId))" class="form-control"></select>
+                <span asp-validation-for="LocatieId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BegeleiderId" class="control-label"></label>
+                <select asp-for="BegeleiderId" asp-items="@(new SelectList(Model.AllBegeleiders, "Id", "Naam", Model.BegeleiderId))" class="form-control"></select>
+                <span asp-validation-for="BegeleiderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
