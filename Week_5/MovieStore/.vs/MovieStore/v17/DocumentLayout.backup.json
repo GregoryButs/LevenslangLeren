@@ -1,0 +1,406 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\cartline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\cartline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\shoppingcart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\shoppingcart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\services\\movieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\services\\movieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\helpers\\sessionhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\helpers\\sessionhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\views\\movie\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\views\\movie\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\views\\movie\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\views\\movie\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\views\\movie\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\views\\movie\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\genre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\genre.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\controllers\\moviecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\controllers\\moviecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\models\\orderline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\models\\orderline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\services\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\services\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\services\\imovieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\services\\imovieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_5\\moviestore\\moviestore\\areas\\identity\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CAFFB10F-FE53-9B1D-AF01-A53E03DF9EC7}|MovieStore\\MovieStore.csproj|solutionrelative:moviestore\\areas\\identity\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Movie\\Edit.cshtml",
+              "RelativeDocumentMoniker": "MovieStore\\Views\\Movie\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Movie\\Edit.cshtml",
+              "RelativeToolTip": "MovieStore\\Views\\Movie\\Edit.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAABYAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-23T13:34:20.4Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MovieStore\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MovieStore\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-23T13:30:45.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Movie\\Index.cshtml",
+              "RelativeDocumentMoniker": "MovieStore\\Views\\Movie\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Movie\\Index.cshtml",
+              "RelativeToolTip": "MovieStore\\Views\\Movie\\Index.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAABUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-23T11:59:11.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "MovieStore\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "MovieStore\\Views\\Cart\\Index.cshtml",
+              "ViewState": "AgIAACIAAAAAAAAAAAAAADYAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-23T11:57:17.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "MovieStore\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T11:53:34.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "MovieStore\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T11:53:06.012Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CartLine.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\CartLine.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\CartLine.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\CartLine.cs",
+              "RelativeToolTip": "MovieStore\\Models\\CartLine.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T11:00:11.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ShoppingCart.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\ShoppingCart.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\ShoppingCart.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\ShoppingCart.cs",
+              "RelativeToolTip": "MovieStore\\Models\\ShoppingCart.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:59:58.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Movie\\Details.cshtml",
+              "RelativeDocumentMoniker": "MovieStore\\Views\\Movie\\Details.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Views\\Movie\\Details.cshtml",
+              "RelativeToolTip": "MovieStore\\Views\\Movie\\Details.cshtml",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAD8AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-23T10:55:00.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\appsettings.json",
+              "RelativeDocumentMoniker": "MovieStore\\appsettings.json",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\appsettings.json",
+              "RelativeToolTip": "MovieStore\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-23T10:52:35.86Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MovieService.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Services\\MovieService.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Services\\MovieService.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Services\\MovieService.cs",
+              "RelativeToolTip": "MovieStore\\Services\\MovieService.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAkwCwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:31:30.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Program.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Program.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Program.cs",
+              "RelativeToolTip": "MovieStore\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:30:34.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IOrderService.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Services\\IOrderService.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Services\\IOrderService.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Services\\IOrderService.cs",
+              "RelativeToolTip": "MovieStore\\Services\\IOrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:48.238Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IMovieService.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Services\\IMovieService.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Services\\IMovieService.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Services\\IMovieService.cs",
+              "RelativeToolTip": "MovieStore\\Services\\IMovieService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:47.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "OrderLine.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\OrderLine.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\OrderLine.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\OrderLine.cs",
+              "RelativeToolTip": "MovieStore\\Models\\OrderLine.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:45.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\Order.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\Order.cs",
+              "RelativeToolTip": "MovieStore\\Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:44.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Movie.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\Movie.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\Movie.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\Movie.cs",
+              "RelativeToolTip": "MovieStore\\Models\\Movie.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:42.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Genre.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\Genre.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Models\\Genre.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Models\\Genre.cs",
+              "RelativeToolTip": "MovieStore\\Models\\Genre.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:41.773Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SessionHelper.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Helpers\\SessionHelper.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Helpers\\SessionHelper.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Helpers\\SessionHelper.cs",
+              "RelativeToolTip": "MovieStore\\Helpers\\SessionHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:35.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "MovieStore\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "RelativeToolTip": "MovieStore\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-23T10:27:28.562Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "MovieStore\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:23.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MovieController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Controllers\\MovieController.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Controllers\\MovieController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Controllers\\MovieController.cs",
+              "RelativeToolTip": "MovieStore\\Controllers\\MovieController.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAADoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:22.727Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "MovieStore\\Controllers\\CartController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_5\\MovieStore\\MovieStore\\Controllers\\CartController.cs",
+              "RelativeToolTip": "MovieStore\\Controllers\\CartController.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAE8AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-23T10:27:18.99Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

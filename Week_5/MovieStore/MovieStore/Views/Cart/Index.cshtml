@@ -1,0 +1,56 @@
+﻿@model MovieStore_StartHier_OK.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "Winkelwagen";
+}
+
+<h1>Winkelwagen</h1>
+
+@if (Model.Lines == null || !Model.Lines.Any())
+{
+    <div class="alert alert-info">
+        Je winkelwagen is momenteel leeg.
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Lines[0].Movie.Title)</th>
+                <th>@Html.DisplayNameFor(model => model.Lines[0].Movie.Price)</th>
+                <th>@Html.DisplayNameFor(model => model.Lines[0].Quantity)</th>
+                <th>@Html.DisplayNameFor(model => model.Lines[0].TotalPrice)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Lines)
+            {
+                <tr>
+                    <td>@line.Movie.Title</td>
+                    <td>@line.Movie.Price</td>
+                    <td>@line.Quantity</td>
+                    <td>@line.TotalPrice</td>
+                    <td>
+                        <a asp-controller="Cart" asp-action="Remove" asp-route-movieId="@line.Movie.Id" class="btn btn-sm btn-danger">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" style="text-align: right;"><strong>Totaal</strong></td>
+                <td><strong>@Model.TotalPrice()</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="mt-2 d-flex gap-3">
+        <a asp-controller="Cart" asp-action="Clear" class="btn btn-warning">Clear Cart</a>
+
+        <!-- Verwijs deze Checkout actie naar de juiste controller/actie voor jouw applicatie -->
+        <a asp-controller="Order" asp-action="Checkout" class="btn btn-success">Checkout</a>
+    </div>
+}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj": {}
+    "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj": {}
   },
   "projects": {
-    "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj": {
+    "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
+        "projectUniqueName": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
         "projectName": "test4-start",
-        "projectPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
+        "projectPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
         "packagesPath": "C:\\Users\\butsg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\obj\\",
+        "outputPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
