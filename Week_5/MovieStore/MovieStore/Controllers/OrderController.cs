@@ -2,13 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Movie_Store.Data.Migrations;
 using Movie_Store.Services;
 
 namespace MovieStore_StartHier_OK.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public OrderController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
         private readonly IMovieService _movieService;
         private readonly IOrderService _orderService;
 
