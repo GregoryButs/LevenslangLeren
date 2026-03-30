@@ -35,6 +35,8 @@ namespace MovieStore_StartHier_OK.Data
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
 
     }
 }
