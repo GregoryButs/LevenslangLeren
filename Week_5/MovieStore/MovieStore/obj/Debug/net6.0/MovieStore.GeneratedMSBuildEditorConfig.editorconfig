@@ -54,10 +54,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Week_5/MovieStore/MovieStore/Views/Cart/Succes.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxTdWNjZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Week_5/MovieStore/MovieStore/Views/Movie/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,6 +68,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Week_5/MovieStore/MovieStore/Views/Movie/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Week_5/MovieStore/MovieStore/Views/Order/CheckOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQ2hlY2tPdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Week_5/MovieStore/MovieStore/Views/Order/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcU3VjY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Week_5/MovieStore/MovieStore/Views/Shared/Error.cshtml]

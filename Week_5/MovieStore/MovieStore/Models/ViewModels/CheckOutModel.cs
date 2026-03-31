@@ -1,5 +1,6 @@
 ﻿using Movie_Store.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieStore_StartHier_OK.Models.ViewModels
 {
@@ -7,18 +8,9 @@ namespace MovieStore_StartHier_OK.Models.ViewModels
     {
         public int Id { get; set; }
 
-        public ShoppingCart ShoppingCart { get; set; }
 
-        [Required]
-        public string MovieTitle { get; set; }
+        public ShoppingCart? ShoppingCart { get; set; }
 
-        [Required]
-        public int Quantity { get; set; }
-
-        [Required]
-        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Total")]
-        public double TotalPrice { get; set; }
 
         [Required]
         [Display(Name = "First Name")]

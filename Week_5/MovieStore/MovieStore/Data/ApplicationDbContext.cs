@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Movie_Store.Models;
 using MovieStore_StartHier_OK.Authorisation;
+using MovieStore_StartHier_OK.Models.ViewModels;
 
 namespace MovieStore_StartHier_OK.Data
 {
@@ -37,6 +38,5 @@ namespace MovieStore_StartHier_OK.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
-
     }
 }

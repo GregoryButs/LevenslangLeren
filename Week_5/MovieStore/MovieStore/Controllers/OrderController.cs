@@ -31,20 +31,18 @@ namespace MovieStore_StartHier_OK.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult GetCart()
+        public ShoppingCart GetCart()
         {
             // geef de cart terug vanuit de session
-            SessionHelper.GetObjectFromJson<ShoppingCart>(HttpContext.Session, "cart");
-            return View();
+            return SessionHelper.GetObjectFromJson<ShoppingCart>(HttpContext.Session, "cart");
         }
 
-        public IActionResult SaveCart()
+        public void SaveCart(ShoppingCart cart)
         {
-            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new ShoppingCart());
-            return View();
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
         }
 
-        public IActionResult CreateModel(ShoppingCart shoppingCart)
+        public CheckOutModel CreateModel(ShoppingCart shoppingCart)
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
 
@@ -54,37 +52,36 @@ namespace MovieStore_StartHier_OK.Controllers
                 LastName = user.LastName,
                 ShoppingCart = shoppingCart
             };
-            return View(model);
+            return model;
         }
 
 
         public IActionResult CheckOut()
         {
             //TASK: implement here
-            ShoppingCart cart = SessionHelper.GetObjectFromJson<ShoppingCart>(HttpContext.Session, "cart");
+            ShoppingCart cart = GetCart();
 
             if (cart == null || cart.Lines.Count == 0)
             {
                 return RedirectToAction(nameof(CartController.Index), nameof(CartController));
             }
 
-            CreateModel(cart);
-
-            return View(cart);
+            CheckOutModel model = CreateModel(cart);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CheckOut(CheckOutModel model)
         {
-            ShoppingCart cart = SessionHelper.GetObjectFromJson<ShoppingCart>(HttpContext.Session, "cart");
+            ShoppingCart cart = GetCart();
 
             if (cart == null || cart.Lines.Count == 0)
             {
                 return RedirectToAction(nameof(CartController.Index), nameof(CartController));
             }
 
-            CreateModel(cart);
+           model.ShoppingCart = cart;
 
             if (!ModelState.IsValid)
             {
@@ -96,20 +93,20 @@ namespace MovieStore_StartHier_OK.Controllers
             _orderService.CreateOrder(model, userId);
 
             // clear shopping cart
-            return View("Succes");
+            return RedirectToAction(nameof(Success));
         }
 
 
         public IActionResult Success()
         {
             //TASK: clear shopping cart and show a simple success-page
-            ShoppingCart cart = SessionHelper.GetObjectFromJson<ShoppingCart>(HttpContext.Session, "cart");
+            ShoppingCart cart = GetCart();
             if (cart != null)
             {
                 cart.Clear();
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                SaveCart(cart);
             }
-            return View();
+            return View("Success",cart);
         }
     }
 }
