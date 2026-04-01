@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie_Store.Models;
 using Movie_Store.Models.ViewModels;
@@ -40,6 +42,7 @@ namespace MovieStore_StartHier_OK.Controllers
             return View(movie);
         }
 
+        [Authorize(Policy = "ProductManagerOnly")]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -59,6 +62,7 @@ namespace MovieStore_StartHier_OK.Controllers
             return View(updateCommand);
         }
 
+        [Authorize(Policy = "ProductManagerOnly")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, UpdateMovieCommand cmd)
@@ -79,6 +83,7 @@ namespace MovieStore_StartHier_OK.Controllers
             return View(cmd);
         }
 
+        [Authorize(Policy = "ProductManagerOnly")]
         public IActionResult Create()
         {
             CreateMovieCommand cmd = new CreateMovieCommand();
@@ -87,6 +92,7 @@ namespace MovieStore_StartHier_OK.Controllers
             return View(cmd);
         }
 
+        [Authorize(Policy = "ProductManagerOnly")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CreateMovieCommand cmd)
@@ -101,6 +107,7 @@ namespace MovieStore_StartHier_OK.Controllers
             return View(cmd);
         }
 
+        [Authorize(Policy = "ProductManagerOnly")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int? id)

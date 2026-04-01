@@ -1,4 +1,7 @@
-﻿@model Movie_Store.Models.Movie
+﻿@using Microsoft.AspNetCore.Authorization
+@using Movie_Store.Models
+@inject IAuthorizationService authService
+@model Movie_Store.Models.Movie
 
 @{
     ViewData["Title"] = "Details";
@@ -52,17 +55,29 @@
 </div>
 
 <!-- HIDE THESE BUTTONS IF USER HAS NOT THE RIGHT PERMISSION -->
-<div>
-    <a class="btn btn-primary" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
-    <form class="d-inline-block my-2" asp-controller="Movie" asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <button class="btn btn-danger">Delete</button>
-    </form>
-</div>
+@if ((await authService.AuthorizeAsync(User, "ProductManagerOnly")).Succeeded)
+{
+    <div>
+        <a class="btn btn-primary" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <form class="d-inline-block my-2" asp-controller="Movie" asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <button class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+}
 
+@if (!User.Identity.IsAuthenticated && Model.AgeRestriction != null)
+{
+    <div class="alert alert-warning">
+        Please login to confirm your age.
+    </div>
+}
+
+@if((Model.AgeRestriction == null || (await authService.AuthorizeAsync(User, Model, "IsAllowedToBuy")).Succeeded))
+{
 <div>
-    <form asp-controller="Cart" asp-action="AddToCart" class="form-inline my-3">
-        <input type="hidden" name="movieId" value="@Model.Id"/>
+    <form asp-controller="Cart" asp-action="AddToCart" class="form-inline my-3" method="post">
+        <input type="hidden" name="movieId" value="@Model.Id" />
         <div class="form-group">
             <label for="quantity">Quantity:</label>
             <input type="number" name="quantity" id="quantity" class="form-control ml-2 mr-4" />
@@ -70,6 +85,8 @@
         </div>
     </form>
 </div>
+}
+
 
 <div>
     <a asp-action="Index">Back to List</a>

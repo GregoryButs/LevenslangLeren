@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Movie_Store.Services;
@@ -20,6 +21,20 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
+// nieuw claims policy toevoegen aan de user op basis van claim ProductManagerOnly
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ProductManagerOnly", policy => policy.RequireClaim("CanEditMovies"));
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, MinAgeHandler>();
+
+
+builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAllowedToBuy", policy => policy.AddRequirements(new MinAgeRequirement()));
+            });
 
 var app = builder.Build();
 

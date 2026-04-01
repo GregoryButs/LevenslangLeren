@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Movie_Store.Models.Movie>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authService
+@model IEnumerable<Movie_Store.Models.Movie>
+
 
 @{
     ViewData["Title"] = "Movies";
@@ -6,9 +9,12 @@
 
 <h1>Movies</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if ((await authService.AuthorizeAsync(User, "ProductManagerOnly")).Succeeded)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 
 <table class="table">
     <thead>
