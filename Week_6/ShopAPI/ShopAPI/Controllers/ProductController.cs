@@ -104,7 +104,7 @@ namespace ShopAPI.Controllers
             return Ok(sellingPrice);
         }
 
-        [HttpGet("name/{name}")])]
+        [HttpGet("name/{name}")]
         public ActionResult<Product> GetProductByName(string name)
         {
             var product = _context.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
