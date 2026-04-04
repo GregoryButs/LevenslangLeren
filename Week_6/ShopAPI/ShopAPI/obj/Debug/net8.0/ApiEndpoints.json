@@ -8,14 +8,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "category",
-        "Type": "ShopAPI.Data.Entities.Category",
+        "Name": "request",
+        "Type": "ShopAPI.DTO.CategoryRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Category",
+        "Type": "ShopAPI.DTO.CategoryResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -41,7 +41,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Category",
+        "Type": "ShopAPI.DTO.CategoryResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -65,8 +65,8 @@
         "IsRequired": true
       },
       {
-        "Name": "category",
-        "Type": "ShopAPI.Data.Entities.Category",
+        "Name": "request",
+        "Type": "ShopAPI.DTO.CategoryRequestDTO",
         "IsRequired": true
       }
     ],
@@ -98,7 +98,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.Data.Entities.Category, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.DTO.CategoryResponseDTO, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -117,14 +117,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
-        "Type": "ShopAPI.Data.Entities.Product",
+        "Name": "request",
+        "Type": "ShopAPI.DTO.ProductRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Product",
+        "Type": "ShopAPI.DTO.ProductResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -150,7 +150,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Product",
+        "Type": "ShopAPI.DTO.ProductResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -174,8 +174,8 @@
         "IsRequired": true
       },
       {
-        "Name": "product",
-        "Type": "ShopAPI.Data.Entities.Product",
+        "Name": "request",
+        "Type": "ShopAPI.DTO.ProductRequestDTO",
         "IsRequired": true
       }
     ],
@@ -233,7 +233,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.Data.Entities.Product, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.DTO.ProductResponseDTO, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -253,7 +253,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.Data.Entities.Product, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.DTO.ProductResponseDTO, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -279,7 +279,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Product",
+        "Type": "ShopAPI.DTO.ProductResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -305,7 +305,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.Data.Entities.Product, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.DTO.ProductResponseDTO, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -324,14 +324,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "tax",
-        "Type": "ShopAPI.Data.Entities.Tax",
+        "Name": "request",
+        "Type": "ShopAPI.DTO.TaxRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Tax",
+        "Type": "ShopAPI.DTO.TaxResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -357,7 +357,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ShopAPI.Data.Entities.Tax",
+        "Type": "ShopAPI.DTO.TaxResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -381,8 +381,8 @@
         "IsRequired": true
       },
       {
-        "Name": "tax",
-        "Type": "ShopAPI.Data.Entities.Tax",
+        "Name": "request",
+        "Type": "ShopAPI.DTO.TaxRequestDTO",
         "IsRequired": true
       }
     ],
@@ -414,7 +414,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.Data.Entities.Tax, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ShopAPI.DTO.TaxResponseDTO, ShopAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopAPI.Data;
 using ShopAPI.Data.Entities;
+using ShopAPI.DTO;
 
 namespace ShopAPI.Controllers
 {
@@ -10,61 +12,65 @@ namespace ShopAPI.Controllers
     public class TaxController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public TaxController(ApplicationDbContext context)
+        public TaxController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("list")]
-        public ActionResult<IEnumerable<Tax>> GetTaxes()
+        public ActionResult<IEnumerable<TaxResponseDTO>> GetTaxes()
         {
             var taxes = _context.Taxes
-                .Include(t => t.Products)
+                .AsNoTracking()
                 .ToList();
 
-            return Ok(taxes);
+            return Ok(_mapper.Map<IEnumerable<TaxResponseDTO>>(taxes));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Tax> GetTax(int id)
+        public ActionResult<TaxResponseDTO> GetTax(int id)
         {
             var tax = _context.Taxes
-                .Include(t => t.Products)
+                .AsNoTracking()
                 .FirstOrDefault(t => t.Id == id);
 
             if (tax == null)
             {
                 return NotFound();
             }
-            return Ok(tax);
+
+            return Ok(_mapper.Map<TaxResponseDTO>(tax));
         }
 
         [HttpPost("")]
-        public ActionResult<Tax> CreateTax(Tax tax)
+        public ActionResult<TaxResponseDTO> CreateTax(TaxRequestDTO request)
         {
+            var tax = _mapper.Map<Tax>(request);
+
             _context.Taxes.Add(tax);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetTax), new { id = tax.Id }, tax);
+
+            var response = _mapper.Map<TaxResponseDTO>(tax);
+
+            return CreatedAtAction(nameof(GetTax), new { id = tax.Id }, response);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateTax(int id, Tax tax)
+        public ActionResult UpdateTax(int id, TaxRequestDTO request)
         {
-            if (id != tax.Id)
-            {
-                return BadRequest();
-            }
             var existingTax = _context.Taxes.Find(id);
             if (existingTax == null)
             {
                 return NotFound();
             }
-            existingTax.Name = tax.Name;
-            existingTax.TaxLevel = tax.TaxLevel;
-            _context.SaveChanges();
-            return NoContent();
 
+            _mapper.Map(request, existingTax);
+            _context.SaveChanges();
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -75,6 +81,7 @@ namespace ShopAPI.Controllers
             {
                 return NotFound();
             }
+
             _context.Taxes.Remove(tax);
             _context.SaveChanges();
             return NoContent();

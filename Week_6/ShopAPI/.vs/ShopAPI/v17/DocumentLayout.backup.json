@@ -3,6 +3,58 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\controllers\\taxcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\controllers\\taxcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\profiles\\taxprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\profiles\\taxprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\profiles\\categoryprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\profiles\\categoryprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\profiles\\productprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\profiles\\productprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\dto\\productresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\dto\\productresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\dto\\productrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\dto\\productrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\dto\\taxresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\dto\\taxresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\dto\\taxrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\dto\\taxrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\dto\\categoryresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\dto\\categoryresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\dto\\categoryrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\dto\\categoryrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\data\\entities\\tax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\data\\entities\\tax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,22 +69,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\controllers\\taxcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|solutionrelative:shopapi\\controllers\\taxcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0FE0FF76-DEBE-4F30-8152-C794CAF0129C}|ShopAPI\\ShopAPI.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_6\\shopapi\\shopapi\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -58,7 +94,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,46 +102,163 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TaxProfile.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Profiles\\TaxProfile.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\Profiles\\TaxProfile.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Profiles\\TaxProfile.cs",
+              "RelativeToolTip": "ShopAPI\\Profiles\\TaxProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T10:03:59.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CategoryProfile.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Profiles\\CategoryProfile.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\Profiles\\CategoryProfile.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Profiles\\CategoryProfile.cs",
+              "RelativeToolTip": "ShopAPI\\Profiles\\CategoryProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T10:03:47.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductProfile.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Profiles\\ProductProfile.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\Profiles\\ProductProfile.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Profiles\\ProductProfile.cs",
+              "RelativeToolTip": "ShopAPI\\Profiles\\ProductProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T10:03:40.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TaxResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\TaxResponseDTO.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\DTO\\TaxResponseDTO.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\TaxResponseDTO.cs",
+              "RelativeToolTip": "ShopAPI\\DTO\\TaxResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T10:00:25.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TaxRequestDTO.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\TaxRequestDTO.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\DTO\\TaxRequestDTO.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\TaxRequestDTO.cs",
+              "RelativeToolTip": "ShopAPI\\DTO\\TaxRequestDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T10:00:08.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "ProductResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\ProductResponseDTO.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\DTO\\ProductResponseDTO.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\ProductResponseDTO.cs",
+              "RelativeToolTip": "ShopAPI\\DTO\\ProductResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T09:58:55.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProductRequestDTO.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\ProductRequestDTO.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\DTO\\ProductRequestDTO.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\ProductRequestDTO.cs",
+              "RelativeToolTip": "ShopAPI\\DTO\\ProductRequestDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T09:58:08.806Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CategoryResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\CategoryResponseDTO.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\DTO\\CategoryResponseDTO.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\CategoryResponseDTO.cs",
+              "RelativeToolTip": "ShopAPI\\DTO\\CategoryResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T09:57:43.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CategoryRequestDTO.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\CategoryRequestDTO.cs",
+              "RelativeDocumentMoniker": "ShopAPI\\DTO\\CategoryRequestDTO.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\DTO\\CategoryRequestDTO.cs",
+              "RelativeToolTip": "ShopAPI\\DTO\\CategoryRequestDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T09:57:21.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "TaxController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Controllers\\TaxController.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Controllers\\TaxController.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Controllers\\TaxController.cs",
               "RelativeToolTip": "ShopAPI\\Controllers\\TaxController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAADgAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-03T21:49:24.453Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "CategoryController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Controllers\\CategoryController.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Controllers\\CategoryController.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Controllers\\CategoryController.cs",
               "RelativeToolTip": "ShopAPI\\Controllers\\CategoryController.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAACgAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAAC0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-03T21:45:10.671Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Controllers\\ProductController.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Controllers\\ProductController.cs",
               "RelativeToolTip": "ShopAPI\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-03T21:34:24.355Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 18,
               "Title": "20260403173845_IntitializeDB.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Migrations\\20260403173845_IntitializeDB.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Migrations\\20260403173845_IntitializeDB.cs",
@@ -117,7 +270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 19,
               "Title": "20260403173355_IntitializeDB.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Migrations\\20260403173355_IntitializeDB.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Migrations\\20260403173355_IntitializeDB.cs",
@@ -129,20 +282,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Program.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Program.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Program.cs",
               "RelativeToolTip": "ShopAPI\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAQwCMAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-03T17:32:04.925Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Data\\ApplicationDbContext.cs",
@@ -154,7 +307,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 20,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\appsettings.json",
               "RelativeDocumentMoniker": "ShopAPI\\appsettings.json",
@@ -166,7 +319,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 13,
               "Title": "Tax.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Data\\Entities\\Tax.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Data\\Entities\\Tax.cs",
@@ -179,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 15,
               "Title": "Category.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Data\\Entities\\Category.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Data\\Entities\\Category.cs",
@@ -187,12 +340,11 @@
               "RelativeToolTip": "ShopAPI\\Data\\Entities\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T16:33:09.993Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-03T16:33:09.993Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 14,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Data\\Entities\\Product.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Data\\Entities\\Product.cs",
@@ -200,12 +352,11 @@
               "RelativeToolTip": "ShopAPI\\Data\\Entities\\Product.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T16:28:36.945Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-03T16:28:36.945Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 16,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\Data\\Entities\\BaseEntity.cs",
               "RelativeDocumentMoniker": "ShopAPI\\Data\\Entities\\BaseEntity.cs",
@@ -213,8 +364,7 @@
               "RelativeToolTip": "ShopAPI\\Data\\Entities\\BaseEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T16:27:47.13Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-03T16:27:47.13Z"
             }
           ]
         }

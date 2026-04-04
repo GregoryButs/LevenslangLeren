@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopAPI.Data;
 using ShopAPI.Data.Entities;
+using ShopAPI.DTO;
 
 namespace ShopAPI.Controllers
 {
@@ -10,26 +12,29 @@ namespace ShopAPI.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public CategoryController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+
+        public CategoryController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("list")]
-        public ActionResult<IEnumerable<Category>> GetCategories()
+        public ActionResult<IEnumerable<CategoryResponseDTO>> GetCategories()
         {
             var categories = _context.Categories
-                .Include(c => c.Products)
+                .AsNoTracking()
                 .ToList();
 
-            return Ok(categories);
+            return Ok(_mapper.Map<IEnumerable<CategoryResponseDTO>>(categories));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Category> GetCategory(int id)
+        public ActionResult<CategoryResponseDTO> GetCategory(int id)
         {
             var category = _context.Categories
-                .Include(c => c.Products)
+                .AsNoTracking()
                 .FirstOrDefault(c => c.Id == id);
 
             if (category == null)
@@ -37,31 +42,34 @@ namespace ShopAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(_mapper.Map<CategoryResponseDTO>(category));
         }
 
         [HttpPost("")]
-        public ActionResult<Category> CreateCategory(Category category)
+        public ActionResult<CategoryResponseDTO> CreateCategory(CategoryRequestDTO request)
         {
+            var category = _mapper.Map<Category>(request);
+
             _context.Categories.Add(category);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, category);
+
+            var response = _mapper.Map<CategoryResponseDTO>(category);
+
+            return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, response);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateCategory(int id, Category category)
+        public ActionResult UpdateCategory(int id, CategoryRequestDTO request)
         {
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
             var existingCategory = _context.Categories.Find(id);
             if (existingCategory == null)
             {
                 return NotFound();
             }
-            existingCategory.Name = category.Name;
+
+            _mapper.Map(request, existingCategory);
             _context.SaveChanges();
+
             return NoContent();
         }
 
@@ -73,6 +81,7 @@ namespace ShopAPI.Controllers
             {
                 return NotFound();
             }
+
             _context.Categories.Remove(category);
             _context.SaveChanges();
             return NoContent();

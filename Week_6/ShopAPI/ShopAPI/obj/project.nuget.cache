@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "cSUAgTZhnls=",
+  "dgSpecHash": "u1ZLLRRauxs=",
   "success": true,
   "projectFilePath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_6\\ShopAPI\\ShopAPI\\ShopAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\butsg\\.nuget\\packages\\automapper\\15.1.3\\automapper.15.1.3.nupkg.sha512",
-    "C:\\Users\\butsg\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\butsg\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\butsg\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\butsg\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -7,7 +7,6 @@ C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\Shop
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\ShopAPI.dll
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\ShopAPI.pdb
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Week_6\ShopAPI\ShopAPI\bin\Debug\net8.0\Humanizer.dll

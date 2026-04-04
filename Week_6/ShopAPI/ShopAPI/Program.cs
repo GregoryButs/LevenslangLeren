@@ -1,6 +1,5 @@
-
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
+using ShopAPI.Profiles;
 
 namespace ShopAPI
 {
@@ -10,21 +9,21 @@ namespace ShopAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                });
-
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAutoMapper(
+                _ => { },
+                typeof(ProductProfile).Assembly,
+                typeof(CategoryProfile).Assembly,
+                typeof(TaxProfile).Assembly);
 
             builder.Services.AddDbContext<Data.ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -32,12 +31,8 @@ namespace ShopAPI
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
