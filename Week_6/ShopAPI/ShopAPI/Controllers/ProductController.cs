@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShopAPI.Data;
 using ShopAPI.Data.Entities;
 
@@ -9,6 +10,7 @@ namespace ShopAPI.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+
         public ProductController(ApplicationDbContext context)
         {
             _context = context;
@@ -17,27 +19,28 @@ namespace ShopAPI.Controllers
         [HttpGet("list")]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            // enkel producten ophalen waarvan Active = true
-            var products = _context.Products.Where(p => p.Active).ToList();
-            return Ok(products);
-        }
+            var products = _context.Products
+                .Where(p => p.Active)
+                .Include(p => p.Category)
+                .Include(p => p.TaxLevel)
+                .ToList();
 
-        [HttpGet("inactive")]
-        public ActionResult<IEnumerable<Product>> GetInactiveProducts()
-        {
-            // enkel producten ophalen waarvan Active = false
-            var products = _context.Products.Where(p => !p.Active).ToList();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Product> GetProduct(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.TaxLevel)
+                .FirstOrDefault(p => p.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
+
             return Ok(product);
         }
 
@@ -104,21 +107,43 @@ namespace ShopAPI.Controllers
             return Ok(sellingPrice);
         }
 
+        [HttpGet("inactive")]
+        public ActionResult<IEnumerable<Product>> GetInactiveProducts()
+        {
+            var products = _context.Products
+                .Where(p => !p.Active)
+                .Include(p => p.Category)
+                .Include(p => p.TaxLevel)
+                .ToList();
+
+            return Ok(products);
+        }
+
         [HttpGet("name/{name}")]
         public ActionResult<Product> GetProductByName(string name)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var product = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.TaxLevel)
+                .FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
             if (product == null)
             {
                 return NotFound();
             }
+
             return Ok(product);
         }
 
         [HttpGet("tax/{taxLevel}")]
         public ActionResult<IEnumerable<Product>> GetProductsByTaxLevel(int taxLevel)
         {
-            var products = _context.Products.Where(p => p.TaxesLevelId == taxLevel).ToList();
+            var products = _context.Products
+                .Where(p => p.TaxesLevelId == taxLevel)
+                .Include(p => p.Category)
+                .Include(p => p.TaxLevel)
+                .ToList();
+
             return Ok(products);
         }
     }

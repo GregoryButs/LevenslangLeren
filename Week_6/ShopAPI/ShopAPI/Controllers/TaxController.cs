@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShopAPI.Data;
 using ShopAPI.Data.Entities;
 
@@ -9,6 +10,7 @@ namespace ShopAPI.Controllers
     public class TaxController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+
         public TaxController(ApplicationDbContext context)
         {
             _context = context;
@@ -17,14 +19,20 @@ namespace ShopAPI.Controllers
         [HttpGet("list")]
         public ActionResult<IEnumerable<Tax>> GetTaxes()
         {
-            var taxes = _context.Taxes.ToList();
+            var taxes = _context.Taxes
+                .Include(t => t.Products)
+                .ToList();
+
             return Ok(taxes);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Tax> GetTax(int id)
         {
-            var tax = _context.Taxes.Find(id);
+            var tax = _context.Taxes
+                .Include(t => t.Products)
+                .FirstOrDefault(t => t.Id == id);
+
             if (tax == null)
             {
                 return NotFound();

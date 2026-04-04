@@ -10,8 +10,8 @@
         public int AmountStock { get; set; }
         public bool Active { get; set; }
 
-        public Category Category { get; set; }
-        public Tax TaxLevel { get; set; }
+        public Category? Category { get; set; }
+        public Tax? TaxLevel { get; set; }
 
     }
 

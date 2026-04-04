@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShopAPI.Data;
 using ShopAPI.Data.Entities;
 
@@ -17,31 +18,26 @@ namespace ShopAPI.Controllers
         [HttpGet("list")]
         public ActionResult<IEnumerable<Category>> GetCategories()
         {
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories
+                .Include(c => c.Products)
+                .ToList();
+
             return Ok(categories);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Category> GetCategory(int id)
         {
-            var category = _context.Categories.Find(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return Ok(category);
-        }
+            var category = _context.Categories
+                .Include(c => c.Products)
+                .FirstOrDefault(c => c.Id == id);
 
-        [HttpGet("{id}/products")]
-        public ActionResult<IEnumerable<Product>> GetCategoryProducts(int id)
-        {
-            var category = _context.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
             }
-            var products = _context.Products.Where(p => p.CategoryId == id).ToList();
-            return Ok(products);
+
+            return Ok(category);
         }
 
         [HttpPost("")]

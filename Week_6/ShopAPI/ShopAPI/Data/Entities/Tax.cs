@@ -8,7 +8,7 @@
 
         public int TaxPercentage => (int)TaxLevel;
 
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<Product>? Products { get; set; }
     }
 
     public enum TaxLevel
