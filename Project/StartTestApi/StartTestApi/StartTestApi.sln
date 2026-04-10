@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartTestApi", "StartTestApi\StartTestApi.csproj", "{AAAA13E0-EE93-4D27-84A6-06CBECF399DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AfsprakenbeheerPsycholoog", "AfsprakenbeheerPsycholoog\AfsprakenbeheerPsycholoog.csproj", "{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAAA13E0-EE93-4D27-84A6-06CBECF399DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAAA13E0-EE93-4D27-84A6-06CBECF399DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAAA13E0-EE93-4D27-84A6-06CBECF399DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAAA13E0-EE93-4D27-84A6-06CBECF399DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCC87566-DD1E-4573-BF5F-5C695AF781FF}
+	EndGlobalSection
+EndGlobal

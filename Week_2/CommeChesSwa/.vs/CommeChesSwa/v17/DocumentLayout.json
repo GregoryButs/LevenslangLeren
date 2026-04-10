@@ -118,8 +118,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Reservatie\\Details.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-03T20:43:09.321Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-03T20:43:09.321Z"
             },
             {
               "$type": "Document",
@@ -131,8 +130,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Reservatie\\Index.cshtml",
               "ViewState": "AgIAABQAAAAAAAAAAAAAACMAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-03T20:05:41.481Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-03T20:05:41.481Z"
             },
             {
               "$type": "Document",
@@ -144,8 +142,7 @@
               "RelativeToolTip": "CommeChesSwa\\Repository\\ReservatieRepository.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAAABUAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T10:27:49.764Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T10:27:49.764Z"
             },
             {
               "$type": "Document",
@@ -157,8 +154,7 @@
               "RelativeToolTip": "CommeChesSwa\\Models\\Reservatie.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T10:23:25.055Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T10:23:25.055Z"
             },
             {
               "$type": "Document",
@@ -182,8 +178,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Reservatie\\Create.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-27T09:28:06.869Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T09:28:06.869Z"
             },
             {
               "$type": "Document",
@@ -217,7 +212,7 @@
               "RelativeDocumentMoniker": "CommeChesSwa\\ViewModel\\GastViewModel.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_2\\CommeChesSwa\\CommeChesSwa\\ViewModel\\GastViewModel.cs",
               "RelativeToolTip": "CommeChesSwa\\ViewModel\\GastViewModel.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAqwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-27T08:49:36.47Z",
               "EditorCaption": ""
@@ -232,8 +227,7 @@
               "RelativeToolTip": "CommeChesSwa\\Controllers\\ReservatieController.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAAADgAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T08:38:14.684Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-27T08:38:14.684Z"
             },
             {
               "$type": "Document",
@@ -245,8 +239,7 @@
               "RelativeToolTip": "CommeChesSwa\\Views\\Menu\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-25T10:54:27.49Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T10:54:27.49Z"
             },
             {
               "$type": "Document",
@@ -258,8 +251,7 @@
               "RelativeToolTip": "CommeChesSwa\\ViewModel\\DetailViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T10:50:27.996Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T10:50:27.996Z"
             },
             {
               "$type": "Document",
@@ -295,8 +287,7 @@
               "RelativeToolTip": "CommeChesSwa\\Models\\Menu.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T10:19:06.314Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T10:19:06.314Z"
             },
             {
               "$type": "Document",
@@ -308,8 +299,7 @@
               "RelativeToolTip": "CommeChesSwa\\Models\\Gerecht.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T10:18:40.684Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T10:18:40.684Z"
             },
             {
               "$type": "Document",
@@ -393,8 +383,7 @@
               "RelativeToolTip": "CommeChesSwa\\Controllers\\HomeController.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAAA0AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T19:16:48.017Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T19:16:48.017Z"
             }
           ]
         }
