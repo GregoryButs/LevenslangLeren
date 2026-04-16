@@ -1,6 +1,7 @@
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace AfsprakenbeheerPsycholoog
 {
@@ -16,11 +17,34 @@ namespace AfsprakenbeheerPsycholoog
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PsycholoogOnly",
+                    policy => policy.RequireClaim("IsPsycholoog", "true"));
+            });
+
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                // Account
+                options.SignIn.RequireConfirmedAccount = false;
+
+                // Lockout (brute force protection)
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+
+                // Password
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -33,6 +57,14 @@ namespace AfsprakenbeheerPsycholoog
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Program.cs
+            using (var scope = app.Services.CreateScope())
+            {
+                SeedData.Initialize(scope.ServiceProvider).GetAwaiter().GetResult();
+            }
+
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

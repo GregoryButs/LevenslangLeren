@@ -19,18 +19,25 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Afspraak" asp-action="Index">📅 Afspraken</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Patient" asp-action="Index">👤 Patiënten</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="AfspraakType" asp-action="Index">🏷️ Types</a>
-                        </li>
+                        @if (User.HasClaim("IsPsycholoog", "true"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Afspraak" asp-action="Index">📅 Afspraken</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Patient" asp-action="Index">👤 Patiënten</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="AfspraakType" asp-action="Index">🏷️ Types</a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && !User.HasClaim("IsPsycholoog", "true"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="PatientPortaal" asp-action="MijnAfspraken">📋 Mijn afspraken</a>
+                            </li>
+                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

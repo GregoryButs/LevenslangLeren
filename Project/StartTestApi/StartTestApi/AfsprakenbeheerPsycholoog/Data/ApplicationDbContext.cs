@@ -1,10 +1,11 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+﻿using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AfsprakenbeheerPsycholoog.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Patient> Patienten { get; set; }
         public DbSet<AfspraakType> AfspraakTypes { get; set; }

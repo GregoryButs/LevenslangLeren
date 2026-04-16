@@ -3,8 +3,116 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\views\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\views\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\email.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\email.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\_managenav.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\_managenav.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\scaffoldingreadme.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\scaffoldingreadme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\managenavpages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\managenavpages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\changepassword.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\changepassword.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\manage\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\areas\\identity\\pages\\account\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\authentication\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\authentication\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\migrations\\20260415153055_customuserfields.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\migrations\\20260415153055_customuserfields.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\migrations\\00000000000000_createidentityschema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\migrations\\00000000000000_createidentityschema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\migrations\\20260410134729_databasenaamverandering2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\migrations\\20260410134729_databasenaamverandering2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\afsprakenbeheerpsycholoog.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -19,28 +127,16 @@
       "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\entities\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\migrations\\00000000000000_createidentityschema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\migrations\\00000000000000_createidentityschema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\entities\\afspraaktype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\entities\\afspraaktype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\migrations\\20260415161718_updateusers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\migrations\\20260415161718_updateusers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +146,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,20 +154,321 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20260410134729_DatabaseNaamVerandering2.cs",
-              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
-              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
-              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
-              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABCAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_Layout.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-16T06:43:39.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ChangePassword.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T13:47:30.17Z",
+              "WhenOpened": "2026-04-15T18:28:06.178Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ChangePassword.cshtml",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAcAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:24:24.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Email.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Email.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAACNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:23:09.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:09:13.388Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewImports.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:09:11.617Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:09:10.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\_ViewImports.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:09:07.957Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ViewImports.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:08:34.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "_ManageNav.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ManageNav.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ManageNav.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ManageNav.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\_ManageNav.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T18:08:14.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ManageNavPages.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ManageNavPages.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ManageNavPages.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ManageNavPages.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\ManageNavPages.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T16:26:34.624Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T16:19:34.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T16:19:31.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "20260415161718_UpdateUsers.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415161718_UpdateUsers.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415161718_UpdateUsers.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415161718_UpdateUsers.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415161718_UpdateUsers.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T16:17:18.197Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\SeedData.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\SeedData.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\SeedData.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\SeedData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T16:02:00.127Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_LoginPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Views\\Shared\\_LoginPartial.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Views\\Shared\\_LoginPartial.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Views\\Shared\\_LoginPartial.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Views\\Shared\\_LoginPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T15:36:49.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T15:35:19.601Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "20260415153055_CustomUserFields.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415153055_CustomUserFields.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415153055_CustomUserFields.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415153055_CustomUserFields.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260415153055_CustomUserFields.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T15:31:41.744Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAACQAAABkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T15:18:02.166Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T15:17:17.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Register.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAAALgAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T15:06:14.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T15:05:54.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ScaffoldingReadMe.txt",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\ScaffoldingReadMe.txt",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\ScaffoldingReadMe.txt",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\ScaffoldingReadMe.txt",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\ScaffoldingReadMe.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-04-15T14:58:14.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Authentication\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Authentication\\ApplicationUser.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Authentication\\ApplicationUser.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Authentication\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T14:19:28.312Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "20260410134729_DatabaseNaamVerandering2.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\20260410134729_DatabaseNaamVerandering2.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T13:47:30.17Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
               "Title": "00000000000000_CreateIdentitySchema.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Migrations\\00000000000000_CreateIdentitySchema.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\00000000000000_CreateIdentitySchema.cs",
@@ -79,51 +476,48 @@
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Migrations\\00000000000000_CreateIdentitySchema.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T13:46:53.607Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T13:46:53.607Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AfsprakenbeheerPsycholoog",
+              "DocumentIndex": 28,
+              "Title": "AfsprakenbeheerPsycholoog.csproj",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj",
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-10T13:38:56.673Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T13:38:56.673Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 23,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Program.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Program.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Program.cs",
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T13:32:42.487Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T13:32:42.487Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 5,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAcwCEAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-10T13:15:00.858Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 29,
               "Title": "Afspraak.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Entities\\Afspraak.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Entities\\Afspraak.cs",
@@ -131,12 +525,11 @@
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Entities\\Afspraak.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T12:40:49.413Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T12:40:49.413Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 31,
               "Title": "AfspraakType.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Entities\\AfspraakType.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Entities\\AfspraakType.cs",
@@ -144,12 +537,11 @@
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Entities\\AfspraakType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T12:39:57.242Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T12:39:57.242Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 30,
               "Title": "Patient.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Entities\\Patient.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Entities\\Patient.cs",
@@ -157,12 +549,11 @@
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Entities\\Patient.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAAAB4AAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T12:38:08.646Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T12:38:08.646Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 32,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Entities\\BaseEntity.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Entities\\BaseEntity.cs",
@@ -170,21 +561,19 @@
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Entities\\BaseEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T12:37:46.847Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T12:37:46.847Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 22,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\ApplicationDbContext.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\ApplicationDbContext.cs",
               "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T12:36:48.732Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T12:36:48.732Z"
             }
           ]
         }
