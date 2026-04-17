@@ -22,6 +22,9 @@
                         @if (User.HasClaim("IsPsycholoog", "true"))
                         {
                             <li class="nav-item">
+                                <a class="nav-link" asp-controller="Afspraak" asp-action="Dagplanning">📅 Dagplanning</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" asp-controller="Afspraak" asp-action="Index">📅 Afspraken</a>
                             </li>
                             <li class="nav-item">
@@ -36,6 +39,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="PatientPortaal" asp-action="MijnAfspraken">📋 Mijn afspraken</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="PatientPortaal" asp-action="Boeken">📅 Boeken</a>
+                            </li>
                         }
 
                     </ul>
@@ -46,6 +52,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="~/Views/Shared/_StatusMessage.cshtml" /> <!--Statusbericht toegevoegd boven RenderBody om het overal te laten verschijnen-->
             @RenderBody()
         </main>
     </div>

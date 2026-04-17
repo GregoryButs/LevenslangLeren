@@ -1,0 +1,41 @@
+﻿@model AfsprakenbeheerPsycholoog.Data.Entities.AfspraakType
+
+@{
+    ViewData["Title"] = "Afspraaktype bewerken";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" /> 
+    <div asp-validation-summary="All" class="text-danger fw-bold mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="Naam" class="form-label"></label>
+        <input asp-for="Naam" class="form-control" />
+        <span asp-validation-for="Naam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="StandaardDuurMinuten" class="form-label"></label>
+        <input asp-for="StandaardDuurMinuten" class="form-control" type="number" />
+        <span asp-validation-for="StandaardDuurMinuten" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Kleurcode" class="form-label"></label>
+        <input asp-for="Kleurcode" class="form-control" type="color" />
+        <span asp-validation-for="Kleurcode" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Opslaan</button>
+    <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

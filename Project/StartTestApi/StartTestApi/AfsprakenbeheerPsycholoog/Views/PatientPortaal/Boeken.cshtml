@@ -1,0 +1,88 @@
+﻿@using AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal
+@using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model PatientBoekAfspraakViewModel
+@{
+    var overzicht = ViewBag.DagOverzicht as DagOverzichtViewModel;
+}
+
+<h1>📅 Afspraak boeken — @overzicht.Datum.ToString("dddd d MMMM yyyy")</h1>
+<partial name="_StatusMessage" />
+
+<div class="mb-3">
+    <a asp-action="Boeken" asp-route-datum="@overzicht.VorigeDag.ToString("yyyy-MM-dd")"
+       class="btn btn-outline-secondary">← Vorige dag</a>
+    <a asp-action="Boeken" asp-route-datum="@overzicht.VolgendeDag.ToString("yyyy-MM-dd")"
+       class="btn btn-outline-secondary">Volgende dag →</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h5>Beschikbare tijdsloten</h5>
+        <div class="list-group">
+            @foreach (var slot in overzicht.Tijdsloten)
+            {
+                if (!slot.IsBezet)
+                {
+                    <a href="#" class="list-group-item list-group-item-action slot-keuze"
+                       data-tijdslot="@((overzicht.Datum.Date + slot.Starttijd).ToString("yyyy-MM-ddTHH:mm"))">
+                        🟢 @slot.StartFormatted — @slot.EindFormatted
+                    </a>
+                }
+                else
+                {
+                    <span class="list-group-item text-muted">
+                        🔴 @slot.StartFormatted — @slot.EindFormatted (bezet)
+                    </span>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h5>Jouw boeking</h5>
+        <form asp-action="Boeken" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="GekozeTijdslot" id="gekozeTijdslot" />
+            <div class="mb-3">
+                <label class="form-label">Gekozen tijdslot</label>
+                <input type="text" id="tijdDisplay" class="form-control" readonly
+                       placeholder="Klik op een groen tijdslot" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="TypeId" class="form-label"></label>
+                <select asp-for="TypeId" asp-items="Model.TypenLijst" class="form-select">
+                    <option value="">-- Kies een type --</option>
+                </select>
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Opmerkingen" class="form-label"></label>
+                <textarea asp-for="Opmerkingen" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success" id="boekBtn" disabled>
+                Afspraak boeken
+            </button>
+            <a asp-action="MijnAfspraken" class="btn btn-secondary">Annuleren</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.slot-keuze').forEach(el => {
+            el.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('gekozeTijdslot').value = this.dataset.tijdslot;
+                document.getElementById('tijdDisplay').value =
+                    this.textContent.trim().replace('🟢 ', '');
+                document.getElementById('boekBtn').disabled = false;
+                document.querySelectorAll('.slot-keuze').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+}

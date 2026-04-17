@@ -1,25 +1,31 @@
 using AfsprakenbeheerPsycholoog.Models;
+using AfsprakenbeheerPsycholoog.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace AfsprakenbeheerPsycholoog.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IAfspraakService _afspraakService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IAfspraakService afspraakService)
         {
-            _logger = logger;
+            _afspraakService = afspraakService;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            // Psycholoog ziet dashboard, anderen zien welkomstpagina
+            if (User.HasClaim("IsPsycholoog", "true"))
+            {
+                var naam = User.Identity?.Name ?? "Psycholoog";
+                var dashboard = _afspraakService.GetDashboard(naam);
+                return View("Dashboard", dashboard);
+            }
 
-        public IActionResult Privacy()
-        {
             return View();
         }
 
@@ -27,6 +33,18 @@ namespace AfsprakenbeheerPsycholoog.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult StatusCode(int code)
+        {
+            ViewBag.ErrorCode = code;
+            ViewBag.ErrorMessage = code switch
+            {
+                404 => "Pagina niet gevonden",
+                403 => "Geen toegang",
+                _ => "Er ging iets mis"
+            };
+            return View();
         }
     }
 }

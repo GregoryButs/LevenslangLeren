@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TnQjxESlnaw=",
+  "dgSpecHash": "bgQgFgwDNLE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
+  "projectFilePath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\butsg\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\butsg\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

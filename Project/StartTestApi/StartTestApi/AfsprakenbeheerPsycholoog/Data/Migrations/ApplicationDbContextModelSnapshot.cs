@@ -95,6 +95,8 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -118,8 +120,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     b.Property<DateTime>("Starttijd")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -139,7 +142,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Eindtijd = new DateTime(2026, 4, 14, 11, 30, 0, 0, DateTimeKind.Unspecified),
                             PatientId = 1,
                             Starttijd = new DateTime(2026, 4, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 0,
+                            Status = "Gepland",
                             TypeId = 1
                         },
                         new
@@ -148,7 +151,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Eindtijd = new DateTime(2026, 4, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
                             PatientId = 2,
                             Starttijd = new DateTime(2026, 4, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 0,
+                            Status = "Gepland",
                             TypeId = 2
                         },
                         new
@@ -157,7 +160,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Eindtijd = new DateTime(2026, 4, 1, 9, 45, 0, 0, DateTimeKind.Unspecified),
                             PatientId = 1,
                             Starttijd = new DateTime(2026, 4, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 1,
+                            Status = "Voltooid",
                             TypeId = 3
                         },
                         new
@@ -167,7 +170,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Opmerkingen = "Patiënt heeft afgezegd",
                             PatientId = 3,
                             Starttijd = new DateTime(2026, 3, 20, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 2,
+                            Status = "Geannuleerd",
                             TypeId = 2
                         });
                 });
@@ -427,6 +430,16 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("AfsprakenbeheerPsycholoog.Authentication.ApplicationUser", b =>
+                {
+                    b.HasOne("AfsprakenbeheerPsycholoog.Data.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("AfsprakenbeheerPsycholoog.Data.Entities.Afspraak", b =>

@@ -78,12 +78,68 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/AfspraakType/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtUeXBlXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/AfspraakType/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtUeXBlXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/AfspraakType/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtUeXBlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Afspraak/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Afspraak/Dagplanning.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtcRGFncGxhbm5pbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Afspraak/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Afspraak/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Afspraak/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWZzcHJhYWtcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Home/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/PatientPortaal/Boeken.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFBvcnRhYWxcQm9la2VuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/PatientPortaal/MijnAfspraken.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFBvcnRhYWxcTWlqbkFmc3ByYWtlbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Patient/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Patient/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Patient/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Patient/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Shared/Error.cshtml]
@@ -92,6 +148,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Shared/_StatusMessage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TdGF0dXNNZXNzYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/Views/Shared/_ValidationScriptsPartial.cshtml]

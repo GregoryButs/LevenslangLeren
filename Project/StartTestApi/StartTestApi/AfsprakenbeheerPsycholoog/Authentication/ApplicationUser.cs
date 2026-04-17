@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Authentication
@@ -14,6 +15,7 @@ namespace AfsprakenbeheerPsycholoog.Authentication
         // Optionele koppeling aan patiënt-record
         [PersonalData]
         public int? PatientId { get; set; }
+        public Patient? Patient { get; set; }
 
         // Read-only helper property (zoals in modelopdracht)
         public bool HeeftPatientProfiel => PatientId.HasValue;

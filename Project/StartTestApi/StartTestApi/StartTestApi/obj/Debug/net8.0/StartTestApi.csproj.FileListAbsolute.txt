@@ -512,10 +512,10 @@ C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\Sta
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\swae.build.ex.cache
+C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\StartTes.77FB984B.Up2Date
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\StartTestApi.dll
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\refint\StartTestApi.dll
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\StartTestApi.pdb
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\StartTestApi.genruntimeconfig.cache
 C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\ref\StartTestApi.dll
-C:\Users\butsg\Documents\Application Development\AD-GregoryButs-2526\Project\StartTestApi\StartTestApi\StartTestApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

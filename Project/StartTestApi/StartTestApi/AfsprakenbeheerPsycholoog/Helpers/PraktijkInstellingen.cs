@@ -1,0 +1,30 @@
+﻿namespace AfsprakenbeheerPsycholoog.Helpers
+{
+    public class PraktijkInstellingen
+    {
+        public static TimeSpan StartWerkdag = new TimeSpan(9, 0, 0);
+        public static TimeSpan EindeWerkdag = new TimeSpan(17, 0, 0);
+        public static int SlotDuurMinuten = 30;
+
+        // Weekend blokkeren
+        public static bool IsWerkdag(DateTime datum)
+        {
+            return datum.DayOfWeek != DayOfWeek.Saturday
+                && datum.DayOfWeek != DayOfWeek.Sunday;
+        }
+
+        // Patiënt mag alleen toekomstige werkdagen boeken
+        public static bool MagBoeken(DateTime datum)
+        {
+            return datum.Date > DateTime.Today && IsWerkdag(datum);
+        }
+
+        public static DateTime EerstVolgendeWerkdag(DateTime datum)
+        {
+            while (!IsWerkdag(datum))
+                datum = datum.AddDays(1);
+            return datum;
+        }
+
+    }
+}

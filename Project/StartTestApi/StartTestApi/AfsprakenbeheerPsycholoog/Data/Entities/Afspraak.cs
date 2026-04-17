@@ -21,13 +21,13 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
 
         [Required]
         [Display(Name = "Status")]
-        public Status Status { get; set; } = Status.Gepland; // Gepland | Voltooid | Geannuleerd - standaard op gepland
+        public AfspraakStatus Status { get; set; } = AfspraakStatus.Gepland; // Gepland | Voltooid | Geannuleerd - standaard op gepland
 
         [Display(Name = "Opmerkingen")]
         public string? Opmerkingen { get; set; }
     }
 
-    public enum Status
+    public enum AfspraakStatus
     {
         Gepland,
         Voltooid,

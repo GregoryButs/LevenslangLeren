@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
 {
@@ -31,6 +32,6 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         public string VolledigeNaam => $"{Voornaam} {Achternaam}";
 
         // Navigatieproperty
-        public ICollection<Afspraak> Afspraken { get; set; }
+        public IEnumerable<Afspraak> Afspraken { get; set; }
     }
 }

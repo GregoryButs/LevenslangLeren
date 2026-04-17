@@ -2,6 +2,8 @@
 using AfsprakenbeheerPsycholoog.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
+using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
 
 namespace AfsprakenbeheerPsycholoog.Data
 {
@@ -31,6 +33,24 @@ namespace AfsprakenbeheerPsycholoog.Data
                 .WithMany(t => t.Afspraken)
                 .HasForeignKey(a => a.TypeId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // Relatie: Patient → Afspraak
+            builder.Entity<Patient>()
+                .HasMany(p => p.Afspraken)
+                .WithOne(a => a.Patient)
+                .HasForeignKey(a => a.PatientId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Afspraak>()
+                .Property(a => a.Status)
+                .HasConversion<string>(); // Sla enum op als string in de database
+
+            // Relatie: ApplicationUser → Patient (optioneel)
+            builder.Entity<ApplicationUser>()
+                .HasOne(u => u.Patient)
+                .WithMany()
+                .HasForeignKey(u => u.PatientId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // --- SEEDING ---
             builder.Entity<AfspraakType>().HasData(
@@ -80,7 +100,7 @@ namespace AfsprakenbeheerPsycholoog.Data
                     TypeId = 1,
                     Starttijd = new DateTime(2026, 4, 14, 10, 0, 0),
                     Eindtijd = new DateTime(2026, 4, 14, 11, 30, 0),
-                    Status = Status.Gepland
+                    Status = AfspraakStatus.Gepland
                 },
                 new Afspraak
                 {
@@ -89,7 +109,7 @@ namespace AfsprakenbeheerPsycholoog.Data
                     TypeId = 2,
                     Starttijd = new DateTime(2026, 4, 15, 14, 0, 0),
                     Eindtijd = new DateTime(2026, 4, 15, 15, 0, 0),
-                    Status = Status.Gepland
+                    Status = AfspraakStatus.Gepland
                 },
                 new Afspraak
                 {
@@ -98,7 +118,7 @@ namespace AfsprakenbeheerPsycholoog.Data
                     TypeId = 3,
                     Starttijd = new DateTime(2026, 4, 1, 9, 0, 0),
                     Eindtijd = new DateTime(2026, 4, 1, 9, 45, 0),
-                    Status = Status.Voltooid,
+                    Status = AfspraakStatus.Voltooid,
                 },
                 new Afspraak
                 {
@@ -107,10 +127,14 @@ namespace AfsprakenbeheerPsycholoog.Data
                     TypeId = 2,
                     Starttijd = new DateTime(2026, 3, 20, 16, 0, 0),
                     Eindtijd = new DateTime(2026, 3, 20, 17, 0, 0),
-                    Status = Status.Geannuleerd,
+                    Status = AfspraakStatus.Geannuleerd,
                     Opmerkingen = "Patiënt heeft afgezegd"
                 }
                 );
         }
+        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak.AfspraakListViewModel> AfspraakListViewModel { get; set; } = default!;
+        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Patient.PatientDetailViewModel> PatientDetailViewModel { get; set; } = default!;
+        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Patient.PatientListViewModel> PatientListViewModel { get; set; } = default!;
+        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak.AfspraakDetailViewModel> AfspraakDetailViewModel { get; set; } = default!;
     }
 }

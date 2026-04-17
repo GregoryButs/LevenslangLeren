@@ -1,7 +1,11 @@
 using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Data;
-using Microsoft.EntityFrameworkCore;
+using AfsprakenbeheerPsycholoog.Data.Repositories;
+using AfsprakenbeheerPsycholoog.Profiles;
+using AfsprakenbeheerPsycholoog.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AfsprakenbeheerPsycholoog
 {
@@ -43,6 +47,22 @@ namespace AfsprakenbeheerPsycholoog
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // AutoMapper
+            builder.Services.AddAutoMapper(
+                           _ => { },
+                           (typeof(AfspraakProfile).Assembly),
+                           (typeof(PatientProfile).Assembly));
+
+            // Repositories
+            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+            builder.Services.AddScoped<IAfspraakRepository, AfspraakRepository>();
+            builder.Services.AddScoped<IAfspraakTypeRepository, AfspraakTypeRepository>();
+
+            // Services
+            builder.Services.AddScoped<IPatientService, PatientService>();
+            builder.Services.AddScoped<IAfspraakService, AfspraakService>();
+            builder.Services.AddScoped<IAfspraakTypeService, AfspraakTypeService>();
+
             var app = builder.Build();
 
 
@@ -58,7 +78,7 @@ namespace AfsprakenbeheerPsycholoog
                 app.UseHsts();
             }
 
-            // Program.cs
+            // seeding data toevoegen aan de database
             using (var scope = app.Services.CreateScope())
             {
                 SeedData.Initialize(scope.ServiceProvider).GetAwaiter().GetResult();

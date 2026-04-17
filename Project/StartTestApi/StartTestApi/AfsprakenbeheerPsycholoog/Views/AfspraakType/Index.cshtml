@@ -1,0 +1,39 @@
+﻿@using AfsprakenbeheerPsycholoog.Data.Entities
+@model IEnumerable<AfspraakType>
+
+@{
+    ViewData["Title"] = "Afspraaktypes";
+}
+
+<h1>@ViewData["Title"]</h1>
+<a asp-action="Create" class="btn btn-primary mb-3">+ Nieuw type</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Kleur</th><th>Naam</th><th>Standaard duur</th><th></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span style="display:inline-block; width:24px; height:24px; background-color:@item.Kleurcode; border-radius:4px;"></span>
+                </td>
+                <td>@item.Naam</td>
+                <td>@item.StandaardDuurMinuten min.</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id"
+                       class="btn btn-sm btn-outline-secondary">Bewerken</a>
+                    <form asp-action="Delete" asp-route-id="@item.Id"
+                          method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Weet je het zeker?')">
+                            Verwijderen
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
