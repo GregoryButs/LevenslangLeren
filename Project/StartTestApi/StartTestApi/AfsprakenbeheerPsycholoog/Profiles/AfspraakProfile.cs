@@ -12,7 +12,9 @@ namespace AfsprakenbeheerPsycholoog.Profiles
             // Afspraak -> AfspraakListViewModel
             CreateMap<Afspraak, AfspraakListViewModel>()
                 .ForMember(dest => dest.PatientNaam,
-                    opt => opt.MapFrom(src => $"{src.Patient.Voornaam} {src.Patient.Achternaam}"))
+                    opt => opt.MapFrom(src => src.Patient != null
+                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}"
+                        : "Blokkering"))
                 .ForMember(dest => dest.AfspraakTypeNaam,
                     opt => opt.MapFrom(src => src.Type.Naam))
                 .ForMember(dest => dest.Kleurcode,
@@ -21,11 +23,13 @@ namespace AfsprakenbeheerPsycholoog.Profiles
             // Afspraak -> AfspraakDetailViewModel
             CreateMap<Afspraak, AfspraakDetailViewModel>()
                 .ForMember(dest => dest.PatientVolledigeNaam,
-                    opt => opt.MapFrom(src => $"{src.Patient.Voornaam} {src.Patient.Achternaam}"))
+                    opt => opt.MapFrom(src => src.Patient != null
+                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}"
+                        : "Blokkering"))
                 .ForMember(dest => dest.PatientEmail,
-                    opt => opt.MapFrom(src => src.Patient.Email))
+                    opt => opt.MapFrom(src => src.Patient != null ? src.Patient.Email : "—"))
                 .ForMember(dest => dest.PatientTelefoon,
-                    opt => opt.MapFrom(src => src.Patient.Telefoonnummer))
+                    opt => opt.MapFrom(src => src.Patient != null ? src.Patient.Telefoonnummer : "—"))
                 .ForMember(dest => dest.AfspraakTypeNaam,
                     opt => opt.MapFrom(src => src.Type.Naam))
                 .ForMember(dest => dest.Kleurcode,
@@ -33,8 +37,7 @@ namespace AfsprakenbeheerPsycholoog.Profiles
 
             // CreateAfspraakViewModel -> Afspraak
             CreateMap<CreateAfspraakViewModel, Afspraak>()
-                .ForMember(dest => dest.Status,
-                    opt => opt.MapFrom(src => AfspraakStatus.Gepland)) // default
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => AfspraakStatus.Gepland))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Patient, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, opt => opt.Ignore());
@@ -52,16 +55,13 @@ namespace AfsprakenbeheerPsycholoog.Profiles
 
             // PatientBoekAfspraakViewModel → Afspraak
             CreateMap<PatientBoekAfspraakViewModel, Afspraak>()
-                .ForMember(dest => dest.Starttijd,
-                    opt => opt.MapFrom(src => src.GekozeTijdslot))
-                .ForMember(dest => dest.Status,
-                    opt => opt.MapFrom(src => AfspraakStatus.Gepland))
+                .ForMember(dest => dest.Starttijd, opt => opt.MapFrom(src => src.GekozeTijdslot))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => AfspraakStatus.Gepland))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.PatientId, opt => opt.Ignore())  // manueel na Map()
-                .ForMember(dest => dest.Eindtijd, opt => opt.Ignore())  // manueel na Map()
+                .ForMember(dest => dest.PatientId, opt => opt.Ignore())
+                .ForMember(dest => dest.Eindtijd, opt => opt.Ignore())
                 .ForMember(dest => dest.Patient, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, opt => opt.Ignore());
-
         }
     }
 }

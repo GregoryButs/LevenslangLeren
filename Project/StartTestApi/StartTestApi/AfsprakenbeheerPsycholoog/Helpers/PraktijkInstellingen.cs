@@ -2,8 +2,8 @@
 {
     public class PraktijkInstellingen
     {
-        public static TimeSpan StartWerkdag = new TimeSpan(9, 0, 0);
-        public static TimeSpan EindeWerkdag = new TimeSpan(17, 0, 0);
+        public static TimeSpan StartWerkdag = new TimeSpan(8, 0, 0);
+        public static TimeSpan EindeWerkdag = new TimeSpan(20, 0, 0);
         public static int SlotDuurMinuten = 30;
 
         // Weekend blokkeren

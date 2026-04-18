@@ -6,7 +6,15 @@
 
 <h1>👤 Patiënten</h1>
 
-<a asp-action="Create" class="btn btn-primary mb-3">+ Nieuwe patiënt</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-action="Create" class="btn btn-primary">+ Nieuwe patiënt</a>
+    
+    <a asp-action="NieuweAanmeldingen" class="btn btn-warning d-flex align-items-center">
+        <span class="me-2">⚠️ Nieuwe Web-Aanmeldingen Beheren</span>
+    </a>
+    <a asp-action="Archief" class="btn btn-outline-dark">🗂️ Inactieve patiënten</a>
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>

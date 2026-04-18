@@ -8,19 +8,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AfsprakenbeheerPsycholoog.Controllers
 {
-    [Authorize] // Alle ingelogde gebruikers
+    [Authorize]
     public class PatientPortaalController : Controller
     {
         private readonly IAfspraakService _afspraakService;
+        private readonly IPatientBoekService _patientBoekService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public PatientPortaalController(IAfspraakService afspraakService, UserManager<ApplicationUser> userManager)
+        public PatientPortaalController(
+            IAfspraakService afspraakService,
+            IPatientBoekService patientBoekService,
+            UserManager<ApplicationUser> userManager)
         {
             _afspraakService = afspraakService;
+            _patientBoekService = patientBoekService;
             _userManager = userManager;
         }
 
-        // Async nodig voor UserManager (zoals in modelopdracht!)
         public async Task<IActionResult> MijnAfspraken()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -35,10 +39,21 @@ namespace AfsprakenbeheerPsycholoog.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user?.PatientId == null) return View("GeenProfiel");
 
-            var dag = PraktijkInstellingen.EerstVolgendeWerkdag(datum ?? DateTime.Today.AddDays(1));
+            var minimumBoekdatum = PraktijkInstellingen.EerstVolgendeWerkdag(DateTime.Today.AddDays(1));
+            var gevraagdeDatum = datum ?? minimumBoekdatum;
 
-            ViewBag.DagOverzicht = _afspraakService.GetDagOverzicht(dag);
-            var vm = _afspraakService.GetBoekViewModel(dag);
+            if (gevraagdeDatum.Date < minimumBoekdatum.Date)
+            {
+                gevraagdeDatum = minimumBoekdatum;
+            }
+
+            var dag = PraktijkInstellingen.EerstVolgendeWerkdag(gevraagdeDatum);
+
+            var overzicht = _patientBoekService.GetDagOverzichtVoorPatient(dag);
+            overzicht.MinimumNavigatieDatum = minimumBoekdatum;
+
+            ViewBag.DagOverzicht = overzicht;
+            var vm = _patientBoekService.GetBoekViewModel(dag);
             return View(vm);
         }
 
@@ -48,9 +63,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             if (user?.PatientId == null) return View("GeenProfiel");
+
             if (!ModelState.IsValid)
-                return RedirectToAction(nameof(Boeken), new { datum = vm.GekozeTijdslot.Date });
-            var succes = _afspraakService.CreatePatientAfspraak(vm, user.PatientId.Value);
+            {
+                return RedirectToAction(nameof(Boeken), new { datum = vm.GekozeTijdslot?.Date ?? DateTime.Today });
+            }
+
+            var succes = _patientBoekService.CreatePatientAfspraak(vm, user.PatientId.Value);
 
             TempData[succes ? "SuccesMessage" : "ErrorMessage"] =
                 succes ? "Je afspraak is geboekt!"
@@ -58,16 +77,17 @@ namespace AfsprakenbeheerPsycholoog.Controllers
 
             return succes
                 ? RedirectToAction(nameof(MijnAfspraken))
-                : RedirectToAction(nameof(Boeken), new { datum = vm.GekozeTijdslot.Date });
+                : RedirectToAction(nameof(Boeken), new { datum = vm.GekozeTijdslot?.Date ?? DateTime.Today });
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Annuleren(int id)
         {
             var user = await _userManager.GetUserAsync(User);
-
             if (user?.PatientId == null) return View("GeenProfiel");
-            var succes = _afspraakService.AnnuleerPatientAfspraak(id, user.PatientId.Value);
+
+            var succes = _patientBoekService.AnnuleerPatientAfspraak(id, user.PatientId.Value);
 
             TempData[succes ? "SuccesMessage" : "ErrorMessage"] =
                 succes ? "Je afspraak is geannuleerd."
@@ -76,5 +96,4 @@ namespace AfsprakenbeheerPsycholoog.Controllers
             return RedirectToAction(nameof(MijnAfspraken));
         }
     }
-
 }

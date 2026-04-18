@@ -114,8 +114,11 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     b.Property<string>("Opmerkingen")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("ReeksId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Starttijd")
                         .HasColumnType("datetime2");
@@ -124,7 +127,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -194,6 +197,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     b.Property<int>("StandaardDuurMinuten")
                         .HasColumnType("int");
 
+                    b.Property<bool>("VereistPatient")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("AfspraakTypes");
@@ -204,28 +210,32 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Id = 1,
                             Kleurcode = "#4A90D9",
                             Naam = "Intake",
-                            StandaardDuurMinuten = 90
+                            StandaardDuurMinuten = 90,
+                            VereistPatient = true
                         },
                         new
                         {
                             Id = 2,
                             Kleurcode = "#7ED321",
                             Naam = "Therapie",
-                            StandaardDuurMinuten = 60
+                            StandaardDuurMinuten = 60,
+                            VereistPatient = true
                         },
                         new
                         {
                             Id = 3,
                             Kleurcode = "#F5A623",
                             Naam = "Evaluatie",
-                            StandaardDuurMinuten = 45
+                            StandaardDuurMinuten = 45,
+                            VereistPatient = true
                         },
                         new
                         {
                             Id = 4,
                             Kleurcode = "#D0021B",
                             Naam = "Crisis",
-                            StandaardDuurMinuten = 30
+                            StandaardDuurMinuten = 30,
+                            VereistPatient = true
                         });
                 });
 
@@ -251,8 +261,17 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     b.Property<DateOnly>("Geboortedatum")
                         .HasColumnType("date");
 
+                    b.Property<bool>("IsActief")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Telefoonnummer")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerwijderdOp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("VerwijderdReden")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Voornaam")
@@ -271,6 +290,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             DossierNummer = "DOS-001",
                             Email = "jan@test.be",
                             Geboortedatum = new DateOnly(1985, 3, 12),
+                            IsActief = true,
                             Telefoonnummer = "0471000001",
                             Voornaam = "Jan"
                         },
@@ -280,6 +300,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Achternaam = "Peeters",
                             Email = "marie@test.be",
                             Geboortedatum = new DateOnly(1992, 7, 4),
+                            IsActief = true,
                             Telefoonnummer = "0471000002",
                             Voornaam = "Marie"
                         },
@@ -290,6 +311,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             DossierNummer = "DOS-002",
                             Email = "pieter@test.be",
                             Geboortedatum = new DateOnly(1978, 11, 20),
+                            IsActief = true,
                             Telefoonnummer = "0471000003",
                             Voornaam = "Pieter"
                         });
@@ -447,14 +469,12 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     b.HasOne("AfsprakenbeheerPsycholoog.Data.Entities.Patient", "Patient")
                         .WithMany("Afspraken")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("AfsprakenbeheerPsycholoog.Data.Entities.AfspraakType", "Type")
                         .WithMany("Afspraken")
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Patient");
 

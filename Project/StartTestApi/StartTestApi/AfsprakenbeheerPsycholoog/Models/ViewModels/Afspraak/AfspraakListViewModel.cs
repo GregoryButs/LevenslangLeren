@@ -6,6 +6,7 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
     public class AfspraakListViewModel
     {
         public int Id { get; set; }
+        public Guid? ReeksId { get; set; }
 
         [Display(Name = "Naam")]
         public string PatientNaam { get; set; }

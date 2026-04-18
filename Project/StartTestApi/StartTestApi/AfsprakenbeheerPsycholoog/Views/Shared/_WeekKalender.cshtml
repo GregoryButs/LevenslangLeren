@@ -1,0 +1,73 @@
+@model AfsprakenbeheerPsycholoog.Models.ViewModels.Planning.WeekOverzichtViewModel
+@using AfsprakenbeheerPsycholoog.Helpers
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Mijn Weekoverzicht</h3>
+    <div class="btn-group shadow-sm">
+        <a href="?weekDatum=@Model.StartWeek.AddDays(-7).ToString("yyyy-MM-dd")" class="btn btn-outline-primary">&larr; Vorige week</a>
+        <a href="?weekDatum=@DateTime.Today.ToString("yyyy-MM-dd")" class="btn btn-outline-secondary">Huidige week</a>
+        <a href="?weekDatum=@Model.StartWeek.AddDays(7).ToString("yyyy-MM-dd")" class="btn btn-outline-primary">Volgende week &rarr;</a>
+    </div>
+</div>
+<div class="text-center text-muted mb-2 fw-bold">
+    Selectie: @Model.StartWeek.ToString("dd MMM yyyy") t/m @Model.EindeWeek.AddDays(-1).ToString("dd MMM yyyy")
+</div>
+
+<div class="table-responsive bg-white shadow-sm rounded-3">
+    <table class="table table-bordered table-sm mb-0" style="table-layout: fixed; min-width: 800px;">
+        <thead class="table-light">
+            <tr>
+                <th style="width: 60px; border-bottom: none;"></th>
+                @foreach (var dag in Model.Dagen)
+                {
+                    var datum = dag.Key;
+                    var isVandaag = datum.Date == DateTime.Today;
+                    <th class="text-center pb-2 pt-2 border-bottom-0 @(isVandaag ? "bg-primary text-white" : "")" style="width: calc((100% - 60px) / 7);">
+                        <span class="d-block small fw-normal">@datum.ToString("ddd")</span>
+                        <span class="fs-5">@datum.ToString("dd/MM")</span>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int startUur = PraktijkInstellingen.StartWerkdag.Hours;
+                int eindUur = PraktijkInstellingen.EindeWerkdag.Hours;
+            }
+            @for (int uur = startUur; uur <= eindUur; uur++)
+            {
+                <tr>
+                    <td class="text-end text-muted small pe-2 align-top bg-light" style="border-right: none; height: 75px; vertical-align: top; padding-top: 5px;">
+                        @(uur.ToString("00")):00
+                    </td>
+                    @foreach (var dag in Model.Dagen)
+                    {
+                        <td class="p-1 align-top bg-white position-relative border-start" style="height: 75px;">
+                            @{
+                                var slotStart = dag.Key.Date.AddHours(uur);
+                                var slotEinde = slotStart.AddHours(1);
+
+                                var afsprakenInDitUur = dag.Value
+                                    .Where(a => a.Starttijd < slotEinde && a.Eindtijd > slotStart)
+                                    .OrderBy(a => a.Starttijd)
+                                    .ToList();
+                            }
+                            @foreach (var a in afsprakenInDitUur)
+                            {
+                                <div class="w-100 p-1 mb-1 rounded small lh-sm shadow-sm"
+                                     style="background-color: #fcfcfc; border: 1px solid #e9ecef; border-left: 4px solid @a.Kleurcode; overflow: hidden; position: relative; z-index: 1;">
+                                    <strong style="color: @a.Kleurcode;">@a.Starttijd.ToString("HH:mm") - @a.Eindtijd.ToString("HH:mm")</strong><br />
+                                    @if (Model.IsPsycholoog)
+                                    {
+                                        <span class="text-dark d-block text-truncate fw-medium">@a.PatientNaam</span>
+                                    }
+                                    <span class="text-muted d-block text-truncate" style="font-size: 0.85em;">@a.AfspraakTypeNaam</span>
+                                </div>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

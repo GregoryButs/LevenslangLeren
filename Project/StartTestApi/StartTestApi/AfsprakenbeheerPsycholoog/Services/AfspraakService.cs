@@ -2,8 +2,6 @@
 using AfsprakenbeheerPsycholoog.Data.Repositories;
 using AfsprakenbeheerPsycholoog.Helpers;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
-using AfsprakenbeheerPsycholoog.Models.ViewModels.Dashboard;
-using AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,11 +27,12 @@ namespace AfsprakenbeheerPsycholoog.Services
             _mapper = mapper;
         }
 
-        // ==================== LEZEN ====================
-
         public IEnumerable<AfspraakListViewModel> GetAlleAfspraken()
         {
-            var afspraken = _afspraakRepo.GetAllMetDetails();
+            var afspraken = _afspraakRepo
+                .GetAllMetDetails()
+                .Where(a => a.PatientId.HasValue);
+
             return _mapper.Map<IEnumerable<AfspraakListViewModel>>(afspraken)
                 .OrderByDescending(a => a.Starttijd);
         }
@@ -60,44 +59,53 @@ namespace AfsprakenbeheerPsycholoog.Services
             return _mapper.Map<AfspraakDetailViewModel>(afspraak);
         }
 
-        // --- Create Logica ---
-
         public CreateAfspraakViewModel GetCreateViewModel()
         {
-            var vm = new CreateAfspraakViewModel
+            return new CreateAfspraakViewModel
             {
                 Starttijd = DateTime.Now.Date.AddDays(1).AddHours(9),
                 PatientenLijst = SelectListHelper.Patienten(_patientRepo.GetAll()),
                 TypenLijst = SelectListHelper.Types(_typeRepo.GetAll())
             };
-            return vm;
         }
 
         public bool CreateAfspraak(CreateAfspraakViewModel vm)
         {
             var type = _typeRepo.GetById(vm.TypeId);
             if (type == null) return false;
+            if (type.VereistPatient && !vm.PatientId.HasValue) return false;
 
-            var eindtijd = vm.Starttijd.AddMinutes(type.StandaardDuurMinuten);
+            var startmomenten = HerhalingHelper.BouwStartmomenten(vm.Starttijd, vm.Herhaling, vm.HerhaalTot);
+            var aangemaakt = 0;
+            Guid? reeksId = vm.Herhaling == HerhaalPatroon.Geen ? (Guid?)null : Guid.NewGuid();
+            var isBlokkering = !vm.PatientId.HasValue;
 
-            // Controleer op overlapping!
-            if (_afspraakRepo.HeeftConflict(vm.Starttijd, eindtijd))
+            foreach (var start in startmomenten)
             {
-                return false; // Er is een conflict, breek de creatie af
+                var eind = start.AddMinutes(type.StandaardDuurMinuten);
+
+                if (!TryVoegAfspraakToe(start, eind, isBlokkering, () =>
+                {
+                    var afspraak = _mapper.Map<Afspraak>(vm);
+                    afspraak.Starttijd = start;
+                    afspraak.Eindtijd = eind;
+                    afspraak.ReeksId = reeksId;
+                    return afspraak;
+                }))
+                {
+                    continue;
+                }
+
+                aangemaakt++;
             }
 
-            var afspraak = _mapper.Map<Afspraak>(vm);
-            afspraak.Eindtijd = eindtijd;
+            if (aangemaakt == 0) return false;
 
-            _afspraakRepo.Add(afspraak);
             _afspraakRepo.SaveChanges();
-
             return true;
         }
 
-        // --- Edit Logica ---
-
-        public EditAfspraakViewModel GetEditViewModel(int id)
+        public EditAfspraakViewModel? GetEditViewModel(int id)
         {
             var afspraak = _afspraakRepo.GetById(id);
             if (afspraak == null) return null;
@@ -116,13 +124,14 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var type = _typeRepo.GetById(vm.TypeId);
             if (type == null) return false;
+            if (type.VereistPatient && !vm.PatientId.HasValue) return false;
 
             var eindtijd = vm.Starttijd.AddMinutes(type.StandaardDuurMinuten);
+            var isBlokkering = !vm.PatientId.HasValue;
 
-            // Controleer op overlapping en stuur het huidige vm.Id mee!
-            if (_afspraakRepo.HeeftConflict(vm.Starttijd, eindtijd, vm.Id))
+            if (_afspraakRepo.HeeftConflict(vm.Starttijd, eindtijd, isBlokkering, vm.Id))
             {
-                return false; // Er is een overlap, breek het bewerken af
+                return false;
             }
 
             _mapper.Map(vm, afspraakInDb);
@@ -133,94 +142,51 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             return true;
         }
-        
 
         public void DeleteAfspraak(int id)
         {
-            Afspraak? afspraak = _afspraakRepo.GetById(id);
-            if (afspraak != null)
-            {
-                _afspraakRepo.Delete(afspraak);
-                _afspraakRepo.SaveChanges();
-            }
+            var afspraak = _afspraakRepo.GetById(id);
+            if (afspraak == null) return;
+
+            _afspraakRepo.Delete(afspraak);
+            _afspraakRepo.SaveChanges();
         }
 
-        // ==================== DagPlanning ====================
-         public DagOverzichtViewModel GetDagOverzicht(DateTime datum)
+        public DagOverzichtViewModel GetDagOverzicht(DateTime datum)
         {
             var afsprakenDag = _afspraakRepo.GetByDatum(datum);
+            var afsprakenVms = _mapper.Map<IEnumerable<AfspraakListViewModel>>(afsprakenDag);
+
             return new DagOverzichtViewModel
             {
                 Datum = datum.Date,
-                Tijdsloten = TijdslotHelper.BouwTijdsloten(datum, afsprakenDag, _mapper)
+                Tijdsloten = TijdslotHelper.BouwTijdsloten(datum, afsprakenVms, PraktijkInstellingen.SlotDuurMinuten)
             };
         }
 
-        // ==================== Patient Portaal ====================
-        public PatientBoekAfspraakViewModel GetBoekViewModel(DateTime datum)
+        public void DeleteReeks(Guid reeksId)
         {
-            return new PatientBoekAfspraakViewModel
-            {
-                Datum = datum,
-                TypenLijst = SelectListHelper.Types(_typeRepo.GetAll())
-            };
-        }
-
-
-        public bool CreatePatientAfspraak(PatientBoekAfspraakViewModel vm, int patientId)
-        {
-            var type = _typeRepo.GetById(vm.TypeId);
-            if (type == null) return false;
-
-            if (!PraktijkInstellingen.MagBoeken(vm.GekozeTijdslot)) return false;
-
-            var eindtijd = vm.GekozeTijdslot.AddMinutes(type.StandaardDuurMinuten);
-            if (_afspraakRepo.HeeftConflict(vm.GekozeTijdslot, eindtijd)) return false;
-
-            var afspraak = _mapper.Map<Afspraak>(vm);  // Starttijd + Status + TypeId + Opmerkingen
-            afspraak.PatientId = patientId;            // manueel
-            afspraak.Eindtijd = eindtijd;             // manueel
-
-            _afspraakRepo.Add(afspraak);
-            _afspraakRepo.SaveChanges();
-            return true;
-        }
-
-        public bool AnnuleerPatientAfspraak(int afspraakId, int patientId)
-        {
-            var afspraak = _afspraakRepo.GetByIdEnPatient(afspraakId, patientId);
-            if (afspraak == null) return false;
-            if (afspraak.Status != AfspraakStatus.Gepland) return false;
-            if (afspraak.Starttijd <= DateTime.Now) return false;
-
-            afspraak.Status = AfspraakStatus.Geannuleerd;
-            _afspraakRepo.Update(afspraak);
-            _afspraakRepo.SaveChanges();
-            return true;
-        }
-
-        // ==================== DASHBOARD ====================
-
-        public DashboardViewModel GetDashboard(string psycholoogNaam)
-        {
-            var vandaag = DateTime.Today;
-            var (startWeek, eindeWeek) = WeekHelper.GetHuidigeWeek(vandaag);
-
-            var afsprakenVandaag = _afspraakRepo.GetByDatum(vandaag)
-                .Where(a => a.Status == AfspraakStatus.Gepland)
-                .OrderBy(a => a.Starttijd)
+            var afspraken = _afspraakRepo
+                .GetAllByCondition(a => a.ReeksId == reeksId)
                 .ToList();
 
-            return new DashboardViewModel
+            foreach (var afspraak in afspraken)
             {
-                PsycholoogNaam = psycholoogNaam,
-                AantalAfsprakenVandaag = afsprakenVandaag.Count,
-                AantalAfsprakenDezeWeek = _afspraakRepo.CountByWeek(startWeek, eindeWeek),
-                AantalPatienten = _afspraakRepo.CountPatienten(),
-                AfsprakenVandaag = _mapper.Map<List<AfspraakListViewModel>>(afsprakenVandaag),
-                VolgendeAfspraak = _afspraakRepo.GetVolgende() is Afspraak v
-                                            ? _mapper.Map<AfspraakListViewModel>(v) : null
-            };
+                _afspraakRepo.Delete(afspraak);
+            }
+
+            _afspraakRepo.SaveChanges();
+        }
+
+        private bool TryVoegAfspraakToe(DateTime start, DateTime eind, bool isBlokkering, Func<Afspraak> afspraakFactory)
+        {
+            if (_afspraakRepo.HeeftConflict(start, eind, isBlokkering))
+            {
+                return false;
+            }
+
+            _afspraakRepo.Add(afspraakFactory());
+            return true;
         }
     }
 }

@@ -1,6 +1,8 @@
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Models;
 using AfsprakenbeheerPsycholoog.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,24 +11,38 @@ namespace AfsprakenbeheerPsycholoog.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IAfspraakService _afspraakService;
+        private readonly IDashboardService _dashboardService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(IAfspraakService afspraakService)
+        public HomeController(IDashboardService dashboardService, UserManager<ApplicationUser> userManager)
         {
-            _afspraakService = afspraakService;
+            _dashboardService = dashboardService;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(DateTime? weekDatum = null)
         {
-            // Psycholoog ziet dashboard, anderen zien welkomstpagina
+            var peilDatum = weekDatum ?? DateTime.Today;
+
             if (User.HasClaim("IsPsycholoog", "true"))
             {
                 var naam = User.Identity?.Name ?? "Psycholoog";
-                var dashboard = _afspraakService.GetDashboard(naam);
+                var dashboard = _dashboardService.GetDashboard(naam, peilDatum);
                 return View("Dashboard", dashboard);
             }
 
-            return View();
+            int? patientId = null;
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var appUser = await _userManager.GetUserAsync(User);
+                if (appUser?.PatientId.HasValue == true)
+                {
+                    patientId = appUser.PatientId.Value;
+                }
+            }
+
+            var weekCal = _dashboardService.GetWeekOverzicht(peilDatum, patientId, false);
+            return View(weekCal);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

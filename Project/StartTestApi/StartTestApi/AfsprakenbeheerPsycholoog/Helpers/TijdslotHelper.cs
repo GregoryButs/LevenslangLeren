@@ -1,7 +1,6 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+﻿using AfsprakenbeheerPsycholoog.Helpers;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
-using AutoMapper;
 
 namespace AfsprakenbeheerPsycholoog.Helpers
 {
@@ -9,40 +8,39 @@ namespace AfsprakenbeheerPsycholoog.Helpers
     {
         public static List<TijdslotViewModel> BouwTijdsloten(
             DateTime datum,
-            IEnumerable<Afspraak> afsprakenDag,
-            IMapper mapper)
+            IEnumerable<AfspraakListViewModel> afsprakenDag,
+            int? slotDuurMinuten = null)
         {
-            // Bouw tijdsloten op basis van praktijkinstellingen en afspraken van de dag
+
+            // Gebruik de slotduur uit de instellingen als er geen specifieke duur is opgegeven
+            var duur = slotDuurMinuten ?? PraktijkInstellingen.SlotDuurMinuten;
             var tijdsloten = new List<TijdslotViewModel>();
             var start = PraktijkInstellingen.StartWerkdag;
             var einde = PraktijkInstellingen.EindeWerkdag;
 
-            // Loop door de werkdag in stappen van slotduur en controleer of er een afspraak is die overlapt
+            // Loop door de werkdag in stappen van de slotduur en controleer of er een afspraak is die overlapt met het huidige tijdslot
             while (start < einde)
             {
-                // Bereken de start- en eindtijd van het huidige tijdslot
                 var slotStart = datum.Date + start;
-                var slotEind = datum.Date + start.Add(
-                    TimeSpan.FromMinutes(PraktijkInstellingen.SlotDuurMinuten));
+                var slotEind = datum.Date + start.Add(TimeSpan.FromMinutes(duur));
 
                 // Controleer of er een afspraak is die overlapt met dit tijdslot
                 var bezet = afsprakenDag.FirstOrDefault(a =>
                     a.Starttijd < slotEind && a.Eindtijd > slotStart);
 
-                // Voeg het tijdslot toe aan de lijst, markeer als bezet indien er een afspraak is
+                // Voeg het tijdslot toe aan de lijst, markeer het als bezet als er een afspraak is
                 tijdsloten.Add(new TijdslotViewModel
                 {
                     Starttijd = start,
-                    Eindtijd = start.Add(TimeSpan.FromMinutes(PraktijkInstellingen.SlotDuurMinuten)),
+                    Eindtijd = start.Add(TimeSpan.FromMinutes(duur)),
                     IsBezet = bezet != null,
-                    Afspraak = bezet != null ? mapper.Map<AfspraakListViewModel>(bezet) : null
+                    Afspraak = bezet
                 });
 
-                // Ga naar het volgende tijdslot
-                start = start.Add(TimeSpan.FromMinutes(PraktijkInstellingen.SlotDuurMinuten));
+                // Ga door naar het volgende tijdslot
+                start = start.Add(TimeSpan.FromMinutes(duur));
             }
 
-            // Return de lijst met tijdsloten
             return tijdsloten;
         }
     }

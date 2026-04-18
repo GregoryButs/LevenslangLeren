@@ -14,7 +14,7 @@
         <div class="card text-white bg-primary">
             <div class="card-body text-center">
                 <h2>@Model.AantalAfsprakenVandaag</h2>
-                <p>Afspraken vandaag</p>
+                <p>Komende afspraken vandaag</p>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="card text-white bg-info">
             <div class="card-body text-center">
                 <h2>@Model.AantalAfsprakenDezeWeek</h2>
-                <p>Afspraken deze week</p>
+                <p>Komende afspraken deze week</p>
             </div>
         </div>
     </div>
@@ -79,7 +79,11 @@ else
     </table>
 }
 
-<a asp-controller="Afspraak" asp-action="Dagplanning" class="btn btn-primary">
+<div class="mt-5">
+    <partial name="_WeekKalender" model="Model.WeekOverzicht" />
+</div>
+
+<a asp-controller="Afspraak" asp-action="Dagplanning" class="btn btn-primary mt-4">
     Naar dagplanning →
 </a>
 

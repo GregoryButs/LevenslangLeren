@@ -1,8 +1,25 @@
-﻿@{
+﻿@model AfsprakenbeheerPsycholoog.Models.ViewModels.Planning.WeekOverzichtViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mb-5">
+    <h1 class="display-4">Welkom bij Groepspraktijk Voorde - Dr. Inge Debast</h1>
+    <p>Uw partner in mentaal welzijn en professionele begeleiding.</p>
 </div>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    @if (Model != null && Model.Dagen.Any())
+    {
+        <div class="container mt-4">
+            <partial name="_WeekKalender" model="Model" />
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-info text-center">
+        Log in om uw afspraken en agenda in te zien.
+    </div>
+}

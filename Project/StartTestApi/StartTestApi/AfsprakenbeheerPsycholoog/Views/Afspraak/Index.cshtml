@@ -53,6 +53,7 @@
                        class="btn btn-sm btn-outline-info">Details</a>
                     <a asp-action="Edit" asp-route-id="@item.Id"
                        class="btn btn-sm btn-outline-secondary">Bewerken</a>
+
                     <form asp-action="Delete" asp-route-id="@item.Id"
                           method="post" style="display:inline;">
                         @Html.AntiForgeryToken()
@@ -61,6 +62,18 @@
                             Verwijderen
                         </button>
                     </form>
+
+                    @if (item.ReeksId.HasValue)
+                    {
+                        <form asp-action="DeleteReeks" asp-route-reeksId="@item.ReeksId"
+                              method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Hele reeks verwijderen?')">
+                                Verwijder reeks
+                            </button>
+                        </form>
+                    }
                 </td>
             </tr>
         }

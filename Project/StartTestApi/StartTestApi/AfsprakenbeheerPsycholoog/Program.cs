@@ -62,6 +62,11 @@ namespace AfsprakenbeheerPsycholoog
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IAfspraakService, AfspraakService>();
             builder.Services.AddScoped<IAfspraakTypeService, AfspraakTypeService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
+            builder.Services.AddScoped<IPatientBoekService, PatientBoekService>();
+
+            // Background Service voor automatische acties op afspraken
+            builder.Services.AddHostedService<AfspraakStatusUpdaterService>();
 
             var app = builder.Build();
 

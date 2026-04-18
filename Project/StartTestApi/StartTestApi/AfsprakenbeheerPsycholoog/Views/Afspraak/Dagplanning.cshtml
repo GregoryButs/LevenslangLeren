@@ -39,6 +39,31 @@ else
             <strong>@slot.Afspraak.PatientNaam</strong>
                         @slot.Afspraak.AfspraakTypeNaam
                         <span class="badge @slot.Afspraak.StatusLabel ms-2">@slot.Afspraak.Status</span>
+
+                        <form asp-action="DeleteVanDagplanning"
+                              asp-route-id="@slot.Afspraak.Id"
+                              asp-route-datum="@Model.Datum.ToString("yyyy-MM-dd")"
+                              method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger ms-2"
+                                    onclick="return confirm('Dit item verwijderen?')">
+                                Verwijderen
+                            </button>
+                        </form>
+
+                        @if (slot.Afspraak.ReeksId.HasValue)
+                        {
+                            <form asp-action="DeleteReeksVanDagplanning"
+                                  asp-route-reeksId="@slot.Afspraak.ReeksId"
+                                  asp-route-datum="@Model.Datum.ToString("yyyy-MM-dd")"
+                                  method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-danger ms-1"
+                                        onclick="return confirm('Hele reeks verwijderen?')">
+                                    Reeks verwijderen
+                                </button>
+                            </form>
+                        }
                         }
                         else
             {

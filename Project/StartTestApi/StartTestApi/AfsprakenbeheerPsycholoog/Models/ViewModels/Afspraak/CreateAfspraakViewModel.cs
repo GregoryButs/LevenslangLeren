@@ -4,11 +4,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 {
-    public class CreateAfspraakViewModel
+    public enum HerhaalPatroon
     {
-        [Required(ErrorMessage = "Kies een patiënt")]
+        Geen = 0,
+        Dagelijks = 1,
+        Wekelijks = 2
+    }
+
+    // erft van IValidatableObject om custom validatie toe te voegen (voor herhaling)
+    public class CreateAfspraakViewModel : IValidatableObject
+    {
         [Display(Name = "Patiënt")]
-        public int PatientId { get; set; }
+        public int? PatientId { get; set; }
 
         [Required(ErrorMessage = "Kies een type")]
         [Display(Name = "Type afspraak")]
@@ -21,8 +28,33 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Display(Name = "Opmerkingen")]
         public string? Opmerkingen { get; set; }
 
-        // Niet te valideren velden (zoals in modelopdracht)
-        [ValidateNever] public SelectList PatientenLijst { get; set; }
-        [ValidateNever] public SelectList TypenLijst { get; set; }
+        // Herhalingsopties
+        [Display(Name = "Herhaling")]
+        public HerhaalPatroon Herhaling { get; set; } = HerhaalPatroon.Geen;
+
+        [Display(Name = "Herhalen t.e.m.")]
+        [DataType(DataType.Date)]
+        public DateTime? HerhaalTot { get; set; }
+
+        [ValidateNever] public SelectList? PatientenLijst { get; set; }
+        [ValidateNever] public SelectList? TypenLijst { get; set; }
+
+        // Custom validatie voor herhaling - controleert of er een einddatum is als er een herhaling is, en of die einddatum niet vóór de starttijd ligt
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Herhaling != HerhaalPatroon.Geen && !HerhaalTot.HasValue)
+            {
+                yield return new ValidationResult(
+                    "Kies een einddatum voor de herhaling.",
+                    new[] { nameof(HerhaalTot) });
+            }
+
+            if (HerhaalTot.HasValue && HerhaalTot.Value.Date < Starttijd.Date)
+            {
+                yield return new ValidationResult(
+                    "De herhaal-einddatum mag niet vóór de startdatum liggen.",
+                    new[] { nameof(HerhaalTot) });
+            }
+        }
     }
 }

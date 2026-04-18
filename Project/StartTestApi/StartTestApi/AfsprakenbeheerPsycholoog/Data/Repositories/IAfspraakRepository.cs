@@ -2,17 +2,18 @@
 
 namespace AfsprakenbeheerPsycholoog.Data.Repositories
 {
-    public interface IAfspraakRepository: IRepository<Afspraak>
+    public interface IAfspraakRepository : IRepository<Afspraak>
     {
         IEnumerable<Afspraak> GetAllMetDetails();
         Afspraak? GetByIdMetDetails(int id);
         IEnumerable<Afspraak> GetByPatientId(int patientId);
         IEnumerable<Afspraak> GetByStatus(AfspraakStatus status);
         IEnumerable<Afspraak> GetByDatum(DateTime datum);
-        bool HeeftConflict(DateTime starttijd, DateTime eindtijd, int? teNegerenAfspraakId = null);
-        int CountByWeek(DateTime startWeek, DateTime eindeWeek);
+        IEnumerable<Afspraak> GetInPeriodeMetDetails(DateTime start, DateTime einde, int? patientId = null);
+        bool HeeftConflict(DateTime starttijd, DateTime eindtijd, bool negeerBlokkeringen = false, int? teNegerenAfspraakId = null);
+        int CountByWeek(DateTime startWeek, DateTime eindeWeek, bool zonderBlokkeringen = false);
         int CountPatienten();
-        Afspraak? GetVolgende();
+        Afspraak? GetVolgende(bool zonderBlokkeringen = false);
         Afspraak? GetByIdEnPatient(int afspraakId, int patientId);
     }
 }

@@ -128,5 +128,44 @@ namespace AfsprakenbeheerPsycholoog.Controllers
             TempData["SuccesMessage"] = "Afspraak is verwijderd.";
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteVanDagplanning(int id, DateTime datum)
+        {
+            _afspraakService.DeleteAfspraak(id);
+            TempData["SuccesMessage"] = "Item is verwijderd.";
+            return RedirectToAction(nameof(Dagplanning), new { datum = datum.ToString("yyyy-MM-dd") });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteReeks(Guid reeksId)
+        {
+            if (reeksId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Ongeldige reeks.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _afspraakService.DeleteReeks(reeksId);
+            TempData["SuccesMessage"] = "Volledige reeks is verwijderd.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteReeksVanDagplanning(Guid reeksId, DateTime datum)
+        {
+            if (reeksId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Ongeldige reeks.";
+                return RedirectToAction(nameof(Dagplanning), new { datum = datum.ToString("yyyy-MM-dd") });
+            }
+
+            _afspraakService.DeleteReeks(reeksId);
+            TempData["SuccesMessage"] = "Volledige reeks is verwijderd.";
+            return RedirectToAction(nameof(Dagplanning), new { datum = datum.ToString("yyyy-MM-dd") });
+        }
     }
 }

@@ -21,9 +21,10 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
-        [Required, Phone]
+        [Required]
+        [Phone]
         [Display(Name = "Telefoonnummer")]
-        public string Telefoonnummer { get; set; }
+        public string? Telefoonnummer { get; set; }
 
         [Display(Name = "Dossiernummer")]
         public string? DossierNummer { get; set; }
@@ -33,5 +34,11 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
 
         // Navigatieproperty
         public IEnumerable<Afspraak> Afspraken { get; set; }
+
+        [Display(Name = "Actief")]
+        public bool IsActief { get; set; } = true;
+
+        public DateTime? VerwijderdOp { get; set; }
+        public string? VerwijderdReden { get; set; }
     }
 }

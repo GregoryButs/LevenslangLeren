@@ -13,7 +13,7 @@
     <div class="mb-3">
         <label asp-for="PatientId" class="form-label"></label>
         <select asp-for="PatientId" asp-items="Model.PatientenLijst" class="form-select">
-            <option value="">-- Kies een patiënt --</option>
+            <option value="">-- Geen patiënt (blokkering/pauze) --</option>
         </select>
         <span asp-validation-for="PatientId" class="text-danger"></span>
     </div>
@@ -32,6 +32,19 @@
     <div class="mb-3">
         <label asp-for="Opmerkingen" class="form-label"></label>
         <textarea asp-for="Opmerkingen" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Herhaling" class="form-label"></label>
+        <select asp-for="Herhaling" class="form-select">
+            <option value="Geen">Niet herhalen</option>
+            <option value="Dagelijks">Dagelijks</option>
+            <option value="Wekelijks">Wekelijks</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="HerhaalTot" class="form-label"></label>
+        <input asp-for="HerhaalTot" class="form-control" type="date" />
+        <span asp-validation-for="HerhaalTot" class="text-danger"></span>
     </div>
     <p class="text-muted">De eindtijd wordt automatisch berekend op basis van het afspraaktype.</p>
     <button type="submit" class="btn btn-success">Opslaan</button>

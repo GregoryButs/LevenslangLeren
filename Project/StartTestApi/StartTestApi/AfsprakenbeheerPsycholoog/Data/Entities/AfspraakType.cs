@@ -18,5 +18,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
 
         [ValidateNever]
         public IEnumerable<Afspraak> Afspraken { get; set; }
+
+        public bool VereistPatient { get; set; } = true;
     }
 }

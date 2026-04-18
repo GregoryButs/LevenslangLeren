@@ -18,7 +18,14 @@ namespace AfsprakenbeheerPsycholoog.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder); // ALTIJD voor Identity
+            base.OnModelCreating(builder);
+
+            // is actief - Soft delete configureren   
+            builder.Entity<Patient>()
+                .HasQueryFilter(p => p.IsActief);
+
+            builder.Entity<Afspraak>()
+                .HasQueryFilter(a => a.PatientId == null || a.Patient.IsActief);
 
             // Relatie: Afspraak → Patient
             builder.Entity<Afspraak>()
@@ -32,7 +39,7 @@ namespace AfsprakenbeheerPsycholoog.Data
                 .HasOne(a => a.Type)
                 .WithMany(t => t.Afspraken)
                 .HasForeignKey(a => a.TypeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Relatie: Patient → Afspraak
             builder.Entity<Patient>()
@@ -45,7 +52,7 @@ namespace AfsprakenbeheerPsycholoog.Data
                 .Property(a => a.Status)
                 .HasConversion<string>(); // Sla enum op als string in de database
 
-            // Relatie: ApplicationUser → Patient (optioneel)
+            // Relatie: ApplicationUser → Patient
             builder.Entity<ApplicationUser>()
                 .HasOne(u => u.Patient)
                 .WithMany()
@@ -69,7 +76,10 @@ namespace AfsprakenbeheerPsycholoog.Data
                     Geboortedatum = new DateOnly(1985, 3, 12),
                     Email = "jan@test.be",
                     Telefoonnummer = "0471000001",
-                    DossierNummer = "DOS-001"
+                    DossierNummer = "DOS-001",
+                    IsActief = true,
+                    VerwijderdOp = null,
+                    VerwijderdReden = null
                 },
                 new Patient
                 {
@@ -78,7 +88,10 @@ namespace AfsprakenbeheerPsycholoog.Data
                     Achternaam = "Peeters",
                     Geboortedatum = new DateOnly(1992, 7, 4),
                     Email = "marie@test.be",
-                    Telefoonnummer = "0471000002"
+                    Telefoonnummer = "0471000002",
+                    IsActief = true,
+                    VerwijderdOp = null,
+                    VerwijderdReden = null
                 },
                 new Patient
                 {
@@ -88,7 +101,10 @@ namespace AfsprakenbeheerPsycholoog.Data
                     Geboortedatum = new DateOnly(1978, 11, 20),
                     Email = "pieter@test.be",
                     Telefoonnummer = "0471000003",
-                    DossierNummer = "DOS-002"
+                    DossierNummer = "DOS-002",
+                    IsActief = true,
+                    VerwijderdOp = null,
+                    VerwijderdReden = null
                 }
             );
 
@@ -132,9 +148,5 @@ namespace AfsprakenbeheerPsycholoog.Data
                 }
                 );
         }
-        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak.AfspraakListViewModel> AfspraakListViewModel { get; set; } = default!;
-        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Patient.PatientDetailViewModel> PatientDetailViewModel { get; set; } = default!;
-        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Patient.PatientListViewModel> PatientListViewModel { get; set; } = default!;
-        public DbSet<AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak.AfspraakDetailViewModel> AfspraakDetailViewModel { get; set; } = default!;
     }
 }

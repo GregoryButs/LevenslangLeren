@@ -1,0 +1,75 @@
+@model IEnumerable<AfsprakenbeheerPsycholoog.Authentication.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Nieuwe Aanmeldingen Beheren";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Nieuwe Aanmeldingen (Aantal: @Model.Count())</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary">Terug naar Patiënten</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-success">
+        Er zijn geen openstaande aanmeldingen. Alle accounts zijn gekoppeld of psycholoog.
+    </div>
+}
+else
+{
+    <div class="table-responsive bg-white rounded shadow-sm">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Geregistreerde Naam</th>
+                    <th>E-mailadres</th>
+                    <th>Telefoon of Details</th>
+                    <th colspan="2" class="text-center">Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@user.Voornaam @user.Achternaam</strong><br/>
+                            <span class="text-muted small">@user.Id</span>
+                        </td>
+                        <td>@user.Email</td>
+                        <td>
+                            <span class="badge bg-info">Nieuw Account</span>
+                            @if (!string.IsNullOrEmpty(user.PhoneNumber))
+                            {
+                                <span class="d-block small mt-1">@user.PhoneNumber</span>
+                            }
+                        </td>
+                        
+                        <td class="border-end">
+                            <form asp-action="MaakNieuwePatient" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <button type="submit" class="btn btn-sm btn-primary w-100" 
+                                        onclick="return confirm('Weet u zeker dat u voor @user.Voornaam @user.Achternaam een nieuw patiëntdossier wilt aanmaken?');">
+                                    Nieuw Dossier Maken
+                                </button>
+                            </form>
+                        </td>
+
+                        <td>
+                            <form asp-action="KoppelBestaandePatient" method="post" class="d-flex gx-2 align-items-center">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="userEmail" value="@user.Email" />
+                                <select name="existingPatientId" class="form-select form-select-sm me-2" asp-items="ViewBag.PatientenLijst" required>
+                                    <option value="">-- Kies bestaande patiënt --</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-success text-nowrap">
+                                    Koppel
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

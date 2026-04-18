@@ -3,11 +3,14 @@ using AfsprakenbeheerPsycholoog.Data.Entities;
 
 namespace AfsprakenbeheerPsycholoog.Data.Repositories
 {
-    public interface IPatientRepository: IRepository<Patient>
+    public interface IPatientRepository : IRepository<Patient>
     {
         Patient? GetByIdMetAfspraken(int id);
-        IEnumerable<int> GetGekoppeldePatientIds();  // Geeft IDs van patiënten die een account hebben
+        IEnumerable<int> GetGekoppeldePatientIds(); // Geeft IDs van patiënten die een account hebben
         ApplicationUser? GetUserByEmail(string email);
         ApplicationUser? GetUserByPatientId(int patientId);
+
+        IEnumerable<Patient> GetInactievePatienten();
+        Patient? GetByIdInclusiefInactief(int id);
     }
 }

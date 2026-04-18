@@ -2,6 +2,8 @@
 using AfsprakenbeheerPsycholoog.Services;
 using Microsoft.AspNetCore.Authorization;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
+using AfsprakenbeheerPsycholoog.Authentication;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AfsprakenbeheerPsycholoog.Controllers
 {
@@ -77,9 +79,51 @@ namespace AfsprakenbeheerPsycholoog.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            _service.DeletePatient(id);
-            TempData["SuccesMessage"] = "Patiënt is verwijderd.";
+            try
+            {
+                _service.DeletePatient(id);
+                TempData["SuccesMessage"] = "Patiënt is op inactief gezet.";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Het was niet mogelijk om de patiënt op inactief te zetten.";
+            }
             return RedirectToAction(nameof(Index));
+        }
+        
+        // --- NIEUWE AANMELDINGEN BEHEREN ---
+
+        public async Task<IActionResult> NieuweAanmeldingen()
+        {
+            var nieuweGebruikers = await _service.GetNieuweAanmeldingenAsync();
+            ViewBag.PatientenLijst = new SelectList(_service.GetAllePatienten(), "Id", "VolledigeNaam");
+            
+            return View(nieuweGebruikers);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MaakNieuwePatient(string userId)
+        {
+            var (succes, naam) = await _service.MaakEnKoppelNieuwePatientAsync(userId);
+            
+            if (!succes) return NotFound();
+
+            TempData["SuccesMessage"] = $"Nieuwe patiënt '{naam}' aangemaakt en gekoppeld.";
+            return RedirectToAction(nameof(NieuweAanmeldingen));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult KoppelBestaandePatient(string userEmail, int existingPatientId)
+        {
+            var succes = _service.KoppelPatientAanUser(existingPatientId, userEmail);
+            
+            TempData[succes ? "SuccesMessage" : "ErrorMessage"] =
+                succes ? $"Account {userEmail} succesvol gekoppeld aan patiënt."
+                       : $"Kon account niet koppelen. Bestaat deze niet of is hij al gekoppeld?";
+                       
+            return RedirectToAction(nameof(NieuweAanmeldingen));
         }
 
         // --- KOPPELING USER ↔ PATIENT ---
@@ -101,6 +145,27 @@ namespace AfsprakenbeheerPsycholoog.Controllers
             _service.OntkoppelPatientVanUser(patientId);
             TempData["SuccesMessage"] = "Account is ontkoppeld van de patiënt.";
             return RedirectToAction(nameof(Details), new { id = patientId });
+        }
+
+        // GET: Patient/Archief
+        public IActionResult Archief()
+        {
+            var patienten = _service.GetInactievePatienten();
+            return View(patienten);
+        }
+
+        // POST: Patient/Heractiveer/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Heractiveer(int id)
+        {
+            var ok = _service.HeractiveerPatient(id);
+
+            TempData[ok ? "SuccesMessage" : "ErrorMessage"] =
+                ok ? "Patiënt is opnieuw actief gezet."
+                   : "Patiënt kon niet heractiveerd worden.";
+
+            return RedirectToAction(nameof(Archief));
         }
     }
 }

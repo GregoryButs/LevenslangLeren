@@ -1,16 +1,23 @@
-﻿using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
+﻿using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
     public interface IPatientService
     {
-        public IEnumerable<PatientListViewModel> GetAllePatienten();
-        public PatientDetailViewModel? GetPatientDetail(int id);
-        public void CreatePatient(CreatePatientViewModel model);
-        public EditPatientViewModel? GetPatientForEdit(int id);
-        public void EditPatient(EditPatientViewModel model);
-        public void DeletePatient(int id);
+        IEnumerable<PatientListViewModel> GetAllePatienten();
+        PatientDetailViewModel? GetPatientDetail(int id);
+        int CreatePatient(CreatePatientViewModel model);
+        EditPatientViewModel? GetPatientForEdit(int id);
+        void EditPatient(EditPatientViewModel model);
+        void DeletePatient(int id);
         bool KoppelPatientAanUser(int patientId, string userId);
         bool OntkoppelPatientVanUser(int patientId);
+
+        IEnumerable<PatientListViewModel> GetInactievePatienten();
+        bool HeractiveerPatient(int id);
+
+        Task<IEnumerable<ApplicationUser>> GetNieuweAanmeldingenAsync();
+        Task<(bool succes, string naam)> MaakEnKoppelNieuwePatientAsync(string userId);
     }
 }

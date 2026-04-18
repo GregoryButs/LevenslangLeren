@@ -1,5 +1,6 @@
 ﻿using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
+using AfsprakenbeheerPsycholoog.Authentication;
 using AutoMapper;
 
 
@@ -23,13 +24,21 @@ namespace AfsprakenbeheerPsycholoog.Profiles
                     opt => opt.MapFrom(src => $"{src.Voornaam} {src.Achternaam}"))
                 .ForMember(dest => dest.IsGekoppeld, opt => opt.Ignore());
 
-            // EditPatientViewModel → Patient
-            CreateMap<EditPatientViewModel, Patient>();
+            // EditPatientViewModel ↔ Patient
+            CreateMap<EditPatientViewModel, Patient>().ReverseMap();
 
             // CreatePatientViewModel → Patient
             CreateMap<CreatePatientViewModel, Patient>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Afspraken, opt => opt.Ignore());
+
+            // ApplicationUser → CreatePatientViewModel
+            CreateMap<ApplicationUser, CreatePatientViewModel>()
+                .ForMember(dest => dest.Voornaam, opt => opt.MapFrom(src => src.Voornaam ?? "Nieuw"))
+                .ForMember(dest => dest.Achternaam, opt => opt.MapFrom(src => src.Achternaam ?? "Account"))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Telefoonnummer, opt => opt.MapFrom(src => src.PhoneNumber ?? "000000000"))
+                .ForMember(dest => dest.Geboortedatum, opt => opt.MapFrom(src => new DateOnly(2000, 1, 1)));
         }
     }
 }

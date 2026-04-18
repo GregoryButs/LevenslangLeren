@@ -10,7 +10,7 @@
 
 <table class="table table-striped">
     <thead>
-        <tr><th>Kleur</th><th>Naam</th><th>Standaard duur</th><th></th></tr>
+        <tr><th>Kleur</th><th>Naam</th><th>Standaard duur</th><th>Patiënt verplicht</th><th></th></tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -21,6 +21,16 @@
                 </td>
                 <td>@item.Naam</td>
                 <td>@item.StandaardDuurMinuten min.</td>
+                <td>
+                    @if (item.VereistPatient)
+                    {
+                        <span class="badge bg-primary">Ja</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Nee (blokkering mogelijk)</span>
+                    }
+                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id"
                        class="btn btn-sm btn-outline-secondary">Bewerken</a>
