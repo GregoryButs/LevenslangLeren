@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AfsprakenbeheerPsycholoog.Helpers
 {
+    /// <summary>
+    /// Helper class voor het genereren van SelectLists voor dropdowns in de views, zoals lijsten van patiënten, afspraaktypes en statussen.
+    /// </summary>
+
     public class SelectListHelper
     {
         // Deze helper-methoden maken het makkelijker om SelectLists te maken

@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AfsprakenbeheerPsycholoog.Controllers
 {
+    /// <summary>
+    /// Controller voor het beheren van patiënten, inclusief het aanmaken, bewerken, verwijderen en koppelen van patiënten aan gebruikersaccounts.
+    /// </summary>
+    /// 
     [Authorize(Policy = "PsycholoogOnly")]
     public class PatientController : Controller
     {

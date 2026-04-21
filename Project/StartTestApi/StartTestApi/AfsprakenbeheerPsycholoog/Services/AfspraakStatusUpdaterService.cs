@@ -7,6 +7,14 @@ using Microsoft.Extensions.Logging;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Service voor het automatisch bijwerken van de status van afspraken op basis van hun eindtijd.
+    /// Draait op de achtergrond en controleert periodiek of afspraken moeten worden bijgewerkt naar 'Voltooid'.
+    /// </summary>
+    /// <remarks>
+    /// Deze service maakt gebruik van een BackgroundService (Singleton) en een ApplicationDbContext (Scoped).
+    /// Daarom wordt er een nieuwe scope gecreëerd voor elke updatecyclus om de context correct te gebruiken.
+    /// </remarks>
     public class AfspraakStatusUpdaterService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;

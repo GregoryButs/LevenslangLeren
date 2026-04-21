@@ -3,6 +3,9 @@ using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Interface voor het beheren van patiënten, inclusief koppeling aan gebruikersaccounts en verwerking van nieuwe aanmeldingen.
+    /// </summary>
     public interface IPatientService
     {
         IEnumerable<PatientListViewModel> GetAllePatienten();

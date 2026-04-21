@@ -39,7 +39,8 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                     Opmerkingen = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PatientTelefoon = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientVolledigeNaam = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Patient
+                    = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Starttijd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

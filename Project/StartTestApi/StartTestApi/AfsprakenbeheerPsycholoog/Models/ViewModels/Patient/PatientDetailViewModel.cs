@@ -2,6 +2,9 @@
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
 {
+    /// <summary>
+    /// ViewModel voor het tonen van gedetailleerde informatie over een patiënt, inclusief persoonlijke gegevens en een lijst van afspraken.
+    /// </summary>
     public class PatientDetailViewModel
     {
         public int Id { get; set; }

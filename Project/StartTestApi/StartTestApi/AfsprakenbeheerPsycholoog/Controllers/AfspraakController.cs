@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AfsprakenbeheerPsycholoog.Controllers
 {
+    /// <summary>
+    /// Controller voor het beheren van afspraken, inclusief aanmaken, bewerken, verwijderen en bekijken van details.
+    /// </summary>
+    /// 
     [Authorize(Policy = "PsycholoogOnly")]
     public class AfspraakController : Controller
     {

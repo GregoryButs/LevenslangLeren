@@ -1,5 +1,8 @@
 ﻿namespace AfsprakenbeheerPsycholoog.Helpers
 {
+    /// <summary>
+    /// Helper class voor het beheren van praktijkinstellingen, zoals werkdaguren en boekingsregels.
+    /// </summary>
     public class PraktijkInstellingen
     {
         public static TimeSpan StartWerkdag = new TimeSpan(8, 0, 0);

@@ -8,6 +8,10 @@ using AutoMapper;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Service voor het beheren van het boekingsproces voor patiënten, inclusief het tonen van beschikbare tijdsloten,
+    /// het aanmaken van nieuwe afspraken en het annuleren van bestaande afspraken vanuit het patiëntportaal.
+    /// </summary>
     public class PatientBoekService : IPatientBoekService
     {
         private readonly IAfspraakRepository _afspraakRepo;

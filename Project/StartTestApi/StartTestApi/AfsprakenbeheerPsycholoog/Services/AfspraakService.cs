@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Service voor het beheren van afspraken, inclusief aanmaken, bewerken, verwijderen en ophalen van afspraken op basis van verschillende criteria. 
+    /// Bevat ook logica voor het verwerken van herhalingen en het genereren van dagoverzichten.
+    /// </summary>
     public class AfspraakService : IAfspraakService
     {
         private readonly IAfspraakRepository _afspraakRepo;

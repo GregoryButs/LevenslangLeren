@@ -27,6 +27,8 @@ namespace AfsprakenbeheerPsycholoog
             {
                 options.AddPolicy("PsycholoogOnly",
                     policy => policy.RequireClaim("IsPsycholoog", "true"));
+                options.AddPolicy("HasPatientProfile",
+                    policy => policy.RequireClaim("PatientId"));
             });
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -45,7 +47,8 @@ namespace AfsprakenbeheerPsycholoog
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
 
             // AutoMapper
             builder.Services.AddAutoMapper(
@@ -89,13 +92,12 @@ namespace AfsprakenbeheerPsycholoog
                 SeedData.Initialize(scope.ServiceProvider).GetAwaiter().GetResult();
             }
 
-
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
 {
+    /// <summary>
+    /// Entiteit die een type afspraak vertegenwoordigt, zoals "Intake", "Therapie", "Evaluatie", etc.
+    /// </summary>
     public class AfspraakType : BaseEntity
     {
         [Required]

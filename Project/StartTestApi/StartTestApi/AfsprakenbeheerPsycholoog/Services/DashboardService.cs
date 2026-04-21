@@ -8,6 +8,9 @@ using AutoMapper;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Service voor het beheren van het dashboard, inclusief het ophalen van afspraken, weekoverzichten en statistieken.
+    /// </summary>
     public class DashboardService : IDashboardService
     {
         private readonly IAfspraakRepository _afspraakRepo;

@@ -2,6 +2,10 @@
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
 {
+    /// <summary>
+    /// ViewModel voor een tijdslot in het dagoverzicht, dat de start- en eindtijd van het slot bevat, 
+    /// evenals informatie over of het slot bezet is en welke afspraak er eventueel in dat slot gepland staat.
+    /// </summary>
     public class TijdslotViewModel
     {
         public TimeSpan Starttijd { get; set; }

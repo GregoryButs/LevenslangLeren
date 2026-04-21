@@ -2,6 +2,9 @@
 {
     public class AfspraakDetailViewModel
     {
+        /// <summary>
+        /// ViewModel voor het tonen van de details van een afspraak, inclusief patiëntinformatie, type, tijdstippen en status.
+        /// </summary>
         public int Id { get; set; }
         public string PatientVolledigeNaam { get; set; }
         public string PatientEmail { get; set; }

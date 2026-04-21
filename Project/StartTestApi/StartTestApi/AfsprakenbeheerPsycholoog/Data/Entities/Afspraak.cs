@@ -2,6 +2,9 @@
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
 {
+    /// <summary>
+    /// Entiteit die een afspraak voorstelt in het systeem, met relaties naar patiënt en type, en eigenschappen zoals start- en eindtijd, status en opmerkingen.
+    /// </summary>
     public class Afspraak : BaseEntity
     {
         public int? PatientId { get; set; }
@@ -10,6 +13,8 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         public int? TypeId { get; set; }
         public AfspraakType? Type { get; set; }
 
+        // Giud om afspraken in een reeks te groeperen, bijvoorbeeld voor terugkerende afspraken.
+        // Alle afspraken in dezelfde reeks hebben dezelfde ReeksId, wat het makkelijker maakt om ze samen te beheren (zoals annuleren of verplaatsen van de hele reeks).
         public Guid? ReeksId { get; set; } // zelfde waarde voor alle afspraken in één reeks
 
         [Required]

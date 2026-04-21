@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AfsprakenbeheerPsycholoog.Data.Repositories
 {
+    /// <summary>
+    /// Repository voor het beheren van afspraken, inclusief methoden voor het ophalen van afspraken met gerelateerde gegevens (zoals patiënt en type),
+    /// het controleren op conflicten, en het tellen van afspraken binnen bepaalde periodes.
+    /// </summary>
     public class AfspraakRepository : Repository<Afspraak>, IAfspraakRepository
     {
         public AfspraakRepository(ApplicationDbContext context) : base(context) { }
@@ -39,6 +43,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 .OrderBy(a => a.Starttijd)
                 .ToList();
 
+        // Haal alle afspraken op voor een specifieke datum, exclusief geannuleerde afspraken
         public IEnumerable<Afspraak> GetByDatum(DateTime datum)
         {
             var startVanDag = datum.Date;
@@ -54,6 +59,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 .ToList();
         }
 
+        // Haal alle afspraken op binnen een specifieke periode, met de mogelijkheid om te filteren op patiënt, exclusief geannuleerde afspraken
         public IEnumerable<Afspraak> GetInPeriodeMetDetails(DateTime start, DateTime einde, int? patientId = null)
         {
             var query = _context.Afspraken
@@ -74,6 +80,8 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 .ToList();
         }
 
+        // Controleer of er een conflict is met bestaande afspraken binnen een gegeven tijdsperiode,
+        // met opties om blokkeringen te negeren en een specifieke afspraak te negeren (bijvoorbeeld bij het bewerken van een afspraak)
         public bool HeeftConflict(DateTime starttijd, DateTime eindtijd, bool negeerBlokkeringen = false, int? teNegerenAfspraakId = null)
             => _context.Afspraken.Any(a =>
                 (teNegerenAfspraakId == null || a.Id != teNegerenAfspraakId)
@@ -82,6 +90,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 && a.Status != AfspraakStatus.Geannuleerd
                 && (!negeerBlokkeringen || a.PatientId.HasValue));
 
+        // Tel het aantal geplande afspraken binnen een specifieke week, met de optie om blokkeringen te negeren
         public int CountByWeek(DateTime startWeek, DateTime eindeWeek, bool zonderBlokkeringen = false)
             => _context.Afspraken.Count(a =>
                 a.Starttijd >= startWeek
@@ -89,9 +98,11 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 && a.Status == AfspraakStatus.Gepland
                 && (!zonderBlokkeringen || a.PatientId.HasValue));
 
+        // Tel het totale aantal patiënten in de database
         public int CountPatienten()
             => _context.Patienten.Count();
-
+        
+        // Haal de volgende geplande afspraak op, met de optie om blokkeringen te negeren
         public Afspraak? GetVolgende(bool zonderBlokkeringen = false)
             => _context.Afspraken
                 .AsNoTracking()
@@ -102,7 +113,8 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                          && (!zonderBlokkeringen || a.PatientId.HasValue))
                 .OrderBy(a => a.Starttijd)
                 .FirstOrDefault();
-
+        
+        // Haal een specifieke afspraak op voor een specifieke patiënt
         public Afspraak? GetByIdEnPatient(int afspraakId, int patientId)
             => _context.Afspraken.FirstOrDefault(a => a.Id == afspraakId && a.PatientId == patientId);
     }

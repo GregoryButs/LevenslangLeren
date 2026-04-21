@@ -26,6 +26,12 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
         public ApplicationUser? GetUserByPatientId(int patientId)
             => _context.Users.FirstOrDefault(u => u.PatientId == patientId);
 
+        public int? GetPatientIdByUserId(string userId)
+            => _context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => u.PatientId)
+                .FirstOrDefault();
+
         public IEnumerable<Patient> GetInactievePatienten()
             => _context.Patienten
                 .IgnoreQueryFilters()

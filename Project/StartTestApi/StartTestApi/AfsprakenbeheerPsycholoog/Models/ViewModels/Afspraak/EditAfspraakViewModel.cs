@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 {
+    /// <summary>
+    /// ViewModel voor het bewerken van een bestaande afspraak, bevat alle velden van CreateAfspraakViewModel plus extra velden voor ID en status.
+    /// </summary>
     public class EditAfspraakViewModel : CreateAfspraakViewModel
     {
         public int Id { get; set; }

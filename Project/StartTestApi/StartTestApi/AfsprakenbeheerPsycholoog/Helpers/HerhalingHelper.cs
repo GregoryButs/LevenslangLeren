@@ -2,6 +2,9 @@ using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 
 namespace AfsprakenbeheerPsycholoog.Helpers
 {
+    /// <summary>
+    /// Helper class voor het berekenen van herhalende afspraken.
+    /// </summary>
     public static class HerhalingHelper
     {
         public static List<DateTime> BouwStartmomenten(DateTime starttijd, HerhaalPatroon herhaling, DateTime? herhaalTot)

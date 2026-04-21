@@ -2,6 +2,10 @@
 
 namespace AfsprakenbeheerPsycholoog.Data.Repositories
 {
+    /// <summary>
+    /// Repository interface voor het beheren van afspraken, inclusief methoden voor het ophalen van afspraken met details,
+    /// het controleren op conflicten, en het tellen van afspraken binnen bepaalde periodes.
+    /// </summary>
     public interface IAfspraakRepository : IRepository<Afspraak>
     {
         IEnumerable<Afspraak> GetAllMetDetails();

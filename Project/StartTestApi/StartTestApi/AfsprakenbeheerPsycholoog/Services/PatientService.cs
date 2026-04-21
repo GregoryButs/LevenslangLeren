@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Service voor het beheren van patiënten, inclusief koppeling aan gebruikersaccounts en verwerking van nieuwe aanmeldingen.    
+    /// </summary>
     public class PatientService : IPatientService
     {
         private readonly IPatientRepository _repo;

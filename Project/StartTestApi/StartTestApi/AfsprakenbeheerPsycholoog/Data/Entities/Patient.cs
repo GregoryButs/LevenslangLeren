@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
 {
+    /// <summary>
+    /// Entiteit die een patiënt vertegenwoordigt in het systeem, met eigenschappen voor persoonlijke gegevens, contactinformatie en navigatie naar afspraken.
+    /// </summary>
     public class Patient : BaseEntity
     {
         [Required]

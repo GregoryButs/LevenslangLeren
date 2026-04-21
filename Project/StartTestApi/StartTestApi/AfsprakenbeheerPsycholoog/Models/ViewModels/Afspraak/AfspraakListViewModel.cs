@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 {
+    /// <summary>
+    /// ViewModel voor het weergeven van een afspraak in een lijstweergave, zoals op het dashboard of in het afsprakenoverzicht.
+    /// </summary>
     public class AfspraakListViewModel
     {
         public int Id { get; set; }

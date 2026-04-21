@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 {
+    /// <summary>
+    /// Enum voor het herhaalpatroon van een afspraak, gebruikt in CreateAfspraakViewModel om aan te geven of en hoe een afspraak moet worden herhaald.
+    /// </summary>
     public enum HerhaalPatroon
     {
         Geen = 0,
@@ -44,6 +47,8 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         {
             if (Herhaling != HerhaalPatroon.Geen && !HerhaalTot.HasValue)
             {
+                // yield return maakt het mogelijk om meerdere validatiefouten terug te geven zonder meteen te stoppen, wat handig is voor complexere validaties
+                // De validatie controleert of er een einddatum is opgegeven als er een herhaling is ingesteld, wat logisch is omdat een herhaling zonder einddatum oneindig zou zijn
                 yield return new ValidationResult(
                     "Kies een einddatum voor de herhaling.",
                     new[] { nameof(HerhaalTot) });
@@ -51,6 +56,8 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 
             if (HerhaalTot.HasValue && HerhaalTot.Value.Date < Starttijd.Date)
             {
+                // yield return maakt het mogelijk om meerdere validatiefouten terug te geven zonder meteen te stoppen, wat handig is voor complexere validaties
+                // De validatie controleert of de herhaal-einddatum niet vóór de startdatum ligt, wat logisch is omdat een afspraak niet kan eindigen voordat hij begint
                 yield return new ValidationResult(
                     "De herhaal-einddatum mag niet vóór de startdatum liggen.",
                     new[] { nameof(HerhaalTot) });

@@ -7,6 +7,10 @@ namespace AfsprakenbeheerPsycholoog.Profiles
 {
     public class AfspraakProfile : Profile
     {
+        /// <summary>
+        /// Automapper-profiel voor het mappen van Afspraak-gerelateerde entiteiten en viewmodels, 
+        /// inclusief speciale logica voor het tonen van patiëntnamen en afspraaktypen.
+        /// </summary>
         public AfspraakProfile()
         {
             // Afspraak -> AfspraakListViewModel

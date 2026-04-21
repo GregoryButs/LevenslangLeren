@@ -2,6 +2,9 @@
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal
 {
+    /// <summary>
+    /// ViewModel voor het boeken van een afspraak door een patiënt, bevat velden voor het kiezen van een tijdslot, het toevoegen van opmerkingen en de datum van de afspraak.
+    /// </summary>
     public class PatientBoekAfspraakViewModel
     {
         [Required(ErrorMessage = "Kies een tijdslot")]

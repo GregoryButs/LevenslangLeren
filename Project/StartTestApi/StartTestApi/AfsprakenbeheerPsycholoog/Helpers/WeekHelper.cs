@@ -3,6 +3,9 @@ using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
 
 namespace AfsprakenbeheerPsycholoog.Helpers
 {
+    /// <summary>
+    /// Helper class voor het bouwen van weekoverzichten en het ophalen van de huidige week.
+    /// </summary>
     public class WeekHelper
     {
         public static (DateTime Start, DateTime Einde) GetHuidigeWeek(DateTime datum)

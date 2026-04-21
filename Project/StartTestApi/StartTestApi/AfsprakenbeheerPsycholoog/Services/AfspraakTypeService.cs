@@ -3,6 +3,9 @@ using AfsprakenbeheerPsycholoog.Data.Repositories;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
+    /// <summary>
+    /// Service voor het beheren van afspraaktypes, inclusief aanmaken, bewerken, verwijderen en ophalen van types.
+    /// </summary>
     public class AfspraakTypeService : IAfspraakTypeService
     {
         private readonly IAfspraakTypeRepository _repo;

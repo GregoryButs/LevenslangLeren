@@ -7,6 +7,10 @@ namespace AfsprakenbeheerPsycholoog.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// Controller voor het beheren van afspraaktypes, inclusief aanmaken, bewerken, verwijderen en weergeven van alle types.
+    /// </summary>
+    
     [Authorize(Policy = "PsycholoogOnly")]
     public class AfspraakTypeController : Controller
     {

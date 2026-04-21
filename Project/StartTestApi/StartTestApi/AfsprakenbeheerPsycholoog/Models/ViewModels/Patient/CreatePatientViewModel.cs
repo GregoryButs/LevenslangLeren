@@ -2,6 +2,9 @@
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
 {
+    /// <summary>
+    /// ViewModel voor het aanmaken van een nieuwe patiënt, bevat alle benodigde velden en validaties voor het invoeren van patiëntgegevens in een formulier.
+    /// </summary>
     public class CreatePatientViewModel
     {
         [Required(ErrorMessage = "Voornaam is verplicht")]

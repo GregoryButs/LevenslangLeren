@@ -2,6 +2,9 @@
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
 {
+    /// <summary>
+    /// ViewModel voor het tonen van een dagoverzicht, inclusief tijdsloten en navigatie tussen dagen en werkdagen.
+    /// </summary>
     public class DagOverzichtViewModel
     {
         public DateTime Datum { get; set; }

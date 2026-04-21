@@ -4,6 +4,9 @@ using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
 
 namespace AfsprakenbeheerPsycholoog.Helpers
 {
+    /// <summary>
+    /// Helper class voor het bouwen van tijdsloten op basis van de afspraken van een specifieke dag.
+    /// </summary>
     public class TijdslotHelper
     {
         public static List<TijdslotViewModel> BouwTijdsloten(
