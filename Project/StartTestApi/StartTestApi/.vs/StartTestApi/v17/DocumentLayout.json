@@ -1,7 +1,40 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\helpers\\weekhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\helpers\\weekhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\helpers\\tijdslothelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\helpers\\tijdslothelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\helpers\\selectlisthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\helpers\\selectlisthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\helpers\\praktijkinstellingen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\helpers\\praktijkinstellingen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\helpers\\herhalinghelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\helpers\\herhalinghelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\profiles\\afspraakprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\profiles\\afspraakprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\project\\starttestapi\\starttestapi\\afsprakenbeheerpsycholoog\\data\\repositories\\afspraakrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF059660-DD6C-4CDB-9B2E-7AA4E7CBE12D}|AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj|solutionrelative:afsprakenbeheerpsycholoog\\data\\repositories\\afspraakrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +42,108 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WeekHelper.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\WeekHelper.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Helpers\\WeekHelper.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\WeekHelper.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Helpers\\WeekHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:51:15.963Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TijdslotHelper.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\TijdslotHelper.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Helpers\\TijdslotHelper.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\TijdslotHelper.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Helpers\\TijdslotHelper.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:51:09.823Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SelectListHelper.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\SelectListHelper.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Helpers\\SelectListHelper.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\SelectListHelper.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Helpers\\SelectListHelper.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:50:55.907Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PraktijkInstellingen.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\PraktijkInstellingen.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Helpers\\PraktijkInstellingen.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\PraktijkInstellingen.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Helpers\\PraktijkInstellingen.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:50:43.964Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HerhalingHelper.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\HerhalingHelper.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Helpers\\HerhalingHelper.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Helpers\\HerhalingHelper.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Helpers\\HerhalingHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:50:40.716Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AfspraakProfile.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Profiles\\AfspraakProfile.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Profiles\\AfspraakProfile.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Profiles\\AfspraakProfile.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Profiles\\AfspraakProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:27:00.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Program.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Program.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Program.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Program.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAB0AAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:26:16.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AfspraakRepository.cs",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Repositories\\AfspraakRepository.cs",
+              "RelativeDocumentMoniker": "AfsprakenbeheerPsycholoog\\Data\\Repositories\\AfspraakRepository.cs",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\Data\\Repositories\\AfspraakRepository.cs",
+              "RelativeToolTip": "AfsprakenbeheerPsycholoog\\Data\\Repositories\\AfspraakRepository.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:25:16.129Z"
             }
           ]
         }

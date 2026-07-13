@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\models\\viewmodels\\createeventcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\models\\viewmodels\\createeventcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\models\\viewmodels\\eventviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\models\\viewmodels\\eventviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\begeleiderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\begeleiderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,16 +39,8 @@
       "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\ieventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\ieventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\models\\viewmodels\\createeventcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\models\\viewmodels\\createeventcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\data\\repositories\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -55,20 +63,12 @@
       "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\data\\entities\\locatie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\models\\viewmodels\\eventviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\models\\viewmodels\\eventviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\ilocatieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\ilocatieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\locatieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\locatieservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\begeleiderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|solutionrelative:test3-model\\services\\begeleiderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C9470A70-1ED2-4656-BF63-A707B7BACF81}|test3-model\\test4-start.csproj|c:\\users\\butsg\\documents\\application development\\ad-gregorybuts-2526\\week_4\\taakef_gregorybuts\\test3-model\\services\\ibegeleiderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -102,7 +102,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,19 +110,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "EventService.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Services\\EventService.cs",
               "RelativeDocumentMoniker": "test3-model\\Services\\EventService.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Services\\EventService.cs",
               "RelativeToolTip": "test3-model\\Services\\EventService.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAAAEIAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T13:22:32.121Z"
+              "WhenOpened": "2026-03-16T13:22:32.121Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "IEventService.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Services\\IEventService.cs",
               "RelativeDocumentMoniker": "test3-model\\Services\\IEventService.cs",
@@ -134,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 3,
               "Title": "BegeleiderService.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Services\\BegeleiderService.cs",
               "RelativeDocumentMoniker": "test3-model\\Services\\BegeleiderService.cs",
@@ -142,7 +143,8 @@
               "RelativeToolTip": "test3-model\\Services\\BegeleiderService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T13:13:10.357Z"
+              "WhenOpened": "2026-03-16T13:13:10.357Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -158,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "LocatieService.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Services\\LocatieService.cs",
               "RelativeDocumentMoniker": "test3-model\\Services\\LocatieService.cs",
@@ -170,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "ILocatieService.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Services\\ILocatieService.cs",
               "RelativeDocumentMoniker": "test3-model\\Services\\ILocatieService.cs",
@@ -182,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "EventRepository.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Repositories\\EventRepository.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Repositories\\EventRepository.cs",
@@ -194,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "IEventRepository.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Repositories\\IEventRepository.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Repositories\\IEventRepository.cs",
@@ -206,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Repository.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Repositories\\Repository.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Repositories\\Repository.cs",
@@ -230,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "BaseEntity.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Entities\\BaseEntity.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Entities\\BaseEntity.cs",
@@ -243,7 +245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "IRepository.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Repositories\\IRepository.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Repositories\\IRepository.cs",
@@ -255,7 +257,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Program.cs",
               "RelativeDocumentMoniker": "test3-model\\Program.cs",
@@ -279,7 +281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 1,
               "Title": "EventViewModel.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Models\\Viewmodels\\EventViewModel.cs",
               "RelativeDocumentMoniker": "test3-model\\Models\\Viewmodels\\EventViewModel.cs",
@@ -287,19 +289,21 @@
               "RelativeToolTip": "test3-model\\Models\\Viewmodels\\EventViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T12:08:16.569Z"
+              "WhenOpened": "2026-03-16T12:08:16.569Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "CreateEventCommand.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Models\\Viewmodels\\CreateEventCommand.cs",
               "RelativeDocumentMoniker": "test3-model\\Models\\Viewmodels\\CreateEventCommand.cs",
               "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Models\\Viewmodels\\CreateEventCommand.cs",
               "RelativeToolTip": "test3-model\\Models\\Viewmodels\\CreateEventCommand.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAADEAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAADEAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T12:08:03.106Z"
+              "WhenOpened": "2026-03-16T12:08:03.106Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -315,7 +319,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "Locatie.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Entities\\Locatie.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Entities\\Locatie.cs",
@@ -327,7 +331,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "test3-model\\Controllers\\HomeController.cs",
@@ -339,7 +343,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Event.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Entities\\Event.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Entities\\Event.cs",
@@ -351,7 +355,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Begeleider.cs",
               "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\Data\\Entities\\Begeleider.cs",
               "RelativeDocumentMoniker": "test3-model\\Data\\Entities\\Begeleider.cs",
@@ -377,9 +381,9 @@
               "$type": "Document",
               "DocumentIndex": 22,
               "Title": "test4-start",
-              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
+              "DocumentMoniker": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
               "RelativeDocumentMoniker": "test3-model\\test4-start.csproj",
-              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\Week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
+              "ToolTip": "C:\\Users\\butsg\\Documents\\Application Development\\AD-GregoryButs-2526\\week_4\\TaakEF_GregoryButs\\test3-model\\test4-start.csproj",
               "RelativeToolTip": "test3-model\\test4-start.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-12-08T21:08:38.242Z"
