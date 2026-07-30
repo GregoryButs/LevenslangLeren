@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
 using System.IO.Compression;
 
 namespace AfsprakenbeheerPsycholoog
@@ -28,6 +30,11 @@ namespace AfsprakenbeheerPsycholoog
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            var keysFolder = Path.Combine(AppContext.BaseDirectory, "data", "keys");
+            if (!Directory.Exists(keysFolder)) Directory.CreateDirectory(keysFolder);
+            builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(keysFolder));
 
             // Web API Controllers instead of MVC Views
             builder.Services.AddControllers();

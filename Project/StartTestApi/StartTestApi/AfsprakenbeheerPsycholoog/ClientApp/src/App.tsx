@@ -6,7 +6,7 @@ import { CookieBanner } from './components/CookieBanner';
 import { 
   Brain, LayoutDashboard, Users, CalendarDays, 
   Settings, LogOut, Loader2, Menu, X, UserIcon,
-  RefreshCw
+  RefreshCw, Moon, Sun
 } from 'lucide-react';
 
 const LandingPageModern = lazy(() => import('./pages/LandingPage/LandingPageModern').then(m => ({ default: m.LandingPageModern })));
@@ -41,6 +41,14 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Herstel Dark Mode voorkeur uit localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark');
+    }
+
     const checkSession = async () => {
       try {
         const currentUser = await authApi.me();
@@ -170,6 +178,23 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
         { path: '/portal', label: 'Mijn Portaal', icon: CalendarDays },
       ];
 
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  });
+
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    if (next) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-brand-950 text-slate-800 dark:text-brand-100 transition-colors duration-300 relative">
       {/* Skip to Main Content Link (WCAG 2.4.1) */}
@@ -232,10 +257,18 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
         </nav>
 
         {/* Footer actions */}
-        <div>
+        <div className="space-y-2">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold text-slate-600 dark:text-brand-300 hover:bg-slate-50 dark:hover:bg-brand-800/30 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+          >
+            {isDark ? <Sun className="h-5 w-5 text-amber-400" /> : <Moon className="h-5 w-5 text-slate-500" />}
+            <span>{isDark ? 'Lichte Modus' : 'Donkere Modus'}</span>
+          </button>
+
           <button
             onClick={handleLogout}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold text-red-500 hover:bg-red-50 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
           >
             <LogOut className="h-5 w-5" />
             <span>Uitloggen</span>
