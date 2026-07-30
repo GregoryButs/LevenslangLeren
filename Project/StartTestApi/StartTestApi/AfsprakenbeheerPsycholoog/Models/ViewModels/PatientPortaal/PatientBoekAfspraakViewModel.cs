@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal
 {
@@ -13,6 +13,9 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal
 
         [Display(Name = "Opmerkingen")]
         public string? Opmerkingen { get; set; }
+
+        [Display(Name = "Locatie Type")]
+        public string? LocatieType { get; set; } // "Praktijk", "GoogleMeet", "Telefoon"
 
         public DateTime Datum { get; set; }
     }

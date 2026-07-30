@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 220" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Cormorant+Garamond:wght@400;500;600&amp;display=swap');
+      .brand-bg { fill: #DF8A8B; }
+      .brand-de { font-family: 'Alex Brush', cursive; font-size: 54px; fill: #FFFFFF; }
+      .brand-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 500; letter-spacing: 0.22em; fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <!-- Background Card -->
+  <rect class="brand-bg" width="540" height="220" rx="16" />
+
+  <!-- Sofa + Speech Bubble Icon -->
+  <g transform="translate(270, 75)" text-anchor="middle">
+    <!-- Outer Couch Left Armrest -->
+    <rect x="-75" y="-32" width="18" height="52" rx="9" fill="#FFFFFF" />
+
+    <!-- Outer Couch Right Armrest -->
+    <rect x="57" y="-32" width="18" height="52" rx="9" fill="#FFFFFF" />
+
+    <!-- Main Backrest Speech Bubble -->
+    <path d="M -50 -48 
+             H 50 
+             A 12 12 0 0 1 62 -36 
+             V 12 
+             A 12 12 0 0 1 50 24 
+             H 30 
+             L 42 46 
+             L 16 24 
+             H -50 
+             A 12 12 0 0 1 -62 12 
+             V -36 
+             A 12 12 0 0 1 -50 -48 Z" 
+          fill="#FFFFFF" />
+
+    <!-- Inner Cutout / Negative Space of Speech Bubble Sofa -->
+    <path d="M -42 -38 
+             H 42 
+             A 6 6 0 0 1 48 -32 
+             V 2 
+             A 6 6 0 0 1 42 8 
+             H -42 
+             A 6 6 0 0 1 -48 2 
+             V -32 
+             A 6 6 0 0 1 -42 -38 Z" 
+          fill="#DF8A8B" />
+
+    <!-- Left Leg -->
+    <path d="M -50 20 L -60 44 L -48 44 L -42 20 Z" fill="#FFFFFF" />
+
+    <!-- Right Leg -->
+    <path d="M 50 20 L 60 44 L 48 44 L 42 20 Z" fill="#FFFFFF" />
+  </g>
+
+  <!-- Text Group (Without tagline) -->
+  <g transform="translate(270, 178)">
+    <text text-anchor="middle" y="0">
+      <tspan class="brand-de" x="-140" dy="-4">De</tspan>
+      <tspan class="brand-title" x="25" dy="0">VERSTANDHOUDING</tspan>
+    </text>
+  </g>
+</svg>

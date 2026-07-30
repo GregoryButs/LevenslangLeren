@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,9 +20,8 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Display(Name = "Patiënt")]
         public int? PatientId { get; set; }
 
-        [Required(ErrorMessage = "Kies een type")]
         [Display(Name = "Type afspraak")]
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
 
         [Required(ErrorMessage = "Starttijd is verplicht")]
         [Display(Name = "Starttijd")]

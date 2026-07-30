@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
 {
@@ -31,5 +31,9 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
 
         [Display(Name = "Dossiernummer")]
         public string? DossierNummer { get; set; }
+
+        [Range(1.0, 10.0)]
+        [Display(Name = "Emotionele Stabiliteit")]
+        public double? EmotioneleStabiliteit { get; set; } = 5.5;
     }
 }

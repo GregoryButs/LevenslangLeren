@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AfsprakenbeheerPsycholoog.Data.Repositories

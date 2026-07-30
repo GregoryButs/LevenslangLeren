@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Data.Repositories;
 
 namespace AfsprakenbeheerPsycholoog.Services
@@ -33,8 +33,16 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         public void EditType(AfspraakType type)
         {
-            _repo.Update(type);
-            _repo.SaveChanges();
+            var existing = _repo.GetById(type.Id);
+            if (existing != null)
+            {
+                existing.Naam = type.Naam;
+                existing.StandaardDuurMinuten = type.StandaardDuurMinuten;
+                existing.Kleurcode = type.Kleurcode;
+                existing.VereistPatient = type.VereistPatient;
+                _repo.Update(existing);
+                _repo.SaveChanges();
+            }
         }
 
         public void DeleteType(int id)

@@ -1,0 +1,205 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/gregory/project/AD-GregoryButs-2526/tests/BackendTests/BackendTests.csproj": {}
+  },
+  "projects": {
+    "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj",
+        "projectName": "AfsprakenbeheerPsycholoog",
+        "projectPath": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj",
+        "packagesPath": "/home/gregory/.nuget/packages/",
+        "outputPath": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/gregory/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.1.1, )"
+            },
+            "Google.Apis.Calendar.v3": {
+              "target": "Package",
+              "version": "[1.68.0.3423, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.23, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/gregory/.dotnet/sdk/9.0.314/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/gregory/project/AD-GregoryButs-2526/tests/BackendTests/BackendTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/gregory/project/AD-GregoryButs-2526/tests/BackendTests/BackendTests.csproj",
+        "projectName": "BackendTests",
+        "projectPath": "/home/gregory/project/AD-GregoryButs-2526/tests/BackendTests/BackendTests.csproj",
+        "packagesPath": "/home/gregory/.nuget/packages/",
+        "outputPath": "/home/gregory/project/AD-GregoryButs-2526/tests/BackendTests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/gregory/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj": {
+                "projectPath": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.9.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.70, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.6.6, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.5.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/gregory/.dotnet/sdk/9.0.314/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

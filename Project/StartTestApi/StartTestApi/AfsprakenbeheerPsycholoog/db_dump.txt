@@ -1,0 +1,214 @@
+--- PATIENTEN ---
+Patient ID 1: Jan Janssens (jan@test.be, 0471000001)
+Patient ID 2: Marie Peeters (marie@test.be, 0471000002)
+Patient ID 3: Pieter De Smedt (pieter@test.be, 0471000003)
+Patient ID 4: Gilbert Debast (Gilbert@debast.be, 000000000)
+Patient ID 39: christophe debbaut (christophe.debbaut@googlecalendar.local, )
+Patient ID 40: sarah roes (sarah.roes@googlecalendar.local, )
+Patient ID 41: joris van gelove (joris.van.gelove@googlecalendar.local, )
+Patient ID 42: thila van Google (thila@googlecalendar.local, )
+Patient ID 43: anke moerman (anke.moerman@googlecalendar.local, )
+Patient ID 44: dorien de mol (dorien.de.mol@googlecalendar.local, )
+Patient ID 52: patrick de braekeleer (patrick.de.braekeleer@googlecalendar.local, )
+Patient ID 53: jolien de waen (jolien.de.waen@googlecalendar.local, )
+Patient ID 54: geert demoyer  (geert.demoyer.@googlecalendar.local, )
+Patient ID 55: Examen psychogerontologie (examen.psychogerontologie@googlecalendar.local, )
+Patient ID 59: tom van den brande (tom.van.den.brande@googlecalendar.local, )
+Patient ID 60: marcelyn meersman (marcelyn.meersman@googlecalendar.local, )
+Patient ID 61: peggy van Google (peggy@googlecalendar.local, )
+Patient ID 62: ksenija van Google (ksenija@googlecalendar.local, )
+Patient ID 63: vanessa de schutter (vanessa.de.schutter@googlecalendar.local, )
+Patient ID 64: emely van Google (emely@googlecalendar.local, )
+Patient ID 65: gil vermorgen (gil.vermorgen@googlecalendar.local, )
+Patient ID 66: johny van asbroeck (johny.van.asbroeck@googlecalendar.local, )
+Patient ID 67: emiel gaussau (emiel.gaussau@googlecalendar.local, )
+Patient ID 68: els thienpont (els.thienpont@googlecalendar.local, )
+Patient ID 69: axelle helpers (axelle.helpers@googlecalendar.local, )
+Patient ID 70: anja pendelaere (anja.pendelaere@googlecalendar.local, )
+Patient ID 71: JOHN notredame (john.notredame@googlecalendar.local, )
+Patient ID 72: isabelle van baveghem (isabelle.van.baveghem@googlecalendar.local, )
+Patient ID 73: sandy van Google (sandy@googlecalendar.local, )
+Patient ID 74: kimberly van den borre (kimberly.van.den.borre@googlecalendar.local, )
+Patient ID 75: Yoann Haus (yoann.haus@googlecalendar.local, )
+Patient ID 76: Inspuiting oog (inspuiting.oog@googlecalendar.local, )
+Patient ID 77: ronnie boeykens (ronnie.boeykens@googlecalendar.local, )
+Patient ID 78: jurgen nekkebroeck (jurgen.nekkebroeck@googlecalendar.local, )
+Patient ID 79: Silke van Google (silke@googlecalendar.local, )
+Patient ID 80: Silke denayer (silke.denayer@googlecalendar.local, )
+Patient ID 81: Katrien Cornelis (katrien.cornelis@googlecalendar.local, )
+Patient ID 83: johan van londerseele verplaatsen ipv 10u30 (johan.van.londerseele.verplaatsen.ipv.10u30@googlecalendar.local, )
+Patient ID 84: aurelie de maeyer (aurelie.de.maeyer@googlecalendar.local, )
+Patient ID 85: elise fiew (elise.fiew@googlecalendar.local, )
+Patient ID 91: maarten van den eynde (maarten.van.den.eynde@googlecalendar.local, )
+Patient ID 92: aanvraag doen elp (aanvraag.doen.elp@googlecalendar.local, )
+Patient ID 93: elp aanvragen (elp.aanvragen@googlecalendar.local, )
+Patient ID 94: Tony Charette (tony.charette@googlecalendar.local, )
+Patient ID 95: David De Kempeneer (david.de.kempeneer@googlecalendar.local, )
+Patient ID 96: Becky van Google (becky@googlecalendar.local, )
+Patient ID 124: Veerkracht versterken tijdens de zwangerschap - Veerkracht versterken tijdens de zwangerschap_dag 1 (veerkracht.versterken.tijdens.de.zwangerschap...veerkracht.versterken.tijdens.de.zwangerschap.dag.1@googlecalendar.local, )
+Patient ID 125: Veerkracht versterken tijdens de zwangerschap - Veerkracht versterken tijdens de zwangerschap_dag 2 (veerkracht.versterken.tijdens.de.zwangerschap...veerkracht.versterken.tijdens.de.zwangerschap.dag.2@googlecalendar.local, )
+Patient ID 126: examen psychogerontologie (examen.psychogerontologie@praktijkhuis9500.be, )
+Patient ID 127: verbeteren van Google (verbeteren@googlecalendar.local, )
+Patient ID 128: Karakthair van Google (karakthair@googlecalendar.local, )
+Patient ID 129: patricia barri (patricia.barri@googlecalendar.local, )
+Patient ID 130: sandy de ville (sandy.de.ville@googlecalendar.local, )
+Patient ID 131: elise fiew  (elise.fiew.@googlecalendar.local, )
+Patient ID 132: jolien van Google (jolien@googlecalendar.local, )
+Patient ID 133: lars moens (lars.moens@googlecalendar.local, )
+Patient ID 134: jockmans daniel (praktijkhuis9500@gmail.com, )
+Patient ID 135: emiel van Google (emiel@googlecalendar.local, )
+Patient ID 136: Peggy van Google (peggy@praktijkhuis9500.be, )
+Patient ID 137: ilse van brantegem (ilse.van.brantegem@googlecalendar.local, )
+Patient ID 138: ingeborg van Google (ingeborg@googlecalendar.local, )
+Patient ID 139: katrien cornelis (katrien.cornelis@praktijkhuis9500.be, )
+Patient ID 140: isabelle van Google (isabelle@googlecalendar.local, )
+Patient ID 141: tess van lil (tess.van.lil@googlecalendar.local, )
+Patient ID 142: de smedt marc (marc.de.smedt.@praktijkhuis9500.be, )
+Patient ID 143: van hefte Erik (erik.van.hefte@praktijkhuis9500.be, )
+Patient ID 144: buysse frieda (frieda.buysse@praktijkhuis9500.be, )
+Patient ID 145: wyngaerd natascha (natascha.wyngaerd@praktijkhuis9500.be, )
+Patient ID 146: Emely van Google (emely@praktijkhuis9500.be, )
+Patient ID 147: Dorien en rik (dorien.en.rik@googlecalendar.local, )
+Patient ID 148: Sarah van Google (sarah@googlecalendar.local, )
+Patient ID 149: Anna Batselé (anna.batsel.@googlecalendar.local, )
+Patient ID 150: Pieter Mertens (pieter@apollofinance.be, )
+Patient ID 151: Wim verbeken (wim.verbeken@googlecalendar.local, )
+Patient ID 152: Jarne van tittelboom (jarne.van.tittelboom@googlecalendar.local, )
+Patient ID 153: Anke moerman (anke.moerman@praktijkhuis9500.be, )
+Patient ID 154: petit Corine (corine.petit@praktijkhuis9500.be, )
+Patient ID 155: rik verlé (rik.verl.@googlecalendar.local, )
+Patient ID 156: troch Eliane (eliane.troch@praktijkhuis9500.be, )
+Patient ID 157: Doofus van Google (doofus@googlecalendar.local, )
+Patient ID 158: Thila van Google (thila@praktijkhuis9500.be, )
+Patient ID 159: VERBETEREN van Google (verbeteren@praktijkhuis9500.be, )
+Patient ID 160: verbeteren MASTERPROEVEN (verbeteren.masterproeven@googlecalendar.local, )
+Patient ID 161: emiel gaus (emiel.gaus@googlecalendar.local, )
+Patient ID 162: Maddy van Google (maddy@googlecalendar.local, )
+Patient ID 163: Dieter van Google (dieter@googlecalendar.local, )
+Patient ID 164: Geert demoye (geert.demoye@googlecalendar.local, )
+Patient ID 165: Verveteren van Google (verveteren@googlecalendar.local, )
+Patient ID 166: dieter guldemont  (dieter.guldemont.@googlecalendar.local, )
+Patient ID 167: maddy van Google (maddy@praktijkhuis9500.be, )
+Patient ID 168: Axelle helpers (axelle.helpers@praktijkhuis9500.be, )
+Patient ID 169: lindsay bokcstael (lindsay.bokcstael@googlecalendar.local, )
+Patient ID 170: beobank van Google (beobank@googlecalendar.local, )
+Patient ID 171: levy cooman (levy.cooman@googlecalendar.local, )
+Patient ID 172: karima van Google (karima@googlecalendar.local, )
+Patient ID 173: voorleesmoment bib  (voorleesmoment.bib.@googlecalendar.local, )
+Patient ID 174: jarne van Google (jarne@googlecalendar.local, )
+Patient ID 175: geert demoye (geert.demoye@praktijkhuis9500.be, )
+Patient ID 176: isabelle  (isabelle.@googlecalendar.local, )
+Patient ID 177: kimberly vandenborre  (kimberly.vandenborre.@googlecalendar.local, )
+Patient ID 178: van den brande tom (van.den.brande.tom@googlecalendar.local, )
+Patient ID 179: dorien van Google (dorien@googlecalendar.local, )
+Patient ID 180: Ludwine de weerdt (ludwine.de.weerdt@googlecalendar.local, )
+Patient ID 181: aanvraag elp sessies (aanvraag.elp.sessies@googlecalendar.local, )
+Patient ID 182: marcelyn van Google (marcelyn@googlecalendar.local, )
+Patient ID 183: inez luypaert (inez.luypaert@googlecalendar.local, )
+Patient ID 184: elysia cansse (elysia.cansse@googlecalendar.local, )
+Patient ID 185: gill vermorgen (gill.vermorgen@googlecalendar.local, )
+Patient ID 186: Online infosessie elp (online.infosessie.elp@googlecalendar.local, )
+Patient ID 187: APERITIEFCONCERT @ De Stroom  (aperitiefconcert...de.stroom.@googlecalendar.local, )
+Patient ID 188: argenta van Google (argenta@googlecalendar.local, )
+Patient ID 189: Elise fiew (elise.fiew@praktijkhuis9500.be, )
+Patient ID 190: levy cooman 12/06 meebetalen (levy.cooman.12.06.meebetalen@googlecalendar.local, )
+Patient ID 191: Ronnie boeykens (ronnie.boeykens@praktijkhuis9500.be, )
+Patient ID 192: Els Thienpont (els.thienpont@praktijkhuis9500.be, )
+Patient ID 193: Osteopaat van Google (osteopaat@googlecalendar.local, )
+Patient ID 194: anna batselé (anna.batsel.@praktijkhuis9500.be, )
+Patient ID 195: dieter guldemont (dieter.guldemont@googlecalendar.local, )
+Patient ID 196: AMARYILLIS vaeyens (amaryillis.vaeyens@googlecalendar.local, )
+Patient ID 197: lunch meegeven  (lunch.meegeven.@googlecalendar.local, )
+Patient ID 198: Inge Afwezigheid (afwezigheid.inge@praktijkhuis9500.be, )
+Patient ID 199: Buyse Frieda (frieda.buyse@praktijkhuis9500.be, )
+Patient ID 200: vonck anja (anja.vonck@praktijkhuis9500.be, )
+Patient ID 201: Mortier 0479664537 Tiffany (tiffany.mortier.0479664537@praktijkhuis9500.be, )
+Patient ID 202: wyngaerd Natascha (natascha.wyngaerd@praktijkhuis9500.be, )
+Patient ID 203: Boeck Yentel De (de.boeck.yentel.psycholoog@praktijkhuis9500.be, 0493 82 21 16)
+Patient ID 204: Bogaert Angelo (angelo.bogaert@praktijkhuis9500.be, )
+Patient ID 205: Segers Liena (liena.segers@praktijkhuis9500.be, )
+Patient ID 206: delhoux nathalie (nathalie.delhoux@praktijkhuis9500.be, )
+Patient ID 207: Pascal Roelandt (roelandt.pascal..03.12.1970..psycholoog@praktijkhuis9500.be, 0472 04 11 00)
+Patient ID 208: anja pendelaere  (anja.pendelaere.@googlecalendar.local, )
+Patient ID 209: john notredame (john.notredame@praktijkhuis9500.be, )
+Patient ID 210: inzagemoment aanvraag elp sessies (inzagemoment.aanvraag.elp.sessies@googlecalendar.local, )
+Patient ID 211: Laure D'hauwe (d.hauwe.laure..06.07.2005..psycholoog@praktijkhuis9500.be, )
+Patient ID 212: van hautte luna (luna.van.hautte@praktijkhuis9500.be, )
+Patient ID 213: boterdael dario (dario.boterdael@praktijkhuis9500.be, )
+Patient ID 214: boeck yentl de (de.boeck.yentl@praktijkhuis9500.be, )
+Patient ID 215: troch eliane (eliane.troch@praktijkhuis9500.be, )
+Patient ID 216: marthe strybol (marthe.strybol@googlecalendar.local, )
+Patient ID 217: fien 0477549719 vandenbossche (vandenbossche.fien.0477549719@praktijkhuis9500.be, )
+Patient ID 218: Cindy kapper (cindy.kapper@googlecalendar.local, )
+Patient ID 219: Silke de marie (silke.de.marie@googlecalendar.local, )
+Patient ID 220: Meulenaere Kurt bellen naar ex : 0486 27 42 06Psycholoog De (de.meulenaere.kurt..28.05.1966..bellen.naar.ex...0486.27.42.06psycholoog@praktijkhuis9500.be, )
+Patient ID 221: Anja verslag bekijken (anja.verslag.bekijken@googlecalendar.local, )
+Patient ID 222: anja malfroidt (anja.malfroidt@googlecalendar.local, )
+Patient ID 223: Onderstroom van Google (onderstroom@googlecalendar.local, )
+Patient ID 224: PATRICIA BARRI (patricia.barri@praktijkhuis9500.be, )
+Patient ID 225: Mortier Tiffany (tiffany.mortier@praktijkhuis9500.be, )
+Patient ID 226: d'hauwe laure (laure.d.hauwe@praktijkhuis9500.be, )
+Patient ID 227: liena 0494122781 segers (segers.liena.0494122781@praktijkhuis9500.be, )
+Patient ID 228: Nathalie Delhoux (delhoux.nathalie..20.06.1977..psycholoog@praktijkhuis9500.be, 0478 20 86 65)
+Patient ID 229: de meulenaere Kurt (kurt.de.meulenaere@praktijkhuis9500.be, )
+Patient ID 230: vanden bossche Fien (fien.vanden.bossche@praktijkhuis9500.be, )
+Patient ID 231: Dedoncker 0471201861 Steffi (steffi.dedoncker.0471201861@praktijkhuis9500.be, )
+Patient ID 232: Dirk Ricour (1ste.ricour.dirk...22.09.1953..psycholoog@praktijkhuis9500.be, 0469 61 27 62)
+Patient ID 233: Vonck Anja (anja.vonck@praktijkhuis9500.be, )
+Patient ID 234: faveyst anja (anja.faveyst.@praktijkhuis9500.be, )
+Patient ID 235: Faveyst Anja (anja.faveyst@praktijkhuis9500.be, )
+Patient ID 236: Renoy Heidi (1ste.heidi.renoy..30.04.1991..psycholoog@praktijkhuis9500.be, )
+Patient ID 237: dedoncker steffi (steffi.dedoncker@praktijkhuis9500.be, )
+Patient ID 238: Petit Corine (corine.petit@praktijkhuis9500.be, )
+Patient ID 239: renoy 0477/27.42.47 heidi (heidi.renoy.0477.27.42.47@praktijkhuis9500.be, )
+Patient ID 240: Cindy Baes (1ste.baes.cindy..12.02.1980.psycholoog@praktijkhuis9500.be, 0472 74 09 87)
+Patient ID 241: Jockmans Daniel (daniel.jockmans@praktijkhuis9500.be, )
+Patient ID 242: Neef Jeroen De (1ste.de.neef.jeroen...18.07.1986..psycholoog@praktijkhuis9500.be, 0474 54 80 80)
+Patient ID 243: Veerkracht versterken tijdens de zwangerschap - Veerkracht versterken tijdens de zwangerschap_dag 3 (online) (veerkracht.versterken.tijdens.de.zwangerschap...veerkracht.versterken.tijdens.de.zwangerschap.dag.3..online.@googlecalendar.local, )
+Patient ID 244: Sessie #320 (sessie..320@googlecalendar.local, )
+
+--- AFSPRAKEN (1-15 aug) ---
+Appt ID 264: Start=08/13/2026 08:00:00, PatientId=39, Patient=christophe debbaut, Opm=, GoogleEv=4d9f0oukpcjrr0118fnb61guvj
+Appt ID 270: Start=08/13/2026 11:00:00, PatientId=44, Patient=dorien de mol, Opm=, GoogleEv=67hgs8ebnqrr4nq7f7s9pfs59t
+Appt ID 279: Start=08/14/2026 12:00:00, PatientId=53, Patient=jolien de waen, Opm=, GoogleEv=447gbjgpnt5g5srh12esfug9e3
+Appt ID 289: Start=08/04/2026 09:00:00, PatientId=63, Patient=vanessa de schutter, Opm=, GoogleEv=2rsabitt18cl4pu62qmo6238vq
+Appt ID 291: Start=08/14/2026 08:00:00, PatientId=64, Patient=emely van Google, Opm=, GoogleEv=3lka6pcknjit3gbr38u3lh8s7c
+Appt ID 295: Start=08/14/2026 09:00:00, PatientId=68, Patient=els thienpont, Opm=, GoogleEv=7rpt0d9r4a2i89pbuemu1q0665
+Appt ID 296: Start=08/07/2026 08:30:00, PatientId=69, Patient=axelle helpers, Opm=, GoogleEv=6l3t88gs1h3vcqbo0f0qsjamq8
+Appt ID 299: Start=08/07/2026 12:00:00, PatientId=72, Patient=isabelle van baveghem, Opm=, GoogleEv=3nmg101ggk1e56294moii6iphn
+Appt ID 301: Start=08/03/2026 13:15:00, PatientId=74, Patient=kimberly van den borre, Opm=, GoogleEv=70gqapug8alihad334aeoff7vo
+Appt ID 302: Start=08/10/2026 13:00:00, PatientId=75, Patient=Yoann Haus, Opm=, GoogleEv=68qj0d1occs68bb2c8q6ab9k64rjab9o71i6ab9j75j3gc1g6pj68ohgcc
+Appt ID 305: Start=08/04/2026 08:00:00, PatientId=78, Patient=jurgen nekkebroeck, Opm=, GoogleEv=48m7fpmsh4e2qamgff78vjj139
+Appt ID 307: Start=08/12/2026 08:00:00, PatientId=80, Patient=Silke denayer, Opm=, GoogleEv=c4p62opncgs62bb5clhj6b9kckp66b9p60o3gb9gc4qm2p9o70pj8cr1co
+Appt ID 308: Start=08/03/2026 12:00:00, PatientId=81, Patient=Katrien Cornelis, Opm=, GoogleEv=c5j34opg6sq38bb66cq32b9k6dgm4b9p74om8bb2clh30d9p6hi62oph64
+Appt ID 312: Start=08/03/2026 10:00:00, PatientId=85, Patient=elise fiew, Opm=, GoogleEv=2c3lj5i6trm4s6v40dqno0nh22
+Appt ID 318: Start=08/07/2026 09:30:00, PatientId=91, Patient=maarten van den eynde, Opm=, GoogleEv=6aa4rsthalv60i98qroh77q05l
+Appt ID 320: Start=08/05/2026 08:00:00, PatientId=244, Patient=Sessie #320, Opm=, GoogleEv=5jgbqj9dno7ghn8okmjie90olg
+Appt ID 321: Start=08/06/2026 11:00:00, PatientId=, Patient= , Opm=, GoogleEv=7ddbmdoecetsaa2evqn4k527fk
+Appt ID 323: Start=08/10/2026 09:30:00, PatientId=94, Patient=Tony Charette, Opm=, GoogleEv=3ujanih7g1o2bpj3355dkslm6l
+Appt ID 324: Start=08/07/2026 15:30:00, PatientId=95, Patient=David De Kempeneer, Opm=, GoogleEv=3fbuoinv1goeauogduff9bgg2d
+Appt ID 447: Start=08/06/2026 09:00:00, PatientId=204, Patient=Bogaert Angelo, Opm=[PH9500]
+, GoogleEv=6tj6aor4c4rj0b9ic9i66b9k6gojibb16phj0b9kcdgj0ohoc4s68pb56k
+Appt ID 449: Start=08/06/2026 07:00:00, PatientId=206, Patient=delhoux nathalie, Opm=[PH9500]
+, GoogleEv=5lgeu2tvsv2sg3kr0v6h3st2kh
+Appt ID 457: Start=08/11/2026 16:00:00, PatientId=213, Patient=boterdael dario, Opm=[PH9500]
+, GoogleEv=4rcq0k18n7rinn4gjvj7lnta8c
+Appt ID 458: Start=08/11/2026 12:00:00, PatientId=214, Patient=boeck yentl de, Opm=[PH9500]
+, GoogleEv=5rhlc5kn65cd6hcdjeejq4hvt6
+Appt ID 459: Start=08/11/2026 11:00:00, PatientId=215, Patient=troch eliane, Opm=[PH9500]
+, GoogleEv=53ecqiuq9osof606dntm66nnhp
+Appt ID 485: Start=08/11/2026 17:00:00, PatientId=229, Patient=de meulenaere Kurt, Opm=[PH9500]
+, GoogleEv=coqjgoj665h68b9occrj0b9k6dimabb1c8rm8b9l6opjep1j6orm6db3c4
+Appt ID 488: Start=08/11/2026 15:00:00, PatientId=232, Patient=Dirk Ricour, Opm=[PH9500]
+consult
+sluit zich sociaal meer en meer af
+geen depr of suic gedachten
+elke ochtend spijt van wakker te worden
+sinds overlijden vrouw tien jaar terug
+wenst nog geen medic
+ooit al naar psy geweest maar werd er niet gelukkig van
+Kathleen, GoogleEv=39k6cqfoqukkmg81mbt2fd2n8n
+Appt ID 497: Start=08/06/2026 08:00:00, PatientId=231, Patient=Dedoncker 0471201861 Steffi, Opm=[PH9500]
+stemmings- en concentratieproblemen -  relationele problematiek is etiologie, GoogleEv=19cgvguqqv9tnu5q7sl63f9b1q_20260806T080000Z
+Appt ID 522: Start=08/07/2026 13:30:00, PatientId=, Patient= , Opm=, GoogleEv=
+Appt ID 523: Start=08/14/2026 13:30:00, PatientId=, Patient= , Opm=, GoogleEv=

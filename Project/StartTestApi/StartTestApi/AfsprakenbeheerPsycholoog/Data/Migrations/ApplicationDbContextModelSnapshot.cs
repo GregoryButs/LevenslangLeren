@@ -3,7 +3,6 @@ using System;
 using AfsprakenbeheerPsycholoog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -16,74 +15,70 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.23")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.23");
 
             modelBuilder.Entity("AfsprakenbeheerPsycholoog.Authentication.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Achternaam")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("PatientId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Voornaam")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -92,8 +87,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.HasIndex("PatientId");
 
@@ -104,33 +98,43 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Eindtijd")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GoogleEventId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("HerinneringVerzonden")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Opmerkingen")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("PatientId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid?>("ReeksId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("SentimentScore")
+                        .HasColumnType("REAL");
 
                     b.Property<DateTime>("Starttijd")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("TypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GoogleEventId")
+                        .IsUnique();
 
                     b.HasIndex("PatientId");
 
@@ -143,7 +147,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         {
                             Id = 1,
                             Eindtijd = new DateTime(2026, 4, 14, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            HerinneringVerzonden = false,
                             PatientId = 1,
+                            SentimentScore = 0.0,
                             Starttijd = new DateTime(2026, 4, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Gepland",
                             TypeId = 1
@@ -152,7 +158,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         {
                             Id = 2,
                             Eindtijd = new DateTime(2026, 4, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            HerinneringVerzonden = false,
                             PatientId = 2,
+                            SentimentScore = 0.0,
                             Starttijd = new DateTime(2026, 4, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Gepland",
                             TypeId = 2
@@ -161,7 +169,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         {
                             Id = 3,
                             Eindtijd = new DateTime(2026, 4, 1, 9, 45, 0, 0, DateTimeKind.Unspecified),
+                            HerinneringVerzonden = false,
                             PatientId = 1,
+                            SentimentScore = 0.45000000000000001,
                             Starttijd = new DateTime(2026, 4, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Voltooid",
                             TypeId = 3
@@ -170,8 +180,10 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         {
                             Id = 4,
                             Eindtijd = new DateTime(2026, 3, 20, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            HerinneringVerzonden = false,
                             Opmerkingen = "Patiënt heeft afgezegd",
                             PatientId = 3,
+                            SentimentScore = -0.29999999999999999,
                             Starttijd = new DateTime(2026, 3, 20, 16, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Geannuleerd",
                             TypeId = 2
@@ -182,23 +194,21 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Kleurcode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Naam")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("StandaardDuurMinuten")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("VereistPatient")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -243,40 +253,41 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Achternaam")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DossierNummer")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("EmotioneleStabiliteit")
+                        .HasColumnType("REAL");
 
                     b.Property<DateOnly>("Geboortedatum")
-                        .HasColumnType("date");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActief")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Telefoonnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("VerwijderdOp")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("VerwijderdReden")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Voornaam")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -289,6 +300,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Achternaam = "Janssens",
                             DossierNummer = "DOS-001",
                             Email = "jan@test.be",
+                            EmotioneleStabiliteit = 6.2000000000000002,
                             Geboortedatum = new DateOnly(1985, 3, 12),
                             IsActief = true,
                             Telefoonnummer = "0471000001",
@@ -299,6 +311,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Id = 2,
                             Achternaam = "Peeters",
                             Email = "marie@test.be",
+                            EmotioneleStabiliteit = 4.7999999999999998,
                             Geboortedatum = new DateOnly(1992, 7, 4),
                             IsActief = true,
                             Telefoonnummer = "0471000002",
@@ -310,6 +323,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                             Achternaam = "De Smedt",
                             DossierNummer = "DOS-002",
                             Email = "pieter@test.be",
+                            EmotioneleStabiliteit = 7.5,
                             Geboortedatum = new DateOnly(1978, 11, 20),
                             IsActief = true,
                             Telefoonnummer = "0471000003",
@@ -317,29 +331,274 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AfsprakenbeheerPsycholoog.Data.Entities.PraktijkInstelling", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BufferMinuten")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Dinsdag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("DinsdagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DinsdagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DinsdagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DinsdagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DinsdagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Donderdag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("DonderdagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DonderdagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DonderdagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DonderdagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DonderdagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GoogleCalendarId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("LocatieGoogleMeet")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LocatiePraktijk")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LocatieTelefoon")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Maandag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("MaandagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MaandagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MaandagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MaandagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MaandagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MaximaleToekomstDagen")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MinimaalVoorafUren")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SlotDuurMinuten")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Vrijdag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("VrijdagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("VrijdagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VrijdagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VrijdagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VrijdagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Woensdag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("WoensdagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("WoensdagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WoensdagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WoensdagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WoensdagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Zaterdag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ZaterdagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ZaterdagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZaterdagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZaterdagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZaterdagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Zondag2Actief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ZondagActief")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ZondagEinde")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZondagEinde2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZondagStart")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZondagStart2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PraktijkInstellingen");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BufferMinuten = 15,
+                            Dinsdag2Actief = true,
+                            DinsdagActief = true,
+                            DinsdagEinde = "12:00",
+                            DinsdagEinde2 = "17:00",
+                            DinsdagStart = "09:00",
+                            DinsdagStart2 = "13:00",
+                            Donderdag2Actief = true,
+                            DonderdagActief = true,
+                            DonderdagEinde = "12:00",
+                            DonderdagEinde2 = "17:00",
+                            DonderdagStart = "09:00",
+                            DonderdagStart2 = "13:00",
+                            GoogleCalendarId = "primary",
+                            LocatieGoogleMeet = true,
+                            LocatiePraktijk = true,
+                            LocatieTelefoon = true,
+                            Maandag2Actief = true,
+                            MaandagActief = true,
+                            MaandagEinde = "12:00",
+                            MaandagEinde2 = "17:00",
+                            MaandagStart = "09:00",
+                            MaandagStart2 = "13:00",
+                            MaximaleToekomstDagen = 30,
+                            MinimaalVoorafUren = 12,
+                            SlotDuurMinuten = 60,
+                            Vrijdag2Actief = true,
+                            VrijdagActief = true,
+                            VrijdagEinde = "12:00",
+                            VrijdagEinde2 = "17:00",
+                            VrijdagStart = "09:00",
+                            VrijdagStart2 = "13:00",
+                            Woensdag2Actief = true,
+                            WoensdagActief = true,
+                            WoensdagEinde = "12:00",
+                            WoensdagEinde2 = "17:00",
+                            WoensdagStart = "09:00",
+                            WoensdagStart2 = "13:00",
+                            Zaterdag2Actief = false,
+                            ZaterdagActief = false,
+                            ZaterdagEinde = "12:00",
+                            ZaterdagEinde2 = "17:00",
+                            ZaterdagStart = "10:00",
+                            ZaterdagStart2 = "13:00",
+                            Zondag2Actief = false,
+                            ZondagActief = false,
+                            ZondagEinde = "12:00",
+                            ZondagEinde2 = "17:00",
+                            ZondagStart = "10:00",
+                            ZondagStart2 = "13:00"
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -348,19 +607,17 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -373,19 +630,17 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -398,18 +653,18 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderKey")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -421,10 +676,10 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -436,18 +691,18 @@ namespace AfsprakenbeheerPsycholoog.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 

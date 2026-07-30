@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
@@ -10,6 +10,11 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
     {
         public int Id { get; set; }
         public Guid? ReeksId { get; set; }
+
+        public int? PatientId { get; set; }
+        public int? TypeId { get; set; }
+        public string? Opmerkingen { get; set; }
+        public bool IsHeleDag { get; set; }
 
         [Display(Name = "Naam")]
         public string PatientNaam { get; set; }

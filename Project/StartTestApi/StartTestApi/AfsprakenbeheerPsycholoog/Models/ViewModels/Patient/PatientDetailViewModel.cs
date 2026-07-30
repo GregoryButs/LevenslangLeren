@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
+using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
 {
@@ -16,6 +16,7 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
         public string Telefoonnummer { get; set; }
         public string? DossierNummer { get; set; }
         public bool IsGekoppeld { get; set; }
+        public double? EmotioneleStabiliteit { get; set; }
         public IEnumerable<AfspraakListViewModel> Afspraken { get; set; }
     }
 }

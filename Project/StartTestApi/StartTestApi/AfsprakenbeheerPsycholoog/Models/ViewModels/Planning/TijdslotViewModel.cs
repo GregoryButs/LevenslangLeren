@@ -1,4 +1,5 @@
-﻿using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
+using System;
+using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
 {
@@ -8,6 +9,7 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
     /// </summary>
     public class TijdslotViewModel
     {
+        public DateTime Tijd { get; set; }
         public TimeSpan Starttijd { get; set; }
         public TimeSpan Eindtijd { get; set; }
         public bool IsBezet { get; set; }

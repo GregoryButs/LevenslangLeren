@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Helpers;
+using AfsprakenbeheerPsycholoog.Helpers;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
 
@@ -34,6 +34,7 @@ namespace AfsprakenbeheerPsycholoog.Helpers
                 // Voeg het tijdslot toe aan de lijst, markeer het als bezet als er een afspraak is
                 tijdsloten.Add(new TijdslotViewModel
                 {
+                    Tijd = slotStart,
                     Starttijd = start,
                     Eindtijd = start.Add(TimeSpan.FromMinutes(duur)),
                     IsBezet = bezet != null,

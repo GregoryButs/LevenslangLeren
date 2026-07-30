@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal;
 using AutoMapper;
@@ -17,27 +17,27 @@ namespace AfsprakenbeheerPsycholoog.Profiles
             CreateMap<Afspraak, AfspraakListViewModel>()
                 .ForMember(dest => dest.PatientNaam,
                     opt => opt.MapFrom(src => src.Patient != null
-                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}"
-                        : "Blokkering"))
+                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}".Trim()
+                        : (!string.IsNullOrEmpty(src.Opmerkingen) && src.Opmerkingen != "Blokkering" ? src.Opmerkingen.Replace("[PH9500]", "").Trim() : "Blokkering")))
                 .ForMember(dest => dest.AfspraakTypeNaam,
-                    opt => opt.MapFrom(src => src.Type.Naam))
+                    opt => opt.MapFrom(src => src.Type != null ? src.Type.Naam : (src.PatientId.HasValue ? "Therapie" : "Blokkering")))
                 .ForMember(dest => dest.Kleurcode,
-                    opt => opt.MapFrom(src => src.Type.Kleurcode));
+                    opt => opt.MapFrom(src => src.Type != null ? src.Type.Kleurcode : (src.PatientId.HasValue ? "#478d96" : "#64748B")));
 
             // Afspraak -> AfspraakDetailViewModel
             CreateMap<Afspraak, AfspraakDetailViewModel>()
                 .ForMember(dest => dest.PatientVolledigeNaam,
                     opt => opt.MapFrom(src => src.Patient != null
-                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}"
-                        : "Blokkering"))
+                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}".Trim()
+                        : (!string.IsNullOrEmpty(src.Opmerkingen) && src.Opmerkingen != "Blokkering" ? src.Opmerkingen.Replace("[PH9500]", "").Trim() : "Blokkering")))
                 .ForMember(dest => dest.PatientEmail,
                     opt => opt.MapFrom(src => src.Patient != null ? src.Patient.Email : "—"))
                 .ForMember(dest => dest.PatientTelefoon,
                     opt => opt.MapFrom(src => src.Patient != null ? src.Patient.Telefoonnummer : "—"))
                 .ForMember(dest => dest.AfspraakTypeNaam,
-                    opt => opt.MapFrom(src => src.Type.Naam))
+                    opt => opt.MapFrom(src => src.Type != null ? src.Type.Naam : (src.PatientId.HasValue ? "Therapie" : "Blokkering")))
                 .ForMember(dest => dest.Kleurcode,
-                    opt => opt.MapFrom(src => src.Type.Kleurcode));
+                    opt => opt.MapFrom(src => src.Type != null ? src.Type.Kleurcode : (src.PatientId.HasValue ? "#478d96" : "#64748B")));
 
             // CreateAfspraakViewModel -> Afspraak
             CreateMap<CreateAfspraakViewModel, Afspraak>()

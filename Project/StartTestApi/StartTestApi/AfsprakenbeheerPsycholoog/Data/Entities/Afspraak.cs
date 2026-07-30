@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
 {
@@ -29,10 +30,24 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "Status")]
         public AfspraakStatus Status { get; set; } = AfspraakStatus.Gepland;
 
+        [Range(-1.0, 1.0)]
+        [Display(Name = "Sentiment Score")]
+        public double? SentimentScore { get; set; } = 0.0;
+
         [Display(Name = "Opmerkingen")]
         public string? Opmerkingen { get; set; }
+
+        [Display(Name = "Google Event ID")]
+        public string? GoogleEventId { get; set; }
+
+        [Display(Name = "Herinnering Verzonden")]
+        public bool HerinneringVerzonden { get; set; } = false;
+
+        [Display(Name = "Is Hele Dag / Melding")]
+        public bool IsHeleDag { get; set; } = false;
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum AfspraakStatus
     {
         Gepland,

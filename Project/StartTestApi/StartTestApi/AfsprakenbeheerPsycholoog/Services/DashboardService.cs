@@ -29,7 +29,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             var (startWeek, eindeWeek) = WeekHelper.GetHuidigeWeek(vandaag);
 
             var afsprakenVandaag = _afspraakRepo.GetByDatum(vandaag)
-                .Where(a => a.Status == AfspraakStatus.Gepland && a.PatientId.HasValue)
+                .Where(a => a.Status == AfspraakStatus.Gepland)
                 .OrderBy(a => a.Starttijd)
                 .ToList();
 

@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Helpers;
+using AfsprakenbeheerPsycholoog.Helpers;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
 {
@@ -11,6 +11,9 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Planning
         public List<TijdslotViewModel> Tijdsloten { get; set; }
 
         public DateTime? MinimumNavigatieDatum { get; set; }
+
+        public DateTime? EerstVolgendeVrijeSlotTijd { get; set; }
+        public string? EerstVolgendeVrijeSlotDatumStr { get; set; }
 
         public DateTime VorigeDag => Datum.AddDays(-1);
         public DateTime VolgendeDag => Datum.AddDays(1);

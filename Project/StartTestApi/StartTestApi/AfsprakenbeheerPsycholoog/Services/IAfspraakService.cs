@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
 
@@ -18,10 +18,10 @@ namespace AfsprakenbeheerPsycholoog.Services
         AfspraakDetailViewModel? GetAfspraakDetail(int id);
         CreateAfspraakViewModel GetCreateViewModel();
         EditAfspraakViewModel? GetEditViewModel(int id);
-        bool CreateAfspraak(CreateAfspraakViewModel model);
-        bool EditAfspraak(EditAfspraakViewModel model);
-        void DeleteAfspraak(int id);
-        void DeleteReeks(Guid reeksId);
+        Task<bool> CreateAfspraakAsync(CreateAfspraakViewModel model);
+        Task<bool> EditAfspraakAsync(EditAfspraakViewModel model);
+        Task DeleteAfspraakAsync(int id);
+        Task DeleteReeksAsync(Guid reeksId);
 
         /// <summary>
         /// Genereert een overzicht van alle afspraken op een specifieke dag, gegroepeerd op tijdsblokken.

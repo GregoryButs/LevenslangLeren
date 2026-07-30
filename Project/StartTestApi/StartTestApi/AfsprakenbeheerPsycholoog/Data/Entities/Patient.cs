@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
@@ -40,6 +40,10 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
 
         [Display(Name = "Actief")]
         public bool IsActief { get; set; } = true;
+
+        [Range(1.0, 10.0)]
+        [Display(Name = "Emotionele Stabiliteit")]
+        public double? EmotioneleStabiliteit { get; set; } = 5.5;
 
         public DateTime? VerwijderdOp { get; set; }
         public string? VerwijderdReden { get; set; }

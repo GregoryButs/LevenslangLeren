@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    container_name: deverstandhouding_app
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: "5000"
+      ASPNETCORE_URLS: "http://+:5000"
+      ConnectionStrings__DefaultConnection: "Data Source=/app/data/Afsprakenbeheer.db"
+      Authentication__Google__ClientId: "${GOOGLE_CLIENT_ID:-YOUR_GOOGLE_CLIENT_ID}"
+      Authentication__Google__ClientSecret: "${GOOGLE_CLIENT_SECRET:-YOUR_GOOGLE_CLIENT_SECRET}"
+      Authentication__Facebook__AppId: "${FACEBOOK_APP_ID:-YOUR_FACEBOOK_APP_ID}"
+      Authentication__Facebook__AppSecret: "${FACEBOOK_APP_SECRET:-YOUR_FACEBOOK_APP_SECRET}"
+      GoogleCalendar__CalendarId: "${GOOGLE_CALENDAR_ID:-ingedebast@gmail.com}"
+    volumes:
+      - app_data:/app/data
+      - ./google-credentials.json:/app/google-credentials.json:ro
+
+  caddy:
+    image: caddy:latest
+    container_name: deverstandhouding_caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  app_data:
+  caddy_data:
+  caddy_config:
