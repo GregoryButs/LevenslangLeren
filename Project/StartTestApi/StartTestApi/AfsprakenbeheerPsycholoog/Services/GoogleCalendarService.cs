@@ -183,15 +183,21 @@ namespace AfsprakenbeheerPsycholoog.Services
                 var dbContext = scope.ServiceProvider.GetRequiredService<Data.ApplicationDbContext>();
                 
                 var request = _calendarService.Events.List(_calendarId);
-                // Haal wijzigingen op van de afgelopen 60 dagen tot de komende 90 dagen
-                request.TimeMinDateTimeOffset = DateTimeOffset.UtcNow.AddDays(-60);
-                request.TimeMaxDateTimeOffset = DateTimeOffset.UtcNow.AddDays(90);
+                // Haal alle afspraken op van 180 dagen geleden tot 365 dagen in de toekomst
+                request.TimeMinDateTimeOffset = DateTimeOffset.UtcNow.AddDays(-180);
+                request.TimeMaxDateTimeOffset = DateTimeOffset.UtcNow.AddDays(365);
+                request.SingleEvents = true; // Zorgt dat herhalende afspraken los worden opgehaald
+                request.MaxResults = 2500;
                 
-                var events = await request.ExecuteAsync();
+                string? pageToken = null;
+                do
+                {
+                    request.PageToken = pageToken;
+                    var events = await request.ExecuteAsync();
 
-                if (events.Items == null) return;
+                    if (events.Items == null) break;
 
-                foreach (var ev in events.Items)
+                    foreach (var ev in events.Items)
                 {
                     // Negeer Google Systeem-events, werklocaties of events zonder geldige starttijd/datum
                     if (ev == null || 
@@ -474,7 +480,10 @@ namespace AfsprakenbeheerPsycholoog.Services
                             _logger.LogInformation($"Nieuwe afspraak/melding '{nieuweAfspraak.Opmerkingen}' (IsHeleDag: {nieuweAfspraak.IsHeleDag}) toegevoegd via Google sync.");
                         }
                     }
-                }
+                    }
+                    pageToken = events.NextPageToken;
+                } while (!string.IsNullOrEmpty(pageToken));
+
                 await dbContext.SaveChangesAsync();
             }
         }
