@@ -1,9 +1,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
+using MimeKit;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
@@ -54,40 +55,44 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             try
             {
-                using (var mail = new MailMessage())
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(_senderName, _senderAddress));
+                message.To.Add(new MailboxAddress("", toEmail));
+                message.Subject = subject;
+
+                var builder = new BodyBuilder();
+                builder.HtmlBody = body;
+
+                if (!string.IsNullOrEmpty(attachmentContent) && !string.IsNullOrEmpty(attachmentFilename))
                 {
-                    mail.From = new MailAddress(_senderAddress, _senderName);
-                    mail.To.Add(new MailAddress(toEmail));
-                    mail.Subject = subject;
-                    mail.Body = body;
-                    mail.IsBodyHtml = true;
+                    var mediaType = new ContentType("text", "calendar");
+                    mediaType.Parameters.Add("method", "REQUEST");
+                    mediaType.Parameters.Add("name", attachmentFilename);
 
-                    if (!string.IsNullOrEmpty(attachmentContent) && !string.IsNullOrEmpty(attachmentFilename))
-                    {
-                        var mediaType = new System.Net.Mime.ContentType("text/calendar");
-                        mediaType.Parameters.Add("method", "REQUEST");
-                        mediaType.Parameters.Add("name", attachmentFilename);
-
-                        var attachment = Attachment.CreateAttachmentFromString(attachmentContent, mediaType);
-                        attachment.ContentDisposition.FileName = attachmentFilename;
-                        mail.Attachments.Add(attachment);
-                    }
-
-                    using (var smtp = new SmtpClient(_smtpServer, _smtpPort))
-                    {
-                        smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential(_smtpUser, _smtpPassword);
-                        smtp.EnableSsl = true;
-                        smtp.Timeout = 15000;
-                        await smtp.SendMailAsync(mail);
-                    }
+                    builder.Attachments.Add(attachmentFilename, System.Text.Encoding.UTF8.GetBytes(attachmentContent), mediaType);
                 }
+
+                message.Body = builder.ToMessageBody();
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    var secureOption = _smtpPort == 465 
+                        ? SecureSocketOptions.SslOnConnect 
+                        : SecureSocketOptions.StartTlsWhenAvailable;
+
+                    await client.ConnectAsync(_smtpServer, _smtpPort, secureOption);
+                    await client.AuthenticateAsync(_smtpUser, _smtpPassword);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+
                 _logger.LogInformation($"Email succesvol verzonden naar {toEmail} met onderwerp: {subject}");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fout bij versturen e-mail naar {ToEmail}: {ExceptionMessage}", toEmail, ex.ToString());
-                // In testomgevingen willen we niet dat de app crasht als mailen faalt, dus we loggen enkel de fout.
             }
         }
 
