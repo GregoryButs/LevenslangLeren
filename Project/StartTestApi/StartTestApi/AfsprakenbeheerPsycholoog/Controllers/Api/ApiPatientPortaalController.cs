@@ -1,3 +1,4 @@
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Helpers;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal;
 using AfsprakenbeheerPsycholoog.Services;
