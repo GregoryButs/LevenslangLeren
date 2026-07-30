@@ -1,7 +1,13 @@
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
 using AfsprakenbeheerPsycholoog.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace AfsprakenbeheerPsycholoog.Controllers.Api
 {
@@ -11,10 +17,20 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
     public class ApiPatientController : ControllerBase
     {
         private readonly IPatientService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ILogger<ApiPatientController> _logger;
 
-        public ApiPatientController(IPatientService service)
+        public ApiPatientController(
+            IPatientService service,
+            UserManager<ApplicationUser> userManager,
+            IServiceScopeFactory scopeFactory,
+            ILogger<ApiPatientController> logger)
         {
             _service = service;
+            _userManager = userManager;
+            _scopeFactory = scopeFactory;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -88,9 +104,33 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         [HttpPost("aanmeldingen/{userId}/goedkeuren")]
         public async Task<IActionResult> MaakNieuwePatient(string userId)
         {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return BadRequest(new { message = "Gebruiker niet gevonden." });
+
             var (succes, naam) = await _service.MaakEnKoppelNieuwePatientAsync(userId);
             if (!succes) return BadRequest(new { message = "Kon de nieuwe patiënt niet aanmaken of koppelen." });
-            return Ok(new { message = $"Nieuwe patiënt '{naam}' succesvol aangemaakt en gekoppeld." });
+
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var userEmail = user.Email;
+                var patientNaam = string.IsNullOrWhiteSpace(naam) ? user.UserName : naam;
+
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        using var scope = _scopeFactory.CreateScope();
+                        var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                        await emailService.SendAccountApprovalEmailAsync(userEmail, patientNaam);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Fout bij verzenden van account-goedkeuringsmail naar {Email}", userEmail);
+                    }
+                });
+            }
+
+            return Ok(new { message = $"Nieuwe patiënt '{naam}' succesvol aangemaakt en gekoppeld. Er is een e-mail ter bevestiging naar de patiënt verzonden." });
         }
 
         [HttpPost("koppel")]
@@ -99,7 +139,26 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var succes = _service.KoppelPatientAanUser(request.PatientId, request.Email);
             if (!succes) return BadRequest(new { message = "Kon patiënt niet koppelen. Bestaat deze account niet of is deze al gekoppeld?" });
-            return Ok(new { message = $"Patiënt succesvol gekoppeld aan {request.Email}." });
+
+            var patient = _service.GetPatientDetail(request.PatientId);
+            var patientNaam = patient != null ? $"{patient.Voornaam} {patient.Achternaam}" : "Patiënt";
+            var userEmail = request.Email;
+
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    using var scope = _scopeFactory.CreateScope();
+                    var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                    await emailService.SendAccountApprovalEmailAsync(userEmail, patientNaam);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Fout bij verzenden van account-koppelingsmail naar {Email}", userEmail);
+                }
+            });
+
+            return Ok(new { message = $"Patiënt succesvol gekoppeld aan {request.Email}. Er is een e-mail ter bevestiging naar de patiënt verzonden." });
         }
 
         [HttpPost("{patientId}/ontkoppel")]

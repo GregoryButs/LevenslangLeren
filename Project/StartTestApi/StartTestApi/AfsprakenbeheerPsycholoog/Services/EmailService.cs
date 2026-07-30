@@ -272,6 +272,24 @@ namespace AfsprakenbeheerPsycholoog.Services
             await SendEmailAsync(toEmail, subject, body);
         }
 
+        public async Task SendAccountApprovalEmailAsync(string toEmail, string patientNaam)
+        {
+            var subject = "Uw account is goedgekeurd - De Verstandhouding";
+            var body = $@"
+                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #f1f5f9; border-radius: 12px;'>
+                    <h2 style='color: #0f172a;'>Beste {patientNaam},</h2>
+                    <p style='color: #475569;'>Goed nieuws! Uw aanmelding voor het patiëntenportaal van praktijk <strong>De Verstandhouding</strong> is door de psycholoog goedgekeurd en gekoppeld aan uw patiëntendossier.</p>
+                    <p style='color: #475569;'>U kunt nu direct inloggen in het patiëntenportaal om uw afspraken te beheren en nieuwe consulten in te plannen.</p>
+                    <div style='margin: 30px 0; text-align: center;'>
+                        <a href='https://www.deverstandhouding.be/login' style='background-color: #478d96; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;'>Naar het Patiëntenportaal</a>
+                    </div>
+                    <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
+                    <p style='color: #94a3b8; font-size: 12px; margin-top: 20px;'>Met vriendelijke groet,<br>Praktijk De Verstandhouding - Inge Debast</p>
+                </div>";
+
+            await SendEmailAsync(toEmail, subject, body);
+        }
+
         public async Task SendCancellationEmailAsync(string toEmail, string patientNaam, DateTime startUtc, string afspraakType)
         {
             var localTime = TranslatieNaarLokaleTijd(startUtc);
