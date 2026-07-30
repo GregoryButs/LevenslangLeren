@@ -65,41 +65,70 @@ namespace AfsprakenbeheerPsycholoog.Services
             var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
             var nuUtc = DateTime.UtcNow;
-            var grensTijd = nuUtc.AddHours(24);
 
-            // Haal afspraken op die:
-            // 1. De status 'Gepland' hebben
-            // 2. Starten binnen de komende 24 uur
-            // 3. Nog niet gestart zijn
-            // 4. Waarvoor nog geen herinnering is verzonden
-            var appointmentsToRemind = await context.Afspraken
+            // 1. HERINNERINGEN VOOR OVER 1 WEEK (tussen 6 en 7 dagen vooraf)
+            var weekGrensMax = nuUtc.AddDays(7);
+            var weekGrensMin = nuUtc.AddDays(6);
+
+            var weeklyReminders = await context.Afspraken
                 .Include(a => a.Patient)
                 .Include(a => a.Type)
                 .Where(a => a.Status == AfspraakStatus.Gepland
-                         && a.Starttijd <= grensTijd
+                         && a.Starttijd <= weekGrensMax
+                         && a.Starttijd > weekGrensMin
+                         && !a.HerinneringWeekVerzonden)
+                .ToListAsync(stoppingToken);
+
+            foreach (var afspraak in weeklyReminders)
+            {
+                if (afspraak.Patient == null || string.IsNullOrEmpty(afspraak.Patient.Email))
+                {
+                    afspraak.HerinneringWeekVerzonden = true;
+                    continue;
+                }
+
+                try
+                {
+                    _logger.LogInformation("Versturen van 1-week herinnering voor afspraak {AfspraakId} naar {Email}...", afspraak.Id, afspraak.Patient.Email);
+                    await emailService.SendWeeklyReminderEmailAsync(
+                        afspraak.Patient.Email,
+                        afspraak.Patient.VolledigeNaam,
+                        afspraak.Starttijd,
+                        afspraak.Type?.Naam ?? "Consult",
+                        afspraak.Id
+                    );
+
+                    afspraak.HerinneringWeekVerzonden = true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Fout bij verzenden van 1-week herinneringsmail voor afspraak {AfspraakId}.", afspraak.Id);
+                }
+            }
+
+            // 2. HERINNERINGEN VOOR MORGEN / BINNEN 24 UUR
+            var grens24u = nuUtc.AddHours(24);
+
+            var reminders24h = await context.Afspraken
+                .Include(a => a.Patient)
+                .Include(a => a.Type)
+                .Where(a => a.Status == AfspraakStatus.Gepland
+                         && a.Starttijd <= grens24u
                          && a.Starttijd > nuUtc
                          && !a.HerinneringVerzonden)
                 .ToListAsync(stoppingToken);
 
-            if (!appointmentsToRemind.Any())
-            {
-                return;
-            }
-
-            _logger.LogInformation("Reminder Background Service heeft {Count} afspraak(en) gevonden voor herinnering.", appointmentsToRemind.Count);
-
-            foreach (var afspraak in appointmentsToRemind)
+            foreach (var afspraak in reminders24h)
             {
                 if (afspraak.Patient == null || string.IsNullOrEmpty(afspraak.Patient.Email))
                 {
-                    _logger.LogWarning("Afspraak {AfspraakId} heeft geen gekoppelde patiënt of e-mailadres. Markeren als verzonden.", afspraak.Id);
                     afspraak.HerinneringVerzonden = true;
                     continue;
                 }
 
                 try
                 {
-                    _logger.LogInformation("Versturen van herinnering voor afspraak {AfspraakId} naar {Email}...", afspraak.Id, afspraak.Patient.Email);
+                    _logger.LogInformation("Versturen van 24u-herinnering voor afspraak {AfspraakId} naar {Email}...", afspraak.Id, afspraak.Patient.Email);
                     await emailService.SendReminderEmailAsync(
                         afspraak.Patient.Email,
                         afspraak.Patient.VolledigeNaam,
@@ -112,12 +141,12 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Fout bij verzenden van herinneringsmail voor afspraak {AfspraakId}.", afspraak.Id);
+                    _logger.LogError(ex, "Fout bij verzenden van 24u-herinneringsmail voor afspraak {AfspraakId}.", afspraak.Id);
                 }
             }
 
             await context.SaveChangesAsync(stoppingToken);
-            _logger.LogInformation("Herinneringen-verzendcyclus succesvol voltooid.");
+            _logger.LogInformation("Herinneringen-verzendcyclus (1 week & 24u) succesvol voltooid.");
         }
     }
 }

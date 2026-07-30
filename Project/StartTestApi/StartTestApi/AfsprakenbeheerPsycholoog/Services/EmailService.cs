@@ -233,6 +233,35 @@ namespace AfsprakenbeheerPsycholoog.Services
             await SendEmailAsync(toEmail, subject, body);
         }
 
+        public async Task SendWeeklyReminderEmailAsync(string toEmail, string patientNaam, DateTime startUtc, string afspraakType, int afspraakId)
+        {
+            var localTime = TranslatieNaarLokaleTijd(startUtc);
+            var datumString = localTime.ToString("dd-MM-yyyy 'om' HH:mm");
+
+            var subject = "Herinnering: Uw afspraak volgende week - De Verstandhouding";
+            var body = $@"
+                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #f1f5f9; border-radius: 12px;'>
+                    <h2 style='color: #0f172a;'>Beste {patientNaam},</h2>
+                    <p style='color: #475569;'>Dit is een herinnering dat u <strong>volgende week</strong> een afspraak heeft bij praktijk <strong>De Verstandhouding</strong>.</p>
+                    <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
+                    <table style='width: 100%; text-align: left;'>
+                        <tr>
+                            <td style='color: #64748b; padding-bottom: 8px;'>Type sessie:</td>
+                            <td style='font-weight: bold; color: #0f172a; padding-bottom: 8px;'>{afspraakType}</td>
+                        </tr>
+                        <tr>
+                            <td style='color: #64748b; padding-bottom: 8px;'>Datum & Tijd:</td>
+                            <td style='font-weight: bold; color: #0f172a; padding-bottom: 8px;'>{datumString}</td>
+                        </tr>
+                    </table>
+                    <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
+                    <p style='color: #475569; font-size: 14px;'>Mocht u de afspraak onverhoopt moeten annuleren of verzetten, neem dan tijdig contact met ons op via het patiëntenportaal.</p>
+                    <p style='color: #94a3b8; font-size: 12px; margin-top: 40px;'>Met vriendelijke groet,<br>Praktijk De Verstandhouding</p>
+                </div>";
+
+            await SendEmailAsync(toEmail, subject, body);
+        }
+
         private DateTime TranslatieNaarLokaleTijd(DateTime utcTime)
         {
             // Omzetten van UTC naar de lokale tijdzone van de praktijk (bijv. West-Europa: CET/CEST)

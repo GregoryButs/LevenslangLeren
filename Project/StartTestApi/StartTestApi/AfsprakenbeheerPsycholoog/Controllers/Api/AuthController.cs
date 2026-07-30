@@ -1,4 +1,5 @@
 using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Data.Repositories;
 using AfsprakenbeheerPsycholoog.Extensions;
 using AfsprakenbeheerPsycholoog.Services;
 using Microsoft.AspNetCore.Identity;
@@ -17,15 +18,18 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
+        private readonly IPatientRepository _patientRepo;
 
         public AuthController(
             SignInManager<ApplicationUser> signInManager, 
             UserManager<ApplicationUser> userManager,
-            IEmailService emailService)
+            IEmailService emailService,
+            IPatientRepository patientRepo)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
+            _patientRepo = patientRepo;
         }
 
         [HttpPost("login")]
@@ -37,6 +41,15 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (user == null)
             {
                 return BadRequest(new { message = "Ongeldig e-mailadres of wachtwoord." });
+            }
+
+            if (user.PatientId.HasValue)
+            {
+                var patient = _patientRepo.GetById(user.PatientId.Value);
+                if (patient != null && !patient.IsActief)
+                {
+                    return BadRequest(new { message = "Dit account is gedeactiveerd. Neem contact op met de praktijk." });
+                }
             }
 
             if (!user.EmailConfirmed)
@@ -88,7 +101,31 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             var existingUser = await _userManager.FindByEmailAsync(model.Email);
             if (existingUser != null)
             {
-                return BadRequest(new { message = "Er bestaat al een account met dit e-mailadres." });
+                bool isUserInactive = false;
+
+                if (existingUser.PatientId.HasValue)
+                {
+                    var patient = _patientRepo.GetById(existingUser.PatientId.Value);
+                    if (patient == null || !patient.IsActief)
+                    {
+                        isUserInactive = true;
+                    }
+                }
+                else
+                {
+                    // Geen actieve patiënt gekoppeld aan het account
+                    isUserInactive = true;
+                }
+
+                if (isUserInactive)
+                {
+                    // Oude gedeactiveerde gebruiker verwijderen zodat de registratie opnieuw kan worden uitgevoerd
+                    await _userManager.DeleteAsync(existingUser);
+                }
+                else
+                {
+                    return BadRequest(new { message = "Er bestaat al een actief account met dit e-mailadres." });
+                }
             }
 
             var user = new ApplicationUser

@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Data.Repositories;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
@@ -133,9 +133,12 @@ namespace AfsprakenbeheerPsycholoog.Services
             patientInDb.VerwijderdOp = DateTime.Now;
             patientInDb.VerwijderdReden = "Handmatig gedeactiveerd";
 
-            // optioneel: account ontkoppelen
+            // Verwijder het gekoppelde Identity gebruikersaccount zodat het e-mailadres vrijkomt voor nieuwe registraties
             var user = _repo.GetUserByPatientId(id);
-            if (user != null) user.PatientId = null;
+            if (user != null)
+            {
+                _userManager.DeleteAsync(user).GetAwaiter().GetResult();
+            }
 
             _repo.Update(patientInDb);
             _repo.SaveChanges();

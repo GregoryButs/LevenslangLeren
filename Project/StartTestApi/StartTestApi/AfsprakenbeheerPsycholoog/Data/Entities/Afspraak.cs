@@ -40,8 +40,11 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "Google Event ID")]
         public string? GoogleEventId { get; set; }
 
-        [Display(Name = "Herinnering Verzonden")]
+        [Display(Name = "Herinnering 24u Verzonden")]
         public bool HerinneringVerzonden { get; set; } = false;
+
+        [Display(Name = "Herinnering 1 Week Verzonden")]
+        public bool HerinneringWeekVerzonden { get; set; } = false;
 
         [Display(Name = "Is Hele Dag / Melding")]
         public bool IsHeleDag { get; set; } = false;
