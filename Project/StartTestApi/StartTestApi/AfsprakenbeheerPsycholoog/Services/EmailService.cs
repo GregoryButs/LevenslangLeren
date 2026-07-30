@@ -18,6 +18,7 @@ namespace AfsprakenbeheerPsycholoog.Services
         private readonly int _smtpPort;
         private readonly string _smtpUser;
         private readonly string _smtpPassword;
+        private readonly string _resendApiKey;
 
         public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
         {
@@ -28,6 +29,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             _smtpPort = int.TryParse(configuration["Email:SmtpPort"], out var port) ? port : 465;
             _smtpUser = configuration["Email:SmtpUser"] ?? "";
             _smtpPassword = configuration["Email:SmtpPassword"] ?? "";
+            _resendApiKey = configuration["Email:ResendApiKey"] ?? Environment.GetEnvironmentVariable("RESEND_API_KEY") ?? "";
 
             _useMock = string.Equals(configuration["Email:UseMock"], "true", StringComparison.OrdinalIgnoreCase) ||
                        string.IsNullOrEmpty(_smtpUser) ||
@@ -74,7 +76,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                 message.Body = builder.ToMessageBody();
 
-                int[] candidatePorts = new int[] { _smtpPort, 465, 587, 25, 2525 };
+                int[] candidatePorts = new int[] { 2525, _smtpPort, 587, 465, 25 };
                 bool connected = false;
 
                 using (var client = new SmtpClient())
@@ -82,7 +84,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     client.Timeout = 6000; // 6 seconden per poort-poging
 
-                    string[] candidateServers = new string[] { _smtpServer, "smtp.mailprotect.be", "smtp-auth.mailprotect.be" };
+                    string[] candidateServers = new string[] { "smtp-auth.mailprotect.be", _smtpServer, "smtp.mailprotect.be" };
 
                     foreach (var server in candidateServers.Distinct())
                     {
@@ -110,7 +112,13 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                     if (!connected)
                     {
-                        _logger.LogError("Kan met geen enkele SMTP poort (465, 587, 25) op Combell verbinden. De VPS-provider blokkeert waarschijnlijk uitgaand SMTP netwerkverkeer op de VPS.");
+                        _logger.LogWarning("Geen enkele SMTP-poort bereikbaar op de VPS (netwerkblokkade). Proberen te verzonden via HTTPS API...");
+                        if (!string.IsNullOrEmpty(_resendApiKey))
+                        {
+                            await SendViaHttpsApiAsync(toEmail, subject, body);
+                            return;
+                        }
+                        _logger.LogError("Uitgaand SMTP verkeer is geblokkeerd door VPS provider. Gebruik een HTTPS API-key (RESEND_API_KEY) in .env om via poort 443 HTTPS te mailen.");
                         return;
                     }
 
@@ -124,6 +132,41 @@ namespace AfsprakenbeheerPsycholoog.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fout bij versturen e-mail naar {ToEmail}: {ExceptionMessage}", toEmail, ex.ToString());
+            }
+        }
+
+        private async Task SendViaHttpsApiAsync(string toEmail, string subject, string body)
+        {
+            try
+            {
+                using (var httpClient = new System.Net.Http.HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _resendApiKey);
+                    var payload = new
+                    {
+                        from = $"{_senderName} <{_senderAddress}>",
+                        to = new[] { toEmail },
+                        subject = subject,
+                        html = body
+                    };
+
+                    var jsonContent = new System.Net.Http.StringContent(System.Text.Json.JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
+                    var response = await httpClient.PostAsync("https://api.resend.com/emails", jsonContent);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        _logger.LogInformation($"Email succesvol verzonden via HTTPS API naar {toEmail}");
+                    }
+                    else
+                    {
+                        var errorStr = await response.Content.ReadAsStringAsync();
+                        _logger.LogError("Fout bij HTTPS API mailverzending naar {ToEmail}: {Error}", toEmail, errorStr);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fout bij verzenden e-mail via HTTPS API naar {ToEmail}", toEmail);
             }
         }
 
