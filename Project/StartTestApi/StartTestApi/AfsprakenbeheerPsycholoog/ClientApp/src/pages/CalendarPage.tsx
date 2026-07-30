@@ -510,8 +510,8 @@ export const CalendarPage: React.FC = () => {
                             }}
                             className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all cursor-pointer ${
                               isBookingSlot
-                                ? 'bg-teal-50 dark:bg-teal-950/40 border-teal-200/50 dark:border-teal-900/40 hover:bg-teal-100/70 dark:hover:bg-teal-900/60'
-                                : 'bg-slate-100/70 dark:bg-brand-950/80 opacity-60 hover:opacity-80'
+                                ? 'bg-emerald-100/80 dark:bg-emerald-950/60 border-l-2 border-emerald-400 dark:border-emerald-700 font-semibold text-emerald-950 dark:text-emerald-100 hover:bg-emerald-200/90 dark:hover:bg-emerald-900/80 shadow-2xs'
+                                : 'bg-slate-200/60 dark:bg-brand-950/90 text-slate-400 dark:text-brand-500 opacity-60 hover:opacity-80'
                             }`}
                             title={
                               appts.length > 0 
@@ -575,8 +575,8 @@ export const CalendarPage: React.FC = () => {
                             }}
                             className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all cursor-pointer ${
                               isBookingSlot
-                                ? 'bg-teal-50 dark:bg-teal-950/40 border-teal-200/50 dark:border-teal-900/40 hover:bg-teal-100/70 dark:hover:bg-teal-900/60'
-                                : 'bg-slate-100/70 dark:bg-brand-950/80 opacity-60 hover:opacity-80'
+                                ? 'bg-emerald-100/80 dark:bg-emerald-950/60 border-l-2 border-emerald-400 dark:border-emerald-700 font-semibold text-emerald-950 dark:text-emerald-100 hover:bg-emerald-200/90 dark:hover:bg-emerald-900/80 shadow-2xs'
+                                : 'bg-slate-200/60 dark:bg-brand-950/90 text-slate-400 dark:text-brand-500 opacity-60 hover:opacity-80'
                             }`}
                           >
                             <div className="space-y-2">

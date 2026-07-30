@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { authApi } from '../services/api';
 import { User } from '../types';
-import { Lock, Mail, Loader2 } from 'lucide-react';
+import { Lock, Mail, Loader2, Sun, Moon } from 'lucide-react';
 
 interface LoginProps {
   setUser: (user: User | null) => void;
@@ -16,6 +16,21 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const errorParam = searchParams.get('error');
@@ -78,6 +93,15 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-brand-950 text-slate-800 dark:text-brand-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-300">
+      {/* Dark Mode Toggle Button */}
+      <button
+        onClick={() => setIsDark(!isDark)}
+        className="absolute top-5 right-5 z-50 p-2.5 bg-white/80 dark:bg-brand-900/80 backdrop-blur-md border border-slate-200 dark:border-brand-800 rounded-2xl shadow-sm text-slate-600 dark:text-brand-200 hover:scale-105 transition cursor-pointer"
+        title={isDark ? "Schakel naar lichte modus" : "Schakel naar donkere modus"}
+      >
+        {isDark ? <Sun className="h-5 w-5 text-amber-400" /> : <Moon className="h-5 w-5 text-slate-600" />}
+      </button>
+
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-brand-100 dark:bg-brand-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -translate-x-20 -translate-y-20"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-100 dark:bg-brand-800 rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-20 translate-y-20"></div>
