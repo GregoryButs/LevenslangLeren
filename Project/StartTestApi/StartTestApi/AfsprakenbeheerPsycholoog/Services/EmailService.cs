@@ -78,11 +78,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                    var secureOption = _smtpPort == 465 
-                        ? SecureSocketOptions.SslOnConnect 
-                        : SecureSocketOptions.StartTlsWhenAvailable;
-
-                    await client.ConnectAsync(_smtpServer, _smtpPort, secureOption);
+                    await client.ConnectAsync(_smtpServer, _smtpPort, SecureSocketOptions.Auto);
                     await client.AuthenticateAsync(_smtpUser, _smtpPassword);
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
