@@ -181,6 +181,10 @@ export const settingsApi = {
   syncCalendar: async (): Promise<{ message: string }> => {
     const res = await api.post<{ message: string }>('/settings/sync-calendar');
     return res.data;
+  },
+  cleanResync: async (): Promise<{ message: string }> => {
+    const res = await api.post<{ message: string }>('/settings/clean-resync');
+    return res.data;
   }
 };
 

@@ -128,5 +128,24 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+
+        [HttpPost("clean-resync")]
+        [Authorize(Policy = "PsycholoogOnly")]
+        public async Task<IActionResult> CleanResync()
+        {
+            try
+            {
+                var syncedAppts = _context.Afspraken.Where(a => a.GoogleEventId != null);
+                _context.Afspraken.RemoveRange(syncedAppts);
+                await _context.SaveChangesAsync();
+
+                await _googleCalendarService.SyncIncomingChangesAsync();
+                return Ok(new { message = "Agenda is volledig opschoond en opnieuw gesynchroniseerd vanuit Google Calendar." });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
     }
 }

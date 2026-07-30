@@ -9,6 +9,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using AfsprakenbeheerPsycholoog.Data;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 
 namespace AfsprakenbeheerPsycholoog.Services
 {
@@ -29,12 +33,11 @@ namespace AfsprakenbeheerPsycholoog.Services
             _serviceProvider = serviceProvider;
             _calendarId = configuration["GoogleCalendar:CalendarId"] ?? "primary";
 
-            // Bepaal of we in lokale testmodus (mock) draaien
             _useMock = string.Equals(configuration["GoogleCalendar:UseMock"], "true", StringComparison.OrdinalIgnoreCase);
 
             if (_useMock)
             {
-                _logger.LogInformation("Google Calendar Service is geinitialiseerd in MOCK modus.");
+                _logger.LogInformation("Google Calendar Service is geïnitialiseerd in MOCK modus.");
                 return;
             }
 
@@ -44,7 +47,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                 if (!File.Exists(credentialsPath))
                 {
-                    _logger.LogWarning($"Google credentials bestand niet gevonden op {credentialsPath}. Service schakelt automatisch over naar MOCK modus.");
+                    _logger.LogWarning($"Google credentials bestand niet gevonden op {credentialsPath}. Service schakelt over naar MOCK modus.");
                     _useMock = true;
                     return;
                 }
@@ -52,8 +55,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 GoogleCredential credential;
                 using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
                 {
-                    credential = GoogleCredential.FromStream(stream)
-                        .CreateScoped(CalendarService.Scope.Calendar);
+                    credential = GoogleCredential.FromStream(stream).CreateScoped(CalendarService.Scope.Calendar);
                 }
 
                 _calendarService = new CalendarService(new BaseClientService.Initializer()
@@ -62,7 +64,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     ApplicationName = "De Verstandhouding Agendabeheer",
                 });
 
-                _logger.LogInformation("Google Calendar Service succesvol geinitialiseerd met Service Account.");
+                _logger.LogInformation("Google Calendar Service succesvol geïnitialiseerd.");
             }
             catch (Exception ex)
             {
@@ -75,12 +77,12 @@ namespace AfsprakenbeheerPsycholoog.Services
         {
             if (_useMock)
             {
-                var mockEventId = $"mock_event_{Guid.NewGuid().ToString("N")}";
-                _logger.LogInformation($"[MOCK GOOGLE CALENDAR] Afspraak #{afspraakId} aangemaakt van {startUtc} tot {endUtc} UTC. Locatie: {locationDetails}. MockEventID: {mockEventId}");
+                var mockEventId = $"mock_event_{Guid.NewGuid():N}";
+                _logger.LogInformation($"[MOCK] Afspraak #{afspraakId} aangemaakt ({startUtc} tot {endUtc} UTC). MockID: {mockEventId}");
                 return mockEventId;
             }
 
-            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geinitialiseerd.");
+            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
 
             var summaryText = string.IsNullOrWhiteSpace(patientNaam)
                 ? $"Afspraak #{afspraakId} - patiëntenportaal"
@@ -89,7 +91,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             var calendarEvent = new Event
             {
                 Summary = summaryText,
-                Description = "Gereserveerd via online patientenportaal - De Verstandhouding.",
+                Description = "Gereserveerd via online patiëntenportaal - De Verstandhouding.",
                 Start = new EventDateTime { DateTimeDateTimeOffset = new DateTimeOffset(startUtc, TimeSpan.Zero) },
                 End = new EventDateTime { DateTimeDateTimeOffset = new DateTimeOffset(endUtc, TimeSpan.Zero) },
                 Location = locationDetails
@@ -108,30 +110,19 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
 
             var request = _calendarService.Events.Insert(calendarEvent, _calendarId);
-            if (createMeetLink)
-            {
-                request.ConferenceDataVersion = 1;
-            }
+            if (createMeetLink) request.ConferenceDataVersion = 1;
 
             var createdEvent = await request.ExecuteAsync();
-            
-            _logger.LogInformation($"Google Calendar Event aangemaakt voor afspraak #{afspraakId} ({summaryText}) met ID: {createdEvent.Id}");
+            _logger.LogInformation($"Google Calendar Event aangemaakt voor afspraak #{afspraakId} met ID: {createdEvent.Id}");
             return createdEvent.Id;
         }
 
         public async Task UpdateEventAsync(string googleEventId, DateTime startUtc, DateTime endUtc, int afspraakId, string patientNaam = "")
         {
-            if (_useMock)
-            {
-                _logger.LogInformation($"[MOCK GOOGLE CALENDAR] Afspraak #{afspraakId} (GoogleEventID: {googleEventId}) bijgewerkt naar {startUtc} tot {endUtc} UTC.");
-                return;
-            }
+            if (_useMock) return;
+            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
 
-            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geinitialiseerd.");
-
-            var summaryText = string.IsNullOrWhiteSpace(patientNaam)
-                ? $"Afspraak #{afspraakId} - patiëntenportaal"
-                : $"{patientNaam} - patiëntenportaal";
+            var summaryText = string.IsNullOrWhiteSpace(patientNaam) ? $"Afspraak #{afspraakId}" : $"{patientNaam}";
 
             var calendarEvent = new Event
             {
@@ -142,345 +133,164 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var request = _calendarService.Events.Update(calendarEvent, _calendarId, googleEventId);
             await request.ExecuteAsync();
-            
-            _logger.LogInformation($"Google Calendar Event {googleEventId} ({summaryText}) bijgewerkt voor afspraak #{afspraakId}");
         }
 
         public async Task DeleteEventAsync(string googleEventId)
         {
-            if (_useMock)
-            {
-                _logger.LogInformation($"[MOCK GOOGLE CALENDAR] Event {googleEventId} verwijderd.");
-                return;
-            }
-
-            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geinitialiseerd.");
+            if (_useMock) return;
+            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
 
             try
             {
-                var request = _calendarService.Events.Delete(_calendarId, googleEventId);
-                await request.ExecuteAsync();
-                _logger.LogInformation($"Google Calendar Event {googleEventId} succesvol verwijderd.");
+                await _calendarService.Events.Delete(_calendarId, googleEventId).ExecuteAsync();
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                _logger.LogWarning($"Google Calendar Event {googleEventId} kon niet worden verwijderd omdat het niet gevonden is (reeds verwijderd).");
+                _logger.LogWarning($"Google Event {googleEventId} reeds verwijderd.");
             }
         }
 
         public async Task SyncIncomingChangesAsync()
         {
-            if (_useMock)
+            if (_useMock) return;
+            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
+
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var request = _calendarService.Events.List(_calendarId);
+            request.TimeMinDateTimeOffset = DateTimeOffset.UtcNow.AddDays(-180);
+            request.TimeMaxDateTimeOffset = DateTimeOffset.UtcNow.AddDays(365);
+            request.SingleEvents = true;
+            request.MaxResults = 2500;
+
+            string? pageToken = null;
+            int totalProcessed = 0;
+
+            do
             {
-                _logger.LogInformation("[MOCK GOOGLE CALENDAR] SyncIncomingChangesAsync aangeroepen.");
+                request.PageToken = pageToken;
+                var events = await request.ExecuteAsync();
+                if (events.Items == null) break;
+
+                foreach (var ev in events.Items)
+                {
+                    if (ShouldSkipEvent(ev)) continue;
+
+                    await ProcessSingleEventAsync(ev, dbContext);
+                    totalProcessed++;
+                }
+
+                await dbContext.SaveChangesAsync();
+                pageToken = events.NextPageToken;
+            } while (!string.IsNullOrEmpty(pageToken));
+
+            _logger.LogInformation($"Google Calendar synchronisatie voltooid. Totaal geanalyseerd en verwerkt: {totalProcessed} events.");
+        }
+
+        private async Task ProcessSingleEventAsync(Event ev, ApplicationDbContext dbContext)
+        {
+            var (startUtc, endUtc) = GetEventStartAndEnd(ev);
+            bool isDeclined = IsDeclinedOrCancelled(ev);
+            bool isAllDay = IsAllDayEvent(ev);
+            bool isTransparent = string.Equals(ev.Transparency, "transparent", StringComparison.OrdinalIgnoreCase);
+
+            var localAppointment = dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
+
+            if (localAppointment != null)
+            {
+                if (isDeclined)
+                {
+                    localAppointment.Status = AfspraakStatus.Geannuleerd;
+                }
+                else
+                {
+                    localAppointment.Starttijd = startUtc;
+                    localAppointment.Eindtijd = endUtc;
+                    localAppointment.IsHeleDag = isAllDay || isTransparent;
+                }
                 return;
             }
 
-            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geinitialiseerd.");
+            bool isPraktijkhuis = CheckIsPraktijkhuis(ev);
+            bool isExplicitBlocker = IsExplicitBlocker(ev.Summary);
 
-            using (var scope = _serviceProvider.CreateScope())
+            var patientInfo = ExtractPatientDetails(ev, isPraktijkhuis);
+            bool isPatientAppointment = !isExplicitBlocker && !patientInfo.IsAnonymized && (!string.IsNullOrEmpty(patientInfo.Email) || !string.IsNullOrWhiteSpace(ev.Summary));
+
+            if (isPatientAppointment)
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<Data.ApplicationDbContext>();
-                
-                var request = _calendarService.Events.List(_calendarId);
-                // Haal alle afspraken op van 180 dagen geleden tot 365 dagen in de toekomst
-                request.TimeMinDateTimeOffset = DateTimeOffset.UtcNow.AddDays(-180);
-                request.TimeMaxDateTimeOffset = DateTimeOffset.UtcNow.AddDays(365);
-                request.SingleEvents = true; // Zorgt dat herhalende afspraken los worden opgehaald
-                request.MaxResults = 2500;
-                
-                string? pageToken = null;
-                do
+                var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
+                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis);
+
+                var nieuweAfspraak = new Afspraak
                 {
-                    request.PageToken = pageToken;
-                    var events = await request.ExecuteAsync();
+                    PatientId = patient.Id,
+                    TypeId = afspraakType?.Id,
+                    Starttijd = startUtc,
+                    Eindtijd = endUtc,
+                    Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
+                    GoogleEventId = ev.Id,
+                    Opmerkingen = patientInfo.Opmerkingen,
+                    IsHeleDag = isAllDay || isTransparent
+                };
 
-                    if (events.Items == null) break;
-
-                    foreach (var ev in events.Items)
-                {
-                    // Negeer Google Systeem-events, werklocaties of events zonder geldige starttijd/datum
-                    if (ev == null || 
-                        string.Equals(ev.EventType, "workingLocation", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(ev.EventType, "focusTime", StringComparison.OrdinalIgnoreCase) ||
-                        (ev.Start?.DateTimeDateTimeOffset == null && string.IsNullOrEmpty(ev.Start?.Date)))
-                    {
-                        continue;
-                    }
-
-                    // Als het event geen titel én geen deelnemers/attendees heeft, is het een achtergrond-event -> negeer
-                    if (string.IsNullOrWhiteSpace(ev.Summary) && (ev.Attendees == null || !ev.Attendees.Any()))
-                    {
-                        continue;
-                    }
-
-                    // Zoek lokale afspraak gekoppeld aan dit Google Event
-                    var localAppointment = dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
-                    if (localAppointment != null)
-                    {
-                        bool isDeclined = ev.Status == "cancelled" || 
-                            (ev.Attendees != null && ev.Attendees.Any(a => 
-                                (a.Self == true || (a.Email != null && (a.Email.Contains("ingedebast", StringComparison.OrdinalIgnoreCase) || a.Email.Contains("deverstandhouding", StringComparison.OrdinalIgnoreCase)))) && 
-                                string.Equals(a.ResponseStatus, "declined", StringComparison.OrdinalIgnoreCase)));
-
-                        if (isDeclined)
-                        {
-                            if (localAppointment.Status != Data.Entities.AfspraakStatus.Geannuleerd)
-                            {
-                                localAppointment.Status = Data.Entities.AfspraakStatus.Geannuleerd;
-                                _logger.LogInformation($"Lokale afspraak #{localAppointment.Id} geannuleerd na 'Nee' / annulering in Google Calendar.");
-                            }
-                        }
-                        else
-                        {
-                            var (newStart, newEnd) = GetEventStartAndEnd(ev);
-
-                            if (localAppointment.Starttijd != newStart || localAppointment.Eindtijd != newEnd)
-                            {
-                                localAppointment.Starttijd = newStart;
-                                localAppointment.Eindtijd = newEnd;
-                                _logger.LogInformation($"Lokale afspraak #{localAppointment.Id} verplaatst naar {newStart} - {newEnd} UTC na wijziging in Google Calendar.");
-                            }
-
-                            bool isPraktijkhuis = CheckIsPraktijkhuis(ev);
-                            bool isAllDay = (ev.Start?.Date != null && ev.Start?.DateTimeDateTimeOffset == null);
-                            bool isTransparent = string.Equals(ev.Transparency, "transparent", StringComparison.OrdinalIgnoreCase);
-                            bool isExplicitBlocker = IsExplicitBlocker(ev.Summary);
-
-                            localAppointment.IsHeleDag = isAllDay || isTransparent;
-                            var attendee = ev.Attendees?.FirstOrDefault(a => a.Self != true && !string.Equals(a.Email, _calendarId, StringComparison.OrdinalIgnoreCase));
-                            var displayNaam = attendee?.DisplayName ?? ev.Summary ?? "Onbekende Patient";
-
-                            string voornaam, achternaam, telefoonnummer, cleanOpmerkingen;
-                            DateOnly geboortedatum;
-
-                            if (isPraktijkhuis)
-                            {
-                                var parsed = ParsePraktijkhuisEventInfo(ev, displayNaam);
-                                voornaam = parsed.Voornaam;
-                                achternaam = parsed.Achternaam;
-                                geboortedatum = parsed.Geboortedatum;
-                                telefoonnummer = parsed.Telefoonnummer;
-                                cleanOpmerkingen = parsed.CleanOpmerkingen;
-                            }
-                            else
-                            {
-                                var splitNaam = displayNaam.Split(' ', 2);
-                                voornaam = splitNaam.Length > 0 ? splitNaam[0] : "Patient";
-                                achternaam = splitNaam.Length > 1 ? splitNaam[1] : "van Google";
-                                geboortedatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-30));
-                                telefoonnummer = "";
-                                cleanOpmerkingen = ev.Description ?? "";
-                            }
-
-                            var opmerkingTag = isPraktijkhuis ? "[PH9500]\n" : "";
-                            localAppointment.Opmerkingen = opmerkingTag + cleanOpmerkingen;
-
-                            var currentPatient = localAppointment.PatientId.HasValue ? dbContext.Patienten.FirstOrDefault(p => p.Id == localAppointment.PatientId.Value) : null;
-                            
-                            bool isPlaceholderPatient = currentPatient == null ||
-                                (!string.IsNullOrEmpty(currentPatient.Achternaam) && currentPatient.Achternaam.Contains("Crombrugge", StringComparison.OrdinalIgnoreCase)) ||
-                                (!string.IsNullOrEmpty(currentPatient.Email) && currentPatient.Email.Contains("praktijkhuis", StringComparison.OrdinalIgnoreCase));
-
-                            var afspraakTypesList = dbContext.AfspraakTypes.ToList();
-                            var praktijkhuisType = afspraakTypesList.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase))
-                                                   ?? afspraakTypesList.FirstOrDefault(t => t.Id == 3);
-                            var therapieType = afspraakTypesList.FirstOrDefault(t => t.Id == 2) ?? afspraakTypesList.FirstOrDefault();
-
-                            if (isPraktijkhuis && praktijkhuisType != null)
-                            {
-                                localAppointment.TypeId = praktijkhuisType.Id;
-                            }
-
-                            bool isAnonymizedTitle = displayNaam.StartsWith("Sessie #", StringComparison.OrdinalIgnoreCase) 
-                                || voornaam.Equals("Sessie", StringComparison.OrdinalIgnoreCase)
-                                || displayNaam.Contains("patientenportaal", StringComparison.OrdinalIgnoreCase)
-                                || displayNaam.Contains("patiëntenportaal", StringComparison.OrdinalIgnoreCase);
-
-                            if (!isExplicitBlocker && isPlaceholderPatient && !isAnonymizedTitle)
-                            {
-                                var matchedPatient = dbContext.Patienten.FirstOrDefault(p => p.Voornaam == voornaam && p.Achternaam == achternaam);
-                                if (matchedPatient == null)
-                                {
-                                    var safeName = System.Text.RegularExpressions.Regex.Replace(displayNaam.ToLower(), @"[^a-z0-9]", ".");
-                                    var newEmail = !string.IsNullOrEmpty(attendee?.Email) ? attendee.Email : $"{safeName}@googlecalendar.local";
-                                    matchedPatient = new Data.Entities.Patient
-                                    {
-                                        Voornaam = voornaam,
-                                        Achternaam = achternaam,
-                                        Email = newEmail,
-                                        Geboortedatum = geboortedatum,
-                                        IsActief = true,
-                                        Telefoonnummer = telefoonnummer
-                                    };
-                                    dbContext.Patienten.Add(matchedPatient);
-                                    await dbContext.SaveChangesAsync();
-                                }
-
-                                localAppointment.PatientId = matchedPatient.Id;
-                                if (!localAppointment.TypeId.HasValue)
-                                {
-                                    localAppointment.TypeId = isPraktijkhuis && praktijkhuisType != null ? praktijkhuisType.Id : (therapieType?.Id ?? 2);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        bool isDeclined = ev.Status == "cancelled" || 
-                            (ev.Attendees != null && ev.Attendees.Any(a => 
-                                (a.Self == true || (a.Email != null && (a.Email.Contains("ingedebast", StringComparison.OrdinalIgnoreCase) || a.Email.Contains("deverstandhouding", StringComparison.OrdinalIgnoreCase)))) && 
-                                string.Equals(a.ResponseStatus, "declined", StringComparison.OrdinalIgnoreCase)));
-
-                        bool isPraktijkhuis = CheckIsPraktijkhuis(ev);
-
-                        var attendee = ev.Attendees?.FirstOrDefault(a => a.Self != true && !string.Equals(a.Email, _calendarId, StringComparison.OrdinalIgnoreCase));
-                        var email = attendee?.Email;
-                        if (string.IsNullOrEmpty(email) && ev.Creator?.Email != null && !string.Equals(ev.Creator.Email, _calendarId, StringComparison.OrdinalIgnoreCase))
-                        {
-                            email = ev.Creator.Email;
-                        }
-                        var displayNaam = attendee?.DisplayName ?? ev.Summary ?? "Onbekende Patient";
-
-                        string voornaam, achternaam, telefoonnummer, cleanOpmerkingen;
-                        DateOnly geboortedatum;
-
-                        if (isPraktijkhuis)
-                        {
-                            var parsed = ParsePraktijkhuisEventInfo(ev, displayNaam);
-                            voornaam = parsed.Voornaam;
-                            achternaam = parsed.Achternaam;
-                            geboortedatum = parsed.Geboortedatum;
-                            telefoonnummer = parsed.Telefoonnummer;
-                            cleanOpmerkingen = parsed.CleanOpmerkingen;
-                        }
-                        else
-                        {
-                            var splitNaam = displayNaam.Split(' ', 2);
-                            voornaam = splitNaam.Length > 0 ? splitNaam[0] : "Patient";
-                            achternaam = splitNaam.Length > 1 ? splitNaam[1] : "van Google";
-                            geboortedatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-30));
-                            telefoonnummer = "";
-                            cleanOpmerkingen = ev.Description ?? "";
-                        }
-
-                        var opmerkingTag = isPraktijkhuis ? "[PH9500]\n" : "";
-                        var opmerking = opmerkingTag + cleanOpmerkingen;
-
-                        bool isExplicitBlocker = IsExplicitBlocker(ev.Summary);
-                        bool isAnonymizedTitleNew = displayNaam.StartsWith("Sessie #", StringComparison.OrdinalIgnoreCase) 
-                            || voornaam.Equals("Sessie", StringComparison.OrdinalIgnoreCase)
-                            || displayNaam.Contains("patientenportaal", StringComparison.OrdinalIgnoreCase)
-                            || displayNaam.Contains("patiëntenportaal", StringComparison.OrdinalIgnoreCase);
-                        bool isPatientAppointment = !isExplicitBlocker && !isAnonymizedTitleNew && (!string.IsNullOrEmpty(email) || !string.IsNullOrWhiteSpace(ev.Summary));
-
-                        if (isPatientAppointment)
-                        {
-                            if (string.IsNullOrEmpty(email))
-                            {
-                                var safeName = System.Text.RegularExpressions.Regex.Replace(displayNaam.ToLower(), @"[^a-z0-9]", ".");
-                                email = $"{safeName}@googlecalendar.local";
-                            }
-
-                            // Zoek patient op naam-combinatie om te voorkomen dat verschillende patienten van een gedeelde praktijkmail samengevoegd worden
-                            var patient = dbContext.Patienten.FirstOrDefault(p => 
-                                (p.Voornaam == voornaam && p.Achternaam == achternaam) ||
-                                (p.Email == email && p.Voornaam == voornaam)
-                            );
-
-                            if (patient == null)
-                            {
-                                var patientEmail = email;
-                                var eMailAlInGebruik = dbContext.Patienten.Any(p => p.Email == email);
-                                if (eMailAlInGebruik)
-                                {
-                                    var safeName = System.Text.RegularExpressions.Regex.Replace(displayNaam.ToLower(), @"[^a-z0-9]", ".");
-                                    patientEmail = $"{safeName}@praktijkhuis9500.be";
-                                }
-
-                                patient = new Data.Entities.Patient
-                                {
-                                    Voornaam = voornaam,
-                                    Achternaam = achternaam,
-                                    Email = patientEmail,
-                                    Geboortedatum = geboortedatum,
-                                    IsActief = true,
-                                    Telefoonnummer = telefoonnummer
-                                };
-                                dbContext.Patienten.Add(patient);
-                                await dbContext.SaveChangesAsync();
-                                _logger.LogInformation($"Nieuwe patient {patient.VolledigeNaam} ({telefoonnummer}) aangemaakt na boeking via Google Calendar.");
-                            }
-                            else
-                            {
-                                // Update eventuele ontbrekende telefoonnummer of geboortedatum
-                                if (string.IsNullOrEmpty(patient.Telefoonnummer) && !string.IsNullOrEmpty(telefoonnummer))
-                                {
-                                    patient.Telefoonnummer = telefoonnummer;
-                                }
-                                if (geboortedatum != DateOnly.FromDateTime(DateTime.Today.AddYears(-30)))
-                                {
-                                    patient.Geboortedatum = geboortedatum;
-                                }
-                            }
-
-                            // Haal het afspraaktype op
-                            var allTypes = dbContext.AfspraakTypes.ToList();
-                            var praktijkhuisType = allTypes.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase))
-                                                   ?? allTypes.FirstOrDefault(t => t.Id == 3);
-                            var therapieType = allTypes.FirstOrDefault(t => t.Id == 2) ?? allTypes.FirstOrDefault();
-
-                            var type = isPraktijkhuis && praktijkhuisType != null ? praktijkhuisType : (therapieType ?? allTypes.FirstOrDefault());
-
-                            var (newStart, newEnd) = GetEventStartAndEnd(ev);
-
-                            bool isAllDay = (ev.Start?.Date != null && ev.Start?.DateTimeDateTimeOffset == null);
-                            bool isTransparent = string.Equals(ev.Transparency, "transparent", StringComparison.OrdinalIgnoreCase);
-
-                            var nieuweAfspraak = new Data.Entities.Afspraak
-                            {
-                                PatientId = patient.Id,
-                                TypeId = type?.Id,
-                                Starttijd = newStart,
-                                Eindtijd = newEnd,
-                                Status = isDeclined ? Data.Entities.AfspraakStatus.Geannuleerd : Data.Entities.AfspraakStatus.Gepland,
-                                GoogleEventId = ev.Id,
-                                Opmerkingen = opmerking,
-                                IsHeleDag = isAllDay || isTransparent
-                            };
-
-                            dbContext.Afspraken.Add(nieuweAfspraak);
-                        }
-                        else
-                        {
-                            // Dit is een algemeen blocker event / persoonlijke afspraak / melding!
-                            var (newStart, newEnd) = GetEventStartAndEnd(ev);
-
-                            bool isAllDay = (ev.Start?.Date != null && ev.Start?.DateTimeDateTimeOffset == null);
-                            bool isTransparent = string.Equals(ev.Transparency, "transparent", StringComparison.OrdinalIgnoreCase);
-
-                            var nieuweAfspraak = new Data.Entities.Afspraak
-                            {
-                                PatientId = null,
-                                TypeId = null,
-                                Starttijd = newStart,
-                                Eindtijd = newEnd,
-                                Status = isDeclined ? Data.Entities.AfspraakStatus.Geannuleerd : Data.Entities.AfspraakStatus.Gepland,
-                                GoogleEventId = ev.Id,
-                                Opmerkingen = ev.Summary ?? "Blokkering / Melding",
-                                IsHeleDag = isAllDay || isTransparent
-                            };
-
-                            dbContext.Afspraken.Add(nieuweAfspraak);
-                        }
-                    }
-                    }
-                    await dbContext.SaveChangesAsync();
-                    pageToken = events.NextPageToken;
-                } while (!string.IsNullOrEmpty(pageToken));
-
-                await dbContext.SaveChangesAsync();
+                dbContext.Afspraken.Add(nieuweAfspraak);
             }
+            else
+            {
+                var blockerAfspraak = new Afspraak
+                {
+                    PatientId = null,
+                    TypeId = null,
+                    Starttijd = startUtc,
+                    Eindtijd = endUtc,
+                    Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
+                    GoogleEventId = ev.Id,
+                    Opmerkingen = ev.Summary ?? "Blokkering / Melding",
+                    IsHeleDag = isAllDay || isTransparent
+                };
+
+                dbContext.Afspraken.Add(blockerAfspraak);
+            }
+        }
+
+        private static bool ShouldSkipEvent(Event ev)
+        {
+            if (ev == null) return true;
+            if (string.Equals(ev.EventType, "workingLocation", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(ev.EventType, "focusTime", StringComparison.OrdinalIgnoreCase)) return true;
+
+            bool hasValidStart = ev.Start != null && (
+                ev.Start.DateTimeDateTimeOffset.HasValue ||
+                ev.Start.DateTime.HasValue ||
+                !string.IsNullOrEmpty(ev.Start.DateTimeRaw) ||
+                !string.IsNullOrEmpty(ev.Start.Date)
+            );
+
+            if (!hasValidStart) return true;
+
+            if (string.IsNullOrWhiteSpace(ev.Summary) && (ev.Attendees == null || !ev.Attendees.Any()))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsDeclinedOrCancelled(Event ev)
+        {
+            if (ev.Status == "cancelled") return true;
+
+            if (ev.Attendees != null)
+            {
+                return ev.Attendees.Any(a =>
+                    (a.Self == true || (a.Email != null && (a.Email.Contains("ingedebast", StringComparison.OrdinalIgnoreCase) || a.Email.Contains(_calendarId, StringComparison.OrdinalIgnoreCase)))) &&
+                    string.Equals(a.ResponseStatus, "declined", StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            return false;
         }
 
         private static (DateTime StartUtc, DateTime EndUtc) GetEventStartAndEnd(Event ev)
@@ -491,57 +301,152 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (ev?.Start != null)
             {
                 if (ev.Start.DateTimeDateTimeOffset.HasValue)
-                {
                     startUtc = ev.Start.DateTimeDateTimeOffset.Value.UtcDateTime;
-                }
                 else if (ev.Start.DateTime.HasValue)
-                {
                     startUtc = ev.Start.DateTime.Value.ToUniversalTime();
-                }
                 else if (!string.IsNullOrEmpty(ev.Start.DateTimeRaw) && DateTimeOffset.TryParse(ev.Start.DateTimeRaw, out var dtoStart))
-                {
                     startUtc = dtoStart.UtcDateTime;
-                }
                 else if (!string.IsNullOrEmpty(ev.Start.Date) && DateTime.TryParse(ev.Start.Date, out var parsedDate))
-                {
                     startUtc = DateTime.SpecifyKind(parsedDate, DateTimeKind.Utc);
-                }
             }
 
             if (ev?.End != null)
             {
                 if (ev.End.DateTimeDateTimeOffset.HasValue)
-                {
                     endUtc = ev.End.DateTimeDateTimeOffset.Value.UtcDateTime;
-                }
                 else if (ev.End.DateTime.HasValue)
-                {
                     endUtc = ev.End.DateTime.Value.ToUniversalTime();
-                }
                 else if (!string.IsNullOrEmpty(ev.End.DateTimeRaw) && DateTimeOffset.TryParse(ev.End.DateTimeRaw, out var dtoEnd))
-                {
                     endUtc = dtoEnd.UtcDateTime;
-                }
                 else if (!string.IsNullOrEmpty(ev.End.Date) && DateTime.TryParse(ev.End.Date, out var parsedDateEnd))
-                {
                     endUtc = DateTime.SpecifyKind(parsedDateEnd, DateTimeKind.Utc);
-                }
             }
 
-            if (endUtc <= startUtc)
-            {
-                endUtc = startUtc.AddHours(1);
-            }
+            if (endUtc <= startUtc) endUtc = startUtc.AddHours(1);
 
             return (startUtc, endUtc);
+        }
+
+        private static bool IsAllDayEvent(Event ev)
+        {
+            if (ev?.Start == null) return false;
+            bool hasTime = ev.Start.DateTimeDateTimeOffset.HasValue || ev.Start.DateTime.HasValue || !string.IsNullOrEmpty(ev.Start.DateTimeRaw);
+            return !string.IsNullOrEmpty(ev.Start.Date) && !hasTime;
+        }
+
+        private record PatientInfoDTO(
+            string Voornaam,
+            string Achternaam,
+            string Email,
+            string Telefoonnummer,
+            DateOnly Geboortedatum,
+            string Opmerkingen,
+            bool IsAnonymized
+        );
+
+        private PatientInfoDTO ExtractPatientDetails(Event ev, bool isPraktijkhuis)
+        {
+            var attendee = ev.Attendees?.FirstOrDefault(a => a.Self != true && !string.Equals(a.Email, _calendarId, StringComparison.OrdinalIgnoreCase));
+            var email = attendee?.Email;
+            if (string.IsNullOrEmpty(email) && ev.Creator?.Email != null && !string.Equals(ev.Creator.Email, _calendarId, StringComparison.OrdinalIgnoreCase))
+            {
+                email = ev.Creator.Email;
+            }
+
+            var displayNaam = attendee?.DisplayName ?? ev.Summary ?? "Onbekende Patient";
+            string voornaam, achternaam, telefoonnummer, cleanOpmerkingen;
+            DateOnly geboortedatum;
+
+            if (isPraktijkhuis)
+            {
+                var parsed = ParsePraktijkhuisEventInfo(ev, displayNaam);
+                voornaam = parsed.Voornaam;
+                achternaam = parsed.Achternaam;
+                geboortedatum = parsed.Geboortedatum;
+                telefoonnummer = parsed.Telefoonnummer;
+                cleanOpmerkingen = "[PH9500]\n" + parsed.CleanOpmerkingen;
+            }
+            else
+            {
+                var splitNaam = displayNaam.Split(' ', 2);
+                voornaam = splitNaam.Length > 0 ? splitNaam[0] : "Patient";
+                achternaam = splitNaam.Length > 1 ? splitNaam[1] : "van Google";
+                geboortedatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-30));
+                telefoonnummer = "";
+                cleanOpmerkingen = ev.Description ?? "";
+            }
+
+            if (string.IsNullOrEmpty(email))
+            {
+                var safeName = Regex.Replace(displayNaam.ToLower(), @"[^a-z0-9]", ".");
+                email = $"{safeName}@googlecalendar.local";
+            }
+
+            bool isAnonymized = displayNaam.StartsWith("Sessie #", StringComparison.OrdinalIgnoreCase)
+                || voornaam.Equals("Sessie", StringComparison.OrdinalIgnoreCase)
+                || displayNaam.Contains("patientenportaal", StringComparison.OrdinalIgnoreCase)
+                || displayNaam.Contains("patiëntenportaal", StringComparison.OrdinalIgnoreCase);
+
+            return new PatientInfoDTO(voornaam, achternaam, email, telefoonnummer, geboortedatum, cleanOpmerkingen, isAnonymized);
+        }
+
+        private async Task<Patient> GetOrCreatePatientAsync(ApplicationDbContext dbContext, PatientInfoDTO info)
+        {
+            var patient = dbContext.Patienten.FirstOrDefault(p =>
+                (p.Voornaam == info.Voornaam && p.Achternaam == info.Achternaam) ||
+                (p.Email == info.Email && p.Voornaam == info.Voornaam)
+            );
+
+            if (patient == null)
+            {
+                var patientEmail = info.Email;
+                if (dbContext.Patienten.Any(p => p.Email == info.Email))
+                {
+                    var safeName = Regex.Replace((info.Voornaam + info.Achternaam).ToLower(), @"[^a-z0-9]", ".");
+                    patientEmail = $"{safeName}@praktijkhuis9500.be";
+                }
+
+                patient = new Patient
+                {
+                    Voornaam = info.Voornaam,
+                    Achternaam = info.Achternaam,
+                    Email = patientEmail,
+                    Geboortedatum = info.Geboortedatum,
+                    IsActief = true,
+                    Telefoonnummer = info.Telefoonnummer
+                };
+
+                dbContext.Patienten.Add(patient);
+                await dbContext.SaveChangesAsync();
+                _logger.LogInformation($"Nieuwe patiënt {patient.VolledigeNaam} aangemaakt na synchronisatie uit Google Calendar.");
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(patient.Telefoonnummer) && !string.IsNullOrEmpty(info.Telefoonnummer))
+                {
+                    patient.Telefoonnummer = info.Telefoonnummer;
+                }
+            }
+
+            return patient;
+        }
+
+        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis)
+        {
+            var allTypes = dbContext.AfspraakTypes.ToList();
+            var praktijkhuisType = allTypes.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase))
+                                   ?? allTypes.FirstOrDefault(t => t.Id == 3);
+            var therapieType = allTypes.FirstOrDefault(t => t.Id == 2) ?? allTypes.FirstOrDefault();
+
+            return isPraktijkhuis && praktijkhuisType != null ? praktijkhuisType : (therapieType ?? allTypes.FirstOrDefault());
         }
 
         private static bool IsExplicitBlocker(string? summary)
         {
             if (string.IsNullOrWhiteSpace(summary)) return true;
             var lower = summary.Trim().ToLower();
-            return lower == "verlof" || lower == "vakantie" || lower == "afwezig" || 
-                   lower == "pauze" || lower == "lunch" || lower == "blokkering" || 
+            return lower == "verlof" || lower == "vakantie" || lower == "afwezig" ||
+                   lower == "pauze" || lower == "lunch" || lower == "blokkering" ||
                    lower == "vrij nemen?" || lower.StartsWith("verlof ") || lower.StartsWith("vakantie ") ||
                    lower.StartsWith("blokkering") || lower.Contains("blokkering");
         }
@@ -549,13 +454,12 @@ namespace AfsprakenbeheerPsycholoog.Services
         private static bool CheckIsPraktijkhuis(Event ev)
         {
             if (ev == null) return false;
-            
             if (ev.Creator?.DisplayName != null && ev.Creator.DisplayName.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)) return true;
             if (ev.Creator?.Email != null && ev.Creator.Email.Contains("praktijkhuis", StringComparison.OrdinalIgnoreCase)) return true;
             if (ev.Organizer?.DisplayName != null && ev.Organizer.DisplayName.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)) return true;
             if (ev.Organizer?.Email != null && ev.Organizer.Email.Contains("praktijkhuis", StringComparison.OrdinalIgnoreCase)) return true;
 
-            if (ev.Attendees != null && ev.Attendees.Any(a => 
+            if (ev.Attendees != null && ev.Attendees.Any(a =>
                 (a.DisplayName != null && a.DisplayName.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)) ||
                 (a.Email != null && a.Email.Contains("praktijkhuis", StringComparison.OrdinalIgnoreCase))))
             {
@@ -563,7 +467,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
 
             if (ev.Location != null && ev.Location.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)) return true;
-            if (ev.Summary != null && (ev.Summary.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase) || 
+            if (ev.Summary != null && (ev.Summary.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase) ||
                                       (ev.Summary.Contains("Psycholoog", StringComparison.OrdinalIgnoreCase) && ev.Summary.Contains("(")))) return true;
 
             return false;
@@ -574,9 +478,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             var summary = ev.Summary ?? defaultDisplayNaam ?? "";
             var description = ev.Description ?? "";
 
-            // 1. Parse Geboortedatum uit Summary, bijv: "1ste Ricour Dirk ( 22/09/1953) Psycholoog"
             DateOnly geboortedatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-30));
-            var dobMatch = System.Text.RegularExpressions.Regex.Match(summary, @"\(\s*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{4})\s*\)");
+            var dobMatch = Regex.Match(summary, @"\(\s*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{4})\s*\)");
             if (dobMatch.Success)
             {
                 var dobStr = dobMatch.Groups[1].Value.Replace('-', '/').Replace('.', '/');
@@ -586,15 +489,14 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
             }
 
-            // 2. Parse Telefoonnummer & Clean Opmerkingen uit Description
             string telefoonnummer = "";
             var descLines = description.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            var cleanDescList = new System.Collections.Generic.List<string>();
+            var cleanDescList = new List<string>();
 
             foreach (var line in descLines)
             {
                 var trimmed = line.Trim();
-                if (string.IsNullOrEmpty(telefoonnummer) && System.Text.RegularExpressions.Regex.IsMatch(trimmed, @"^[\d\s\.\-\+]{8,16}$") && trimmed.Any(char.IsDigit))
+                if (string.IsNullOrEmpty(telefoonnummer) && Regex.IsMatch(trimmed, @"^[\d\s\.\-\+]{8,16}$") && trimmed.Any(char.IsDigit))
                 {
                     telefoonnummer = trimmed;
                 }
@@ -604,14 +506,10 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
             }
 
-            // 3. Clean Name van Summary
             var cleanName = summary;
-            if (dobMatch.Success)
-            {
-                cleanName = cleanName.Replace(dobMatch.Value, "");
-            }
-            cleanName = System.Text.RegularExpressions.Regex.Replace(cleanName, @"\b(1ste|2de|3de|Psycholoog|consult|intake)\b", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
-            
+            if (dobMatch.Success) cleanName = cleanName.Replace(dobMatch.Value, "");
+            cleanName = Regex.Replace(cleanName, @"\b(1ste|2de|3de|Psycholoog|consult|intake)\b", "", RegexOptions.IgnoreCase).Trim();
+
             var nameParts = cleanName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string voornaam = "Patient";
             string achternaam = "van Google";
@@ -627,21 +525,18 @@ namespace AfsprakenbeheerPsycholoog.Services
                 voornaam = string.Join(" ", nameParts.Skip(1));
             }
 
-            string cleanOpmerkingen = string.Join("\n", cleanDescList);
-
-            return (voornaam, achternaam, geboortedatum, telefoonnummer, cleanOpmerkingen);
+            return (voornaam, achternaam, geboortedatum, telefoonnummer, string.Join("\n", cleanDescList));
         }
 
         public async Task<List<(DateTime Start, DateTime End)>> GetBusySlotsAsync(DateTime startUtc, DateTime endUtc)
         {
             var busySlots = new List<(DateTime Start, DateTime End)>();
 
-            // Always check local DB for scheduled appointments that aren't cancelled
             using (var scope = _serviceProvider.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<Data.ApplicationDbContext>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var appointments = dbContext.Afspraken
-                    .Where(a => a.Starttijd < endUtc && a.Eindtijd > startUtc && a.Status != Data.Entities.AfspraakStatus.Geannuleerd)
+                    .Where(a => a.Starttijd < endUtc && a.Eindtijd > startUtc && a.Status != AfspraakStatus.Geannuleerd)
                     .ToList();
 
                 foreach (var app in appointments)
@@ -650,12 +545,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
             }
 
-            if (_useMock)
-            {
-                return busySlots;
-            }
-
-            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geinitialiseerd.");
+            if (_useMock) return busySlots;
+            if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
 
             try
             {
@@ -666,8 +557,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     Items = new List<FreeBusyRequestItem> { new FreeBusyRequestItem { Id = _calendarId } }
                 };
 
-                var query = _calendarService.Freebusy.Query(request);
-                var response = await query.ExecuteAsync();
+                var response = await _calendarService.Freebusy.Query(request).ExecuteAsync();
 
                 if (response.Calendars != null && response.Calendars.TryGetValue(_calendarId, out var calendarFreeBusy))
                 {
@@ -685,7 +575,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fout bij ophalen FreeBusy van Google Calendar. Terugvallen op lege lijst.");
+                _logger.LogError(ex, "Fout bij ophalen FreeBusy van Google Calendar.");
             }
 
             return busySlots;

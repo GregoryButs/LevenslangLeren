@@ -141,6 +141,21 @@ export const GoogleSetupGuide: React.FC = () => {
     }
   };
 
+  const handleCleanResync = async () => {
+    if (!confirm('Weet u zeker dat u alle gesynchroniseerde afspraken wilt opschonen en 100% vers wilt ophalen uit Google Calendar?')) return;
+    try {
+      setSyncing(true);
+      const res = await settingsApi.cleanResync();
+      alert(res.message || 'Agenda opgeschoond en opnieuw gesynchroniseerd!');
+    } catch (err: any) {
+      console.error('Fout bij her-synchroniseren agenda:', err);
+      const errMsg = err.response?.data?.error || 'Her-synchronisatie mislukt.';
+      alert(errMsg);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   const updateField = (key: keyof SettingsData, value: any) => {
     if (!settings) return;
     setSettings({
@@ -222,15 +237,25 @@ export const GoogleSetupGuide: React.FC = () => {
             type="button"
             onClick={handleSyncCalendar}
             disabled={syncing}
-            className="flex items-center justify-center space-x-2 bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white font-bold py-2.5 px-5 rounded-xl transition disabled:opacity-50"
+            className="flex items-center justify-center space-x-2 bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white font-bold py-2.5 px-4 rounded-xl transition disabled:opacity-50 text-xs"
           >
             {syncing ? <Loader2 className="animate-spin h-4 w-4" /> : <RefreshCw className="h-4 w-4" />}
-            <span>Nu synchroniseren</span>
+            <span>Snel synchroniseren</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleCleanResync}
+            disabled={syncing}
+            className="flex items-center justify-center space-x-2 bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200 font-bold py-2.5 px-4 rounded-xl transition disabled:opacity-50 text-xs"
+            title="Wist oude gesynchroniseerde entries en haalt alles 100% vers op uit Google"
+          >
+            {syncing ? <Loader2 className="animate-spin h-4 w-4" /> : <RefreshCw className="h-4 w-4 text-amber-600" />}
+            <span>Volledige Her-sync</span>
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-6 rounded-xl transition shadow-lg shadow-brand-500/10 disabled:opacity-50"
+            className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-5 rounded-xl transition shadow-lg shadow-brand-500/10 disabled:opacity-50 text-xs"
           >
             {saving ? <Loader2 className="animate-spin h-4 w-4" /> : <Save className="h-4 w-4" />}
             <span>Instellingen Opslaan</span>
