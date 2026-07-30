@@ -48,10 +48,20 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                         <p style='font-size: 12px; color: #64748b;'>U kunt direct antwoorden op deze e-mail of contact opnemen via {model.Email}.</p>
                     </div>";
 
-                // Send email to practice inbox
-                await _emailService.SendEmailAsync("inge@deverstandhouding.be", subject, body);
+                // Send email to practice inbox in background task
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await _emailService.SendEmailAsync("inge@deverstandhouding.be", subject, body);
+                    }
+                    catch (Exception emailEx)
+                    {
+                        _logger.LogError(emailEx, "Fout bij achtergrond-verzending van contactformulier e-mail.");
+                    }
+                });
 
-                _logger.LogInformation($"Contactbericht ontvangen van {model.Name} ({model.Email}) en verzonden naar inge@deverstandhouding.be");
+                _logger.LogInformation($"Contactbericht ontvangen van {model.Name} ({model.Email})");
 
                 return Ok(new { success = true, message = "Bericht succesvol verzonden." });
             }
