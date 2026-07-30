@@ -176,7 +176,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Fout bij achtergrond-verzending van registratie-email naar {Email}", userEmail);
+                        _logger.LogError(ex, "Fout bij achtergrond-verzending van registratie-email naar {Email}: {Details}", userEmail, ex.ToString());
                     }
                 });
 

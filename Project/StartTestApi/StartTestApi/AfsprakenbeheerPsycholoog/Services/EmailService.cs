@@ -75,6 +75,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                     using (var smtp = new SmtpClient(_smtpServer, _smtpPort))
                     {
+                        smtp.UseDefaultCredentials = false;
                         smtp.Credentials = new NetworkCredential(_smtpUser, _smtpPassword);
                         smtp.EnableSsl = true;
                         smtp.Timeout = 15000;
@@ -85,7 +86,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Fout bij versturen e-mail naar {toEmail}.");
+                _logger.LogError(ex, "Fout bij versturen e-mail naar {ToEmail}: {ExceptionMessage}", toEmail, ex.ToString());
                 // In testomgevingen willen we niet dat de app crasht als mailen faalt, dus we loggen enkel de fout.
             }
         }
