@@ -170,34 +170,40 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
         }
 
-        public string BuildIcsContent(DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen)
+        public string BuildIcsContent(DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen, string patientNaam = "Patiënt", string toEmail = "")
         {
             var startUtcStr = startUtc.ToString("yyyyMMddTHHmmssZ");
             var eindUtcStr = endUtc.ToString("yyyyMMddTHHmmssZ");
             var nuUtcStr = DateTime.UtcNow.ToString("yyyyMMddTHHmmssZ");
 
-            var icsBuilder = new System.Text.StringBuilder();
-            icsBuilder.AppendLine("BEGIN:VCALENDAR");
-            icsBuilder.AppendLine("VERSION:2.0");
-            icsBuilder.AppendLine("PRODID:-//De Verstandhouding//Afsprakenbeheer//NL");
-            icsBuilder.AppendLine("BEGIN:VEVENT");
-            icsBuilder.AppendLine($"UID:afspraak-{afspraakId}@deverstandhouding.be");
-            icsBuilder.AppendLine($"DTSTAMP:{nuUtcStr}");
-            icsBuilder.AppendLine($"DTSTART:{startUtcStr}");
-            icsBuilder.AppendLine($"DTEND:{eindUtcStr}");
-            icsBuilder.AppendLine($"SUMMARY:{afspraakType} - De Verstandhouding");
-            
-            var description = $"Afspraak bij praktijk De Verstandhouding.\\n\\nType sessie: {afspraakType}";
-            if (!string.IsNullOrEmpty(opmerkingen))
-            {
-                description += $"\\nOpmerkingen: {opmerkingen.Replace("\r\n", "\\n").Replace("\n", "\\n")}";
-            }
-            icsBuilder.AppendLine($"DESCRIPTION:{description}");
-            icsBuilder.AppendLine("LOCATION:De Verstandhouding");
-            icsBuilder.AppendLine("END:VEVENT");
-            icsBuilder.AppendLine("END:VCALENDAR");
+            var cleanType = afspraakType.Replace("\\", "\\\\").Replace(";", "\\;").Replace(",", "\\,");
+            var cleanNotes = string.IsNullOrEmpty(opmerkingen) ? "" : opmerkingen.Replace("\r\n", " ").Replace("\n", " ").Replace("\\", "\\\\").Replace(";", "\\;").Replace(",", "\\,");
+            var description = $"Afspraak bij praktijk De Verstandhouding.\\nType sessie: {cleanType}" + (string.IsNullOrEmpty(cleanNotes) ? "" : $"\\nOpmerkingen: {cleanNotes}");
+            var attendeeMail = string.IsNullOrEmpty(toEmail) ? "patient@deverstandhouding.be" : toEmail;
+            var cleanPatient = patientNaam.Replace("\"", "'");
 
-            return icsBuilder.ToString();
+            var sb = new System.Text.StringBuilder();
+            sb.Append("BEGIN:VCALENDAR\r\n");
+            sb.Append("VERSION:2.0\r\n");
+            sb.Append("PRODID:-//De Verstandhouding//NONSGML Afsprakenbeheer//NL\r\n");
+            sb.Append("CALSCALE:GREGORIAN\r\n");
+            sb.Append("METHOD:REQUEST\r\n");
+            sb.Append("BEGIN:VEVENT\r\n");
+            sb.Append($"UID:afspraak-{afspraakId}@deverstandhouding.be\r\n");
+            sb.Append($"DTSTAMP:{nuUtcStr}\r\n");
+            sb.Append($"DTSTART:{startUtcStr}\r\n");
+            sb.Append($"DTEND:{eindUtcStr}\r\n");
+            sb.Append($"SUMMARY:{cleanType} - De Verstandhouding\r\n");
+            sb.Append($"DESCRIPTION:{description}\r\n");
+            sb.Append("LOCATION:De Verstandhouding\r\n");
+            sb.Append("ORGANIZER;CN=\"De Verstandhouding\":mailto:inge@deverstandhouding.be\r\n");
+            sb.Append($"ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=\"{cleanPatient}\":mailto:{attendeeMail}\r\n");
+            sb.Append("STATUS:CONFIRMED\r\n");
+            sb.Append("SEQUENCE:0\r\n");
+            sb.Append("END:VEVENT\r\n");
+            sb.Append("END:VCALENDAR\r\n");
+
+            return sb.ToString();
         }
 
         public async Task SendConfirmationEmailAsync(string toEmail, string patientNaam, DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen = null)
@@ -231,7 +237,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     <p style='color: #94a3b8; font-size: 12px; margin-top: 40px;'>Met vriendelijke groet,<br>Praktijk De Verstandhouding</p>
                 </div>";
 
-            var icsContent = BuildIcsContent(startUtc, endUtc, afspraakType, afspraakId, opmerkingen);
+            var icsContent = BuildIcsContent(startUtc, endUtc, afspraakType, afspraakId, opmerkingen, patientNaam, toEmail);
             var filename = $"afspraak-{afspraakType.ToLower().Replace(" ", "-")}.ics";
 
             await SendEmailAsync(toEmail, subject, body, icsContent, filename);

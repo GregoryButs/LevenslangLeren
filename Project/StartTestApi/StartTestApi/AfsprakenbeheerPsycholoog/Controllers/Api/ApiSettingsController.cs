@@ -39,67 +39,68 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         [Authorize(Policy = "PsycholoogOnly")]
         public IActionResult UpdateSettings([FromBody] PraktijkInstelling model)
         {
-            var settings = _context.PraktijkInstellingen.FirstOrDefault(s => s.Id == 1);
-            if (settings == null)
+            try
             {
-                model.Id = 1;
-                _context.PraktijkInstellingen.Add(model);
-            }
-            else
-            {
-                settings.GoogleCalendarId = model.GoogleCalendarId;
+                var settings = _context.PraktijkInstellingen.FirstOrDefault();
+                if (settings == null)
+                {
+                    settings = new PraktijkInstelling();
+                    _context.PraktijkInstellingen.Add(settings);
+                }
+
+                settings.GoogleCalendarId = string.IsNullOrWhiteSpace(model.GoogleCalendarId) ? "primary" : model.GoogleCalendarId;
                 
                 settings.MaandagActief = model.MaandagActief;
-                settings.MaandagStart = model.MaandagStart;
-                settings.MaandagEinde = model.MaandagEinde;
+                settings.MaandagStart = model.MaandagStart ?? "09:00";
+                settings.MaandagEinde = model.MaandagEinde ?? "12:00";
                 settings.Maandag2Actief = model.Maandag2Actief;
-                settings.MaandagStart2 = model.MaandagStart2;
-                settings.MaandagEinde2 = model.MaandagEinde2;
+                settings.MaandagStart2 = model.MaandagStart2 ?? "13:00";
+                settings.MaandagEinde2 = model.MaandagEinde2 ?? "17:00";
                 
                 settings.DinsdagActief = model.DinsdagActief;
-                settings.DinsdagStart = model.DinsdagStart;
-                settings.DinsdagEinde = model.DinsdagEinde;
+                settings.DinsdagStart = model.DinsdagStart ?? "09:00";
+                settings.DinsdagEinde = model.DinsdagEinde ?? "12:00";
                 settings.Dinsdag2Actief = model.Dinsdag2Actief;
-                settings.DinsdagStart2 = model.DinsdagStart2;
-                settings.DinsdagEinde2 = model.DinsdagEinde2;
+                settings.DinsdagStart2 = model.DinsdagStart2 ?? "13:00";
+                settings.DinsdagEinde2 = model.DinsdagEinde2 ?? "17:00";
 
                 settings.WoensdagActief = model.WoensdagActief;
-                settings.WoensdagStart = model.WoensdagStart;
-                settings.WoensdagEinde = model.WoensdagEinde;
+                settings.WoensdagStart = model.WoensdagStart ?? "09:00";
+                settings.WoensdagEinde = model.WoensdagEinde ?? "12:00";
                 settings.Woensdag2Actief = model.Woensdag2Actief;
-                settings.WoensdagStart2 = model.WoensdagStart2;
-                settings.WoensdagEinde2 = model.WoensdagEinde2;
+                settings.WoensdagStart2 = model.WoensdagStart2 ?? "13:00";
+                settings.WoensdagEinde2 = model.WoensdagEinde2 ?? "17:00";
 
                 settings.DonderdagActief = model.DonderdagActief;
-                settings.DonderdagStart = model.DonderdagStart;
-                settings.DonderdagEinde = model.DonderdagEinde;
+                settings.DonderdagStart = model.DonderdagStart ?? "09:00";
+                settings.DonderdagEinde = model.DonderdagEinde ?? "12:00";
                 settings.Donderdag2Actief = model.Donderdag2Actief;
-                settings.DonderdagStart2 = model.DonderdagStart2;
-                settings.DonderdagEinde2 = model.DonderdagEinde2;
+                settings.DonderdagStart2 = model.DonderdagStart2 ?? "13:00";
+                settings.DonderdagEinde2 = model.DonderdagEinde2 ?? "17:00";
 
                 settings.VrijdagActief = model.VrijdagActief;
-                settings.VrijdagStart = model.VrijdagStart;
-                settings.VrijdagEinde = model.VrijdagEinde;
+                settings.VrijdagStart = model.VrijdagStart ?? "09:00";
+                settings.VrijdagEinde = model.VrijdagEinde ?? "12:00";
                 settings.Vrijdag2Actief = model.Vrijdag2Actief;
-                settings.VrijdagStart2 = model.VrijdagStart2;
-                settings.VrijdagEinde2 = model.VrijdagEinde2;
+                settings.VrijdagStart2 = model.VrijdagStart2 ?? "13:00";
+                settings.VrijdagEinde2 = model.VrijdagEinde2 ?? "17:00";
 
                 settings.ZaterdagActief = model.ZaterdagActief;
-                settings.ZaterdagStart = model.ZaterdagStart;
-                settings.ZaterdagEinde = model.ZaterdagEinde;
+                settings.ZaterdagStart = model.ZaterdagStart ?? "10:00";
+                settings.ZaterdagEinde = model.ZaterdagEinde ?? "12:00";
                 settings.Zaterdag2Actief = model.Zaterdag2Actief;
-                settings.ZaterdagStart2 = model.ZaterdagStart2;
-                settings.ZaterdagEinde2 = model.ZaterdagEinde2;
+                settings.ZaterdagStart2 = model.ZaterdagStart2 ?? "13:00";
+                settings.ZaterdagEinde2 = model.ZaterdagEinde2 ?? "17:00";
 
                 settings.ZondagActief = model.ZondagActief;
-                settings.ZondagStart = model.ZondagStart;
-                settings.ZondagEinde = model.ZondagEinde;
+                settings.ZondagStart = model.ZondagStart ?? "10:00";
+                settings.ZondagEinde = model.ZondagEinde ?? "12:00";
                 settings.Zondag2Actief = model.Zondag2Actief;
-                settings.ZondagStart2 = model.ZondagStart2;
-                settings.ZondagEinde2 = model.ZondagEinde2;
+                settings.ZondagStart2 = model.ZondagStart2 ?? "13:00";
+                settings.ZondagEinde2 = model.ZondagEinde2 ?? "17:00";
 
-                settings.SlotDuurMinuten = model.SlotDuurMinuten;
-                settings.BufferMinuten = model.BufferMinuten;
+                settings.SlotDuurMinuten = model.SlotDuurMinuten <= 0 ? 60 : model.SlotDuurMinuten;
+                settings.BufferMinuten = model.BufferMinuten < 0 ? 0 : model.BufferMinuten;
 
                 settings.LocatiePraktijk = model.LocatiePraktijk;
                 settings.LocatieGoogleMeet = model.LocatieGoogleMeet;
@@ -108,10 +109,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 settings.MinimaalVoorafUren = model.MinimaalVoorafUren;
                 settings.MaximaleToekomstDagen = model.MaximaleToekomstDagen;
 
-                _context.PraktijkInstellingen.Update(settings);
+                _context.SaveChanges();
+                return Ok(settings);
             }
-            _context.SaveChanges();
-            return Ok(settings);
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { message = $"Fout bij opslaan instellingen: {ex.InnerException?.Message ?? ex.Message}" });
+            }
         }
 
         [HttpPost("sync-calendar")]

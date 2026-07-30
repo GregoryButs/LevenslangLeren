@@ -97,11 +97,11 @@ export const PatientDashboard: React.FC = () => {
                 return (
                   <div 
                     key={appt.id} 
-                    className="p-4 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-2xl flex justify-between items-center hover:bg-white dark:hover:bg-brand-950/90 hover:shadow-sm transition"
+                    className="p-4 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-2xl flex flex-col xl:flex-row xl:items-center justify-between gap-3 hover:bg-white dark:hover:bg-brand-950/90 hover:shadow-sm transition"
                   >
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-semibold text-slate-800 dark:text-brand-100">
+                    <div className="space-y-1 min-w-0">
+                      <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+                        <span className="font-semibold text-slate-800 dark:text-brand-100 truncate">
                           {appt.afspraakTypeNaam}
                         </span>
                         <span className={`text-[10px] font-bold uppercase tracking-wider py-0.5 px-2 rounded-full ${
@@ -124,23 +124,24 @@ export const PatientDashboard: React.FC = () => {
                       )}
                     </div>
 
-                    <div className="flex flex-col space-y-2 shrink-0 items-end ml-4">
+                    <div className="flex flex-wrap sm:flex-nowrap xl:flex-col gap-2 shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-200/50 dark:border-brand-800/40">
                       {appt.status === 'Gepland' && (
                         <a
                           href={`/api/patientportaal/afspraak/${appt.id}/ics`}
                           download
-                          className="flex items-center space-x-1 text-xs font-semibold bg-brand-50 dark:bg-brand-800/60 hover:bg-brand-100 dark:hover:bg-brand-800 text-brand-700 dark:text-brand-200 py-2 px-3 rounded-xl transition"
+                          title="Download .ics bestand voor uw agenda"
+                          className="flex items-center justify-center space-x-1.5 text-xs font-medium bg-brand-50 dark:bg-brand-800/60 hover:bg-brand-100 dark:hover:bg-brand-800 text-brand-700 dark:text-brand-200 py-1.5 px-3 rounded-xl transition whitespace-nowrap"
                         >
-                          <Calendar className="h-4 w-4" />
-                          <span>Zet in agenda</span>
+                          <Calendar className="h-3.5 w-3.5 shrink-0 text-brand-600 dark:text-brand-400" />
+                          <span>ICS Agenda</span>
                         </a>
                       )}
                       {isUpcoming && (
                         <button
                           onClick={() => handleCancel(appt.id)}
-                          className="flex items-center space-x-1 text-xs font-semibold bg-red-50 dark:bg-red-950/60 hover:bg-red-100 text-red-700 dark:text-red-300 py-2 px-3 rounded-xl transition"
+                          className="flex items-center justify-center space-x-1.5 text-xs font-medium bg-red-50 dark:bg-red-950/60 hover:bg-red-100 text-red-700 dark:text-red-300 py-1.5 px-3 rounded-xl transition whitespace-nowrap"
                         >
-                          <XCircle className="h-4 w-4" />
+                          <XCircle className="h-3.5 w-3.5 shrink-0 text-red-500" />
                           <span>Annuleren</span>
                         </button>
                       )}
