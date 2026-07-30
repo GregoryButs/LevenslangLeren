@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { afspraakApi } from '../services/api';
-import { Afspraak } from '../types';
+import { afspraakApi, settingsApi, patientApi, afspraakTypeApi } from '../services/api';
+import { Afspraak, SettingsData } from '../types';
 import { 
   Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, 
-  RefreshCw, CheckCircle, Loader2 
+  RefreshCw, Loader2, Plus 
 } from 'lucide-react';
 import { AfspraakDetailModal } from '../components/AfspraakDetailModal';
 
 export const CalendarPage: React.FC = () => {
   const [appointments, setAppointments] = useState<Afspraak[]>([]);
+  const [settings, setSettings] = useState<SettingsData | null>(null);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'week' | 'day'>('week');
@@ -16,6 +17,92 @@ export const CalendarPage: React.FC = () => {
 
   // Modal State
   const [selectedAfspraak, setSelectedAfspraak] = useState<Afspraak | null>(null);
+
+  // New Booking Modal State
+  const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [bookingPatients, setBookingPatients] = useState<Array<{ id: number; naam: string }>>([]);
+  const [bookingTypes, setBookingTypes] = useState<Array<{ id: number; naam: string; standaardDuurMinuten: number }>>([]);
+  const [newBooking, setNewBooking] = useState({
+    typeId: '',
+    patientId: '',
+    starttijd: '',
+    opmerkingen: '',
+    herhaling: 0,
+    herhaalTot: ''
+  });
+
+  const loadBookingOptions = async () => {
+    try {
+      const [patientsData, typesData] = await Promise.all([
+        patientApi.getAll().catch(() => []),
+        afspraakTypeApi.getAll().catch(() => [])
+      ]);
+      const pList = patientsData.map((p: any) => ({ id: p.id, naam: `${p.voornaam} ${p.achternaam}` }));
+      const tList = typesData.map((t: any) => ({ id: t.id, naam: t.naam, standaardDuurMinuten: t.standaardDuurMinuten }));
+      setBookingPatients(pList);
+      setBookingTypes(tList);
+      return { pList, tList };
+    } catch {
+      return { pList: [], tList: [] };
+    }
+  };
+
+  const handleOpenBookModal = async (prefilledDate?: Date, prefilledHour?: number) => {
+    const { tList } = await loadBookingOptions();
+    
+    let formattedStarttijd = '';
+    if (prefilledDate && prefilledHour !== undefined) {
+      const year = prefilledDate.getFullYear();
+      const month = (prefilledDate.getMonth() + 1).toString().padStart(2, '0');
+      const dStr = prefilledDate.getDate().toString().padStart(2, '0');
+      const hStr = prefilledHour.toString().padStart(2, '0');
+      formattedStarttijd = `${year}-${month}-${dStr}T${hStr}:00`;
+    } else {
+      const now = new Date();
+      now.setMinutes(0, 0, 0);
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const dStr = now.getDate().toString().padStart(2, '0');
+      const hStr = (now.getHours() + 1).toString().padStart(2, '0');
+      formattedStarttijd = `${year}-${month}-${dStr}T${hStr}:00`;
+    }
+
+    setNewBooking({
+      typeId: tList.length > 0 ? tList[0].id.toString() : '',
+      patientId: '',
+      starttijd: formattedStarttijd,
+      opmerkingen: '',
+      herhaling: 0,
+      herhaalTot: ''
+    });
+    setIsBookModalOpen(true);
+  };
+
+  const handleCreateBooking = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newBooking.typeId || !newBooking.starttijd) {
+      alert("Selecteer a.u.b. een type afspraak en een starttijd.");
+      return;
+    }
+
+    try {
+      const payload = {
+        typeId: parseInt(newBooking.typeId, 10),
+        patientId: newBooking.patientId ? parseInt(newBooking.patientId, 10) : null,
+        starttijd: new Date(newBooking.starttijd).toISOString(),
+        opmerkingen: newBooking.opmerkingen,
+        herhaling: newBooking.herhaling,
+        herhaalTot: newBooking.herhaling !== 0 && newBooking.herhaalTot ? new Date(newBooking.herhaalTot).toISOString() : null
+      };
+
+      await afspraakApi.create(payload);
+      setIsBookModalOpen(false);
+      await fetchData();
+    } catch (err: any) {
+      console.error("Fout bij inplannen van afspraak:", err);
+      alert(err?.response?.data?.message || "Kon afspraak niet inplannen.");
+    }
+  };
 
   const startOfWeek = (date: Date) => {
     const diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
@@ -33,21 +120,75 @@ export const CalendarPage: React.FC = () => {
     return days;
   };
 
-  const fetchAppointments = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await afspraakApi.getAll();
-      setAppointments(data);
+      const [appData, settingsData] = await Promise.all([
+        afspraakApi.getAll(),
+        settingsApi.get().catch(() => null)
+      ]);
+      setAppointments(appData);
+      if (settingsData) setSettings(settingsData);
     } catch (err) {
-      console.error("Fout bij ophalen afspraken:", err);
+      console.error("Fout bij ophalen agendagegevens:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAppointments();
+    fetchData();
   }, []);
+
+  const isPracticeBookingHour = (day: Date, hour: number): boolean => {
+    if (!settings) return true;
+
+    const dayOfWeek = day.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+    let isActive1 = false, startStr1 = "09:00", endStr1 = "12:00";
+    let isActive2 = false, startStr2 = "13:00", endStr2 = "17:00";
+
+    switch (dayOfWeek) {
+      case 1:
+        isActive1 = !!settings.maandagActief; startStr1 = settings.maandagStart || "09:00"; endStr1 = settings.maandagEinde || "12:00";
+        isActive2 = !!settings.maandag2Actief; startStr2 = settings.maandagStart2 || "13:00"; endStr2 = settings.maandagEinde2 || "17:00";
+        break;
+      case 2:
+        isActive1 = !!settings.dinsdagActief; startStr1 = settings.dinsdagStart || "09:00"; endStr1 = settings.dinsdagEinde || "12:00";
+        isActive2 = !!settings.dinsdag2Actief; startStr2 = settings.dinsdagStart2 || "13:00"; endStr2 = settings.dinsdagEinde2 || "17:00";
+        break;
+      case 3:
+        isActive1 = !!settings.woensdagActief; startStr1 = settings.woensdagStart || "09:00"; endStr1 = settings.woensdagEinde || "12:00";
+        isActive2 = !!settings.woensdag2Actief; startStr2 = settings.woensdagStart2 || "13:00"; endStr2 = settings.woensdagEinde2 || "17:00";
+        break;
+      case 4:
+        isActive1 = !!settings.donderdagActief; startStr1 = settings.donderdagStart || "09:00"; endStr1 = settings.donderdagEinde || "12:00";
+        isActive2 = !!settings.donderdag2Actief; startStr2 = settings.donderdagStart2 || "13:00"; endStr2 = settings.donderdagEinde2 || "17:00";
+        break;
+      case 5:
+        isActive1 = !!settings.vrijdagActief; startStr1 = settings.vrijdagStart || "09:00"; endStr1 = settings.vrijdagEinde || "12:00";
+        isActive2 = !!settings.vrijdag2Actief; startStr2 = settings.vrijdagStart2 || "13:00"; endStr2 = settings.vrijdagEinde2 || "17:00";
+        break;
+      case 6:
+        isActive1 = !!settings.zaterdagActief; startStr1 = settings.zaterdagStart || "10:00"; endStr1 = settings.zaterdagEinde || "12:00";
+        isActive2 = !!settings.zaterdag2Actief; startStr2 = settings.zaterdagStart2 || "13:00"; endStr2 = settings.zaterdagEinde2 || "17:00";
+        break;
+      case 0:
+        isActive1 = !!settings.zondagActief; startStr1 = settings.zondagStart || "10:00"; endStr1 = settings.zondagEinde || "12:00";
+        isActive2 = !!settings.zondag2Actief; startStr2 = settings.zondagStart2 || "13:00"; endStr2 = settings.zondagEinde2 || "17:00";
+        break;
+    }
+
+    const check = (active: boolean, sStr: string, eStr: string) => {
+      if (!active) return false;
+      const sH = parseInt(sStr.split(':')[0], 10);
+      const eH = parseInt(eStr.split(':')[0], 10);
+      const eM = parseInt(eStr.split(':')[1] || '0', 10);
+      const effectiveEndH = eM > 0 ? eH : eH - 1;
+      return hour >= sH && hour <= effectiveEndH;
+    };
+
+    return check(isActive1, startStr1, endStr1) || check(isActive2, startStr2, endStr2);
+  };
 
   const handlePrev = () => {
     const newDate = new Date(currentDate);
@@ -205,12 +346,35 @@ export const CalendarPage: React.FC = () => {
           </button>
 
           <button 
-            onClick={fetchAppointments}
+            onClick={() => handleOpenBookModal()}
+            className="px-4 py-2 text-xs font-bold bg-brand-500 hover:bg-brand-600 active:scale-95 text-white rounded-xl shadow-sm transition flex items-center space-x-1.5 cursor-pointer"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Afspraak Inplannen</span>
+          </button>
+
+          <button 
+            onClick={fetchData}
             className="p-2 text-slate-500 dark:text-brand-300 hover:text-slate-700 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-brand-800 rounded-xl border border-slate-200 dark:border-brand-800 transition"
             title="Agenda vernieuwen"
           >
             <RefreshCw className="h-4 w-4" />
           </button>
+        </div>
+      </div>
+
+      {/* Legenda Praktijkuren & Boekbaarheid */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-brand-900 px-6 py-3 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-xs shadow-xs">
+        <div className="flex items-center space-x-4">
+          <span className="font-bold text-slate-600 dark:text-brand-200">Legenda Boekingsuren:</span>
+          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200/60 dark:border-teal-900/40 font-semibold">
+            <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
+            <span>Praktijkuren (Klik op een leeg vakje om een afspraak in te plannen)</span>
+          </div>
+          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-brand-950 text-slate-500 dark:text-brand-400 border border-slate-200/60 dark:border-brand-800/60 font-medium">
+            <span className="h-2 w-2 rounded-full bg-slate-400" />
+            <span>Buiten praktijkuren</span>
+          </div>
         </div>
       </div>
 
@@ -327,14 +491,36 @@ export const CalendarPage: React.FC = () => {
                     {viewMode === 'week' ? (
                       getWeekDays(currentDate).map((day, dayIdx) => {
                         const appts = getAppointmentsForDayAndHour(day, hour);
+                        const isBookingSlot = isPracticeBookingHour(day, hour);
                         return (
-                          <td key={dayIdx} className="p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] bg-slate-50/10 dark:bg-brand-950/20 group-hover:bg-white dark:group-hover:bg-brand-950/50 transition-colors">
+                          <td 
+                            key={dayIdx} 
+                            onClick={(e) => {
+                              if (appts.length === 0) {
+                                e.stopPropagation();
+                                handleOpenBookModal(day, hour);
+                              }
+                            }}
+                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-colors cursor-pointer ${
+                              isBookingSlot
+                                ? 'bg-teal-50/25 dark:bg-teal-950/20 group-hover:bg-teal-50/50 dark:group-hover:bg-teal-950/40'
+                                : 'bg-slate-100/60 dark:bg-brand-950/80 opacity-70 hover:opacity-90'
+                            }`}
+                            title={
+                              appts.length > 0 
+                                ? undefined 
+                                : `Klik om een afspraak in te plannen op ${day.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' })} om ${hour.toString().padStart(2, '0')}:00`
+                            }
+                          >
                             <div className="space-y-1.5">
                               {appts.length > 0 ? (
                                 appts.map((appt) => (
                                   <div 
                                     key={appt.id} 
-                                    onClick={() => setSelectedAfspraak(appt)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedAfspraak(appt);
+                                    }}
                                     style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : appt.kleurcode }}
                                     className={`p-2 border-l-4 rounded-r-xl bg-white dark:bg-brand-950 shadow-sm border border-slate-100 dark:border-brand-800/60 hover:shadow-md transition text-left cursor-pointer hover:scale-[1.01] ${
                                       appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40' : ''
@@ -357,59 +543,83 @@ export const CalendarPage: React.FC = () => {
                                     </span>
                                   </div>
                                 ))
-                              ) : null}
+                              ) : isBookingSlot ? (
+                                <span className="text-[10px] text-teal-600/70 dark:text-teal-400/60 font-semibold flex items-center justify-center h-full py-3 opacity-0 group-hover:opacity-100 transition">
+                                  <Plus className="h-3 w-3 mr-0.5 text-teal-600" /> Inplannen
+                                </span>
+                              ) : (
+                                <span className="text-[10px] text-slate-300 dark:text-brand-700 italic block text-center py-3 group-hover:text-slate-500 transition">+ Inplannen</span>
+                              )}
                             </div>
                           </td>
                         );
                       })
                     ) : (
-                      <td className="p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px]">
-                        <div className="space-y-2">
-                          {getAppointmentsForDayAndHour(currentDate, hour).map((appt) => (
-                            <div 
-                              key={appt.id} 
-                              onClick={() => setSelectedAfspraak(appt)}
-                              style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : appt.kleurcode }}
-                              className={`p-3 border-l-4 rounded-r-xl bg-white dark:bg-brand-950 shadow-sm border border-slate-100 dark:border-brand-800/60 hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.01] ${
-                                appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40' : ''
-                              }`}
-                            >
-                              <div>
-                                <h4 className={`text-sm font-bold flex items-center space-x-1.5 ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
-                                  <span>{appt.patientNaam}</span>
-                                  <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
-                                    appt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
-                                    appt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
-                                    'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
-                                  }`}>
-                                    {appt.status}
-                                  </span>
-                                </h4>
-                                <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
-                                  {appt.afspraakTypeNaam}
+                      (() => {
+                        const isBookingSlot = isPracticeBookingHour(currentDate, hour);
+                        const appts = getAppointmentsForDayAndHour(currentDate, hour);
+                        return (
+                          <td 
+                            onClick={(e) => {
+                              if (appts.length === 0) {
+                                e.stopPropagation();
+                                handleOpenBookModal(currentDate, hour);
+                              }
+                            }}
+                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-colors cursor-pointer ${
+                              isBookingSlot
+                                ? 'bg-teal-50/25 dark:bg-teal-950/20 hover:bg-teal-50/50 dark:hover:bg-teal-950/40'
+                                : 'bg-slate-100/60 dark:bg-brand-950/80 opacity-70 hover:opacity-90'
+                            }`}
+                          >
+                            <div className="space-y-2">
+                              {appts.length > 0 ? (
+                                appts.map((appt) => (
+                                  <div 
+                                    key={appt.id} 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedAfspraak(appt);
+                                    }}
+                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : appt.kleurcode }}
+                                    className={`p-3 border-l-4 rounded-r-xl bg-white dark:bg-brand-950 shadow-sm border border-slate-100 dark:border-brand-800/60 hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.01] ${
+                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40' : ''
+                                    }`}
+                                  >
+                                    <div>
+                                      <h4 className={`text-sm font-bold flex items-center space-x-1.5 ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
+                                        <span>{appt.patientNaam}</span>
+                                        <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
+                                          appt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
+                                          appt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
+                                          'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
+                                        }`}>
+                                          {appt.status}
+                                        </span>
+                                      </h4>
+                                      <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
+                                        {appt.afspraakTypeNaam}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center space-x-4 text-xs font-semibold text-slate-500 dark:text-brand-300 sm:text-right">
+                                      <span className="block flex items-center justify-end">
+                                        <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 mr-1" />
+                                        {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : isBookingSlot ? (
+                                <span className="text-xs text-teal-600/70 dark:text-teal-400/60 font-semibold flex items-center justify-center py-2">
+                                  <Plus className="h-3.5 w-3.5 mr-1 text-teal-600" /> Praktijkuren — Klik om in te plannen
                                 </span>
-                                {appt.opmerkingen ? (
-                                  <p className="text-xs text-slate-400 dark:text-brand-400 mt-1 italic">"{appt.opmerkingen.replace('[PH9500]', '').trim()}"</p>
-                                ) : null}
-                              </div>
-
-                              <div className="flex items-center space-x-4 text-xs font-semibold text-slate-500 dark:text-brand-300 sm:text-right">
-                                <div className="space-y-1">
-                                  <span className="block flex items-center justify-end">
-                                    <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 mr-1" />
-                                    {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
-                                  </span>
-                                  {appt.googleEventId ? (
-                                    <span className="text-[10px] text-blue-500 dark:text-blue-400 font-bold block flex items-center justify-end">
-                                      <CheckCircle className="h-3 w-3 mr-0.5" /> Google Synced
-                                    </span>
-                                  ) : null}
-                                </div>
-                              </div>
+                              ) : (
+                                <span className="text-xs text-slate-400 dark:text-brand-500 italic block text-center py-2">+ Klik om in te plannen</span>
+                              )}
                             </div>
-                          ))}
-                        </div>
-                      </td>
+                          </td>
+                        );
+                      })()
                     )}
                   </tr>
                 ))}
@@ -435,11 +645,115 @@ export const CalendarPage: React.FC = () => {
         </div>
       )}
 
+      {/* Book Appointment Modal */}
+      {isBookModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg p-6 relative border border-slate-100 dark:border-brand-800/40 transition-colors">
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4">Afspraak Inplannen</h3>
+            <form onSubmit={handleCreateBooking} className="space-y-4">
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Type afspraak</label>
+                <select
+                  required
+                  value={newBooking.typeId}
+                  onChange={(e) => setNewBooking({ ...newBooking, typeId: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+                >
+                  {bookingTypes.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.naam} ({t.standaardDuurMinuten} min)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Patiënt</label>
+                <select
+                  value={newBooking.patientId}
+                  onChange={(e) => setNewBooking({ ...newBooking, patientId: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+                >
+                  <option value="">-- Geen patiënt (Blokkering) --</option>
+                  {bookingPatients.map((p) => (
+                    <option key={p.id} value={p.id}>{p.naam}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Starttijd</label>
+                <input
+                  type="datetime-local"
+                  required
+                  value={newBooking.starttijd}
+                  onChange={(e) => setNewBooking({ ...newBooking, starttijd: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Opmerkingen</label>
+                <textarea
+                  value={newBooking.opmerkingen}
+                  onChange={(e) => setNewBooking({ ...newBooking, opmerkingen: e.target.value })}
+                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 focus:outline-none h-20 resize-none"
+                  placeholder="Eventuele opmerkingen..."
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Herhaling</label>
+                  <select
+                    value={newBooking.herhaling}
+                    onChange={(e) => setNewBooking({ ...newBooking, herhaling: Number(e.target.value) })}
+                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
+                  >
+                    <option value={0}>Geen</option>
+                    <option value={1}>Dagelijks</option>
+                    <option value={2}>Wekelijks</option>
+                  </select>
+                </div>
+                {Number(newBooking.herhaling) !== 0 && (
+                  <div>
+                    <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Herhalen t.e.m.</label>
+                    <input
+                      type="date"
+                      required
+                      value={newBooking.herhaalTot}
+                      onChange={(e) => setNewBooking({ ...newBooking, herhaalTot: e.target.value })}
+                      className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100 dark:border-brand-800/40">
+                <button
+                  type="button"
+                  onClick={() => setIsBookModalOpen(false)}
+                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2.5 px-5 rounded-xl font-semibold transition"
+                >
+                  Annuleren
+                </button>
+                <button
+                  type="submit"
+                  className="bg-brand-600 hover:bg-brand-700 text-white py-2.5 px-5 rounded-xl font-semibold transition shadow-sm"
+                >
+                  Boeken
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Herbruikbare AfspraakDetailModal */}
       <AfspraakDetailModal
         afspraak={selectedAfspraak}
         onClose={() => setSelectedAfspraak(null)}
-        onSuccess={fetchAppointments}
+        onSuccess={fetchData}
       />
     </div>
   );

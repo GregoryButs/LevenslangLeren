@@ -56,7 +56,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         public async Task<DagOverzichtViewModel> GetDagOverzichtVoorPatientAsync(DateTime datum)
         {
-            var instelling = _dbContext.PraktijkInstellingen.FirstOrDefault(i => i.Id == 1) 
+            var instelling = _dbContext.PraktijkInstellingen.FirstOrDefault() 
                 ?? new PraktijkInstelling();
 
             var tijdsloten = await BuildTijdslotenVoorDatumAsync(datum, instelling);
@@ -266,7 +266,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var starttijd = vm.GekozeTijdslot.Value;
             
-            var instelling = _dbContext.PraktijkInstellingen.FirstOrDefault(i => i.Id == 1) 
+            var instelling = _dbContext.PraktijkInstellingen.FirstOrDefault() 
                 ?? new PraktijkInstelling();
 
             // Maximaal 2 geplande toekomst-afspraken per patiënt toestaan

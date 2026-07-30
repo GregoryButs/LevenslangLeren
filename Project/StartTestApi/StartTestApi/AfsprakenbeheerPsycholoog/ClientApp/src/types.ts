@@ -89,3 +89,63 @@ export interface DashboardData {
   volgendeAfspraak: Afspraak | null;
   weekOverzicht: WeekOverzicht;
 }
+
+export interface SettingsData {
+  googleCalendarId?: string;
+  maandagActief?: boolean;
+  maandagStart?: string;
+  maandagEinde?: string;
+  maandag2Actief?: boolean;
+  maandagStart2?: string;
+  maandagEinde2?: string;
+
+  dinsdagActief?: boolean;
+  dinsdagStart?: string;
+  dinsdagEinde?: string;
+  dinsdag2Actief?: boolean;
+  dinsdagStart2?: string;
+  dinsdagEinde2?: string;
+
+  woensdagActief?: boolean;
+  woensdagStart?: string;
+  woensdagEinde?: string;
+  woensdag2Actief?: boolean;
+  woensdagStart2?: string;
+  woensdagEinde2?: string;
+
+  donderdagActief?: boolean;
+  donderdagStart?: string;
+  donderdagEinde?: string;
+  donderdag2Actief?: boolean;
+  donderdagStart2?: string;
+  donderdagEinde2?: string;
+
+  vrijdagActief?: boolean;
+  vrijdagStart?: string;
+  vrijdagEinde?: string;
+  vrijdag2Actief?: boolean;
+  vrijdagStart2?: string;
+  vrijdagEinde2?: string;
+
+  zaterdagActief?: boolean;
+  zaterdagStart?: string;
+  zaterdagEinde?: string;
+  zaterdag2Actief?: boolean;
+  zaterdagStart2?: string;
+  zaterdagEinde2?: string;
+
+  zondagActief?: boolean;
+  zondagStart?: string;
+  zondagEinde?: string;
+  zondag2Actief?: boolean;
+  zondagStart2?: string;
+  zondagEinde2?: string;
+
+  slotDuurMinuten?: number;
+  bufferMinuten?: number;
+  locatiePraktijk?: boolean;
+  locatieGoogleMeet?: boolean;
+  locatieTelefoon?: boolean;
+  minimaalVoorafUren?: number;
+  maximaleToekomstDagen?: number;
+}
