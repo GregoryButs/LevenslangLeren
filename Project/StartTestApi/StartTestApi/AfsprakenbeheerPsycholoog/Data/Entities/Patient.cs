@@ -24,7 +24,6 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
-        [Required]
         [Phone]
         [Display(Name = "Telefoonnummer")]
         public string? Telefoonnummer { get; set; }

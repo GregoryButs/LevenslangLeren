@@ -129,7 +129,8 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new { error = ex.Message });
+                var errorDetails = ex.InnerException != null ? $"{ex.Message} -> {ex.InnerException.Message}" : ex.Message;
+                return StatusCode(500, new { error = errorDetails });
             }
         }
 

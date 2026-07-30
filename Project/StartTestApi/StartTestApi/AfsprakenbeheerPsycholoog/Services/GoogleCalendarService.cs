@@ -193,11 +193,25 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     if (ShouldSkipEvent(ev)) continue;
 
-                    await ProcessSingleEventAsync(ev, dbContext);
-                    totalProcessed++;
+                    try
+                    {
+                        await ProcessSingleEventAsync(ev, dbContext);
+                        totalProcessed++;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Fout bij verwerken van Google Calendar event {EventId} ({Summary})", ev.Id, ev.Summary);
+                    }
                 }
 
-                await dbContext.SaveChangesAsync();
+                try
+                {
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Fout bij opslaan van EF Core wijzigingen tijdens Google Calendar synchronisatie");
+                }
                 pageToken = events.NextPageToken;
             } while (!string.IsNullOrEmpty(pageToken));
 
@@ -211,7 +225,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             bool isAllDay = IsAllDayEvent(ev);
             bool isTransparent = string.Equals(ev.Transparency, "transparent", StringComparison.OrdinalIgnoreCase);
 
-            var localAppointment = dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
+            var localAppointment = dbContext.Afspraken.Local.FirstOrDefault(a => a.GoogleEventId == ev.Id)
+                ?? dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
 
             if (localAppointment != null)
             {
@@ -408,15 +423,18 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         private async Task<Patient> GetOrCreatePatientAsync(ApplicationDbContext dbContext, PatientInfoDTO info)
         {
-            var patient = dbContext.Patienten.FirstOrDefault(p =>
+            var patient = dbContext.Patienten.Local.FirstOrDefault(p =>
                 (p.Voornaam == info.Voornaam && p.Achternaam == info.Achternaam) ||
-                (p.Email == info.Email && p.Voornaam == info.Voornaam)
+                (!string.IsNullOrEmpty(info.Email) && p.Email == info.Email && p.Voornaam == info.Voornaam)
+            ) ?? dbContext.Patienten.FirstOrDefault(p =>
+                (p.Voornaam == info.Voornaam && p.Achternaam == info.Achternaam) ||
+                (!string.IsNullOrEmpty(info.Email) && p.Email == info.Email && p.Voornaam == info.Voornaam)
             );
 
             if (patient == null)
             {
                 var patientEmail = info.Email;
-                if (dbContext.Patienten.Any(p => p.Email == info.Email))
+                if (!string.IsNullOrEmpty(info.Email) && (dbContext.Patienten.Local.Any(p => p.Email == info.Email) || dbContext.Patienten.Any(p => p.Email == info.Email)))
                 {
                     var safeName = Regex.Replace((info.Voornaam + info.Achternaam).ToLower(), @"[^a-z0-9]", ".");
                     patientEmail = $"{safeName}@praktijkhuis9500.be";
@@ -429,11 +447,18 @@ namespace AfsprakenbeheerPsycholoog.Services
                     Email = patientEmail,
                     Geboortedatum = info.Geboortedatum,
                     IsActief = true,
-                    Telefoonnummer = info.Telefoonnummer
+                    Telefoonnummer = string.IsNullOrWhiteSpace(info.Telefoonnummer) ? null : info.Telefoonnummer
                 };
 
                 dbContext.Patienten.Add(patient);
-                await dbContext.SaveChangesAsync();
+                try
+                {
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Fout bij opslaan van nieuwe patiënt {Naam}", patient.VolledigeNaam);
+                }
                 _logger.LogInformation($"Nieuwe patiënt {patient.VolledigeNaam} aangemaakt na synchronisatie uit Google Calendar.");
             }
             else
