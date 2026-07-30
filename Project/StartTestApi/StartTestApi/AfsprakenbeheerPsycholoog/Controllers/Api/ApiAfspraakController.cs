@@ -28,16 +28,37 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             _googleCalendarService = googleCalendarService;
         }
 
+        private static DateTime _lastSyncTime = DateTime.MinValue;
+        private static readonly object _syncLock = new object();
+
         [HttpGet]
-        public async Task<IActionResult> GetAlleAfspraken()
+        public IActionResult GetAlleAfspraken([FromQuery] bool forceSync = false)
         {
-            try
+            bool shouldSync = forceSync;
+            if (!shouldSync)
             {
-                await _googleCalendarService.SyncIncomingChangesAsync();
+                lock (_syncLock)
+                {
+                    if ((DateTime.UtcNow - _lastSyncTime).TotalSeconds > 60)
+                    {
+                        _lastSyncTime = DateTime.UtcNow;
+                        shouldSync = true;
+                    }
+                }
             }
-            catch
+
+            if (shouldSync)
             {
-                // Negeer eventuele transient netwerkfouten zodat agenda altijd snel laadt
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        using var scope = HttpContext.RequestServices.CreateScope();
+                        var calendarService = scope.ServiceProvider.GetRequiredService<IGoogleCalendarService>();
+                        await calendarService.SyncIncomingChangesAsync();
+                    }
+                    catch { }
+                });
             }
 
             var afspraken = _afspraakService.GetAlleAfspraken();
