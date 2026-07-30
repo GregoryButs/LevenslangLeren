@@ -77,7 +77,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     {
                         smtp.Credentials = new NetworkCredential(_smtpUser, _smtpPassword);
                         smtp.EnableSsl = true;
-                        smtp.Timeout = 4000;
+                        smtp.Timeout = 15000;
                         await smtp.SendMailAsync(mail);
                     }
                 }
