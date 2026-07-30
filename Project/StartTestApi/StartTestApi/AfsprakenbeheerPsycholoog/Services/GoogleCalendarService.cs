@@ -450,10 +450,6 @@ namespace AfsprakenbeheerPsycholoog.Services
                             };
 
                             dbContext.Afspraken.Add(nieuweAfspraak);
-                            await dbContext.SaveChangesAsync();
-                            _logger.LogInformation($"Nieuwe afspraak #{nieuweAfspraak.Id} lokaal aangemaakt voor {patient.VolledigeNaam} via Google sync.");
-
-                            // Geen e-mails versturen tijdens Google Calendar synchronisatie (alleen bij nieuw online boekingen via het portaal)
                         }
                         else
                         {
@@ -476,11 +472,10 @@ namespace AfsprakenbeheerPsycholoog.Services
                             };
 
                             dbContext.Afspraken.Add(nieuweAfspraak);
-                            await dbContext.SaveChangesAsync();
-                            _logger.LogInformation($"Nieuwe afspraak/melding '{nieuweAfspraak.Opmerkingen}' (IsHeleDag: {nieuweAfspraak.IsHeleDag}) toegevoegd via Google sync.");
                         }
                     }
                     }
+                    await dbContext.SaveChangesAsync();
                     pageToken = events.NextPageToken;
                 } while (!string.IsNullOrEmpty(pageToken));
 

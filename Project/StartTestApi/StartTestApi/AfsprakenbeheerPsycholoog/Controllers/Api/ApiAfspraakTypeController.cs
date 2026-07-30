@@ -18,7 +18,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         }
 
         [HttpGet]
-        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult GetAlleTypes()
         {
             var types = _service.GetAlleTypes();
