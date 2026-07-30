@@ -494,12 +494,17 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     startUtc = ev.Start.DateTimeDateTimeOffset.Value.UtcDateTime;
                 }
-                else if (!string.IsNullOrEmpty(ev.Start.Date))
+                else if (ev.Start.DateTime.HasValue)
                 {
-                    if (DateTime.TryParse(ev.Start.Date, out var parsedDate))
-                    {
-                        startUtc = DateTime.SpecifyKind(parsedDate, DateTimeKind.Utc);
-                    }
+                    startUtc = ev.Start.DateTime.Value.ToUniversalTime();
+                }
+                else if (!string.IsNullOrEmpty(ev.Start.DateTimeRaw) && DateTimeOffset.TryParse(ev.Start.DateTimeRaw, out var dtoStart))
+                {
+                    startUtc = dtoStart.UtcDateTime;
+                }
+                else if (!string.IsNullOrEmpty(ev.Start.Date) && DateTime.TryParse(ev.Start.Date, out var parsedDate))
+                {
+                    startUtc = DateTime.SpecifyKind(parsedDate, DateTimeKind.Utc);
                 }
             }
 
@@ -509,12 +514,17 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     endUtc = ev.End.DateTimeDateTimeOffset.Value.UtcDateTime;
                 }
-                else if (!string.IsNullOrEmpty(ev.End.Date))
+                else if (ev.End.DateTime.HasValue)
                 {
-                    if (DateTime.TryParse(ev.End.Date, out var parsedDateEnd))
-                    {
-                        endUtc = DateTime.SpecifyKind(parsedDateEnd, DateTimeKind.Utc);
-                    }
+                    endUtc = ev.End.DateTime.Value.ToUniversalTime();
+                }
+                else if (!string.IsNullOrEmpty(ev.End.DateTimeRaw) && DateTimeOffset.TryParse(ev.End.DateTimeRaw, out var dtoEnd))
+                {
+                    endUtc = dtoEnd.UtcDateTime;
+                }
+                else if (!string.IsNullOrEmpty(ev.End.Date) && DateTime.TryParse(ev.End.Date, out var parsedDateEnd))
+                {
+                    endUtc = DateTime.SpecifyKind(parsedDateEnd, DateTimeKind.Utc);
                 }
             }
 
