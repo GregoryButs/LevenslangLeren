@@ -143,38 +143,45 @@ export const CalendarPage: React.FC = () => {
   const isPracticeBookingHour = (day: Date, hour: number): boolean => {
     if (!settings) return true;
 
+    const s: any = settings;
+    const getVal = (camel: string, pascal: string, fallback: any = null) => {
+      if (s[camel] !== undefined && s[camel] !== null) return s[camel];
+      if (s[pascal] !== undefined && s[pascal] !== null) return s[pascal];
+      return fallback;
+    };
+
     const dayOfWeek = day.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
     let isActive1 = false, startStr1 = "09:00", endStr1 = "12:00";
     let isActive2 = false, startStr2 = "13:00", endStr2 = "17:00";
 
     switch (dayOfWeek) {
       case 1:
-        isActive1 = !!settings.maandagActief; startStr1 = settings.maandagStart || "09:00"; endStr1 = settings.maandagEinde || "12:00";
-        isActive2 = !!settings.maandag2Actief; startStr2 = settings.maandagStart2 || "13:00"; endStr2 = settings.maandagEinde2 || "17:00";
+        isActive1 = !!getVal('maandagActief', 'MaandagActief'); startStr1 = getVal('maandagStart', 'MaandagStart', "09:00"); endStr1 = getVal('maandagEinde', 'MaandagEinde', "12:00");
+        isActive2 = !!getVal('maandag2Actief', 'Maandag2Actief'); startStr2 = getVal('maandagStart2', 'MaandagStart2', "13:00"); endStr2 = getVal('maandagEinde2', 'MaandagEinde2', "17:00");
         break;
       case 2:
-        isActive1 = !!settings.dinsdagActief; startStr1 = settings.dinsdagStart || "09:00"; endStr1 = settings.dinsdagEinde || "12:00";
-        isActive2 = !!settings.dinsdag2Actief; startStr2 = settings.dinsdagStart2 || "13:00"; endStr2 = settings.dinsdagEinde2 || "17:00";
+        isActive1 = !!getVal('dinsdagActief', 'DinsdagActief'); startStr1 = getVal('dinsdagStart', 'DinsdagStart', "09:00"); endStr1 = getVal('dinsdagEinde', 'DinsdagEinde', "12:00");
+        isActive2 = !!getVal('dinsdag2Actief', 'Dinsdag2Actief'); startStr2 = getVal('dinsdagStart2', 'DinsdagStart2', "13:00"); endStr2 = getVal('dinsdagEinde2', 'DinsdagEinde2', "17:00");
         break;
       case 3:
-        isActive1 = !!settings.woensdagActief; startStr1 = settings.woensdagStart || "09:00"; endStr1 = settings.woensdagEinde || "12:00";
-        isActive2 = !!settings.woensdag2Actief; startStr2 = settings.woensdagStart2 || "13:00"; endStr2 = settings.woensdagEinde2 || "17:00";
+        isActive1 = !!getVal('woensdagActief', 'WoensdagActief'); startStr1 = getVal('woensdagStart', 'WoensdagStart', "09:00"); endStr1 = getVal('woensdagEinde', 'WoensdagEinde', "12:00");
+        isActive2 = !!getVal('woensdag2Actief', 'Woensdag2Actief'); startStr2 = getVal('woensdagStart2', 'WoensdagStart2', "13:00"); endStr2 = getVal('woensdagEinde2', 'WoensdagEinde2', "17:00");
         break;
       case 4:
-        isActive1 = !!settings.donderdagActief; startStr1 = settings.donderdagStart || "09:00"; endStr1 = settings.donderdagEinde || "12:00";
-        isActive2 = !!settings.donderdag2Actief; startStr2 = settings.donderdagStart2 || "13:00"; endStr2 = settings.donderdagEinde2 || "17:00";
+        isActive1 = !!getVal('donderdagActief', 'DonderdagActief'); startStr1 = getVal('donderdagStart', 'DonderdagStart', "09:00"); endStr1 = getVal('donderdagEinde', 'DonderdagEinde', "12:00");
+        isActive2 = !!getVal('donderdag2Actief', 'Donderdag2Actief'); startStr2 = getVal('donderdagStart2', 'DonderdagStart2', "13:00"); endStr2 = getVal('donderdagEinde2', 'DonderdagEinde2', "17:00");
         break;
       case 5:
-        isActive1 = !!settings.vrijdagActief; startStr1 = settings.vrijdagStart || "09:00"; endStr1 = settings.vrijdagEinde || "12:00";
-        isActive2 = !!settings.vrijdag2Actief; startStr2 = settings.vrijdagStart2 || "13:00"; endStr2 = settings.vrijdagEinde2 || "17:00";
+        isActive1 = !!getVal('vrijdagActief', 'VrijdagActief'); startStr1 = getVal('vrijdagStart', 'VrijdagStart', "09:00"); endStr1 = getVal('vrijdagEinde', 'VrijdagEinde', "12:00");
+        isActive2 = !!getVal('vrijdag2Actief', 'Vrijdag2Actief'); startStr2 = getVal('vrijdagStart2', 'VrijdagStart2', "13:00"); endStr2 = getVal('vrijdagEinde2', 'VrijdagEinde2', "17:00");
         break;
       case 6:
-        isActive1 = !!settings.zaterdagActief; startStr1 = settings.zaterdagStart || "10:00"; endStr1 = settings.zaterdagEinde || "12:00";
-        isActive2 = !!settings.zaterdag2Actief; startStr2 = settings.zaterdagStart2 || "13:00"; endStr2 = settings.zaterdagEinde2 || "17:00";
+        isActive1 = !!getVal('zaterdagActief', 'ZaterdagActief'); startStr1 = getVal('zaterdagStart', 'ZaterdagStart', "10:00"); endStr1 = getVal('zaterdagEinde', 'ZaterdagEinde', "12:00");
+        isActive2 = !!getVal('zaterdag2Actief', 'Zaterdag2Actief'); startStr2 = getVal('zaterdagStart2', 'ZaterdagStart2', "13:00"); endStr2 = getVal('zaterdagEinde2', 'ZaterdagEinde2', "17:00");
         break;
       case 0:
-        isActive1 = !!settings.zondagActief; startStr1 = settings.zondagStart || "10:00"; endStr1 = settings.zondagEinde || "12:00";
-        isActive2 = !!settings.zondag2Actief; startStr2 = settings.zondagStart2 || "13:00"; endStr2 = settings.zondagEinde2 || "17:00";
+        isActive1 = !!getVal('zondagActief', 'ZondagActief'); startStr1 = getVal('zondagStart', 'ZondagStart', "10:00"); endStr1 = getVal('zondagEinde', 'ZondagEinde', "12:00");
+        isActive2 = !!getVal('zondag2Actief', 'Zondag2Actief'); startStr2 = getVal('zondagStart2', 'ZondagStart2', "13:00"); endStr2 = getVal('zondagEinde2', 'ZondagEinde2', "17:00");
         break;
     }
 
@@ -501,10 +508,10 @@ export const CalendarPage: React.FC = () => {
                                 handleOpenBookModal(day, hour);
                               }
                             }}
-                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-colors cursor-pointer ${
+                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all cursor-pointer ${
                               isBookingSlot
-                                ? 'bg-teal-50/25 dark:bg-teal-950/20 group-hover:bg-teal-50/50 dark:group-hover:bg-teal-950/40'
-                                : 'bg-slate-100/60 dark:bg-brand-950/80 opacity-70 hover:opacity-90'
+                                ? 'bg-teal-50 dark:bg-teal-950/40 border-teal-200/50 dark:border-teal-900/40 hover:bg-teal-100/70 dark:hover:bg-teal-900/60'
+                                : 'bg-slate-100/70 dark:bg-brand-950/80 opacity-60 hover:opacity-80'
                             }`}
                             title={
                               appts.length > 0 
@@ -566,10 +573,10 @@ export const CalendarPage: React.FC = () => {
                                 handleOpenBookModal(currentDate, hour);
                               }
                             }}
-                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-colors cursor-pointer ${
+                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all cursor-pointer ${
                               isBookingSlot
-                                ? 'bg-teal-50/25 dark:bg-teal-950/20 hover:bg-teal-50/50 dark:hover:bg-teal-950/40'
-                                : 'bg-slate-100/60 dark:bg-brand-950/80 opacity-70 hover:opacity-90'
+                                ? 'bg-teal-50 dark:bg-teal-950/40 border-teal-200/50 dark:border-teal-900/40 hover:bg-teal-100/70 dark:hover:bg-teal-900/60'
+                                : 'bg-slate-100/70 dark:bg-brand-950/80 opacity-60 hover:opacity-80'
                             }`}
                           >
                             <div className="space-y-2">
