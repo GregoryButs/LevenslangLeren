@@ -56,6 +56,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                         {
                             cmd.CommandText = "PRAGMA table_info(Afspraken);";
                             bool hasIsHeleDag = false;
+                            bool hasHerinneringWeekVerzonden = false;
                             using (var reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
@@ -64,7 +65,10 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                     if (string.Equals(name, "IsHeleDag", StringComparison.OrdinalIgnoreCase))
                                     {
                                         hasIsHeleDag = true;
-                                        break;
+                                    }
+                                    if (string.Equals(name, "HerinneringWeekVerzonden", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        hasHerinneringWeekVerzonden = true;
                                     }
                                 }
                             }
@@ -74,6 +78,15 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 using (var addColCmd = conn.CreateCommand())
                                 {
                                     addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN IsHeleDag INTEGER NOT NULL DEFAULT 0;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            if (!hasHerinneringWeekVerzonden)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN HerinneringWeekVerzonden INTEGER NOT NULL DEFAULT 0;";
                                     addColCmd.ExecuteNonQuery();
                                 }
                             }
