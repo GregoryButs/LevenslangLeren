@@ -16,8 +16,8 @@ services:
       Email__UseMock: "${EMAIL_USE_MOCK:-false}"
       Email__SenderAddress: "${EMAIL_SENDER_ADDRESS:-inge@deverstandhouding.be}"
       Email__SenderName: "${EMAIL_SENDER_NAME:-De Verstandhouding - Inge Debast}"
-      Email__SmtpServer: "${EMAIL_SMTP_SERVER:-smtp-auth.mailprotect.be}"
-      Email__SmtpPort: "${EMAIL_SMTP_PORT:-587}"
+      Email__SmtpServer: "${EMAIL_SMTP_SERVER:-smtp.mailprotect.be}"
+      Email__SmtpPort: "${EMAIL_SMTP_PORT:-465}"
       Email__SmtpUser: "${EMAIL_SMTP_USER:-inge@deverstandhouding.be}"
       Email__SmtpPassword: "${EMAIL_SMTP_PASSWORD:-}"
     volumes:

@@ -24,8 +24,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             _logger = logger;
             _senderAddress = configuration["Email:SenderAddress"] ?? "inge@deverstandhouding.be";
             _senderName = configuration["Email:SenderName"] ?? "De Verstandhouding - Inge Debast";
-            _smtpServer = configuration["Email:SmtpServer"] ?? "smtp-auth.mailprotect.be";
-            _smtpPort = int.TryParse(configuration["Email:SmtpPort"], out var port) ? port : 587;
+            _smtpServer = configuration["Email:SmtpServer"] ?? "smtp.mailprotect.be";
+            _smtpPort = int.TryParse(configuration["Email:SmtpPort"], out var port) ? port : 465;
             _smtpUser = configuration["Email:SmtpUser"] ?? "";
             _smtpPassword = configuration["Email:SmtpPassword"] ?? "";
 
