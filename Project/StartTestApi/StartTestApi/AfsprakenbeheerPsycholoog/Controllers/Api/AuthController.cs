@@ -134,12 +134,16 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 }
             }
 
+            var matchingPatient = _patientRepo.GetAll()
+                .FirstOrDefault(p => p.IsActief && !string.IsNullOrEmpty(p.Email) && p.Email.Trim().ToLower() == model.Email.Trim().ToLower());
+
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
                 Voornaam = model.Voornaam,
                 Achternaam = model.Achternaam,
+                PatientId = matchingPatient?.Id,
                 EmailConfirmed = false
             };
 

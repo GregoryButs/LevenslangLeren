@@ -60,7 +60,31 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var id = _service.CreatePatient(vm);
-            return CreatedAtAction(nameof(GetPatientDetail), new { id = id }, new { id = id, message = "Patiënt succesvol aangemaakt." });
+
+            if (!string.IsNullOrWhiteSpace(vm.Email))
+            {
+                var patientEmail = vm.Email.Trim();
+                var patientNaam = $"{vm.Voornaam} {vm.Achternaam}".Trim();
+
+                // Probeer eventueel al een bestaand account te koppelen
+                _service.KoppelPatientAanUser(id, patientEmail);
+
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        using var scope = _scopeFactory.CreateScope();
+                        var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                        await emailService.SendPatientWelcomeEmailAsync(patientEmail, patientNaam);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Fout bij verzenden van welkomstmail naar {Email}", patientEmail);
+                    }
+                });
+            }
+
+            return CreatedAtAction(nameof(GetPatientDetail), new { id = id }, new { id = id, message = "Patiënt succesvol aangemaakt en welkomstmail verzonden." });
         }
 
         [HttpPut("{id}")]
