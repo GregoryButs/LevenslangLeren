@@ -70,8 +70,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             // Zoek de eerstvolgende beschikbare afspraak voor de patient zonder recursie
             try
             {
-                var vandaag = DateTime.Today.AddDays(1);
-                for (int i = 0; i < 30; i++)
+                var vandaag = DateTime.Today;
+                for (int i = 0; i < instelling.MaximaleToekomstDagen + 5; i++)
                 {
                     var testDatum = vandaag.AddDays(i);
                     List<TijdslotViewModel> testSloten;
@@ -192,6 +192,8 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var slotDuur = instelling.SlotDuurMinuten;
             var buffer = instelling.BufferMinuten;
+            var minAllowedTime = DateTime.Now.AddHours(instelling.MinimaalVoorafUren);
+            var maxAllowedDate = DateTime.Now.Date.AddDays(instelling.MaximaleToekomstDagen + 1);
 
             if (isActive1)
             {
@@ -210,7 +212,9 @@ namespace AfsprakenbeheerPsycholoog.Services
                     var slotStartUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(currentLocal, DateTimeKind.Unspecified), tz);
                     var slotEndUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(slotEndLocal, DateTimeKind.Unspecified), tz);
 
-                    bool isBusy = busySlots.Any(b => b.Start < slotEndUtc && b.End > slotStartUtc);
+                    bool isTooSoon = currentLocal < minAllowedTime;
+                    bool isTooFar = currentLocal >= maxAllowedDate;
+                    bool isBusy = busySlots.Any(b => b.Start < slotEndUtc && b.End > slotStartUtc) || isTooSoon || isTooFar;
 
                     tijdsloten.Add(new TijdslotViewModel
                     {
@@ -242,7 +246,9 @@ namespace AfsprakenbeheerPsycholoog.Services
                     var slotStartUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(currentLocal, DateTimeKind.Unspecified), tz);
                     var slotEndUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(slotEndLocal, DateTimeKind.Unspecified), tz);
 
-                    bool isBusy = busySlots.Any(b => b.Start < slotEndUtc && b.End > slotStartUtc);
+                    bool isTooSoon = currentLocal < minAllowedTime;
+                    bool isTooFar = currentLocal >= maxAllowedDate;
+                    bool isBusy = busySlots.Any(b => b.Start < slotEndUtc && b.End > slotStartUtc) || isTooSoon || isTooFar;
 
                     tijdsloten.Add(new TijdslotViewModel
                     {
