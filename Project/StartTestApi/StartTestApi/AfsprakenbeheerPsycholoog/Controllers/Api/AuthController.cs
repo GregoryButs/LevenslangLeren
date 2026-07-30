@@ -122,7 +122,18 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                         <p style='color: #94a3b8; font-size: 12px;'>Met vriendelijke groet,<br>Praktijk De Verstandhouding</p>
                     </div>";
 
-                await _emailService.SendEmailAsync(user.Email, subject, body);
+                var userEmail = user.Email;
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await _emailService.SendEmailAsync(userEmail, subject, body);
+                    }
+                    catch
+                    {
+                        // Negeer e-mailverzendifouten op achtergrond
+                    }
+                });
 
                 return Ok(new
                 {

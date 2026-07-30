@@ -21,22 +21,25 @@ namespace AfsprakenbeheerPsycholoog.Services
         public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
         {
             _logger = logger;
-            _useMock = string.Equals(configuration["Email:UseMock"], "true", StringComparison.OrdinalIgnoreCase);
-            
-            _senderAddress = configuration["Email:SenderAddress"] ?? "info@deverstandhouding.be";
-            _senderName = configuration["Email:SenderName"] ?? "De Verstandhouding - Psycholoog";
-            _smtpServer = configuration["Email:SmtpServer"] ?? "smtp.mailtrap.io";
+            _senderAddress = configuration["Email:SenderAddress"] ?? "inge@deverstandhouding.be";
+            _senderName = configuration["Email:SenderName"] ?? "De Verstandhouding - Inge Debast";
+            _smtpServer = configuration["Email:SmtpServer"] ?? "smtp-auth.mailprotect.be";
             _smtpPort = int.TryParse(configuration["Email:SmtpPort"], out var port) ? port : 587;
             _smtpUser = configuration["Email:SmtpUser"] ?? "";
             _smtpPassword = configuration["Email:SmtpPassword"] ?? "";
 
+            _useMock = string.Equals(configuration["Email:UseMock"], "true", StringComparison.OrdinalIgnoreCase) ||
+                       string.IsNullOrEmpty(_smtpUser) ||
+                       string.IsNullOrEmpty(_smtpPassword) ||
+                       _smtpPassword == "YOUR_EMAIL_PASSWORD";
+
             if (_useMock)
             {
-                _logger.LogInformation("Email Service is geinitialiseerd in MOCK modus.");
+                _logger.LogInformation("Email Service is geïnitialiseerd in MOCK/STILLE modus (geen geldige SMTP-sleutel ingesteld).");
             }
             else
             {
-                _logger.LogInformation($"Email Service geinitialiseerd in PRODUCTIE modus (SMTP: {_smtpServer}:{_smtpPort}).");
+                _logger.LogInformation($"Email Service geïnitialiseerd in PRODUCTIE modus (SMTP: {_smtpServer}:{_smtpPort} als {_smtpUser}).");
             }
         }
 
@@ -74,6 +77,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     {
                         smtp.Credentials = new NetworkCredential(_smtpUser, _smtpPassword);
                         smtp.EnableSsl = true;
+                        smtp.Timeout = 4000;
                         await smtp.SendMailAsync(mail);
                     }
                 }

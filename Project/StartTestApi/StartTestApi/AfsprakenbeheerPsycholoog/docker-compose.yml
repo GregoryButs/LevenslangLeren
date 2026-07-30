@@ -13,6 +13,13 @@ services:
       Authentication__Facebook__AppId: "${FACEBOOK_APP_ID:-YOUR_FACEBOOK_APP_ID}"
       Authentication__Facebook__AppSecret: "${FACEBOOK_APP_SECRET:-YOUR_FACEBOOK_APP_SECRET}"
       GoogleCalendar__CalendarId: "${GOOGLE_CALENDAR_ID:-ingedebast@gmail.com}"
+      Email__UseMock: "${EMAIL_USE_MOCK:-false}"
+      Email__SenderAddress: "${EMAIL_SENDER_ADDRESS:-inge@deverstandhouding.be}"
+      Email__SenderName: "${EMAIL_SENDER_NAME:-De Verstandhouding - Inge Debast}"
+      Email__SmtpServer: "${EMAIL_SMTP_SERVER:-smtp-auth.mailprotect.be}"
+      Email__SmtpPort: "${EMAIL_SMTP_PORT:-587}"
+      Email__SmtpUser: "${EMAIL_SMTP_USER:-inge@deverstandhouding.be}"
+      Email__SmtpPassword: "${EMAIL_SMTP_PASSWORD:-}"
     volumes:
       - app_data:/app/data
       - ./google-credentials.json:/app/google-credentials.json:ro
