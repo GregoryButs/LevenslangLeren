@@ -43,19 +43,35 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             try
             {
-                string credentialsPath = configuration["GoogleCalendar:CredentialsJsonPath"] ?? "google-credentials.json";
+                string envJson = configuration["GoogleCalendar:CredentialsJsonContent"] 
+                    ?? Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON") 
+                    ?? "";
 
-                if (!File.Exists(credentialsPath))
+                GoogleCredential? credential = null;
+
+                if (!string.IsNullOrWhiteSpace(envJson))
                 {
-                    _logger.LogWarning($"Google credentials bestand niet gevonden op {credentialsPath}. Service schakelt over naar MOCK modus.");
-                    _useMock = true;
-                    return;
+                    using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(envJson)))
+                    {
+                        credential = GoogleCredential.FromStream(stream).CreateScoped(CalendarService.Scope.Calendar);
+                    }
                 }
-
-                GoogleCredential credential;
-                using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
+                else
                 {
-                    credential = GoogleCredential.FromStream(stream).CreateScoped(CalendarService.Scope.Calendar);
+                    string credentialsPath = configuration["GoogleCalendar:CredentialsJsonPath"] ?? "google-credentials.json";
+                    if (File.Exists(credentialsPath))
+                    {
+                        using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
+                        {
+                            credential = GoogleCredential.FromStream(stream).CreateScoped(CalendarService.Scope.Calendar);
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Google credentials niet gevonden (noch in GOOGLE_CREDENTIALS_JSON noch op bestandspad {credentialsPath}). Service schakelt over naar MOCK modus.");
+                        _useMock = true;
+                        return;
+                    }
                 }
 
                 _calendarService = new CalendarService(new BaseClientService.Initializer()

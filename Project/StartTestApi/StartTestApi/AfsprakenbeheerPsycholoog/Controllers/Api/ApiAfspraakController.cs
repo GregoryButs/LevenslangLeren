@@ -14,20 +14,32 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         private readonly IAfspraakService _afspraakService;
         private readonly IPatientRepository _patientRepo;
         private readonly IAfspraakTypeRepository _typeRepo;
+        private readonly IGoogleCalendarService _googleCalendarService;
 
         public ApiAfspraakController(
             IAfspraakService afspraakService,
             IPatientRepository patientRepo,
-            IAfspraakTypeRepository typeRepo)
+            IAfspraakTypeRepository typeRepo,
+            IGoogleCalendarService googleCalendarService)
         {
             _afspraakService = afspraakService;
             _patientRepo = patientRepo;
             _typeRepo = typeRepo;
+            _googleCalendarService = googleCalendarService;
         }
 
         [HttpGet]
-        public IActionResult GetAlleAfspraken()
+        public async Task<IActionResult> GetAlleAfspraken()
         {
+            try
+            {
+                await _googleCalendarService.SyncIncomingChangesAsync();
+            }
+            catch
+            {
+                // Negeer eventuele transient netwerkfouten zodat agenda altijd snel laadt
+            }
+
             var afspraken = _afspraakService.GetAlleAfspraken();
             return Ok(afspraken);
         }
