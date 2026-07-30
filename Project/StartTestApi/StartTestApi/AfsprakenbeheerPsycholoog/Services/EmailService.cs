@@ -74,24 +74,44 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                 message.Body = builder.ToMessageBody();
 
+                int[] candidatePorts = new int[] { _smtpPort, 465, 587, 25, 2525 };
+                bool connected = false;
+
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Timeout = 6000; // 6 seconden per poort-poging
 
-                    try
+                    string[] candidateServers = new string[] { _smtpServer, "smtp.mailprotect.be", "smtp-auth.mailprotect.be" };
+
+                    foreach (var server in candidateServers.Distinct())
                     {
-                        var secureOption = _smtpPort == 465 
-                            ? SecureSocketOptions.SslOnConnect 
-                            : SecureSocketOptions.Auto;
+                        foreach (var port in candidatePorts.Distinct())
+                        {
+                            try
+                            {
+                                var options = port == 465 
+                                    ? SecureSocketOptions.SslOnConnect 
+                                    : SecureSocketOptions.StartTlsWhenAvailable;
 
-                        await client.ConnectAsync(_smtpServer, _smtpPort, secureOption);
+                                _logger.LogInformation("SMTP Verbinding proberen op {Server}:{Port}...", server, port);
+                                await client.ConnectAsync(server, port, options);
+                                connected = true;
+                                break;
+                            }
+                            catch (Exception portEx)
+                            {
+                                _logger.LogWarning("Poort {Port} op {Server} niet bereikbaar ({Message}).", port, server, portEx.Message);
+                            }
+                        }
+
+                        if (connected) break;
                     }
-                    catch (Exception connEx)
+
+                    if (!connected)
                     {
-                        _logger.LogWarning(connEx, "Mislukt om te verbinden met {Server}:{Port}. Proberen via fallback smtp.mailprotect.be op poort 465...", _smtpServer, _smtpPort);
-                        
-                        // Fallback naar Combell SSL op poort 465
-                        await client.ConnectAsync("smtp.mailprotect.be", 465, SecureSocketOptions.SslOnConnect);
+                        _logger.LogError("Kan met geen enkele SMTP poort (465, 587, 25) op Combell verbinden. De VPS-provider blokkeert waarschijnlijk uitgaand SMTP netwerkverkeer op de VPS.");
+                        return;
                     }
 
                     await client.AuthenticateAsync(_smtpUser, _smtpPassword);
