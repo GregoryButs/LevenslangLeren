@@ -173,7 +173,7 @@ namespace AfsprakenbeheerPsycholoog
             builder.Services.AddScoped<IDashboardService, DashboardService>();
             builder.Services.AddScoped<IPatientBookingService, PatientBookingService>();
             builder.Services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
-            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddTransient<IEmailService, EmailService>();
             builder.Services.AddScoped<IAIService, AIService>();
 
             // Configure Rate Limiting to prevent spam bookings and brute-force auth attempts

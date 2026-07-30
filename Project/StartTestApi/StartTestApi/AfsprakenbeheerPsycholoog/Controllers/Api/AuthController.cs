@@ -19,17 +19,23 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
         private readonly IPatientRepository _patientRepo;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(
             SignInManager<ApplicationUser> signInManager, 
             UserManager<ApplicationUser> userManager,
             IEmailService emailService,
-            IPatientRepository patientRepo)
+            IPatientRepository patientRepo,
+            IServiceProvider serviceProvider,
+            ILogger<AuthController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
             _patientRepo = patientRepo;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         [HttpPost("login")]
@@ -164,11 +170,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 {
                     try
                     {
-                        await _emailService.SendEmailAsync(userEmail, subject, body);
+                        using var scope = _serviceProvider.CreateScope();
+                        var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                        await emailService.SendEmailAsync(userEmail, subject, body);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // Negeer e-mailverzendifouten op achtergrond
+                        _logger.LogError(ex, "Fout bij achtergrond-verzending van registratie-email naar {Email}", userEmail);
                     }
                 });
 

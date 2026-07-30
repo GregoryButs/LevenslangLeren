@@ -12,11 +12,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
     {
         private readonly IEmailService _emailService;
         private readonly ILogger<ApiContactController> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ApiContactController(IEmailService emailService, ILogger<ApiContactController> logger)
+        public ApiContactController(IEmailService emailService, ILogger<ApiContactController> logger, IServiceProvider serviceProvider)
         {
             _emailService = emailService;
             _logger = logger;
+            _serviceProvider = serviceProvider;
         }
 
         public class ContactFormDto
@@ -48,12 +50,14 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                         <p style='font-size: 12px; color: #64748b;'>U kunt direct antwoorden op deze e-mail of contact opnemen via {model.Email}.</p>
                     </div>";
 
-                // Send email to practice inbox in background task
+                // Send email to practice inbox in independent background scope
                 _ = Task.Run(async () =>
                 {
                     try
                     {
-                        await _emailService.SendEmailAsync("inge@deverstandhouding.be", subject, body);
+                        using var scope = _serviceProvider.CreateScope();
+                        var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                        await emailService.SendEmailAsync("inge@deverstandhouding.be", subject, body);
                     }
                     catch (Exception emailEx)
                     {
