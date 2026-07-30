@@ -269,6 +269,13 @@ namespace AfsprakenbeheerPsycholoog.Services
             var instelling = _dbContext.PraktijkInstellingen.FirstOrDefault(i => i.Id == 1) 
                 ?? new PraktijkInstelling();
 
+            // Maximaal 2 geplande toekomst-afspraken per patiënt toestaan
+            var nuUtcCheck = DateTime.UtcNow;
+            var aantalGepland = _dbContext.Afspraken
+                .Count(a => a.PatientId == patientId && a.Status == AfspraakStatus.Gepland && a.Eindtijd > nuUtcCheck);
+
+            if (aantalGepland >= 2) return false;
+
             // Planning window controleren
             var nuLocal = DateTime.Now;
             if (starttijd < nuLocal.AddHours(instelling.MinimaalVoorafUren)) return false;

@@ -88,10 +88,21 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
 
             try
             {
+                var nuUtc = System.DateTime.UtcNow;
+                var aantalGepland = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.CountAsync(
+                    _dbContext.Afspraken,
+                    a => a.PatientId == patientId.Value && a.Status == AfspraakStatus.Gepland && a.Eindtijd > nuUtc
+                );
+
+                if (aantalGepland >= 2)
+                {
+                    return BadRequest(new { message = "U kunt maximaal 2 geplande afspraken tegelijk hebben staan. Annuleer of voltooi eerst een afspraak om een nieuwe in te plannen." });
+                }
+
                 var succes = await _patientBookingService.CreatePatientAfspraakAsync(vm, patientId.Value);
                 if (!succes)
                 {
-                    return Conflict(new { message = "Dit tijdslot is niet meer beschikbaar. Kies een ander moment." });
+                    return Conflict(new { message = "Dit tijdslot is niet meer beschikbaar of u heeft het maximale aantal geplande afspraken bereikt." });
                 }
 
                 return Ok(new { message = "Je afspraak is succesvol geboekt!" });
