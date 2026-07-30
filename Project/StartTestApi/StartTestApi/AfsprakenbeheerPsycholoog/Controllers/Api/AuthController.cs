@@ -19,7 +19,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
         private readonly IPatientRepository _patientRepo;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<AuthController> _logger;
 
         public AuthController(
@@ -27,14 +27,14 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             UserManager<ApplicationUser> userManager,
             IEmailService emailService,
             IPatientRepository patientRepo,
-            IServiceProvider serviceProvider,
+            IServiceScopeFactory scopeFactory,
             ILogger<AuthController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
             _patientRepo = patientRepo;
-            _serviceProvider = serviceProvider;
+            _scopeFactory = scopeFactory;
             _logger = logger;
         }
 
@@ -170,7 +170,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 {
                     try
                     {
-                        using var scope = _serviceProvider.CreateScope();
+                        using var scope = _scopeFactory.CreateScope();
                         var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
                         await emailService.SendEmailAsync(userEmail, subject, body);
                     }

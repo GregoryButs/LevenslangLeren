@@ -12,13 +12,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
     {
         private readonly IEmailService _emailService;
         private readonly ILogger<ApiContactController> _logger;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public ApiContactController(IEmailService emailService, ILogger<ApiContactController> logger, IServiceProvider serviceProvider)
+        public ApiContactController(IEmailService emailService, ILogger<ApiContactController> logger, IServiceScopeFactory scopeFactory)
         {
             _emailService = emailService;
             _logger = logger;
-            _serviceProvider = serviceProvider;
+            _scopeFactory = scopeFactory;
         }
 
         public class ContactFormDto
@@ -55,7 +55,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 {
                     try
                     {
-                        using var scope = _serviceProvider.CreateScope();
+                        using var scope = _scopeFactory.CreateScope();
                         var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
                         await emailService.SendEmailAsync("inge@deverstandhouding.be", subject, body);
                     }

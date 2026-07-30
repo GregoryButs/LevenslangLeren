@@ -78,7 +78,22 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                    await client.ConnectAsync(_smtpServer, _smtpPort, SecureSocketOptions.Auto);
+                    try
+                    {
+                        var secureOption = _smtpPort == 465 
+                            ? SecureSocketOptions.SslOnConnect 
+                            : SecureSocketOptions.Auto;
+
+                        await client.ConnectAsync(_smtpServer, _smtpPort, secureOption);
+                    }
+                    catch (Exception connEx)
+                    {
+                        _logger.LogWarning(connEx, "Mislukt om te verbinden met {Server}:{Port}. Proberen via fallback smtp.mailprotect.be op poort 465...", _smtpServer, _smtpPort);
+                        
+                        // Fallback naar Combell SSL op poort 465
+                        await client.ConnectAsync("smtp.mailprotect.be", 465, SecureSocketOptions.SslOnConnect);
+                    }
+
                     await client.AuthenticateAsync(_smtpUser, _smtpPassword);
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
