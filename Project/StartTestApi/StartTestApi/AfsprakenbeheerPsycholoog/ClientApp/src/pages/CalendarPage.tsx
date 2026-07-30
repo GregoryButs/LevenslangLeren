@@ -37,7 +37,10 @@ export const CalendarPage: React.FC = () => {
         patientApi.getAll().catch(() => []),
         afspraakTypeApi.getAll().catch(() => [])
       ]);
-      const pList = patientsData.map((p: any) => ({ id: p.id, naam: `${p.voornaam} ${p.achternaam}` }));
+      const pList = patientsData.map((p: any) => ({
+        id: p.id,
+        naam: p.volledigeNaam || p.VolledigeNaam || (p.voornaam ? `${p.voornaam} ${p.achternaam || ''}`.trim() : `Patiënt #${p.id}`)
+      }));
       const tList = typesData.map((t: any) => ({ id: t.id, naam: t.naam, standaardDuurMinuten: t.standaardDuurMinuten }));
       setBookingPatients(pList);
       setBookingTypes(tList);
