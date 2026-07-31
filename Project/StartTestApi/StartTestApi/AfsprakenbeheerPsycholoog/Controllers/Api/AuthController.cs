@@ -276,6 +276,60 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             return Ok(new { message = "Een nieuwe bevestigingsmail is verzonden naar uw e-mailadres." });
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null || !user.EmailConfirmed)
+            {
+                // Ter beveiliging geen indicatie geven of het account wel of niet bestaat
+                return Ok(new { message = "Indien het e-mailadres bij ons bekend is, heeft u een e-mail ontvangen met instructies om uw wachtwoord te herstellen." });
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var resetUrl = $"{Request.Scheme}://{Request.Host}/reset-password?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(token)}";
+
+            var subject = "Wachtwoord herstellen - De Verstandhouding";
+            var body = $@"
+                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #f1f5f9; border-radius: 12px;'>
+                    <h2 style='color: #1a2c30;'>Wachtwoord Herstellen</h2>
+                    <p style='color: #475569;'>Beste {user.Voornaam},</p>
+                    <p style='color: #475569;'>Er is een verzoek ingediend om het wachtwoord van uw account bij <strong>De Verstandhouding</strong> te herstellen.</p>
+                    <p style='color: #475569;'>Klik op de onderstaande knop om een nieuw wachtwoord in te stellen:</p>
+                    <div style='margin: 30px 0; text-align: center;'>
+                        <a href='{resetUrl}' style='background-color: #478d96; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;'>Nieuw Wachtwoord Instellen</a>
+                    </div>
+                    <p style='color: #94a3b8; font-size: 12px;'>Als u dit verzoek niet heeft ingediend, kunt u deze e-mail negeren.</p>
+                    <p style='color: #94a3b8; font-size: 12px;'>Met vriendelijke groet,<br>Praktijk De Verstandhouding</p>
+                </div>";
+
+            await _emailService.SendEmailAsync(user.Email, subject, body);
+            return Ok(new { message = "Indien het e-mailadres bij ons bekend is, heeft u een e-mail ontvangen met instructies om uw wachtwoord te herstellen." });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "Wachtwoord herstellen mislukt. Controleer uw gegevens." });
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Uw wachtwoord is succesvol gewijzigd. U kunt nu inloggen met uw nieuwe wachtwoord." });
+            }
+
+            var firstError = result.Errors.FirstOrDefault()?.Description ?? "Wachtwoord herstellen mislukt.";
+            return BadRequest(new { message = firstError });
+        }
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
@@ -433,5 +487,26 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
+    }
+
+    public class ForgotPasswordDto
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+    }
+
+    public class ResetPasswordDto
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        public string Token { get; set; } = null!;
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Wachtwoord moet minimaal {2} tekens bevatten.", MinimumLength = 6)]
+        public string NewPassword { get; set; } = null!;
     }
 }
