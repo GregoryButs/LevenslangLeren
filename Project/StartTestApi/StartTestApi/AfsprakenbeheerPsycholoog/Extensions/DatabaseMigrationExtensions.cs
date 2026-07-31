@@ -91,6 +91,60 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 }
                             }
                         }
+
+                        // Automatic SQLite schema migration for Patienten table columns
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.CommandText = "PRAGMA table_info(Patienten);";
+                            bool hasSecundairEmail = false;
+                            bool hasEmotioneleStabiliteit = false;
+                            bool hasVerwijderdOp = false;
+                            bool hasVerwijderdReden = false;
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var name = reader["name"]?.ToString();
+                                    if (string.Equals(name, "SecundairEmail", StringComparison.OrdinalIgnoreCase)) hasSecundairEmail = true;
+                                    if (string.Equals(name, "EmotioneleStabiliteit", StringComparison.OrdinalIgnoreCase)) hasEmotioneleStabiliteit = true;
+                                    if (string.Equals(name, "VerwijderdOp", StringComparison.OrdinalIgnoreCase)) hasVerwijderdOp = true;
+                                    if (string.Equals(name, "VerwijderdReden", StringComparison.OrdinalIgnoreCase)) hasVerwijderdReden = true;
+                                }
+                            }
+
+                            if (!hasSecundairEmail)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN SecundairEmail TEXT NULL;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasEmotioneleStabiliteit)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN EmotioneleStabiliteit REAL NULL DEFAULT 5.5;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasVerwijderdOp)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN VerwijderdOp TEXT NULL;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasVerwijderdReden)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN VerwijderdReden TEXT NULL;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
                     }
                 }
                 catch { }
