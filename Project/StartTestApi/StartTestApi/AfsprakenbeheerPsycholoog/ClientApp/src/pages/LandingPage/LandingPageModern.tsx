@@ -540,8 +540,8 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                   address: 'Brakelsesteenweg 559a bus 1, Ninove',
                   extra: 'Bovenverdieping, via trap rechtsom de hoek.',
                   note: '',
-                  link: '',
-                  linkText: ''
+                  link: 'https://groepspraktijkvoorde.be',
+                  linkText: 'https://groepspraktijkvoorde.be'
                 },
                 {
                   title: 'Praktijkhuis 9500',
