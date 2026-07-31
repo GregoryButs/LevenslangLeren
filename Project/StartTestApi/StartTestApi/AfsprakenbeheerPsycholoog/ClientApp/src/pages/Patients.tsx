@@ -309,7 +309,10 @@ export const Patients: React.FC = () => {
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
                       <h4 className="font-semibold text-slate-800 dark:text-white">{p.volledigeNaam}</h4>
-                      <p className="text-xs text-slate-500 dark:text-brand-300">{p.email}</p>
+                      <p className="text-xs text-slate-500 dark:text-brand-300">
+                        {p.email}
+                        {p.secundairEmail && <span className="text-slate-400 dark:text-brand-400 font-normal ml-1">({p.secundairEmail})</span>}
+                      </p>
                       <div className="flex flex-wrap gap-1.5 pt-1">
                         {p.dossierNummer && (
                           <span className="text-[10px] bg-slate-100 dark:bg-brand-950 text-slate-600 dark:text-brand-200 py-0.5 px-2 rounded-full font-mono">
@@ -402,8 +405,13 @@ export const Patients: React.FC = () => {
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-400 font-medium block">E-mail</span>
-                    <span className="text-slate-800 font-semibold">{patientDetails.email}</span>
+                    <span className="text-slate-400 font-medium block">E-mailadres</span>
+                    <span className="text-slate-800 dark:text-brand-100 font-semibold">{patientDetails.email}</span>
+                    {patientDetails.secundairEmail && (
+                      <div className="text-xs text-slate-500 dark:text-brand-300 mt-0.5">
+                        <span className="font-medium text-slate-400">Secundair:</span> {patientDetails.secundairEmail}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <span className="text-slate-400 font-medium block">Telefoon</span>

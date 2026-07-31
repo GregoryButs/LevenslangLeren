@@ -13,6 +13,7 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
         public string VolledigeNaam { get; set; }
         public DateOnly Geboortedatum { get; set; }
         public string Email { get; set; }
+        public string? SecundairEmail { get; set; }
         public string Telefoonnummer { get; set; }
         public string? DossierNummer { get; set; }
         public bool IsGekoppeld { get; set; }

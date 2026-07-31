@@ -161,7 +161,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         public IActionResult Koppel([FromBody] KoppelRequest request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var succes = _service.KoppelPatientAanUser(request.PatientId, request.Email);
+            var succes = _service.KoppelPatientAanUser(request.PatientId, request.Email, request.SetAsPrimaryEmail);
             if (!succes) return BadRequest(new { message = "Kon patiënt niet koppelen. Bestaat deze account niet of is deze al gekoppeld?" });
 
             var patient = _service.GetPatientDetail(request.PatientId);
@@ -197,6 +197,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
     public class KoppelRequest
     {
         public int PatientId { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
+        public bool SetAsPrimaryEmail { get; set; } = true;
     }
 }

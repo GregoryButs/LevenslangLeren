@@ -23,6 +23,10 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
+        [EmailAddress]
+        [Display(Name = "Secundair E-mailadres")]
+        public string? SecundairEmail { get; set; }
+
         [Phone]
         [Display(Name = "Telefoonnummer")]
         public string? Telefoonnummer { get; set; }

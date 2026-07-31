@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
 
 namespace AfsprakenbeheerPsycholoog.Services
@@ -14,7 +14,7 @@ namespace AfsprakenbeheerPsycholoog.Services
         EditPatientViewModel? GetPatientForEdit(int id);
         void EditPatient(EditPatientViewModel model);
         void DeletePatient(int id);
-        bool KoppelPatientAanUser(int patientId, string userId);
+        bool KoppelPatientAanUser(int patientId, string userEmail, bool setAsPrimary = true);
         bool OntkoppelPatientVanUser(int patientId);
 
         IEnumerable<PatientListViewModel> GetInactievePatienten();

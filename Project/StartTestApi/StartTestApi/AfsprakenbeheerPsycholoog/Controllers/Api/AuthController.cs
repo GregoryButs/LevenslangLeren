@@ -414,6 +414,9 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                     ?? info.Principal.FindFirstValue(ClaimTypes.Name)?.Split(' ').LastOrDefault() 
                     ?? "";
 
+                var matchingPatient = _patientRepo.GetAll()
+                    .FirstOrDefault(p => p.IsActief && !string.IsNullOrEmpty(p.Email) && p.Email.Trim().ToLower() == email.Trim().ToLower());
+
                 user = new ApplicationUser
                 {
                     UserName = email,
@@ -421,7 +424,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                     Voornaam = voornaam,
                     Achternaam = achternaam,
                     EmailConfirmed = true, // Social logins (Google/Microsoft/Facebook/Apple) hebben een geverifieerd e-mailadres
-                    PatientId = null
+                    PatientId = matchingPatient?.Id
                 };
 
                 var createResult = await _userManager.CreateAsync(user);
@@ -432,11 +435,31 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                     return Redirect($"{returnUrl}?status=failed&message={Uri.EscapeDataString(firstError)}");
                 }
             }
-            else if (!user.EmailConfirmed)
+            else
             {
-                // Auto-confirm if logging in via verified external provider
-                user.EmailConfirmed = true;
-                await _userManager.UpdateAsync(user);
+                bool userUpdated = false;
+                if (!user.EmailConfirmed)
+                {
+                    user.EmailConfirmed = true;
+                    userUpdated = true;
+                }
+
+                if (!user.PatientId.HasValue)
+                {
+                    var matchingPatient = _patientRepo.GetAll()
+                        .FirstOrDefault(p => p.IsActief && !string.IsNullOrEmpty(p.Email) && p.Email.Trim().ToLower() == email.Trim().ToLower());
+                    if (matchingPatient != null)
+                    {
+                        user.PatientId = matchingPatient.Id;
+                        userUpdated = true;
+                        _logger.LogInformation("Bestaande gebruiker '{Email}' automatisch gekoppeld aan patient ID {PatientId}.", user.Email, matchingPatient.Id);
+                    }
+                }
+
+                if (userUpdated)
+                {
+                    await _userManager.UpdateAsync(user);
+                }
             }
 
             // 4. Koppel de externe login aan de ApplicationUser

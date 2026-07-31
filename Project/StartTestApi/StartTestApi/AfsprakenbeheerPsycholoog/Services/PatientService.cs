@@ -144,13 +144,35 @@ namespace AfsprakenbeheerPsycholoog.Services
             _repo.SaveChanges();
         }
 
-        public bool KoppelPatientAanUser(int patientId, string userEmail)
+        public bool KoppelPatientAanUser(int patientId, string userEmail, bool setAsPrimary = true)
         {
             var user = _repo.GetUserByEmail(userEmail);
             if (user == null) return false;
             if (user.PatientId.HasValue && user.PatientId != patientId) return false;
 
             user.PatientId = patientId;
+
+            var patient = _repo.GetById(patientId);
+            if (patient != null && !string.IsNullOrWhiteSpace(userEmail))
+            {
+                var cleanEmail = userEmail.Trim();
+                if (setAsPrimary)
+                {
+                    if (!string.Equals(patient.Email, cleanEmail, StringComparison.OrdinalIgnoreCase))
+                    {
+                        patient.SecundairEmail = patient.Email;
+                        patient.Email = cleanEmail;
+                    }
+                }
+                else
+                {
+                    if (!string.Equals(patient.Email, cleanEmail, StringComparison.OrdinalIgnoreCase))
+                    {
+                        patient.SecundairEmail = cleanEmail;
+                    }
+                }
+            }
+
             _repo.SaveChanges();
             return true;
         }

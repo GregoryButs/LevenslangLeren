@@ -12,6 +12,7 @@ export interface Patient {
   achternaam: string;
   geboortedatum: string;
   email: string;
+  secundairEmail?: string | null;
   telefoonnummer: string | null;
   dossierNummer: string | null;
   volledigeNaam: string;
