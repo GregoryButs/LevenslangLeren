@@ -24,6 +24,10 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
+        [EmailAddress(ErrorMessage = "Ongeldig secundair e-mailadres")]
+        [Display(Name = "Secundair E-mailadres")]
+        public string? SecundairEmail { get; set; }
+
         [Required(ErrorMessage = "Telefoonnummer is verplicht")]
         [Phone(ErrorMessage = "Ongeldig telefoonnummer")]
         [Display(Name = "Telefoonnummer")]

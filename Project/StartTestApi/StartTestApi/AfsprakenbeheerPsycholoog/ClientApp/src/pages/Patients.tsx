@@ -28,6 +28,7 @@ export const Patients: React.FC = () => {
     achternaam: '',
     geboortedatum: '',
     email: '',
+    secundairEmail: '',
     telefoonnummer: '',
     dossierNummer: ''
   });
@@ -71,6 +72,7 @@ export const Patients: React.FC = () => {
       achternaam: '',
       geboortedatum: '',
       email: '',
+      secundairEmail: '',
       telefoonnummer: '',
       dossierNummer: '',
       emotioneleStabiliteit: 5.5
@@ -85,6 +87,7 @@ export const Patients: React.FC = () => {
       achternaam: patient.achternaam,
       geboortedatum: patient.geboortedatum,
       email: patient.email,
+      secundairEmail: patient.secundairEmail || '',
       telefoonnummer: patient.telefoonnummer || '',
       dossierNummer: patient.dossierNummer || '',
       emotioneleStabiliteit: patient.emotioneleStabiliteit !== null && patient.emotioneleStabiliteit !== undefined ? patient.emotioneleStabiliteit : 5.5
@@ -561,16 +564,29 @@ export const Patients: React.FC = () => {
                 />
               </div>
 
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">E-mail</label>
-                <input
-                  type="email"
-                  required
-                  value={formPatient.email}
-                  onChange={(e) => setFormPatient({ ...formPatient, email: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
-                  placeholder="e-mail@adres.be"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Primair E-mailadres</label>
+                  <input
+                    type="email"
+                    required
+                    value={formPatient.email}
+                    onChange={(e) => setFormPatient({ ...formPatient, email: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
+                    placeholder="primair@adres.be"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Secundair E-mailadres <span className="text-xs font-normal text-slate-400">(Optioneel)</span></label>
+                  <input
+                    type="email"
+                    value={formPatient.secundairEmail || ''}
+                    onChange={(e) => setFormPatient({ ...formPatient, secundairEmail: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
+                    placeholder="secundair@adres.be (of leegmaken)"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
