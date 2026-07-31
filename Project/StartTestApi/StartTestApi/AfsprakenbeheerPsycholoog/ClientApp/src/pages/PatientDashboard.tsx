@@ -11,6 +11,7 @@ export const PatientDashboard: React.FC = () => {
   const [appointments, setAppointments] = useState<Afspraak[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'actueel' | 'historiek'>('actueel');
 
   const loadData = async () => {
     try {
@@ -44,6 +45,13 @@ export const PatientDashboard: React.FC = () => {
       setLoading(false);
     }
   };
+
+  // Filter afspraken in Actueel (toekomstige geplande afspraken) vs Historiek (afgelopen of geannuleerd)
+  const nu = new Date();
+  const actueleAfspraken = appointments.filter(a => a.status === 'Gepland' && new Date(a.starttijd) >= nu);
+  const historiekAfspraken = appointments.filter(a => a.status !== 'Gepland' || new Date(a.starttijd) < nu);
+
+  const getoondLijst = activeTab === 'actueel' ? actueleAfspraken : historiekAfspraken;
 
   if (loading && appointments.length === 0) {
     return (
@@ -81,15 +89,58 @@ export const PatientDashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Left Column: Appointments List */}
-        <div className="bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm p-6 space-y-6 transition-colors">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
-            <Clock className="h-5 w-5 text-brand-600 dark:text-brand-400" />
-            <span>Mijn Geplande Afspraken</span>
-          </h2>
+        <div className="bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm p-6 space-y-5 transition-colors">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <h2 className="text-lg font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
+              <Clock className="h-5 w-5 text-brand-600 dark:text-brand-400" />
+              <span>Mijn Afspraken</span>
+            </h2>
+          </div>
+
+          {/* Actueel vs Historiek Tabs */}
+          <div className="flex bg-slate-100 dark:bg-brand-950/80 p-1 rounded-2xl border border-slate-200/60 dark:border-brand-800/40">
+            <button
+              type="button"
+              onClick={() => setActiveTab('actueel')}
+              className={`flex-1 py-2 px-3 text-xs font-semibold rounded-xl transition-all flex items-center justify-center space-x-2 ${
+                activeTab === 'actueel'
+                  ? 'bg-white dark:bg-brand-800 text-brand-700 dark:text-brand-100 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white'
+              }`}
+            >
+              <span>Actueel</span>
+              <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${
+                activeTab === 'actueel' 
+                  ? 'bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-200' 
+                  : 'bg-slate-200 dark:bg-brand-900 text-slate-600 dark:text-slate-300'
+              }`}>
+                {actueleAfspraken.length}
+              </span>
+            </button>
+            
+            <button
+              type="button"
+              onClick={() => setActiveTab('historiek')}
+              className={`flex-1 py-2 px-3 text-xs font-semibold rounded-xl transition-all flex items-center justify-center space-x-2 ${
+                activeTab === 'historiek'
+                  ? 'bg-white dark:bg-brand-800 text-brand-700 dark:text-brand-100 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white'
+              }`}
+            >
+              <span>Historiek</span>
+              <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${
+                activeTab === 'historiek' 
+                  ? 'bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-200' 
+                  : 'bg-slate-200 dark:bg-brand-900 text-slate-600 dark:text-slate-300'
+              }`}>
+                {historiekAfspraken.length}
+              </span>
+            </button>
+          </div>
 
           <div className="space-y-4 max-h-[550px] overflow-y-auto pr-1">
-            {appointments.length > 0 ? (
-              appointments.map((appt) => {
+            {getoondLijst.length > 0 ? (
+              getoondLijst.map((appt) => {
                 const start = new Date(appt.starttijd);
                 const isUpcoming = start > new Date() && appt.status === 'Gepland';
                 return (
@@ -149,7 +200,9 @@ export const PatientDashboard: React.FC = () => {
               })
             ) : (
               <div className="text-center py-12 text-slate-400 dark:text-brand-400">
-                U heeft momenteel geen geplande afspraken.
+                {activeTab === 'actueel' 
+                  ? 'U heeft momenteel geen geplande afspraken.' 
+                  : 'Geen eerdere afspraken of annuleringen in uw historiek.'}
               </div>
             )}
           </div>
