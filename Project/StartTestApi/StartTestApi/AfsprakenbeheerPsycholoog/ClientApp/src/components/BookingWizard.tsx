@@ -8,6 +8,7 @@ import {
   ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { extractErrorMessage } from '../utils/errorUtils';
+import { InfoTooltip } from './common/InfoTooltip';
 
 interface BookingWizardProps {
   onBookingSuccess: () => void;
@@ -59,8 +60,13 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
           settingsApi.get()
         ]);
         
-        // Patienten kunnen afspraaktypes boeken die een patient vereisen
-        const patientTypes = typesData.filter(t => t.vereistPatient);
+        // Patienten kunnen uitsluitend 'Intake' en 'Consultatie'/'Therapie' boeken (geen Praktijkhuis of Crisis)
+        const patientTypes = typesData.filter(t => {
+          if (!t.vereistPatient) return false;
+          const lowerName = t.naam.toLowerCase();
+          if (lowerName.includes('praktijkhuis') || lowerName.includes('crisis')) return false;
+          return lowerName.includes('intake') || lowerName.includes('consult') || lowerName.includes('therapie');
+        });
         setAvailableTypes(patientTypes);
 
         // Voorkeur op ID (ID 2 = Consultatie/Therapie, ID 1 = Intake) of naam-match
@@ -270,12 +276,13 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
               <div className="space-y-4">
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 dark:text-white">Behandeling</h3>
-                  <p className="text-xs text-slate-400 dark:text-brand-300">Selecteer het gewenste type consult voor jouw afspraak.</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-200">Selecteer het gewenste type consult voor jouw afspraak.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
                   {availableTypes.length > 0 ? (
                     availableTypes.map((type) => {
                       const isSelected = selectedType?.id === type.id;
+                      const isIntake = type.naam.toLowerCase().includes('intake');
                       return (
                         <button
                           key={type.id}
@@ -283,8 +290,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                           onClick={() => setSelectedType(type)}
                           className={`p-5 rounded-2xl border text-left transition-all flex items-start space-x-4 ${
                             isSelected
-                              ? 'border-brand-500 bg-brand-50/40 dark:bg-brand-950/80 ring-2 ring-brand-500/20 shadow-sm'
-                              : 'border-slate-200 dark:border-brand-800/40 bg-white dark:bg-brand-900/60 hover:bg-slate-50 dark:hover:bg-brand-800/40'
+                              ? 'border-brand-400 bg-brand-900/90 ring-2 ring-brand-400/30 shadow-md'
+                              : 'border-slate-300 dark:border-brand-700/60 bg-white dark:bg-brand-900/40 hover:bg-slate-50 dark:hover:bg-brand-800/60'
                           }`}
                         >
                           <div 
@@ -293,29 +300,27 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                           >
                             <Briefcase className="h-5 w-5" />
                           </div>
-                          <div className="space-y-1 flex-1 min-w-0">
+                          <div className="space-y-1.5 flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1 flex-wrap">
-                              <h4 className="font-bold text-slate-800 dark:text-white text-sm truncate flex items-center gap-1.5">
+                              <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1">
                                 <span>{type.naam}</span>
-                                {type.naam.toLowerCase().includes('intake') && (
-                                  <span className="text-[10px] font-normal text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/80 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/40">
-                                    Enkel voor 1e gesprek
-                                  </span>
+                                {isIntake && (
+                                  <InfoTooltip content="Enkel bedoeld voor nieuwe patiënten bij een 1e consult" />
                                 )}
                               </h4>
                               {isSelected && (
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-700 dark:text-brand-200 bg-brand-100 dark:bg-brand-800 px-2 py-0.5 rounded-full shrink-0">
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full shrink-0 border border-emerald-300/40">
                                   Geselecteerd
                                 </span>
                               )}
                             </div>
-                            <div className="flex items-center space-x-1.5 text-xs text-slate-500 dark:text-brand-300">
-                              <Clock className="h-3.5 w-3.5 text-brand-600 dark:text-brand-400 shrink-0" />
+                            <div className="flex items-center space-x-1.5 text-xs text-slate-600 dark:text-slate-200">
+                              <Clock className="h-3.5 w-3.5 text-brand-500 dark:text-brand-300 shrink-0" />
                               <span>{type.standaardDuurMinuten} minuten</span>
                             </div>
-                            <p className="text-xs text-slate-500 dark:text-brand-300 mt-1 line-clamp-2">
-                              {type.naam.toLowerCase().includes('intake') 
-                                ? 'Eerste kennismakingsgesprek (enkel bedoeld voor nieuwe patiënten bij een 1e consult).' 
+                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                              {isIntake 
+                                ? 'Eerste kennismakingsgesprek (enkel voor 1e gesprek).' 
                                 : 'Individueel consultatie- en therapiegesprek.'}
                             </p>
                           </div>
@@ -332,11 +337,11 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">{selectedType?.naam || 'Consultatie'}</h4>
                           <span className="text-[10px] font-bold uppercase tracking-wider text-brand-700 dark:text-brand-200 bg-brand-100 dark:bg-brand-800 px-2 py-0.5 rounded-full">Standaard</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 text-xs text-slate-500 dark:text-brand-300">
+                        <div className="flex items-center space-x-1.5 text-xs text-slate-600 dark:text-slate-200">
                           <Clock className="h-3.5 w-3.5 text-brand-600 dark:text-brand-400" />
                           <span>{selectedType?.standaardDuurMinuten || 50} minuten</span>
                         </div>
-                        <p className="text-xs text-slate-500 dark:text-brand-300 mt-1">Individueel consultatiegesprek.</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">Individueel consultatiegesprek.</p>
                       </div>
                     </div>
                   )}
