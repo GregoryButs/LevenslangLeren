@@ -215,8 +215,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                 double stabilityDelta = GenerateNormalRandom(stabilityChangeMean, 0.5);
                 nextStability = Math.Max(1.0, Math.Min(10.0, currentStability + stabilityDelta));
 
-                // Sentiment gecorreleerd met stabiliteit
-                double sentimentTarget = (nextStability - 5.5) / 4.5;
+                // Sentiment gecorreleerd met stabiliteit en gekozen actie
+                double sentimentTarget = ((nextStability - 5.5) / 4.5) + sentimentChangeMean;
                 double rawSentiment = GenerateNormalRandom(sentimentTarget, 0.3);
                 nextSentiment = Math.Max(-1.0, Math.Min(1.0, rawSentiment));
             }

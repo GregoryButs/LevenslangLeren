@@ -294,7 +294,6 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             bool hasValidStart = ev.Start != null && (
                 ev.Start.DateTimeDateTimeOffset.HasValue ||
-                ev.Start.DateTime.HasValue ||
                 !string.IsNullOrEmpty(ev.Start.DateTimeRaw) ||
                 !string.IsNullOrEmpty(ev.Start.Date)
             );
@@ -333,8 +332,6 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 if (ev.Start.DateTimeDateTimeOffset.HasValue)
                     startUtc = ev.Start.DateTimeDateTimeOffset.Value.UtcDateTime;
-                else if (ev.Start.DateTime.HasValue)
-                    startUtc = ev.Start.DateTime.Value.ToUniversalTime();
                 else if (!string.IsNullOrEmpty(ev.Start.DateTimeRaw) && DateTimeOffset.TryParse(ev.Start.DateTimeRaw, out var dtoStart))
                     startUtc = dtoStart.UtcDateTime;
                 else if (!string.IsNullOrEmpty(ev.Start.Date) && DateTime.TryParse(ev.Start.Date, out var parsedDate))
@@ -345,8 +342,6 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 if (ev.End.DateTimeDateTimeOffset.HasValue)
                     endUtc = ev.End.DateTimeDateTimeOffset.Value.UtcDateTime;
-                else if (ev.End.DateTime.HasValue)
-                    endUtc = ev.End.DateTime.Value.ToUniversalTime();
                 else if (!string.IsNullOrEmpty(ev.End.DateTimeRaw) && DateTimeOffset.TryParse(ev.End.DateTimeRaw, out var dtoEnd))
                     endUtc = dtoEnd.UtcDateTime;
                 else if (!string.IsNullOrEmpty(ev.End.Date) && DateTime.TryParse(ev.End.Date, out var parsedDateEnd))
@@ -361,7 +356,7 @@ namespace AfsprakenbeheerPsycholoog.Services
         private static bool IsAllDayEvent(Event ev)
         {
             if (ev?.Start == null) return false;
-            bool hasTime = ev.Start.DateTimeDateTimeOffset.HasValue || ev.Start.DateTime.HasValue || !string.IsNullOrEmpty(ev.Start.DateTimeRaw);
+            bool hasTime = ev.Start.DateTimeDateTimeOffset.HasValue || !string.IsNullOrEmpty(ev.Start.DateTimeRaw);
             return !string.IsNullOrEmpty(ev.Start.Date) && !hasTime;
         }
 

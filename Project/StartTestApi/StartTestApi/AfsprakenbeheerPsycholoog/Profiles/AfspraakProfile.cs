@@ -51,11 +51,8 @@ namespace AfsprakenbeheerPsycholoog.Profiles
                 .ForMember(dest => dest.Patient, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, opt => opt.Ignore());
 
-            // Afspraak -> AfspraakEditViewModel
-            CreateMap<Afspraak, EditAfspraakViewModel>()
-                .ForMember(dest => dest.PatientenLijst, opt => opt.Ignore())
-                .ForMember(dest => dest.TypenLijst, opt => opt.Ignore())
-                .ForMember(dest => dest.StatusLijst, opt => opt.Ignore());
+            // Afspraak -> EditAfspraakViewModel
+            CreateMap<Afspraak, EditAfspraakViewModel>();
 
             // PatientBoekAfspraakViewModel → Afspraak
             CreateMap<PatientBoekAfspraakViewModel, Afspraak>()
