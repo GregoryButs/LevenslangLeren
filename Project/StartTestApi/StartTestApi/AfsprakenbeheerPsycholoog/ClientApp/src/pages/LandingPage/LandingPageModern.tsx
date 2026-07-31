@@ -535,7 +535,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
             <div className="lg:col-span-5 space-y-5">
               {[
                 {
-                  title: 'De Verstandhouding (Eigen praktijk)',
+                  title: 'De Verstandhouding (Groepspraktijk Voorde)',
                   subtitle: '',
                   address: 'Brakelsesteenweg 559a bus 1, Ninove',
                   extra: 'Bovenverdieping, via trap rechtsom de hoek.',
