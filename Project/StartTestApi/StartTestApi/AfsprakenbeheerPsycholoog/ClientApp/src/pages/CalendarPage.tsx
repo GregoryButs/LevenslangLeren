@@ -270,19 +270,18 @@ export const CalendarPage: React.FC = () => {
   return (
     <div className="space-y-6 p-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-white dark:bg-brand-900 p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm gap-4 transition-colors">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm gap-4 transition-colors">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
             <CalendarIcon className="h-6 w-6 text-brand-600 dark:text-brand-400" />
             <span>Praktijk Agenda</span>
           </h1>
-          <p className="text-slate-500 dark:text-brand-300 mt-1">Beheer uw afspraken en synchronisatie met Google Calendar. Klik op een afspraak om te bekijken of te bewerken.</p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button 
             onClick={handleToday}
-            className="px-4 py-2 text-sm font-semibold bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-brand-100 rounded-xl transition"
+            className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-brand-100 rounded-xl transition"
           >
             Vandaag
           </button>
@@ -294,7 +293,7 @@ export const CalendarPage: React.FC = () => {
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="px-3 text-xs font-bold text-slate-600 dark:text-brand-200">
+            <span className="px-2 sm:px-3 text-xs font-bold text-slate-600 dark:text-brand-200">
               {viewMode === 'week' 
                 ? `Week van ${formatLocalDate(startOfWeek(new Date(currentDate)))}` 
                 : formatLocalDate(currentDate)
@@ -311,7 +310,7 @@ export const CalendarPage: React.FC = () => {
           <div className="flex items-center bg-slate-100 dark:bg-brand-950 p-1 rounded-xl">
             <button 
               onClick={() => setViewMode('week')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition ${
+              className={`px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-lg transition ${
                 viewMode === 'week' 
                   ? 'bg-white dark:bg-brand-800 text-brand-600 dark:text-white shadow-sm' 
                   : 'text-slate-500 dark:text-brand-400 hover:text-slate-700 dark:hover:text-brand-200'
@@ -321,7 +320,7 @@ export const CalendarPage: React.FC = () => {
             </button>
             <button 
               onClick={() => setViewMode('day')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition ${
+              className={`px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-lg transition ${
                 viewMode === 'day' 
                   ? 'bg-white dark:bg-brand-800 text-brand-600 dark:text-white shadow-sm' 
                   : 'text-slate-500 dark:text-brand-400 hover:text-slate-700 dark:hover:text-brand-200'
@@ -333,7 +332,7 @@ export const CalendarPage: React.FC = () => {
 
           <button 
             onClick={() => setShowFull24h(!showFull24h)}
-            className={`px-3 py-1.5 text-xs font-bold rounded-xl border transition flex items-center space-x-1.5 ${
+            className={`px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-xl border transition flex items-center space-x-1.5 ${
               showFull24h 
                 ? 'bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-white border-brand-200 dark:border-brand-700 shadow-sm' 
                 : 'bg-slate-100 dark:bg-brand-950 hover:bg-slate-200 dark:hover:bg-brand-800 text-slate-600 dark:text-brand-300 border-transparent'
@@ -346,7 +345,7 @@ export const CalendarPage: React.FC = () => {
 
           <button 
             onClick={() => handleOpenBookModal()}
-            className="px-3 sm:px-4 py-2 text-xs font-bold bg-brand-500 hover:bg-brand-600 active:scale-95 text-white rounded-xl shadow-sm transition flex items-center space-x-1.5 cursor-pointer"
+            className="p-2 sm:px-4 sm:py-2 text-xs font-bold bg-brand-500 hover:bg-brand-600 active:scale-95 text-white rounded-xl shadow-sm transition flex items-center space-x-1.5 cursor-pointer"
             title="Afspraak Inplannen"
           >
             <Plus className="h-4 w-4" />
@@ -364,17 +363,14 @@ export const CalendarPage: React.FC = () => {
       </div>
 
       {/* Legenda Praktijkuren & Boekbaarheid */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-brand-900 px-4 sm:px-6 py-3 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-xs shadow-xs">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="font-bold text-slate-600 dark:text-brand-200">Legenda Boekingsuren:</span>
-          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200/60 dark:border-teal-900/40 font-semibold">
-            <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
-            <span>Praktijkuren</span>
-          </div>
-          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-brand-950 text-slate-500 dark:text-brand-400 border border-slate-200/60 dark:border-brand-800/60 font-medium">
-            <span className="h-2 w-2 rounded-full bg-slate-400" />
-            <span>Buiten praktijkuren</span>
-          </div>
+      <div className="flex flex-wrap items-center gap-3 bg-white dark:bg-brand-900 px-4 sm:px-6 py-3 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-xs shadow-xs">
+        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200/60 dark:border-teal-900/40 font-semibold">
+          <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
+          <span>Praktijkuren</span>
+        </div>
+        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-brand-950 text-slate-500 dark:text-brand-400 border border-slate-200/60 dark:border-brand-800/60 font-medium">
+          <span className="h-2 w-2 rounded-full bg-slate-400" />
+          <span>Buiten praktijkuren</span>
         </div>
       </div>
 

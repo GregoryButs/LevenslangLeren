@@ -279,7 +279,7 @@ export const GoogleSetupGuide: React.FC = () => {
                 return (
                   <div 
                     key={day.label}
-                    className={`p-5 rounded-2xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
+                    className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden ${
                       isActive1 || isActive2
                         ? 'border-brand-100 dark:border-brand-800/60 bg-brand-50/5 dark:bg-brand-950/60' 
                         : 'border-slate-100 dark:border-brand-900 bg-slate-50/50 dark:bg-brand-950/30 opacity-70'
@@ -291,7 +291,7 @@ export const GoogleSetupGuide: React.FC = () => {
 
                     <div className="flex flex-col gap-3 w-full md:w-auto">
                       {/* Interval 1 */}
-                      <div className="flex items-center justify-between md:justify-start gap-4">
+                      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4">
                         <div className="flex items-center space-x-2">
                           <input
                             type="checkbox"
@@ -306,19 +306,19 @@ export const GoogleSetupGuide: React.FC = () => {
                         </div>
                         
                         {isActive1 ? (
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1.5 flex-shrink-0">
                             <input
                               type="time"
                               value={settings[day.startKey]}
                               onChange={(e) => updateField(day.startKey, e.target.value)}
-                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"
+                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-1.5 sm:px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500 w-20 sm:w-24 max-w-[95px] sm:max-w-[110px]"
                             />
                             <span className="text-slate-400 dark:text-brand-400 text-xs font-semibold">tot</span>
                             <input
                               type="time"
                               value={settings[day.endKey]}
                               onChange={(e) => updateField(day.endKey, e.target.value)}
-                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"
+                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-1.5 sm:px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500 w-20 sm:w-24 max-w-[95px] sm:max-w-[110px]"
                             />
                           </div>
                         ) : (
@@ -327,7 +327,7 @@ export const GoogleSetupGuide: React.FC = () => {
                       </div>
 
                       {/* Interval 2 */}
-                      <div className="flex items-center justify-between md:justify-start gap-4">
+                      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4">
                         <div className="flex items-center space-x-2">
                           <input
                             type="checkbox"
@@ -342,19 +342,19 @@ export const GoogleSetupGuide: React.FC = () => {
                         </div>
 
                         {isActive2 ? (
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1.5 flex-shrink-0">
                             <input
                               type="time"
                               value={settings[day.start2Key]}
                               onChange={(e) => updateField(day.start2Key, e.target.value)}
-                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"
+                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-1.5 sm:px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500 w-20 sm:w-24 max-w-[95px] sm:max-w-[110px]"
                             />
                             <span className="text-slate-400 dark:text-brand-400 text-xs font-semibold">tot</span>
                             <input
                               type="time"
                               value={settings[day.end2Key]}
                               onChange={(e) => updateField(day.end2Key, e.target.value)}
-                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"
+                              className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-700 py-1 px-1.5 sm:px-2.5 rounded-xl text-slate-700 dark:text-white text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500 w-20 sm:w-24 max-w-[95px] sm:max-w-[110px]"
                             />
                           </div>
                         ) : (

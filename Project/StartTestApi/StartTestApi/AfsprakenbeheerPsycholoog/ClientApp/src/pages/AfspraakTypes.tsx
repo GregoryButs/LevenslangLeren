@@ -99,21 +99,21 @@ export const AfspraakTypes: React.FC = () => {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 overflow-x-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center bg-white dark:bg-brand-900 p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm gap-4 transition-colors">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
             <Settings className="h-7 w-7 text-brand-600 dark:text-brand-400" />
-            <span>Afspraaktypes beheren</span>
+            <span>Afspraaktypes</span>
           </h1>
-          <p className="text-slate-500 dark:text-brand-300 mt-1">
+          <p className="text-slate-500 dark:text-brand-300 mt-1 text-sm sm:text-base">
             Configureer consultatietypes, kleurencodes en tijdsduur.
           </p>
         </div>
         <button
           onClick={handleOpenCreateModal}
-          className="flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-lg shadow-brand-500/10"
+          className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-lg shadow-brand-500/10 w-full sm:w-auto"
         >
           <Plus className="h-5 w-5" />
           <span>Nieuw Type</span>
