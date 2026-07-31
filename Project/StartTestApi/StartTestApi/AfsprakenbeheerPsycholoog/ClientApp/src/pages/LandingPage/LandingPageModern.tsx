@@ -426,9 +426,6 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                 <p>
                   Tijdens de begeleiding maken we enkel gebruik van wetenschappelijk ondersteunde interventies, waaronder Acceptance and Commitment Therapy (ACT).
                 </p>
-                <p>
-                  Mijn hulpverlening richt zich op individuele volwassenen. Voor psychologische begeleiding van kinderen, jongeren, koppels en gezinnen verwijs ik graag door naar mijn collega's bij MINT Gooik.
-                </p>
               </div>
             ) : null}
 

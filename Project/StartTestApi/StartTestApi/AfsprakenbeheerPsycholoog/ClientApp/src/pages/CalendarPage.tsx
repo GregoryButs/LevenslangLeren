@@ -452,10 +452,6 @@ export const CalendarPage: React.FC = () => {
           <span className="h-2 w-2 rounded-full bg-slate-400" />
           <span>Buiten praktijkuren</span>
         </div>
-        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-300 border border-brand-200/60 dark:border-brand-800/60 font-medium">
-          <span className="h-2 w-2 rounded-full bg-brand-500" />
-          <span>💡 Sleep over meerdere uren om te blokkeren</span>
-        </div>
       </div>
 
       {loading ? (
