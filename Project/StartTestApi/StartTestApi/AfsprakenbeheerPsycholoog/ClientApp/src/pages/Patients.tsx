@@ -3,25 +3,11 @@ import { patientApi } from '../services/api';
 import { Patient } from '../types';
 import { 
   Users, Search, Plus, Edit2, Trash2, ArrowLeft, 
-  Link2, Link2Off, RefreshCw, Calendar, Loader2, HelpCircle
+  Link2, Link2Off, RefreshCw, Calendar, Loader2
 } from 'lucide-react';
-
-const InfoTooltip: React.FC<{ content: React.ReactNode; position?: 'top' | 'bottom' }> = ({ content, position = 'top' }) => {
-  const isBottom = position === 'bottom';
-  return (
-    <div className="relative group inline-block cursor-help ml-1.5 align-middle select-none">
-      <HelpCircle className="h-3.5 w-3.5 text-slate-400 hover:text-brand-500 transition-colors inline" />
-      <div className={`absolute z-50 left-1/2 transform -translate-x-1/2 w-64 p-3 bg-slate-900 text-white text-[11px] font-normal leading-relaxed rounded-xl shadow-xl border border-slate-700 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 ${
-        isBottom ? 'top-full mt-2' : 'bottom-full mb-2'
-      }`}>
-        {content}
-        <div className={`absolute left-1/2 transform -translate-x-1/2 border-[5px] border-solid border-transparent ${
-          isBottom ? 'bottom-full border-b-slate-900' : 'top-full border-t-slate-900'
-        }`}></div>
-      </div>
-    </div>
-  );
-};
+import { InfoTooltip } from '../components/common/InfoTooltip';
+import { getPatientDisplayName } from '../utils/patientUtils';
+import { extractErrorMessage } from '../utils/errorUtils';
 
 export const Patients: React.FC = () => {
   const [activePatients, setActivePatients] = useState<Patient[]>([]);
@@ -176,7 +162,7 @@ export const Patients: React.FC = () => {
       loadPatientDetail(linkPatientId);
     } catch (err: any) {
       console.error(err);
-      alert(err.response?.data?.message || 'Koppelen mislukt. Bestaat dit e-mailadres en is het nog niet gekoppeld?');
+      alert(extractErrorMessage(err, 'Koppelen mislukt. Bestaat dit e-mailadres en is het nog niet gekoppeld?'));
     }
   };
 
@@ -189,13 +175,13 @@ export const Patients: React.FC = () => {
       loadPatientDetail(patientId);
     } catch (err) {
       console.error(err);
-      alert('Ontkoppelen mislukt.');
+      alert(extractErrorMessage(err, 'Ontkoppelen mislukt.'));
     }
   };
 
   const filteredPatients = (activeTab === 'active' ? activePatients : archivedPatients).filter(
     (p) =>
-      p.volledigeNaam.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      getPatientDisplayName(p).toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (p.dossierNummer && p.dossierNummer.toLowerCase().includes(searchQuery.toLowerCase()))
   );

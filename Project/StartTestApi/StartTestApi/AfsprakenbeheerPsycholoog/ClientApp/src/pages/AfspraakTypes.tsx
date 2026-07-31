@@ -5,6 +5,7 @@ import {
   Settings, Plus, Edit2, Trash2, Clock, 
   ShieldCheck, Loader2 
 } from 'lucide-react';
+import { extractErrorMessage } from '../utils/errorUtils';
 
 export const AfspraakTypes: React.FC = () => {
   const [types, setTypes] = useState<AfspraakType[]>([]);
@@ -73,7 +74,7 @@ export const AfspraakTypes: React.FC = () => {
       loadTypes();
     } catch (err) {
       console.error(err);
-      alert('Opslaan mislukt.');
+      alert(extractErrorMessage(err, 'Opslaan mislukt.'));
     }
   };
 
@@ -85,7 +86,7 @@ export const AfspraakTypes: React.FC = () => {
       loadTypes();
     } catch (err) {
       console.error(err);
-      alert('Verwijderen mislukt (mogelijks zijn er nog afspraken van dit type).');
+      alert(extractErrorMessage(err, 'Verwijderen mislukt (mogelijks zijn er nog afspraken van dit type).'));
     }
   };
 

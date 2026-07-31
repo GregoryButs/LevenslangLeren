@@ -1,4 +1,3 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
@@ -19,8 +18,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "Kleurcode")]   
         public string Kleurcode { get; set; } = "#6c757d";  // Bootstrap grijs als default om zeker geen null-waarde te hebben
 
-        [ValidateNever]
-        public IEnumerable<Afspraak> Afspraken { get; set; }
+        public ICollection<Afspraak> Afspraken { get; set; } = new List<Afspraak>();
 
         public bool VereistPatient { get; set; } = true;
     }

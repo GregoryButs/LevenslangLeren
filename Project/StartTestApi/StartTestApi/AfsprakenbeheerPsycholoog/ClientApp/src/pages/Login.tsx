@@ -3,6 +3,8 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { authApi } from '../services/api';
 import { User } from '../types';
 import { Lock, Mail, Loader2, Sun, Moon } from 'lucide-react';
+import { extractErrorMessage } from '../utils/errorUtils';
+import { isValidEmail } from '../utils/validationUtils';
 
 interface LoginProps {
   setUser: (user: User | null) => void;
@@ -46,6 +48,12 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
     e.preventDefault();
     setError(null);
     setResendStatus(null);
+
+    if (!isValidEmail(email)) {
+      setError('Voer een geldig e-mailadres in.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -65,10 +73,7 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
         setError(err.response.data.message || 'Gelieve eerst uw e-mailadres te bevestigen.');
       } else {
         setResendEmail(null);
-        setError(
-          err.response?.data?.message || 
-          'Inloggen mislukt. Controleer uw e-mailadres en wachtwoord.'
-        );
+        setError(extractErrorMessage(err, 'Inloggen mislukt. Controleer uw e-mailadres en wachtwoord.'));
       }
     } finally {
       setLoading(false);

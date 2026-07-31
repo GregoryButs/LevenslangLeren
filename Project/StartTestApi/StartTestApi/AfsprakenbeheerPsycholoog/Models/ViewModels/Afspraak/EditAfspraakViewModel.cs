@@ -1,12 +1,10 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 {
     /// <summary>
-    /// ViewModel voor het bewerken van een bestaande afspraak, bevat alle velden van CreateAfspraakViewModel plus extra velden voor ID en status.
+    /// ViewModel voor het bewerken van een bestaande afspraak.
     /// </summary>
     public class EditAfspraakViewModel : CreateAfspraakViewModel
     {
@@ -15,8 +13,6 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Required]
         [Display(Name = "Status")]
         public AfspraakStatus Status { get; set; }
-
-        [ValidateNever]
-        public SelectList StatusLijst { get; set; }
     }
 }
+

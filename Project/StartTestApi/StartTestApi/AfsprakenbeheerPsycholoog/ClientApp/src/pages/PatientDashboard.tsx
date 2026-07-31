@@ -5,6 +5,7 @@ import {
   Clock, AlertCircle, XCircle, Loader2, Calendar
 } from 'lucide-react';
 import { BookingWizard } from '../components/BookingWizard';
+import { extractErrorMessage } from '../utils/errorUtils';
 
 export const PatientDashboard: React.FC = () => {
   const [appointments, setAppointments] = useState<Afspraak[]>([]);
@@ -19,10 +20,7 @@ export const PatientDashboard: React.FC = () => {
       setError(null);
     } catch (err: any) {
       console.error(err);
-      setError(
-        err.response?.data?.message || 
-        'Laden van patiëntenportaal mislukt. Zorg ervoor dat uw account is gekoppeld door de psycholoog.'
-      );
+      setError(extractErrorMessage(err, 'Laden van patiëntenportaal mislukt. Zorg ervoor dat uw account is gekoppeld door de psycholoog.'));
     } finally {
       setLoading(false);
     }
@@ -41,7 +39,7 @@ export const PatientDashboard: React.FC = () => {
       alert('Afspraak succesvol geannuleerd.');
     } catch (err: any) {
       console.error(err);
-      alert(err.response?.data?.message || 'Annuleren mislukt.');
+      alert(extractErrorMessage(err, 'Annuleren mislukt.'));
     } finally {
       setLoading(false);
     }

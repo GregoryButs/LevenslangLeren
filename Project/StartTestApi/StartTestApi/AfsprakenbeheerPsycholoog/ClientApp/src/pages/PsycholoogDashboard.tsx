@@ -2,29 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { dashboardApi, afspraakApi, patientApi, aiApi } from '../services/api';
 import { DashboardData, Afspraak, Patient, AfspraakType } from '../types';
 import { 
-  Calendar, Users, Clock, ArrowRight, ChevronLeft, ChevronRight, 
-  Plus, UserCheck, AlertCircle, Loader2,
-  Brain, LineChart, Activity, Database, RotateCcw, ShieldAlert, Search, HelpCircle
+  Calendar, Clock, ArrowRight, ChevronLeft, ChevronRight, 
+  Plus, AlertCircle, Loader2,
+  Brain, LineChart, Activity, Database, RotateCcw, ShieldAlert
 } from 'lucide-react';
 import { GoogleSetupGuide } from './GoogleSetupGuide';
 import { AfspraakDetailModal } from '../components/AfspraakDetailModal';
-
-const InfoTooltip: React.FC<{ content: React.ReactNode; position?: 'top' | 'bottom' }> = ({ content, position = 'top' }) => {
-  const isBottom = position === 'bottom';
-  return (
-    <div className="relative group inline-block cursor-help ml-2 align-middle select-none">
-      <HelpCircle className="h-4 w-4 text-slate-400 hover:text-brand-500 transition-colors inline" />
-      <div className={`absolute z-50 left-1/2 transform -translate-x-1/2 w-64 p-3 bg-slate-900 text-white text-[11px] font-normal leading-relaxed rounded-xl shadow-xl border border-slate-700 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 ${
-        isBottom ? 'top-full mt-2' : 'bottom-full mb-2'
-      }`}>
-        {content}
-        <div className={`absolute left-1/2 transform -translate-x-1/2 border-[5px] border-solid border-transparent ${
-          isBottom ? 'bottom-full border-b-slate-900' : 'top-full border-t-slate-900'
-        }`}></div>
-      </div>
-    </div>
-  );
-};
+import { InfoTooltip } from '../components/common/InfoTooltip';
+import { DashboardStatCards } from '../components/dashboard/DashboardStatCards';
+import { AiPatientRiskTable } from '../components/dashboard/AiPatientRiskTable';
+import { AiDatasetExplorer } from '../components/dashboard/AiDatasetExplorer';
+import { PendingApplicationsWidget } from '../components/dashboard/PendingApplicationsWidget';
 
 interface PsycholoogDashboardProps {
   initialTab?: 'agenda' | 'ai_lab' | 'google_setup';
@@ -357,37 +345,7 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
       {currentTab === 'agenda' ? (
         <>
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-brand-900 p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm flex items-center space-x-4 transition-colors">
-              <div className="h-12 w-12 rounded-2xl bg-brand-50 dark:bg-brand-800 flex items-center justify-center text-brand-600 dark:text-brand-300">
-                <Clock className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-slate-500 dark:text-brand-300">Afspraken vandaag</p>
-                <p className="text-2xl font-bold text-slate-800 dark:text-brand-50">{data?.aantalAfsprakenVandaag}</p>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-brand-900 p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm flex items-center space-x-4 transition-colors">
-              <div className="h-12 w-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                <Calendar className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-slate-500 dark:text-brand-300">Afspraken deze week</p>
-                <p className="text-2xl font-bold text-slate-800 dark:text-brand-50">{data?.aantalAfsprakenDezeWeek}</p>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-brand-900 p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm flex items-center space-x-4 transition-colors">
-              <div className="h-12 w-12 rounded-2xl bg-blue-50 dark:bg-blue-950 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                <Users className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-slate-500 dark:text-brand-300">Totaal patiënten</p>
-                <p className="text-2xl font-bold text-slate-800 dark:text-brand-50">{data?.aantalPatienten}</p>
-              </div>
-            </div>
-          </div>
+          <DashboardStatCards data={data} />
 
           {/* Volgende Afspraak */}
           {data?.volgendeAfspraak && (
@@ -510,60 +468,17 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
             </div>
 
             {/* New Signups Card */}
-            <div className="bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm p-6 space-y-6 transition-colors">
-              <h2 className="text-lg font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
-                <UserCheck className="h-5 w-5 text-brand-600 dark:text-brand-400" />
-                <span>Nieuwe Aanmeldingen</span>
-              </h2>
-
-              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
-                {aanmeldingen.length > 0 ? (
-                  aanmeldingen.map((app) => (
-                    <div key={app.id} className="p-4 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-2xl space-y-3">
-                      <div>
-                        <h4 className="font-semibold text-slate-800 dark:text-white">{app.voornaam} {app.achternaam}</h4>
-                        <p className="text-xs text-slate-500 dark:text-brand-300">{app.email}</p>
-                      </div>
-                      <div className="flex flex-col gap-2 pt-1 border-t border-slate-100 dark:border-brand-800/40">
-                        <button
-                          onClick={() => handleApproveNewPatient(app.id)}
-                          className="w-full text-xs font-semibold bg-brand-50 dark:bg-brand-800/60 hover:bg-brand-100 dark:hover:bg-brand-800 text-brand-700 dark:text-brand-200 py-2 px-3 rounded-xl transition flex items-center justify-center space-x-1"
-                        >
-                          <Plus className="h-3.5 w-3.5" />
-                          <span>Maak & koppel nieuwe patiënt</span>
-                        </button>
-
-                        <div className="flex gap-1.5 mt-1">
-                          <select
-                            value={selectedPatientForLink[app.id] || ''}
-                            onChange={(e) => setSelectedPatientForLink({
-                              ...selectedPatientForLink,
-                              [app.id]: e.target.value
-                            })}
-                            className="text-xs w-full bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-800 py-1.5 px-2 rounded-xl text-slate-700 dark:text-brand-100 focus:outline-none"
-                          >
-                            <option value="">-- Bestaande patiënt --</option>
-                            {patientsList.map(p => (
-                              <option key={p.id} value={p.id}>{p.volledigeNaam}</option>
-                            ))}
-                          </select>
-                          <button
-                            onClick={() => handleLinkExistingPatient(app.email, app.id)}
-                            className="text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl transition"
-                          >
-                            Koppel
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-slate-400 dark:text-brand-400 text-sm">
-                    Geen openstaande nieuwe aanmeldingen.
-                  </div>
-                )}
-              </div>
-            </div>
+            <PendingApplicationsWidget
+              aanmeldingen={aanmeldingen}
+              patientsList={patientsList}
+              selectedPatientForLink={selectedPatientForLink}
+              onSelectPatientChange={(appId, patientId) => setSelectedPatientForLink({
+                ...selectedPatientForLink,
+                [appId]: patientId
+              })}
+              onApproveNewPatient={handleApproveNewPatient}
+              onLinkExistingPatient={handleLinkExistingPatient}
+            />
           </div>
         </>
       ) : currentTab === 'ai_lab' ? (
@@ -618,211 +533,28 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
 
           {/* Sub-tab 1: AI Risks */}
           {activeAiSubTab === 'risks' && (
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6">
-              <div className="flex justify-between items-center border-b border-slate-100 pb-4">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                    <Activity className="h-5 w-5 text-brand-600" />
-                    <span>AI No-Show Risico Monitor (CRM Cliënten)</span>
-                    <InfoTooltip content="Berekent de kans dat een actieve cliënt niet op een afspraak verschijnt. Gebaseerd op de tijd sinds de vorige afspraak (last session gap), het type behandeling en de geschiedenis van voltooide sessies." />
-                  </h2>
-                  <p className="text-slate-500 text-xs mt-1">Real-time predicties op basis van actieve dossiers in de database.</p>
-                </div>
-                <button 
-                  onClick={fetchPatientRisks}
-                  className="text-xs font-semibold bg-brand-50 hover:bg-brand-100 text-brand-700 py-2 px-4 rounded-xl transition flex items-center space-x-1"
-                >
-                  <RotateCcw className="h-3.5 w-3.5 animate-pulse" />
-                  <span>Verversen</span>
-                </button>
-              </div>
-
-              {risksLoading ? (
-                <div className="flex justify-center items-center py-16">
-                  <Loader2 className="animate-spin h-8 w-8 text-brand-600" />
-                </div>
-              ) : patientRisks.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-100 text-slate-400 text-xs font-semibold uppercase">
-                        <th className="py-3 px-4">Patiënt</th>
-                        <th className="py-3 px-4">Leeftijd</th>
-                        <th className="py-3 px-4">Voltooide Sessies</th>
-                        <th className="py-3 px-4">Tussenpoos (Gap)</th>
-                        <th className="py-3 px-4">Type Behandeling</th>
-                        <th className="py-3 px-4 text-center">No-Show Risico</th>
-                        <th className="py-3 px-4 text-center">Slimme Expert</th>
-                        <th className="py-3 px-4 text-center">Q-Learner (AI)</th>
-                        <th className="py-3 px-4">AI Verklaring</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 text-sm">
-                      {patientRisks.map((r: any) => (
-                        <tr key={r.patientId} className="hover:bg-slate-50/50">
-                          <td className="py-4 px-4 font-bold text-slate-800">{r.volledigeNaam}</td>
-                          <td className="py-4 px-4 text-slate-600">{r.age} jaar</td>
-                          <td className="py-4 px-4 text-slate-600">{r.sessionsCompleted} sessies</td>
-                          <td className="py-4 px-4 text-slate-600">{r.lastSessionGap} dagen</td>
-                          <td className="py-4 px-4">
-                            <span className="capitalize px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
-                              {r.treatmentType}
-                            </span>
-                          </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${
-                              r.riskCategory === 'High' ? 'bg-red-100 text-red-800' :
-                              r.riskCategory === 'Medium' ? 'bg-amber-100 text-amber-800' :
-                              'bg-emerald-100 text-emerald-800'
-                            }`}>
-                              {(r.noShowProbability * 100).toFixed(1)}% ({r.riskCategory})
-                            </span>
-                          </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${
-                              r.heuristicAction.includes("Discharge") || r.heuristicAction.includes("Ontslag") ? 'bg-blue-100 text-blue-800 border border-blue-200' :
-                              r.heuristicAction.includes("Intensief") ? 'bg-purple-100 text-purple-800 border border-purple-200' :
-                              r.heuristicAction.includes("Check-in") ? 'bg-cyan-100 text-cyan-800 border border-cyan-200' :
-                              'bg-slate-100 text-slate-800 border border-slate-200'
-                            }`}>
-                              {r.heuristicAction}
-                            </span>
-                          </td>
-                          <td className="py-4 px-4 text-center">
-                            <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${
-                              r.recommendedAction.includes("Discharge") || r.recommendedAction.includes("Ontslag") ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
-                              r.recommendedAction.includes("Intensief") ? 'bg-purple-100 text-purple-800 border border-purple-200' :
-                              r.recommendedAction.includes("Check-in") ? 'bg-cyan-100 text-cyan-800 border border-cyan-200' :
-                              r.recommendedAction.includes("Niet getraind") ? 'bg-amber-100 text-amber-800 border border-amber-200 font-semibold' :
-                              'bg-slate-100 text-slate-800 border border-slate-200'
-                            }`}>
-                              {r.recommendedAction}
-                            </span>
-                          </td>
-                          <td className="py-4 px-4 text-xs text-slate-500 italic max-w-xs">{r.reason}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="text-center py-12 text-slate-400">Geen actieve patiëntgegevens beschikbaar.</div>
-              )}
-            </div>
+            <AiPatientRiskTable
+              patientRisks={patientRisks}
+              risksLoading={risksLoading}
+              onRefresh={fetchPatientRisks}
+            />
           )}
 
           {/* Sub-tab 2: Dataset Explorer */}
           {activeAiSubTab === 'explorer' && (
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6">
-              <div className="flex justify-between items-center border-b border-slate-100 pb-4">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                    <Database className="h-5 w-5 text-brand-600" />
-                    <span>Dataset Explorer (5000 Synthetische Cliënten)</span>
-                    <InfoTooltip content="Toont de geanonimiseerde dataset van 5.000 gesimuleerde patiëntenprofielen. Deze dataset wordt gebruikt om de machine learning en regression-modellen te trainen." />
-                  </h2>
-                  <p className="text-slate-500 text-xs mt-1">Blader live door de geanonimiseerde profielen gegenereerd door de Data-Strategist.</p>
-                </div>
-                
-                {/* Search Input */}
-                <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-xl w-64 focus-within:ring-2 focus-within:ring-brand-500">
-                  <Search className="h-4 w-4 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Zoeken op naam of ID..."
-                    value={synSearch}
-                    onChange={(e) => {
-                      setSynSearch(e.target.value);
-                      setSynPage(1);
-                    }}
-                    className="bg-transparent text-xs text-slate-700 w-full focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              {synLoading ? (
-                <div className="flex justify-center items-center py-16">
-                  <Loader2 className="animate-spin h-8 w-8 text-brand-600" />
-                </div>
-              ) : syntheticPatients.length > 0 ? (
-                <div className="space-y-4">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-slate-100 text-slate-400 text-xs font-semibold uppercase">
-                          <th className="py-3 px-4">Client ID</th>
-                          <th className="py-3 px-4">Naam</th>
-                          <th className="py-3 px-4">Leeftijd</th>
-                          <th className="py-3 px-4">Tussenpoos (Gap)</th>
-                          <th className="py-3 px-4">Behandeling</th>
-                          <th className="py-3 px-4">Sessies</th>
-                          <th className="py-3 px-4 text-center">
-                            <span className="inline-block align-middle">No-Show Risico</span>
-                            <InfoTooltip position="bottom" content="De door het ML-regressiemodel berekende no-show kans (0-100%) voor dit gesimuleerde profiel." />
-                          </th>
-                          <th className="py-3 px-4 text-center">
-                            <span className="inline-block align-middle">No-Show Status</span>
-                            <InfoTooltip position="bottom" content="De uiteindelijke, werkelijke uitkomst van de afspraak (Aanwezig of No-Show) in de dataset." />
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 text-sm">
-                        {syntheticPatients.map((p: any) => (
-                          <tr key={p.clientId} className="hover:bg-slate-50/50">
-                            <td className="py-4 px-4 font-mono font-semibold text-xs text-slate-500">{p.clientId}</td>
-                            <td className="py-4 px-4 font-bold text-slate-800">{p.name}</td>
-                            <td className="py-4 px-4 text-slate-600">{p.age} jr</td>
-                            <td className="py-4 px-4 text-slate-600">{p.lastSessionGap} dagen</td>
-                            <td className="py-4 px-4">
-                              <span className="capitalize px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-50 text-brand-700">
-                                {p.treatmentType}
-                              </span>
-                            </td>
-                            <td className="py-4 px-4 text-slate-600">{p.sessionsCompleted}</td>
-                            <td className="py-4 px-4 text-center font-semibold text-slate-750">{(p.noShowProbability * 100).toFixed(1)}%</td>
-                            <td className="py-4 px-4 text-center">
-                              <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${
-                                p.noShow === 1 ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'
-                              }`}>
-                                {p.noShow === 1 ? 'No-Show' : 'Aanwezig'}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Pagination Controls */}
-                  <div className="flex justify-between items-center pt-4 border-t border-slate-100 text-xs text-slate-500">
-                    <span>
-                      Tonen van <strong>{((synPage - 1) * synPageSize) + 1}</strong> tot <strong>{Math.min(synPage * synPageSize, synTotal)}</strong> van de <strong>{synTotal}</strong> records
-                    </span>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => setSynPage(p => Math.max(1, p - 1))}
-                        disabled={synPage === 1}
-                        className="py-1.5 px-3 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:hover:bg-transparent font-semibold transition"
-                      >
-                        Vorige
-                      </button>
-                      <span className="py-1.5 px-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-bold">
-                        Pagina {synPage} van {Math.ceil(synTotal / synPageSize)}
-                      </span>
-                      <button
-                        onClick={() => setSynPage(p => Math.min(Math.ceil(synTotal / synPageSize), p + 1))}
-                        disabled={synPage >= Math.ceil(synTotal / synPageSize)}
-                        className="py-1.5 px-3 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 disabled:hover:bg-transparent font-semibold transition"
-                      >
-                        Volgende
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-12 text-slate-400">Geen records gevonden die voldoen aan de zoekcriteria.</div>
-              )}
-            </div>
+            <AiDatasetExplorer
+              syntheticPatients={syntheticPatients}
+              synTotal={synTotal}
+              synPage={synPage}
+              synPageSize={synPageSize}
+              synSearch={synSearch}
+              synLoading={synLoading}
+              onSearchChange={(search) => {
+                setSynSearch(search);
+                setSynPage(1);
+              }}
+              onPageChange={(page) => setSynPage(page)}
+            />
           )}
 
           {/* Sub-tab 3: RL Policy Simulator */}

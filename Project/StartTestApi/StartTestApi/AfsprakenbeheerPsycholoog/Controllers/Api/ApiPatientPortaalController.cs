@@ -1,4 +1,5 @@
 using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Extensions;
 using AfsprakenbeheerPsycholoog.Helpers;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal;
 using AfsprakenbeheerPsycholoog.Services;
@@ -170,15 +171,6 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             return File(bytes, "text/calendar", filename);
         }
 
-        private int? GetPatientId()
-        {
-            var patientIdClaim = User.FindFirstValue("PatientId");
-            if (string.IsNullOrWhiteSpace(patientIdClaim))
-            {
-                return null;
-            }
-
-            return int.TryParse(patientIdClaim, out var patientId) ? patientId : null;
-        }
+        private int? GetPatientId() => User.GetPatientId();
     }
 }

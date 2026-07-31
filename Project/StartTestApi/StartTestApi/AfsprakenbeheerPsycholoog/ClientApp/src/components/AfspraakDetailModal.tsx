@@ -5,6 +5,8 @@ import {
   Calendar as CalendarIcon, X, Edit3, Trash2, UserPlus, 
   Loader2 
 } from 'lucide-react';
+import { getPatientDisplayName } from '../utils/patientUtils';
+import { extractErrorMessage } from '../utils/errorUtils';
 
 interface AfspraakDetailModalProps {
   afspraak: Afspraak | null;
@@ -49,7 +51,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
       const res = await afspraakApi.getEditData(afspraak.id);
       const patients = (res.patienten || []).map((p: any) => ({
         id: p.id ?? p.Id,
-        naam: p.naam || p.Naam || `${p.voornaam || ''} ${p.achternaam || ''}`.trim()
+        naam: p.naam || p.Naam || getPatientDisplayName(p)
       }));
       const types = (res.types || []).map((t: any) => ({
         id: t.id ?? t.Id,
@@ -112,7 +114,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
       alert('Afspraak succesvol bijgewerkt!');
     } catch (err: any) {
       console.error(err);
-      alert(err.response?.data?.message || 'Bijwerken mislukt. Controleer op overlapping.');
+      alert(extractErrorMessage(err, 'Bijwerken mislukt. Controleer op overlapping.'));
     }
   };
 
@@ -124,7 +126,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
       onClose();
     } catch (err) {
       console.error(err);
-      alert('Verwijderen mislukt.');
+      alert(extractErrorMessage(err, 'Verwijderen mislukt.'));
     }
   };
 
@@ -142,7 +144,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
       const res = await afspraakApi.getEditData(editForm.id);
       const patients = (res.patienten || []).map((p: any) => ({
         id: p.id ?? p.Id,
-        naam: p.naam || p.Naam || `${p.voornaam || ''} ${p.achternaam || ''}`.trim()
+        naam: p.naam || p.Naam || getPatientDisplayName(p)
       }));
       setBookingPatients(patients);
       setEditForm(prev => ({ ...prev, patientId: String(newP.id) }));
@@ -150,7 +152,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
       alert(`Patiënt ${newP.voornaam || quickPatient.voornaam} ${newP.achternaam || quickPatient.achternaam} aangemaakt en gekoppeld!`);
     } catch (err) {
       console.error(err);
-      alert('Aanmaken patiënt mislukt.');
+      alert(extractErrorMessage(err, 'Aanmaken patiënt mislukt.'));
     }
   };
 

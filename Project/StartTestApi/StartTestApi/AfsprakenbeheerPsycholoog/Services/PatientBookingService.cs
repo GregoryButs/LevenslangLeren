@@ -100,15 +100,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         private async Task<List<TijdslotViewModel>> BuildTijdslotenVoorDatumAsync(DateTime datum, PraktijkInstelling instelling)
         {
-            TimeZoneInfo tz;
-            try
-            {
-                tz = TimeZoneInfo.FindSystemTimeZoneById("Europe/Amsterdam");
-            }
-            catch
-            {
-                tz = TimeZoneInfo.Local;
-            }
+            var tz = TimeZoneHelper.DutchTimeZone;
             var dayOfWeek = datum.DayOfWeek;
             
             bool isActive1 = false;

@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { authApi } from '../services/api';
 import { User } from '../types';
 import { Lock, Mail, UserIcon, Loader2, CheckCircle2, Sun, Moon } from 'lucide-react';
+import { extractErrorMessage } from '../utils/errorUtils';
+import { isValidEmail } from '../utils/validationUtils';
 
 interface RegisterProps {
   setUser: (user: User | null) => void;
@@ -38,6 +40,11 @@ export const Register: React.FC<RegisterProps> = ({ setUser }) => {
     e.preventDefault();
     setError(null);
 
+    if (!isValidEmail(email)) {
+      setError('Voer een geldig e-mailadres in.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Wachtwoorden komen niet overeen.');
       return;
@@ -62,20 +69,7 @@ export const Register: React.FC<RegisterProps> = ({ setUser }) => {
       }
     } catch (err: any) {
       console.error(err);
-      if (err.response?.data) {
-        const errors = err.response.data;
-        if (typeof errors === 'object') {
-          const firstErrorKey = Object.keys(errors)[0];
-          const errorMsg = Array.isArray(errors[firstErrorKey]) 
-            ? errors[firstErrorKey][0] 
-            : errors[firstErrorKey];
-          setError(errorMsg || 'Registreren mislukt. Mogelijk bestaat dit e-mailadres al.');
-        } else {
-          setError('Registreren mislukt.');
-        }
-      } else {
-        setError('Er is een onbekende fout opgetreden.');
-      }
+      setError(extractErrorMessage(err, 'Registreren mislukt. Mogelijk bestaat dit e-mailadres al.'));
     } finally {
       setLoading(false);
     }

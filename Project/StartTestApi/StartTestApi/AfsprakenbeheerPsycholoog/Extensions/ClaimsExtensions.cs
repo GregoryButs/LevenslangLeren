@@ -23,5 +23,13 @@ namespace AfsprakenbeheerPsycholoog.Extensions
 
             return false;
         }
+
+        public static int? GetPatientId(this ClaimsPrincipal principal)
+        {
+            if (principal == null) return null;
+            var patientIdClaim = principal.FindFirstValue("PatientId");
+            if (string.IsNullOrWhiteSpace(patientIdClaim)) return null;
+            return int.TryParse(patientIdClaim, out var patientId) ? patientId : null;
+        }
     }
 }

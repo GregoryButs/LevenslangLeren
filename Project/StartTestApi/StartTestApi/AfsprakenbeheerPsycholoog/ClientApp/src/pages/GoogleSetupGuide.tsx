@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { settingsApi, afspraakTypeApi } from '../services/api';
 import { AfspraakType } from '../types';
+import { extractErrorMessage } from '../utils/errorUtils';
 
 interface SettingsData {
   googleCalendarId: string;
@@ -134,8 +135,7 @@ export const GoogleSetupGuide: React.FC = () => {
       alert(res.message || 'Agenda succesvol gesynchroniseerd!');
     } catch (err: any) {
       console.error('Fout bij synchroniseren agenda:', err);
-      const errMsg = err.response?.data?.error || 'Synchronisatie mislukt. Controleer de logs en of uw credentials correct zijn.';
-      alert(errMsg);
+      alert(extractErrorMessage(err, 'Synchronisatie mislukt. Controleer de logs en of uw credentials correct zijn.'));
     } finally {
       setSyncing(false);
     }
@@ -149,8 +149,7 @@ export const GoogleSetupGuide: React.FC = () => {
       alert(res.message || 'Agenda opgeschoond en opnieuw gesynchroniseerd!');
     } catch (err: any) {
       console.error('Fout bij her-synchroniseren agenda:', err);
-      const errMsg = err.response?.data?.error || 'Her-synchronisatie mislukt.';
-      alert(errMsg);
+      alert(extractErrorMessage(err, 'Her-synchronisatie mislukt.'));
     } finally {
       setSyncing(false);
     }

@@ -4,7 +4,6 @@ using AfsprakenbeheerPsycholoog.Helpers;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Planning;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,9 +75,7 @@ namespace AfsprakenbeheerPsycholoog.Services
         {
             return new CreateAfspraakViewModel
             {
-                Starttijd = DateTime.UtcNow.Date.AddDays(1).AddHours(9),
-                PatientenLijst = SelectListHelper.Patienten(_patientRepo.GetAll()),
-                TypenLijst = SelectListHelper.Types(_typeRepo.GetAll())
+                Starttijd = DateTime.UtcNow.Date.AddDays(1).AddHours(9)
             };
         }
 
@@ -179,11 +176,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             var afspraak = _afspraakRepo.GetById(id);
             if (afspraak == null) return null;
 
-            var vm = _mapper.Map<EditAfspraakViewModel>(afspraak);
-            vm.PatientenLijst = SelectListHelper.Patienten(_patientRepo.GetAll(), vm.PatientId);
-            vm.TypenLijst = SelectListHelper.Types(_typeRepo.GetAll(), vm.TypeId);
-            vm.StatusLijst = SelectListHelper.Statussen(vm.Status);
-            return vm;
+            return _mapper.Map<EditAfspraakViewModel>(afspraak);
         }
 
         public async Task<bool> EditAfspraakAsync(EditAfspraakViewModel vm)
@@ -213,15 +206,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
             }
 
-            TimeZoneInfo tz;
-            try
-            {
-                tz = TimeZoneInfo.FindSystemTimeZoneById("Europe/Amsterdam");
-            }
-            catch
-            {
-                tz = TimeZoneInfo.Local;
-            }
+            var tz = TimeZoneHelper.DutchTimeZone;
 
             int duurMinuten = type?.StandaardDuurMinuten ?? 60;
             var startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(vm.Starttijd, DateTimeKind.Unspecified), tz);

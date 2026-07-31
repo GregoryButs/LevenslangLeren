@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Data.Entities
@@ -35,7 +34,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         public string VolledigeNaam => $"{Voornaam} {Achternaam}";
 
         // Navigatieproperty
-        public IEnumerable<Afspraak> Afspraken { get; set; }
+        public ICollection<Afspraak> Afspraken { get; set; } = new List<Afspraak>();
 
         [Display(Name = "Actief")]
         public bool IsActief { get; set; } = true;

@@ -7,6 +7,7 @@ import {
   AlertCircle, Briefcase, Calendar, Sparkles,
   ChevronLeft, ChevronRight
 } from 'lucide-react';
+import { extractErrorMessage } from '../utils/errorUtils';
 
 interface BookingWizardProps {
   onBookingSuccess: () => void;
@@ -74,7 +75,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
         setError(null);
       } catch (err) {
         console.error('Fout bij inladen boekingsgegevens:', err);
-        setError('Kon initialisatiegegevens niet laden. Probeer het later opnieuw.');
+        setError(extractErrorMessage(err, 'Kon initialisatiegegevens niet laden. Probeer het later opnieuw.'));
       } finally {
         setLoading(false);
       }
@@ -83,7 +84,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
     fetchInitialData();
   }, []);
 
-  // Fetch slots whenever selectedDate or selectedType changes
+  // Fetch slots whenever selectedDate or step changes
   useEffect(() => {
     const fetchSlots = async () => {
       if (!selectedDate) return;
@@ -154,7 +155,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
       }, 4000);
     } catch (err: any) {
       console.error(err);
-      alert(err.response?.data?.message || 'Boeken mislukt. Kies een ander moment.');
+      alert(extractErrorMessage(err, 'Boeken mislukt. Kies een ander moment.'));
     } finally {
       setBookingInProgress(false);
     }

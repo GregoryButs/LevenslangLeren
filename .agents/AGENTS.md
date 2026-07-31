@@ -50,6 +50,16 @@ De repository wordt beheerd door een hiërarchisch multi-agent model (Hub-and-Sp
     *   Verifieert routes en linkt actieknoppen door naar de inlog- en registratiepagina's van de afsprakenbeheermodule.
 *   **Relevante System Skills**: Maakt proactief gebruik van `@react-best-practices` en `@senior-frontend` voor hoogwaardige patronen.
 
+### 1.6 Subagent E (Code Quality, Refactoring & Secrets Specialist)
+*   **Doel**: Codebase-brede opsporing van spaghetti-code, bewaking van DRY & SOLID principes, en auditing van (hardcoded) secrets en configuratiebeveiliging.
+*   **Protocol**:
+    *   Scant de volledige repository (zowel ASP.NET Core backend als React frontend) op gedupliceerde logica en te complexe / monolithische componenten/klassen.
+    *   Refactort code naar modulaire, herbruikbare structuren met behoud van bestaande werking en API-contracts.
+    *   Voert audits uit op hardcoded API keys, connection strings, wachtwoorden of tokens in broncode en configuratiebestanden.
+    *   Zorgt dat gevoelige gegevens strikt worden verplaatst naar `UserSecrets` (voor dev) of `Environment Variables` (voor productie) en verifieert `.gitignore`.
+*   **Relevante System Skills**: Maakt proactief gebruik van `@codebase-cleanup-refactor-clean`, `@csharp-pro`, `@react-best-practices` en `@varlock-claude-skill`.
+
+
 ---
 
 ## 2. Design & Frontend Richtlijnen (Subagent A)

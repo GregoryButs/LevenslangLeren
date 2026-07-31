@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
@@ -37,9 +35,6 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Display(Name = "Herhalen t.e.m.")]
         [DataType(DataType.Date)]
         public DateTime? HerhaalTot { get; set; }
-
-        [ValidateNever] public SelectList? PatientenLijst { get; set; }
-        [ValidateNever] public SelectList? TypenLijst { get; set; }
 
         // Custom validatie voor herhaling - controleert of er een einddatum is als er een herhaling is, en of die einddatum niet vóór de starttijd ligt
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -6,6 +6,8 @@ import {
   RefreshCw, Loader2, Plus 
 } from 'lucide-react';
 import { AfspraakDetailModal } from '../components/AfspraakDetailModal';
+import { formatDateTimeInput, formatHourString, formatShortDutchDate } from '../utils/dateUtils';
+import { getPatientDisplayName } from '../utils/patientUtils';
 
 export const CalendarPage: React.FC = () => {
   const [appointments, setAppointments] = useState<Afspraak[]>([]);
@@ -39,7 +41,7 @@ export const CalendarPage: React.FC = () => {
       ]);
       const pList = patientsData.map((p: any) => ({
         id: p.id,
-        naam: p.volledigeNaam || p.VolledigeNaam || (p.voornaam ? `${p.voornaam} ${p.achternaam || ''}`.trim() : `Patiënt #${p.id}`)
+        naam: getPatientDisplayName(p)
       }));
       const tList = typesData.map((t: any) => ({ id: t.id, naam: t.naam, standaardDuurMinuten: t.standaardDuurMinuten }));
       setBookingPatients(pList);
@@ -52,23 +54,7 @@ export const CalendarPage: React.FC = () => {
 
   const handleOpenBookModal = async (prefilledDate?: Date, prefilledHour?: number) => {
     const { tList } = await loadBookingOptions();
-    
-    let formattedStarttijd = '';
-    if (prefilledDate && prefilledHour !== undefined) {
-      const year = prefilledDate.getFullYear();
-      const month = (prefilledDate.getMonth() + 1).toString().padStart(2, '0');
-      const dStr = prefilledDate.getDate().toString().padStart(2, '0');
-      const hStr = prefilledHour.toString().padStart(2, '0');
-      formattedStarttijd = `${year}-${month}-${dStr}T${hStr}:00`;
-    } else {
-      const now = new Date();
-      now.setMinutes(0, 0, 0);
-      const year = now.getFullYear();
-      const month = (now.getMonth() + 1).toString().padStart(2, '0');
-      const dStr = now.getDate().toString().padStart(2, '0');
-      const hStr = (now.getHours() + 1).toString().padStart(2, '0');
-      formattedStarttijd = `${year}-${month}-${dStr}T${hStr}:00`;
-    }
+    const formattedStarttijd = formatDateTimeInput(prefilledDate, prefilledHour);
 
     setNewBooking({
       typeId: tList.length > 0 ? tList[0].id.toString() : '',
@@ -495,7 +481,7 @@ export const CalendarPage: React.FC = () => {
                 {hours.map((hour) => (
                   <tr key={hour} className="border-b border-slate-100 dark:border-brand-800/40 group">
                     <td className="p-4 text-sm font-semibold text-slate-400 dark:text-brand-400 align-top">
-                      {hour.toString().padStart(2, '0')}:00
+                      {formatHourString(hour)}
                     </td>
 
                     {viewMode === 'week' ? (
@@ -519,7 +505,7 @@ export const CalendarPage: React.FC = () => {
                             title={
                               appts.length > 0 
                                 ? undefined 
-                                : `Klik om een afspraak in te plannen op ${day.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' })} om ${hour.toString().padStart(2, '0')}:00`
+                                : `Klik om een afspraak in te plannen op ${formatShortDutchDate(day)} om ${formatHourString(hour)}`
                             }
                           >
                             <div className="space-y-1.5">
@@ -642,7 +628,7 @@ export const CalendarPage: React.FC = () => {
             <span className="flex items-center space-x-1.5">
               <Clock className="h-3.5 w-3.5 text-brand-600 dark:text-brand-400" />
               <span>
-                Weergave uren: <strong className="text-slate-800 dark:text-white font-bold">{minHour.toString().padStart(2, '0')}:00 - {(maxHour + 1).toString().padStart(2, '0')}:00</strong> {showFull24h ? '(Volledige 24-uurs dag)' : '(Automatisch aangepast aan geplande afspraken)'}
+                Weergave uren: <strong className="text-slate-800 dark:text-white font-bold">{formatHourString(minHour)} - {formatHourString(maxHour + 1)}</strong> {showFull24h ? '(Volledige 24-uurs dag)' : '(Automatisch aangepast aan geplande afspraken)'}
               </span>
             </span>
             <button 

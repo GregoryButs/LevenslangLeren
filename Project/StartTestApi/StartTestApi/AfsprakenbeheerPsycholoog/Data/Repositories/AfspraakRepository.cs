@@ -108,7 +108,7 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 .AsNoTracking()
                 .Include(a => a.Patient)
                 .Include(a => a.Type)
-                .Where(a => a.Starttijd > DateTime.Now
+                .Where(a => a.Starttijd > DateTime.UtcNow
                          && a.Status == AfspraakStatus.Gepland
                          && (!zonderBlokkeringen || a.PatientId.HasValue))
                 .OrderBy(a => a.Starttijd)
