@@ -225,11 +225,14 @@ namespace AfsprakenbeheerPsycholoog
 
             var app = builder.Build();
 
-            // Forwarded Headers instellen voor Caddy Reverse Proxy (HTTPS borgen voor OAuth redirect URI's)
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            // Forwarded Headers instellen voor Reverse Proxy / Docker (HTTPS borgen voor OAuth redirect URI's)
+            var forwardedHeadersOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost
-            });
+            };
+            forwardedHeadersOptions.KnownNetworks.Clear();
+            forwardedHeadersOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(forwardedHeadersOptions);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
