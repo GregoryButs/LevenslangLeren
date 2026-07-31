@@ -346,10 +346,11 @@ export const CalendarPage: React.FC = () => {
 
           <button 
             onClick={() => handleOpenBookModal()}
-            className="px-4 py-2 text-xs font-bold bg-brand-500 hover:bg-brand-600 active:scale-95 text-white rounded-xl shadow-sm transition flex items-center space-x-1.5 cursor-pointer"
+            className="px-3 sm:px-4 py-2 text-xs font-bold bg-brand-500 hover:bg-brand-600 active:scale-95 text-white rounded-xl shadow-sm transition flex items-center space-x-1.5 cursor-pointer"
+            title="Afspraak Inplannen"
           >
             <Plus className="h-4 w-4" />
-            <span>Afspraak Inplannen</span>
+            <span className="hidden sm:inline">Afspraak Inplannen</span>
           </button>
 
           <button 
@@ -363,12 +364,12 @@ export const CalendarPage: React.FC = () => {
       </div>
 
       {/* Legenda Praktijkuren & Boekbaarheid */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-brand-900 px-6 py-3 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-xs shadow-xs">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-brand-900 px-4 sm:px-6 py-3 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-xs shadow-xs">
+        <div className="flex flex-wrap items-center gap-3">
           <span className="font-bold text-slate-600 dark:text-brand-200">Legenda Boekingsuren:</span>
           <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200/60 dark:border-teal-900/40 font-semibold">
             <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
-            <span>Praktijkuren (Klik op een leeg vakje om een afspraak in te plannen)</span>
+            <span>Praktijkuren</span>
           </div>
           <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-brand-950 text-slate-500 dark:text-brand-400 border border-slate-200/60 dark:border-brand-800/60 font-medium">
             <span className="h-2 w-2 rounded-full bg-slate-400" />
