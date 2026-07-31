@@ -396,43 +396,43 @@ export const Patients: React.FC = () => {
             {/* Profile Detail Grid */}
             {patientDetails && (
               <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4 text-sm bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <div className="grid grid-cols-2 gap-4 text-sm bg-slate-50 dark:bg-brand-950/80 p-4 rounded-2xl border border-slate-100 dark:border-brand-800/60">
                   <div>
-                    <span className="text-slate-400 font-medium block">Dossiernummer</span>
-                    <span className="text-slate-800 font-semibold font-mono">{patientDetails.dossierNummer || 'DOS-N/A'}</span>
+                    <span className="text-slate-400 dark:text-brand-300 font-medium block">Dossiernummer</span>
+                    <span className="text-slate-800 dark:text-white font-semibold font-mono">{patientDetails.dossierNummer || 'DOS-N/A'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 font-medium block">Geboortedatum</span>
-                    <span className="text-slate-800 font-semibold">
+                    <span className="text-slate-400 dark:text-brand-300 font-medium block">Geboortedatum</span>
+                    <span className="text-slate-800 dark:text-white font-semibold">
                       {new Date(patientDetails.geboortedatum).toLocaleDateString('nl-NL')}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-400 font-medium block">E-mailadres</span>
+                    <span className="text-slate-400 dark:text-brand-300 font-medium block">E-mailadres</span>
                     <span className="text-slate-800 dark:text-brand-100 font-semibold">{patientDetails.email}</span>
                     {patientDetails.secundairEmail && (
                       <div className="text-xs text-slate-500 dark:text-brand-300 mt-0.5">
-                        <span className="font-medium text-slate-400">Secundair:</span> {patientDetails.secundairEmail}
+                        <span className="font-medium text-slate-400 dark:text-brand-400">Secundair:</span> {patientDetails.secundairEmail}
                       </div>
                     )}
                   </div>
                   <div>
-                    <span className="text-slate-400 font-medium block">Telefoon</span>
-                    <span className="text-slate-800 font-semibold">{patientDetails.telefoonnummer || '—'}</span>
+                    <span className="text-slate-400 dark:text-brand-300 font-medium block">Telefoon</span>
+                    <span className="text-slate-800 dark:text-white font-semibold">{patientDetails.telefoonnummer || '—'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 font-medium block flex items-center">
+                    <span className="text-slate-400 dark:text-brand-300 font-medium block flex items-center">
                       <span>Emotionele Stabiliteit</span>
                       <InfoTooltip content="Een klinische score ingevoerd door de therapeut (bereik 1.0 tot 10.0) die de emotionele en psychische weerbaarheid van de patiënt kwantificeert." />
                     </span>
-                    <span className="text-slate-800 font-semibold">
+                    <span className="text-slate-800 dark:text-white font-semibold">
                       {patientDetails.emotioneleStabiliteit !== null && patientDetails.emotioneleStabiliteit !== undefined
                         ? `${patientDetails.emotioneleStabiliteit.toFixed(1)} / 10.0`
                         : '5.5 (Standaard)'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-400 font-medium block flex items-center">
+                    <span className="text-slate-400 dark:text-brand-300 font-medium block flex items-center">
                       <span>AI No-Show Risico</span>
                       <InfoTooltip content="Berekend risico dat deze specifieke patiënt de volgende sessie zal missen, gebaseerd op het aantal dagen sinds de laatste sessie en de diagnose." />
                     </span>
@@ -440,9 +440,9 @@ export const Patients: React.FC = () => {
                       const risk = getNoShowRisk(patientDetails);
                       return (
                         <span className={`inline-block px-2 py-0.5 mt-0.5 rounded-full text-xs font-bold ${
-                          risk.category === 'High' ? 'bg-red-105 bg-red-100 text-red-800' :
-                          risk.category === 'Medium' ? 'bg-amber-100 text-amber-805 text-amber-800' :
-                          'bg-emerald-100 text-emerald-800'
+                          risk.category === 'High' ? 'bg-red-100 dark:bg-red-950/80 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800' :
+                          risk.category === 'Medium' ? 'bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800' :
+                          'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                         }`}>
                           {(risk.probability * 100).toFixed(1)}% ({risk.category})
                         </span>
@@ -452,10 +452,10 @@ export const Patients: React.FC = () => {
                 </div>
 
                 {/* Account linkage section */}
-                <div className="border border-slate-100 p-4 rounded-2xl flex justify-between items-center bg-white">
+                <div className="border border-slate-100 dark:border-brand-800/60 p-4 rounded-2xl flex justify-between items-center bg-white dark:bg-brand-950/80">
                   <div className="space-y-0.5">
-                    <h4 className="text-sm font-bold text-slate-800">Gebruikersaccount</h4>
-                    <p className="text-xs text-slate-500">
+                    <h4 className="text-sm font-bold text-slate-800 dark:text-white">Gebruikersaccount</h4>
+                    <p className="text-xs text-slate-500 dark:text-brand-300">
                       {patientDetails.isGekoppeld 
                         ? 'Gekoppeld aan een gebruikersaccount' 
                         : 'Dit dossier is nog niet gekoppeld aan een gebruikersaccount.'}
@@ -465,7 +465,7 @@ export const Patients: React.FC = () => {
                   {patientDetails.isGekoppeld ? (
                     <button
                       onClick={() => handleUnlink(patientDetails.id)}
-                      className="flex items-center space-x-1.5 text-xs font-semibold bg-amber-50 hover:bg-amber-100 text-amber-700 py-2 px-3 rounded-xl transition"
+                      className="flex items-center space-x-1.5 text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-700 dark:text-amber-300 py-2 px-3 rounded-xl transition"
                     >
                       <Link2Off className="h-4 w-4" />
                       <span>Ontkoppelen</span>
@@ -473,7 +473,7 @@ export const Patients: React.FC = () => {
                   ) : (
                     <button
                       onClick={() => { setLinkPatientId(patientDetails.id); setLinkEmail(''); setIsLinkModalOpen(true); }}
-                      className="flex items-center space-x-1.5 text-xs font-semibold bg-brand-50 hover:bg-brand-100 text-brand-700 py-2 px-3 rounded-xl transition"
+                      className="flex items-center space-x-1.5 text-xs font-semibold bg-brand-50 dark:bg-brand-800/60 hover:bg-brand-100 dark:hover:bg-brand-700 text-brand-700 dark:text-brand-200 py-2 px-3 rounded-xl transition"
                     >
                       <Link2 className="h-4 w-4" />
                       <span>Account Koppelen</span>
@@ -483,8 +483,8 @@ export const Patients: React.FC = () => {
 
                 {/* Patient Appointments Chronological */}
                 <div className="space-y-3">
-                  <h4 className="text-sm font-bold text-slate-800 flex items-center space-x-1.5">
-                    <Calendar className="h-4 w-4 text-brand-600" />
+                  <h4 className="text-sm font-bold text-slate-800 dark:text-white flex items-center space-x-1.5">
+                    <Calendar className="h-4 w-4 text-brand-600 dark:text-brand-400" />
                     <span>Afsprakenhistorie</span>
                   </h4>
                   
@@ -493,15 +493,15 @@ export const Patients: React.FC = () => {
                       patientDetails.afspraken.map((appt) => {
                         const start = new Date(appt.starttijd);
                         return (
-                          <div key={appt.id} className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 flex justify-between items-center text-xs">
+                          <div key={appt.id} className="p-3 bg-slate-50/50 dark:bg-brand-950/60 rounded-xl border border-slate-100 dark:border-brand-800/40 flex justify-between items-center text-xs">
                             <div>
-                              <span className="font-semibold text-slate-700 mr-2">{appt.afspraakTypeNaam}</span>
-                              <span className="text-slate-500">
+                              <span className="font-semibold text-slate-700 dark:text-brand-100 mr-2">{appt.afspraakTypeNaam}</span>
+                              <span className="text-slate-500 dark:text-brand-300">
                                 {start.toLocaleDateString('nl-NL')} om {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
                             <span 
-                              className="py-0.5 px-2 rounded-full text-[10px] font-bold uppercase tracking-wider text-white"
+                              className="py-0.5 px-2 rounded-full text-[10px] font-bold uppercase tracking-wider text-white shadow-xs"
                               style={{ backgroundColor: appt.kleurcode }}
                             >
                               {appt.status}
@@ -510,7 +510,7 @@ export const Patients: React.FC = () => {
                         );
                       })
                     ) : (
-                      <p className="text-xs text-slate-400 italic text-center py-4">Nog geen afspraken gepland voor deze patiënt.</p>
+                      <p className="text-xs text-slate-400 dark:text-brand-400 italic text-center py-4">Nog geen afspraken gepland voor deze patiënt.</p>
                     )}
                   </div>
                 </div>

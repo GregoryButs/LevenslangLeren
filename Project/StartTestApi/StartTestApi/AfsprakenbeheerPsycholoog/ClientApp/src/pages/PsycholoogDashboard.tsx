@@ -561,19 +561,19 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
           {activeAiSubTab === 'simulator' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Simulator Panel */}
-              <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6">
-                <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+              <div className="lg:col-span-2 bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm p-6 space-y-6 transition-colors">
+                <div className="flex justify-between items-center border-b border-slate-100 dark:border-brand-800/40 pb-4">
                   <div>
-                    <h2 className="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                      <Brain className="h-5 w-5 text-brand-600" />
+                    <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center space-x-2">
+                      <Brain className="h-5 w-5 text-brand-600 dark:text-brand-400" />
                       <span>Interactive Reinforcement Learning Planner</span>
                       <InfoTooltip content="Een interactieve simulator gebaseerd op een Markov Decision Process (MDP). De AI leert planningsbeslissingen te nemen om de klinische uitkomst te maximaliseren en no-shows te minimaliseren." />
                     </h2>
-                    <p className="text-slate-500 text-xs mt-1">Trainingsomgeving (MDP) om planning en continuïteits-rewards te simuleren.</p>
+                    <p className="text-slate-500 dark:text-brand-300 text-xs mt-1">Trainingsomgeving (MDP) om planning en continuïteits-rewards te simuleren.</p>
                   </div>
                   <button 
                     onClick={handleSimReset}
-                    className="text-xs font-semibold bg-red-50 hover:bg-red-100 text-red-700 py-2 px-4 rounded-xl transition flex items-center space-x-1"
+                    className="text-xs font-semibold bg-red-50 dark:bg-red-950/60 hover:bg-red-100 text-red-700 dark:text-red-300 py-2 px-4 rounded-xl transition flex items-center space-x-1"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>Reset Agent</span>
@@ -735,50 +735,50 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
               </div>
 
               {/* Simulator Metrics */}
-              <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6">
-                <h3 className="text-base font-bold text-slate-850">Simulatie Resultaten</h3>
+              <div className="bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm p-6 space-y-6 transition-colors">
+                <h3 className="text-base font-bold text-slate-800 dark:text-white">Simulatie Resultaten</h3>
                 
-                <div className="bg-slate-50 p-6 rounded-3xl text-center space-y-1">
-                  <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold flex items-center justify-center">
+                <div className="bg-slate-50 dark:bg-brand-950/80 p-6 rounded-3xl text-center space-y-1 border border-slate-100 dark:border-brand-800/40">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-brand-300 font-semibold flex items-center justify-center">
                     <span>Cumulatieve Beloning</span>
                     <InfoTooltip content="De totale wiskundige beloning (reward) behaald door de planningsagent. Combineert de voortgangsbeloning (progress), aanwezigheidsbonus, en penalties voor no-shows, stagnatie, overtreatment en delays." />
                   </span>
                   <p className={`text-3xl font-extrabold ${
-                    simCumulativeReward >= 0 ? 'text-emerald-600' : 'text-red-600'
+                    simCumulativeReward >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
                   }`}>
                     {simCumulativeReward >= 0 ? '+' : ''}{simCumulativeReward.toFixed(2)}
                   </p>
-                  <p className="text-[10px] text-slate-400 leading-normal pt-1.5 border-t border-slate-200/50 mt-2">
+                  <p className="text-[10px] text-slate-400 dark:text-brand-300 leading-normal pt-1.5 border-t border-slate-200/50 dark:border-brand-800/50 mt-2">
                     Beloont stabiliteit en sentimentgroei. Straft stagnatie, no-shows en overbehandeling (&gt;12 sessies).
                   </p>
                 </div>
 
                 {/* History Logs */}
                 <div className="space-y-3">
-                  <h4 className="font-bold text-xs text-slate-600 uppercase tracking-wider">Logboek</h4>
+                  <h4 className="font-bold text-xs text-slate-600 dark:text-brand-200 uppercase tracking-wider">Logboek</h4>
                   <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1 text-xs">
                     {simHistory.length > 0 ? (
                       simHistory.map((item, idx) => (
-                        <div key={idx} className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                          <div className="flex justify-between font-bold text-slate-700">
+                        <div key={idx} className="p-3 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-xl space-y-1">
+                          <div className="flex justify-between font-bold text-slate-700 dark:text-brand-100">
                             <span>{item.action}</span>
-                            <span className={item.reward >= 0 ? 'text-emerald-600' : 'text-red-600'}>
+                            <span className={item.reward >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>
                               {item.reward >= 0 ? '+' : ''}{item.reward}
                             </span>
                           </div>
-                          <div className="flex justify-between text-slate-500">
+                          <div className="flex justify-between text-slate-500 dark:text-brand-300">
                             <span>Aanwezig: {item.attended ? '✅ Ja' : '❌ No-Show'}</span>
                             <span>E: {item.stability.toFixed(2)} (Sentiment: {item.sentimentEma.toFixed(2)})</span>
                           </div>
-                          <div className="flex justify-between text-[10px] text-slate-400 pt-0.5">
+                          <div className="flex justify-between text-[10px] text-slate-400 dark:text-brand-400 pt-0.5">
                             <span>No-Show Kans: {(item.noShowProbability * 100).toFixed(1)}%</span>
-                            {item.safetyTriggered && <span className="text-red-500 font-bold">Safety Override!</span>}
-                            {item.dischargeStatus !== "none" && <span className="text-blue-500 font-bold">Status: {item.dischargeStatus}</span>}
+                            {item.safetyTriggered && <span className="text-red-500 dark:text-red-400 font-bold">Safety Override!</span>}
+                            {item.dischargeStatus !== "none" && <span className="text-blue-500 dark:text-blue-400 font-bold">Status: {item.dischargeStatus}</span>}
                           </div>
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-8 text-slate-400 text-xs">Geen eerdere stappen. Selecteer een actie links!</div>
+                      <div className="text-center py-8 text-slate-400 dark:text-brand-400 text-xs">Geen eerdere stappen. Selecteer een actie links!</div>
                     )}
                   </div>
                 </div>
@@ -788,14 +788,14 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
 
           {/* Sub-tab 4: Heatmap */}
           {activeAiSubTab === 'heatmap' && (
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6">
+            <div className="bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm p-6 space-y-6 transition-colors">
               <div>
-                <h2 className="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                  <LineChart className="h-5 w-5 text-brand-600" />
+                <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center space-x-2">
+                  <LineChart className="h-5 w-5 text-brand-600 dark:text-brand-400" />
                   <span>Causale Analyse & Correlatie Matrix</span>
                   <InfoTooltip content="Deze correlatiematrix toont de statistische samenhang tussen de variabelen. Een hoge correlatie (>0.2) met No-Show bevestigt de causale effecten van behandeltype en tussenpozen." />
                 </h2>
-                <p className="text-slate-500 text-xs mt-1">Kwantitatief bewijs van de data-integriteit van de Data-Strategist.</p>
+                <p className="text-slate-500 dark:text-brand-300 text-xs mt-1">Kwantitatief bewijs van de data-integriteit van de Data-Strategist.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
