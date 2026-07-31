@@ -14,7 +14,7 @@ export const CalendarPage: React.FC = () => {
   const [settings, setSettings] = useState<SettingsData | null>(null);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'week' | 'day'>('week');
+  const [viewMode, setViewMode] = useState<'week' | 'day'>(() => window.innerWidth < 768 ? 'day' : 'week');
   const [showFull24h, setShowFull24h] = useState(false);
 
   // Modal State
@@ -127,6 +127,9 @@ export const CalendarPage: React.FC = () => {
 
   useEffect(() => {
     fetchData();
+    if (window.innerWidth < 768) {
+      setViewMode('day');
+    }
   }, []);
 
   const isPracticeBookingHour = (day: Date, hour: number): boolean => {
@@ -381,7 +384,7 @@ export const CalendarPage: React.FC = () => {
       ) : (
         <div className="bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-xl overflow-hidden transition-colors">
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse table-fixed min-w-[800px]">
+            <table className={`w-full border-collapse table-fixed ${viewMode === 'week' ? 'min-w-[700px] md:min-w-[800px]' : 'min-w-full'}`}>
               {/* Header Days */}
               <thead>
                 <tr className="border-b border-slate-100 dark:border-brand-800/40 bg-slate-50 dark:bg-brand-950/80">

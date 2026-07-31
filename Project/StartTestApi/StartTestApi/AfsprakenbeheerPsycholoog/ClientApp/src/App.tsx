@@ -353,7 +353,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
       )}
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-h-screen bg-slate-50 dark:bg-brand-950 transition-colors duration-300">
+      <div className="flex-1 min-w-0 flex flex-col min-h-screen bg-slate-50 dark:bg-brand-950 transition-colors duration-300">
         {/* Mobile Header */}
         <header className="flex md:hidden items-center justify-between bg-white dark:bg-brand-900 px-6 py-4 border-b border-slate-100 dark:border-brand-800/40 shadow-sm">
           <div className="flex items-center">
