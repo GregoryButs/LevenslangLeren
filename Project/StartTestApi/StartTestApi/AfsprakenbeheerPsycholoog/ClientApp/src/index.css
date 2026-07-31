@@ -4,13 +4,19 @@
 
 @layer base {
   body {
-    font-family: 'Akkurat', 'Inter', sans-serif;
-    font-weight: 300;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Apollo', 'Cormorant Garamond', serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 700;
+  }
+
+  .font-serif-heading {
+    font-family: 'Cormorant Garamond', serif;
   }
 }
 
