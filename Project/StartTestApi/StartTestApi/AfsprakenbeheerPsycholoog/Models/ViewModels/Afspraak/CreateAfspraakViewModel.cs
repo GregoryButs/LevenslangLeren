@@ -25,6 +25,9 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Display(Name = "Starttijd")]
         public DateTime Starttijd { get; set; }
 
+        [Display(Name = "Aangepaste duur in minuten")]
+        public int? CustomDuurMinuten { get; set; }
+
         [Display(Name = "Opmerkingen")]
         public string? Opmerkingen { get; set; }
 

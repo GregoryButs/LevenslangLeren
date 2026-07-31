@@ -105,7 +105,9 @@ namespace AfsprakenbeheerPsycholoog.Services
                 tz = TimeZoneInfo.Local;
             }
 
-            int duurMinuten = type?.StandaardDuurMinuten ?? 60;
+            int duurMinuten = (vm.CustomDuurMinuten.HasValue && vm.CustomDuurMinuten.Value > 0)
+                ? vm.CustomDuurMinuten.Value
+                : (type?.StandaardDuurMinuten ?? 60);
 
             foreach (var start in startmomenten)
             {

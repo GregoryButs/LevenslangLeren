@@ -357,13 +357,13 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                   <p className="text-xs text-slate-400 dark:text-brand-300">Hoe wil je dat het consult plaatsvindt?</p>
                 </div>
                 
-                {/* Praktijk Ninove Adreskaart */}
+                {/* Groepspraktijk Voorde Adreskaart */}
                 <div className="bg-brand-50/50 dark:bg-brand-950/60 border border-brand-100/80 dark:border-brand-800/40 rounded-2xl p-4 flex items-start space-x-3.5 text-xs text-brand-900 dark:text-brand-100 shadow-sm">
                   <div className="h-10 w-10 bg-brand-500 text-white rounded-xl flex items-center justify-center shrink-0 shadow-sm">
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="font-bold block text-sm text-brand-950 dark:text-white">Praktijk Ninove — De Verstandhouding</span>
+                    <span className="font-bold block text-sm text-brand-950 dark:text-white">Groepspraktijk Voorde — De Verstandhouding</span>
                     <span className="text-slate-700 dark:text-brand-200 font-medium block mt-0.5">Brakelsesteenweg 559a bus 1, 9400 Ninove</span>
                     <span className="text-slate-500 dark:text-brand-300 italic block text-[11px] mt-0.5">(Bovenverdieping, ingang via trap rechts om de hoek)</span>
                   </div>
@@ -372,7 +372,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {settings?.locatiePraktijk && (
                     <button
-                      onClick={() => { setSelectedLocation('Praktijk'); handleNext(); }}
+                      onClick={() => setSelectedLocation('Praktijk')}
                       className={`p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center text-center space-y-3 ${
                         selectedLocation === 'Praktijk'
                           ? 'border-brand-500 bg-brand-50/30 dark:bg-brand-950/80 ring-2 ring-brand-500/10'
@@ -383,7 +383,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                         <MapPin className="h-6 w-6" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-800 dark:text-white text-sm">Op de Praktijk (Ninove)</h4>
+                        <h4 className="font-bold text-slate-800 dark:text-white text-sm">Groepspraktijk Voorde</h4>
                         <p className="text-[11px] text-slate-400 dark:text-brand-300 mt-0.5">Brakelsesteenweg 559a bus 1, 9400 Ninove.</p>
                       </div>
                     </button>
@@ -391,7 +391,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                   
                   {settings?.locatieGoogleMeet && (
                     <button
-                      onClick={() => { setSelectedLocation('GoogleMeet'); handleNext(); }}
+                      onClick={() => setSelectedLocation('GoogleMeet')}
                       className={`p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center text-center space-y-3 ${
                         selectedLocation === 'GoogleMeet'
                           ? 'border-brand-500 bg-brand-50/30 dark:bg-brand-950/80 ring-2 ring-brand-500/10'
@@ -410,7 +410,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
 
                   {settings?.locatieTelefoon && (
                     <button
-                      onClick={() => { setSelectedLocation('Telefoon'); handleNext(); }}
+                      onClick={() => setSelectedLocation('Telefoon')}
                       className={`p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center text-center space-y-3 ${
                         selectedLocation === 'Telefoon'
                           ? 'border-brand-500 bg-brand-50/30 dark:bg-brand-950/80 ring-2 ring-brand-500/10'
@@ -589,7 +589,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                       <p className="text-sm font-bold text-slate-700 dark:text-white">
                         {selectedLocation === 'GoogleMeet' && 'Online via Google Meet'}
                         {selectedLocation === 'Telefoon' && 'Telefonisch consult'}
-                        {selectedLocation === 'Praktijk' && 'Praktijk Ninove — De Verstandhouding'}
+                        {selectedLocation === 'Praktijk' && 'Groepspraktijk Voorde — De Verstandhouding'}
                       </p>
                       {selectedLocation === 'Praktijk' && (
                         <p className="text-xs text-slate-500 dark:text-brand-300 mt-0.5 font-medium">Brakelsesteenweg 559a bus 1, 9400 Ninove</p>

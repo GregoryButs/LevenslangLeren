@@ -20,6 +20,19 @@ export const CalendarPage: React.FC = () => {
   // Modal State
   const [selectedAfspraak, setSelectedAfspraak] = useState<Afspraak | null>(null);
 
+  // Drag-to-Select State
+  const [dragSelect, setDragSelect] = useState<{
+    isDragging: boolean;
+    dayKey: string | null;
+    startHour: number | null;
+    currentHour: number | null;
+  }>({
+    isDragging: false,
+    dayKey: null,
+    startHour: null,
+    currentHour: null
+  });
+
   // New Booking Modal State
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [bookingPatients, setBookingPatients] = useState<Array<{ id: number; naam: string }>>([]);
@@ -28,6 +41,7 @@ export const CalendarPage: React.FC = () => {
     typeId: '',
     patientId: '',
     starttijd: '',
+    duurMinuten: 60,
     opmerkingen: '',
     herhaling: 0,
     herhaalTot: ''
@@ -52,14 +66,17 @@ export const CalendarPage: React.FC = () => {
     }
   };
 
-  const handleOpenBookModal = async (prefilledDate?: Date, prefilledHour?: number) => {
+  const handleOpenBookModal = async (prefilledDate?: Date, prefilledHour?: number, prefilledDurationMin?: number) => {
     const { tList } = await loadBookingOptions();
     const formattedStarttijd = formatDateTimeInput(prefilledDate, prefilledHour);
+    const defaultTypeDuration = tList.length > 0 ? tList[0].standaardDuurMinuten : 60;
+    const initialDuration = prefilledDurationMin && prefilledDurationMin > 0 ? prefilledDurationMin : defaultTypeDuration;
 
     setNewBooking({
       typeId: tList.length > 0 ? tList[0].id.toString() : '',
       patientId: '',
       starttijd: formattedStarttijd,
+      duurMinuten: initialDuration,
       opmerkingen: '',
       herhaling: 0,
       herhaalTot: ''
@@ -69,16 +86,17 @@ export const CalendarPage: React.FC = () => {
 
   const handleCreateBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newBooking.typeId || !newBooking.starttijd) {
-      alert("Selecteer a.u.b. een type afspraak en een starttijd.");
+    if (!newBooking.starttijd) {
+      alert("Selecteer a.u.b. een starttijd.");
       return;
     }
 
     try {
       const payload = {
-        typeId: parseInt(newBooking.typeId, 10),
+        typeId: newBooking.typeId ? parseInt(newBooking.typeId, 10) : null,
         patientId: newBooking.patientId ? parseInt(newBooking.patientId, 10) : null,
         starttijd: new Date(newBooking.starttijd).toISOString(),
+        customDuurMinuten: Number(newBooking.duurMinuten),
         opmerkingen: newBooking.opmerkingen,
         herhaling: newBooking.herhaling,
         herhaalTot: newBooking.herhaling !== 0 && newBooking.herhaalTot ? new Date(newBooking.herhaalTot).toISOString() : null
@@ -92,6 +110,68 @@ export const CalendarPage: React.FC = () => {
       alert(err?.response?.data?.message || "Kon afspraak niet inplannen.");
     }
   };
+
+  // Drag selection helpers
+  const getDayKey = (date: Date) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+
+  const isSlotSelectedByDrag = (day: Date, hour: number): boolean => {
+    if (!dragSelect.isDragging || !dragSelect.dayKey || dragSelect.startHour === null || dragSelect.currentHour === null) {
+      return false;
+    }
+    const key = getDayKey(day);
+    if (dragSelect.dayKey !== key) return false;
+    const minH = Math.min(dragSelect.startHour, dragSelect.currentHour);
+    const maxH = Math.max(dragSelect.startHour, dragSelect.currentHour);
+    return hour >= minH && hour <= maxH;
+  };
+
+  const handleMouseDownSlot = (day: Date, hour: number, hasAppts: boolean, e: React.MouseEvent) => {
+    if (hasAppts || e.button !== 0) return;
+    e.preventDefault();
+    const key = getDayKey(day);
+    setDragSelect({
+      isDragging: true,
+      dayKey: key,
+      startHour: hour,
+      currentHour: hour
+    });
+  };
+
+  const handleMouseEnterSlot = (day: Date, hour: number) => {
+    if (!dragSelect.isDragging || !dragSelect.dayKey) return;
+    const key = getDayKey(day);
+    if (dragSelect.dayKey === key) {
+      setDragSelect(prev => ({ ...prev, currentHour: hour }));
+    }
+  };
+
+  const handleMouseUpSlot = () => {
+    if (dragSelect.isDragging && dragSelect.dayKey && dragSelect.startHour !== null && dragSelect.currentHour !== null) {
+      const minH = Math.min(dragSelect.startHour, dragSelect.currentHour);
+      const maxH = Math.max(dragSelect.startHour, dragSelect.currentHour);
+      const parts = dragSelect.dayKey.split('-');
+      const targetDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      
+      const totalHours = maxH - minH + 1;
+      const durationMin = totalHours * 60;
+
+      setDragSelect({ isDragging: false, dayKey: null, startHour: null, currentHour: null });
+      handleOpenBookModal(targetDate, minH, durationMin);
+    }
+  };
+
+  useEffect(() => {
+    const onGlobalMouseUp = () => {
+      if (dragSelect.isDragging) {
+        handleMouseUpSlot();
+      }
+    };
+    window.addEventListener('mouseup', onGlobalMouseUp);
+    return () => window.removeEventListener('mouseup', onGlobalMouseUp);
+  }, [dragSelect]);
 
   const startOfWeek = (date: Date) => {
     const diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
@@ -372,6 +452,10 @@ export const CalendarPage: React.FC = () => {
           <span className="h-2 w-2 rounded-full bg-slate-400" />
           <span>Buiten praktijkuren</span>
         </div>
+        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-300 border border-brand-200/60 dark:border-brand-800/60 font-medium">
+          <span className="h-2 w-2 rounded-full bg-brand-500" />
+          <span>💡 Sleep over meerdere uren om te blokkeren</span>
+        </div>
       </div>
 
       {loading ? (
@@ -488,28 +572,34 @@ export const CalendarPage: React.FC = () => {
                       getWeekDays(currentDate).map((day, dayIdx) => {
                         const appts = getAppointmentsForDayAndHour(day, hour);
                         const isBookingSlot = isPracticeBookingHour(day, hour);
+                        const isDragSelected = isSlotSelectedByDrag(day, hour);
                         return (
                           <td 
-                            key={dayIdx} 
-                            onClick={(e) => {
-                              if (appts.length === 0) {
-                                e.stopPropagation();
-                                handleOpenBookModal(day, hour);
-                              }
-                            }}
-                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all cursor-pointer ${
-                              isBookingSlot
-                                ? 'bg-emerald-100/80 dark:bg-emerald-950/60 border-l-2 border-emerald-400 dark:border-emerald-700 font-semibold text-emerald-950 dark:text-emerald-100 hover:bg-emerald-200/90 dark:hover:bg-emerald-900/80 shadow-2xs'
-                                : 'bg-slate-200/60 dark:bg-brand-950/90 text-slate-400 dark:text-brand-500 opacity-60 hover:opacity-80'
+                            key={dayIdx}
+                            onMouseDown={(e) => handleMouseDownSlot(day, hour, appts.length > 0, e)}
+                            onMouseEnter={() => handleMouseEnterSlot(day, hour)}
+                            onMouseUp={() => handleMouseUpSlot()}
+                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all select-none ${
+                              isDragSelected
+                                ? 'bg-brand-200/80 dark:bg-brand-800/60 border-l-2 border-brand-500 dark:border-brand-400 ring-2 ring-brand-400/50 dark:ring-brand-500/40 shadow-md cursor-grabbing'
+                                : isBookingSlot
+                                  ? 'bg-emerald-100/80 dark:bg-emerald-950/60 border-l-2 border-emerald-400 dark:border-emerald-700 font-semibold text-emerald-950 dark:text-emerald-100 hover:bg-emerald-200/90 dark:hover:bg-emerald-900/80 shadow-2xs cursor-pointer'
+                                  : 'bg-slate-200/60 dark:bg-brand-950/90 text-slate-400 dark:text-brand-500 opacity-60 hover:opacity-80 cursor-pointer'
                             }`}
                             title={
                               appts.length > 0 
                                 ? undefined 
-                                : `Klik om een afspraak in te plannen op ${formatShortDutchDate(day)} om ${formatHourString(hour)}`
+                                : isDragSelected
+                                  ? `Selectie: ${formatHourString(Math.min(dragSelect.startHour!, dragSelect.currentHour!))} - ${formatHourString(Math.max(dragSelect.startHour!, dragSelect.currentHour!) + 1)}`
+                                  : `Sleep om meerdere uren te selecteren op ${formatShortDutchDate(day)} om ${formatHourString(hour)}`
                             }
                           >
                             <div className="space-y-1.5">
-                              {appts.length > 0 ? (
+                              {isDragSelected && !appts.length ? (
+                                <span className="text-[10px] text-brand-700 dark:text-brand-200 font-bold flex items-center justify-center h-full py-3 animate-pulse">
+                                  ⬛ {formatHourString(hour)} — {formatHourString(hour + 1)}
+                                </span>
+                              ) : appts.length > 0 ? (
                                 appts.map((appt) => (
                                   <div 
                                     key={appt.id} 
@@ -554,22 +644,26 @@ export const CalendarPage: React.FC = () => {
                       (() => {
                         const isBookingSlot = isPracticeBookingHour(currentDate, hour);
                         const appts = getAppointmentsForDayAndHour(currentDate, hour);
+                        const isDragSelected = isSlotSelectedByDrag(currentDate, hour);
                         return (
-                          <td 
-                            onClick={(e) => {
-                              if (appts.length === 0) {
-                                e.stopPropagation();
-                                handleOpenBookModal(currentDate, hour);
-                              }
-                            }}
-                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all cursor-pointer ${
-                              isBookingSlot
-                                ? 'bg-emerald-100/80 dark:bg-emerald-950/60 border-l-2 border-emerald-400 dark:border-emerald-700 font-semibold text-emerald-950 dark:text-emerald-100 hover:bg-emerald-200/90 dark:hover:bg-emerald-900/80 shadow-2xs'
-                                : 'bg-slate-200/60 dark:bg-brand-950/90 text-slate-400 dark:text-brand-500 opacity-60 hover:opacity-80'
+                          <td
+                            onMouseDown={(e) => handleMouseDownSlot(currentDate, hour, appts.length > 0, e)}
+                            onMouseEnter={() => handleMouseEnterSlot(currentDate, hour)}
+                            onMouseUp={() => handleMouseUpSlot()}
+                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[80px] transition-all select-none ${
+                              isDragSelected
+                                ? 'bg-brand-200/80 dark:bg-brand-800/60 border-l-2 border-brand-500 dark:border-brand-400 ring-2 ring-brand-400/50 dark:ring-brand-500/40 shadow-md cursor-grabbing'
+                                : isBookingSlot
+                                  ? 'bg-emerald-100/80 dark:bg-emerald-950/60 border-l-2 border-emerald-400 dark:border-emerald-700 font-semibold text-emerald-950 dark:text-emerald-100 hover:bg-emerald-200/90 dark:hover:bg-emerald-900/80 shadow-2xs cursor-pointer'
+                                  : 'bg-slate-200/60 dark:bg-brand-950/90 text-slate-400 dark:text-brand-500 opacity-60 hover:opacity-80 cursor-pointer'
                             }`}
                           >
                             <div className="space-y-2">
-                              {appts.length > 0 ? (
+                              {isDragSelected && !appts.length ? (
+                                <span className="text-xs text-brand-700 dark:text-brand-200 font-bold flex items-center justify-center py-2 animate-pulse">
+                                  ⬛ {formatHourString(hour)} — {formatHourString(hour + 1)}
+                                </span>
+                              ) : appts.length > 0 ? (
                                 appts.map((appt) => (
                                   <div 
                                     key={appt.id} 
@@ -607,10 +701,10 @@ export const CalendarPage: React.FC = () => {
                                 ))
                               ) : isBookingSlot ? (
                                 <span className="text-xs text-teal-600/70 dark:text-teal-400/60 font-semibold flex items-center justify-center py-2">
-                                  <Plus className="h-3.5 w-3.5 mr-1 text-teal-600" /> Praktijkuren — Klik om in te plannen
+                                  <Plus className="h-3.5 w-3.5 mr-1 text-teal-600" /> Praktijkuren — Sleep om te blokkeren
                                 </span>
                               ) : (
-                                <span className="text-xs text-slate-400 dark:text-brand-500 italic block text-center py-2">+ Klik om in te plannen</span>
+                                <span className="text-xs text-slate-400 dark:text-brand-500 italic block text-center py-2">+ Sleep om in te plannen</span>
                               )}
                             </div>
                           </td>
@@ -686,6 +780,52 @@ export const CalendarPage: React.FC = () => {
                   onChange={(e) => setNewBooking({ ...newBooking, starttijd: e.target.value })}
                   className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
                 />
+              </div>
+
+              {/* Duur / Eindtijd Selector */}
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Duur</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {[30, 60, 120, 180, 240, 480].map((min) => {
+                    const label = min < 60 ? `${min}m` : min === 480 ? '8u (hele dag)' : `${min / 60}u`;
+                    return (
+                      <button
+                        key={min}
+                        type="button"
+                        onClick={() => setNewBooking({ ...newBooking, duurMinuten: min })}
+                        className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition ${
+                          Number(newBooking.duurMinuten) === min
+                            ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
+                            : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100 dark:hover:bg-brand-800'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="number"
+                    min={15}
+                    max={1440}
+                    step={15}
+                    value={newBooking.duurMinuten}
+                    onChange={(e) => setNewBooking({ ...newBooking, duurMinuten: Math.max(15, Number(e.target.value)) })}
+                    className="w-28 bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2 px-3 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+                  />
+                  <span className="text-xs text-slate-500 dark:text-brand-400 font-medium">minuten</span>
+                  {newBooking.starttijd && (
+                    <span className="text-xs text-brand-600 dark:text-brand-300 font-bold flex items-center bg-brand-50 dark:bg-brand-950 px-2.5 py-1 rounded-lg border border-brand-200/60 dark:border-brand-800/60">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {(() => {
+                        const start = new Date(newBooking.starttijd);
+                        const end = new Date(start.getTime() + Number(newBooking.duurMinuten) * 60000);
+                        return `${start.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })} — ${end.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}`;
+                      })()}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div>
