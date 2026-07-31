@@ -59,6 +59,16 @@ De repository wordt beheerd door een hiërarchisch multi-agent model (Hub-and-Sp
     *   Zorgt dat gevoelige gegevens strikt worden verplaatst naar `UserSecrets` (voor dev) of `Environment Variables` (voor productie) en verifieert `.gitignore`.
 *   **Relevante System Skills**: Maakt proactief gebruik van `@codebase-cleanup-refactor-clean`, `@csharp-pro`, `@react-best-practices` en `@varlock-claude-skill`.
 
+### 1.7 Subagent F (Social Auth & Identity Integration Specialist)
+*   **Doel**: Volledig beheer, optimalisatie en integratie van Social Logins (Google, Facebook, Microsoft, Apple OAuth2/OIDC).
+*   **Protocol**:
+    *   Beheert en optimaliseert ASP.NET Core OpenID Connect / OAuth2 middleware in `Program.cs` en `AuthController.cs`.
+    *   Ontwikkelt en onderhoudt de frontend OAuth initiator knoppen en redirect/callback handlers in `ClientApp/src`.
+    *   Zorgt voor veilige tokenafhandeling, PKCE, CORS, cookie/JWT claims en strikte opslag van client credentials via `UserSecrets` en omgevingsvariabelen.
+    *   Implementeert robuuste fallback- en foutafhandeling voor afgeschermde e-mailadressen (bijv. Apple Sign-In 'Hide My Email') en provider storingen.
+*   **Relevante System Skills**: Maakt proactief gebruik van `@social-auth-integration`, `@csharp-pro`, `@dotnet-backend-patterns`, `@react-best-practices` en `@varlock-claude-skill`.
+
+
 
 ---
 

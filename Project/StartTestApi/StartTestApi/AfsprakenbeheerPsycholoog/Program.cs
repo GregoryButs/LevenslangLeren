@@ -135,6 +135,22 @@ namespace AfsprakenbeheerPsycholoog
                 });
             }
 
+            var appleClientId = builder.Configuration["Authentication:Apple:ClientId"];
+            if (!string.IsNullOrEmpty(appleClientId) && appleClientId != "YOUR_APPLE_CLIENT_ID")
+            {
+                authBuilder.AddOpenIdConnect("Apple", options =>
+                {
+                    options.Authority = "https://appleid.apple.com";
+                    options.ClientId = appleClientId;
+                    options.CallbackPath = "/signin-apple";
+                    options.ResponseType = "code id_token";
+                    options.ResponseMode = "form_post";
+                    options.Scope.Add("name");
+                    options.Scope.Add("email");
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
+                });
+            }
+
             // Configure cookie behaviors for API (return 401/403 instead of redirecting to login page)
             builder.Services.ConfigureApplicationCookie(options =>
             {

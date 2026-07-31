@@ -3,6 +3,7 @@ using AfsprakenbeheerPsycholoog.Data.Repositories;
 using AfsprakenbeheerPsycholoog.Extensions;
 using AfsprakenbeheerPsycholoog.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using System.ComponentModel.DataAnnotations;
@@ -338,11 +339,30 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         }
 
         [HttpGet("external-login")]
-        public IActionResult ExternalLogin([FromQuery] string provider, [FromQuery] string returnUrl)
+        public async Task<IActionResult> ExternalLogin(
+            [FromQuery] string provider, 
+            [FromQuery] string returnUrl, 
+            [FromServices] IAuthenticationSchemeProvider schemeProvider,
+            [FromServices] IWebHostEnvironment env)
         {
             if (string.IsNullOrEmpty(provider))
             {
                 return BadRequest(new { message = "Provider is verplicht." });
+            }
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = $"{Request.Scheme}://{Request.Host}/external-auth-callback";
+            }
+
+            var scheme = await schemeProvider.GetSchemeAsync(provider);
+            if (scheme == null)
+            {
+                _logger.LogWarning("Poging tot external login voor provider '{Provider}', maar deze scheme is niet geregistreerd in Authentication.", provider);
+                
+                // In Development mode, als credentials nog niet zijn ingesteld, geef een heldere melding
+                var errorMsg = $"De inlogprovider '{provider}' is nog niet geconfigureerd in UserSecrets of AppSettings op de server. Stel de ClientId en ClientSecret in.";
+                return Redirect($"{returnUrl}?status=failed&message={Uri.EscapeDataString(errorMsg)}");
             }
 
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { returnUrl });
@@ -351,16 +371,18 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         }
 
         [HttpGet("external-login-callback")]
+        [HttpPost("external-login-callback")]
         public async Task<IActionResult> ExternalLoginCallback([FromQuery] string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl))
             {
-                returnUrl = "http://localhost:5173/external-auth-callback";
+                returnUrl = $"{Request.Scheme}://{Request.Host}/external-auth-callback";
             }
 
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
+                _logger.LogWarning("GetExternalLoginInfoAsync retourneerde null voor de callback op {ReturnUrl}.", returnUrl);
                 return Redirect($"{returnUrl}?status=failed&message=Gegevens+van+externe+provider+konden+niet+worden+opgehaald.");
             }
 
@@ -368,13 +390,15 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
+                _logger.LogInformation("Gebruiker succesvol ingelogd via externe provider '{Provider}'.", info.LoginProvider);
                 return Redirect($"{returnUrl}?status=success");
             }
 
-            // 2. Haal het e-mailadres op uit de claims
+            // 2. Haal het e-mailadres op uit de claims (of fallback naar Apple name/email claims)
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             if (string.IsNullOrEmpty(email))
             {
+                _logger.LogWarning("Geen e-mailadres gevonden in claims voor provider '{Provider}'.", info.LoginProvider);
                 return Redirect($"{returnUrl}?status=failed&message=E-mailadres+is+niet+vrijgegeven+door+de+inlogprovider.");
             }
 
@@ -396,7 +420,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                     Email = email,
                     Voornaam = voornaam,
                     Achternaam = achternaam,
-                    EmailConfirmed = true, // Social logins (Google/Microsoft/Apple) have verified emails
+                    EmailConfirmed = true, // Social logins (Google/Microsoft/Facebook/Apple) hebben een geverifieerd e-mailadres
                     PatientId = null
                 };
 
@@ -404,6 +428,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 if (!createResult.Succeeded)
                 {
                     var firstError = createResult.Errors.FirstOrDefault()?.Description ?? "Fout bij aanmaken gebruiker.";
+                    _logger.LogError("Fout bij aanmaken ApplicationUser via external login: {Error}", firstError);
                     return Redirect($"{returnUrl}?status=failed&message={Uri.EscapeDataString(firstError)}");
                 }
             }
@@ -419,6 +444,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (addLoginResult.Succeeded || addLoginResult.Errors.Any(e => e.Code == "UserAlreadyHasLogin"))
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
+                _logger.LogInformation("Externe login '{Provider}' succesvol gekoppeld aan gebruiker '{Email}'.", info.LoginProvider, user.Email);
                 return Redirect($"{returnUrl}?status=success");
             }
 
