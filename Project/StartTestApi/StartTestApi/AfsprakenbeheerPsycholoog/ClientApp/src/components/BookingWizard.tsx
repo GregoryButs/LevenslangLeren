@@ -230,20 +230,20 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
               >
                 <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ${
                   step === s.num
-                    ? 'bg-brand-500 text-white ring-4 ring-brand-100 dark:ring-brand-800'
+                    ? 'bg-brand-600 dark:bg-brand-500 text-white ring-4 ring-brand-100 dark:ring-brand-800'
                     : step > s.num
                       ? 'bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-200'
-                      : 'bg-slate-100 dark:bg-brand-950 text-slate-400 dark:text-brand-400'
+                      : 'bg-slate-100 dark:bg-brand-950 text-slate-500 dark:text-brand-400'
                 }`}>
                   {step > s.num && !bookingSuccess ? <CheckCircle className="h-5 w-5" /> : s.num}
                 </div>
                 <span className={`text-[10px] font-bold tracking-tight transition-colors duration-200 ${
-                  step === s.num ? 'text-brand-600 dark:text-brand-300' : 'text-slate-400 dark:text-brand-400 group-hover:text-slate-600 dark:group-hover:text-brand-200'
+                  step === s.num ? 'text-brand-700 dark:text-brand-300' : 'text-slate-600 dark:text-brand-300 group-hover:text-slate-800 dark:group-hover:text-brand-100'
                 }`}>{s.label}</span>
               </button>
               {idx < stepsList.length - 1 && (
                 <div className={`flex-1 h-0.5 mx-2 transition-all duration-300 ${
-                  step > s.num ? 'bg-brand-300 dark:bg-brand-700' : 'bg-slate-100 dark:bg-brand-950'
+                  step > s.num ? 'bg-brand-400 dark:bg-brand-700' : 'bg-slate-200 dark:bg-brand-950'
                 }`} />
               )}
             </React.Fragment>
@@ -259,14 +259,14 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
               <CheckCircle className="h-10 w-10" />
             </div>
             <h3 className="text-xl font-bold text-slate-800 dark:text-white">Afspraak Succesvol Gereserveerd!</h3>
-            <p className="text-slate-500 dark:text-brand-300 max-w-md text-sm">
+            <p className="text-slate-600 dark:text-brand-300 max-w-md text-sm">
               Je afspraak is bevestigd en toegevoegd aan je portaal. Er is een bevestiging per e-mail naar je verzonden.
             </p>
             <div className="p-4 bg-slate-50 dark:bg-brand-950/60 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-left text-xs space-y-1.5 w-full max-w-sm">
-              <p className="text-slate-400 dark:text-brand-400 font-bold uppercase tracking-wider text-[10px]">Overzicht</p>
-              <p className="text-slate-700 dark:text-brand-100 font-semibold"><span className="text-slate-400 dark:text-brand-300 font-normal">Type:</span> {selectedType?.naam}</p>
-              <p className="text-slate-700 dark:text-brand-100 font-semibold"><span className="text-slate-400 dark:text-brand-300 font-normal">Wanneer:</span> {formatDateDutch(selectedDate)} om {selectedSlot ? formatTime(selectedSlot.starttijd) : ''} uur</p>
-              <p className="text-slate-700 dark:text-brand-100 font-semibold"><span className="text-slate-400 dark:text-brand-300 font-normal">Locatie:</span> {selectedLocation === 'GoogleMeet' ? 'Google Meet (online)' : selectedLocation === 'Telefoon' ? 'Telefonisch' : 'Op de praktijk'}</p>
+              <p className="text-slate-500 dark:text-brand-400 font-bold uppercase tracking-wider text-[10px]">Overzicht</p>
+              <p className="text-slate-800 dark:text-brand-100 font-semibold"><span className="text-slate-500 dark:text-brand-300 font-normal">Type:</span> {selectedType?.naam}</p>
+              <p className="text-slate-800 dark:text-brand-100 font-semibold"><span className="text-slate-500 dark:text-brand-300 font-normal">Wanneer:</span> {formatDateDutch(selectedDate)} om {selectedSlot ? formatTime(selectedSlot.starttijd) : ''} uur</p>
+              <p className="text-slate-800 dark:text-brand-100 font-semibold"><span className="text-slate-500 dark:text-brand-300 font-normal">Locatie:</span> {selectedLocation === 'GoogleMeet' ? 'Google Meet (online)' : selectedLocation === 'Telefoon' ? 'Telefonisch' : 'Op de praktijk'}</p>
             </div>
           </div>
         ) : (
@@ -276,7 +276,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
               <div className="space-y-4">
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 dark:text-white">Behandeling</h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-200">Selecteer het gewenste type consult voor jouw afspraak.</p>
+                  <p className="text-xs text-slate-600 dark:text-brand-300 font-medium">Selecteer het gewenste type consult voor jouw afspraak.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
                   {availableTypes.length > 0 ? (
@@ -290,8 +290,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                           onClick={() => setSelectedType(type)}
                           className={`p-5 rounded-2xl border text-left transition-all flex items-start space-x-4 ${
                             isSelected
-                              ? 'border-brand-400 bg-brand-900/90 ring-2 ring-brand-400/30 shadow-md'
-                              : 'border-slate-300 dark:border-brand-700/60 bg-white dark:bg-brand-900/40 hover:bg-slate-50 dark:hover:bg-brand-800/60'
+                              ? 'border-brand-500 dark:border-brand-400 bg-brand-50/80 dark:bg-brand-900/90 ring-2 ring-brand-500/20 shadow-md'
+                              : 'border-slate-200 dark:border-brand-700/60 bg-white dark:bg-brand-900/40 hover:bg-slate-50 dark:hover:bg-brand-800/60'
                           }`}
                         >
                           <div 
@@ -314,9 +314,9 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                                 </span>
                               )}
                             </div>
-                            <div className="flex items-center space-x-1.5 text-xs text-slate-600 dark:text-slate-200">
-                              <Clock className="h-3.5 w-3.5 text-brand-500 dark:text-brand-300 shrink-0" />
-                              <span>{type.standaardDuurMinuten} minuten</span>
+                            <div className="flex items-center space-x-1.5 text-xs text-slate-700 dark:text-slate-200">
+                              <Clock className="h-3.5 w-3.5 text-brand-600 dark:text-brand-300 shrink-0" />
+                              <span className="font-medium">{type.standaardDuurMinuten} minuten</span>
                             </div>
                             <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                               {isIntake 
