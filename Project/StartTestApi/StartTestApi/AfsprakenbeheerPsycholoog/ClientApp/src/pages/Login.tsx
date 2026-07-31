@@ -218,6 +218,15 @@ export const Login: React.FC<LoginProps> = ({ setUser }) => {
                 Onthoud mij
               </label>
             </div>
+
+            <div className="text-sm">
+              <Link
+                to="/forgot-password"
+                className="font-medium text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition"
+              >
+                Wachtwoord vergeten?
+              </Link>
+            </div>
           </div>
 
           <div>

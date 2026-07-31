@@ -13,6 +13,8 @@ const LandingPageModern = lazy(() => import('./pages/LandingPage/LandingPageMode
 const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
 const Register = lazy(() => import('./pages/Register').then(m => ({ default: m.Register })));
 const ExternalAuthCallback = lazy(() => import('./pages/ExternalAuthCallback').then(m => ({ default: m.ExternalAuthCallback })));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword').then(m => ({ default: m.ForgotPassword })));
+const ResetPassword = lazy(() => import('./pages/ResetPassword').then(m => ({ default: m.ResetPassword })));
 const PsycholoogDashboard = lazy(() => import('./pages/PsycholoogDashboard').then(m => ({ default: m.PsycholoogDashboard })));
 const PatientDashboard = lazy(() => import('./pages/PatientDashboard').then(m => ({ default: m.PatientDashboard })));
 const Patients = lazy(() => import('./pages/Patients').then(m => ({ default: m.Patients })));
@@ -28,6 +30,8 @@ export const pagePreloaders: Record<string, () => Promise<any>> = {
   '/portal': () => import('./pages/PatientDashboard'),
   '/login': () => import('./pages/Login'),
   '/register': () => import('./pages/Register'),
+  '/forgot-password': () => import('./pages/ForgotPassword'),
+  '/reset-password': () => import('./pages/ResetPassword'),
 };
 
 const PageLoader = () => (
@@ -100,6 +104,14 @@ const App: React.FC = () => {
           <Route 
             path="/register" 
             element={user ? <Navigate to="/portal" replace /> : <Register setUser={setUser} />} 
+          />
+          <Route 
+            path="/forgot-password" 
+            element={user ? <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace /> : <ForgotPassword />} 
+          />
+          <Route 
+            path="/reset-password" 
+            element={user ? <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace /> : <ResetPassword />} 
           />
           <Route 
             path="/external-auth-callback" 

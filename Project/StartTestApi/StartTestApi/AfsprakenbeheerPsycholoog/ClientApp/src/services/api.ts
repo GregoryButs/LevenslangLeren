@@ -45,6 +45,14 @@ export const authApi = {
   },
   resendConfirmation: async (email: string): Promise<void> => {
     await api.post('/auth/resend-confirmation', { email });
+  },
+  forgotPassword: async (email: string): Promise<{ message: string }> => {
+    const res = await api.post<{ message: string }>('/auth/forgot-password', { email });
+    return res.data;
+  },
+  resetPassword: async (email: string, token: string, newPassword: string): Promise<{ message: string }> => {
+    const res = await api.post<{ message: string }>('/auth/reset-password', { email, token, newPassword });
+    return res.data;
   }
 };
 
