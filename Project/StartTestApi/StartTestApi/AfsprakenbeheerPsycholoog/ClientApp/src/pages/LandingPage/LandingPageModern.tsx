@@ -712,9 +712,9 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-brand-950/50 dark:text-brand-400/50 font-bold uppercase tracking-wider">Postadres</p>
+                    <p className="text-xs text-brand-950/50 dark:text-brand-400/50 font-bold uppercase tracking-wider">Postadres (Maatschappelijk zetel)</p>
                     <span className="text-base font-bold text-brand-950 dark:text-brand-50">
-                      Geraardsbergsestraat 68, 1570 Galmaarden
+                      Steenbakkerij 65, 9500 Geraardsbergen
                     </span>
                   </div>
                 </div>
