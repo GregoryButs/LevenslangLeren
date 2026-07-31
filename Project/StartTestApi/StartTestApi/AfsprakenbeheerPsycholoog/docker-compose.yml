@@ -10,6 +10,8 @@ services:
       ConnectionStrings__DefaultConnection: "Data Source=/app/data/Afsprakenbeheer.db"
       Authentication__Google__ClientId: "${GOOGLE_CLIENT_ID:-YOUR_GOOGLE_CLIENT_ID}"
       Authentication__Google__ClientSecret: "${GOOGLE_CLIENT_SECRET:-YOUR_GOOGLE_CLIENT_SECRET}"
+      Authentication__Microsoft__ClientId: "${MICROSOFT_CLIENT_ID:-YOUR_MICROSOFT_CLIENT_ID}"
+      Authentication__Microsoft__ClientSecret: "${MICROSOFT_CLIENT_SECRET:-YOUR_MICROSOFT_CLIENT_SECRET}"
       Authentication__Facebook__AppId: "${FACEBOOK_APP_ID:-YOUR_FACEBOOK_APP_ID}"
       Authentication__Facebook__AppSecret: "${FACEBOOK_APP_SECRET:-YOUR_FACEBOOK_APP_SECRET}"
       GoogleCalendar__CalendarId: "${GOOGLE_CALENDAR_ID:-ingedebast@gmail.com}"
