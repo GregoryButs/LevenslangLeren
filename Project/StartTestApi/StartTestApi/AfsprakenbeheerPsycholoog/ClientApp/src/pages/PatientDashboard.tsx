@@ -217,6 +217,7 @@ export const PatientDashboard: React.FC = () => {
                           <XCircle className="h-3.5 w-3.5 shrink-0 text-red-500" />
                           <span>Annuleren</span>
                         </button>
+                      )}
                     </div>
                   </div>
                 );
