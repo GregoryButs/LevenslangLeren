@@ -5,7 +5,7 @@ import {
   Clock, MapPin, Video, Phone, CheckCircle, 
   ArrowLeft, ArrowRight, Loader2, CalendarDays, 
   AlertCircle, Briefcase, Calendar, Sparkles,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, FileText, X, ShieldCheck, Euro, ExternalLink
 } from 'lucide-react';
 import { extractErrorMessage } from '../utils/errorUtils';
 import { InfoTooltip } from './common/InfoTooltip';
@@ -40,6 +40,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
   });
   const [selectedSlot, setSelectedSlot] = useState<Tijdslot | null>(null);
   const [opmerkingen, setOpmerkingen] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [bookingInProgress, setBookingInProgress] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
@@ -156,7 +158,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
   };
 
   const handleConfirmBooking = async () => {
-    if (!selectedSlot || !selectedType) return;
+    if (!selectedSlot || !selectedType || !agreedToTerms) return;
     try {
       setBookingInProgress(true);
       await patientPortaalApi.book({
@@ -175,6 +177,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
         setSelectedType(null);
         setSelectedSlot(null);
         setOpmerkingen('');
+        setAgreedToTerms(false);
         setBookingSuccess(false);
       }, 4000);
     } catch (err: any) {
@@ -669,6 +672,32 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                       </div>
                     </div>
                   )}
+
+                  {/* Voorwaarden & Annulatie Akkoord */}
+                  <div className="pt-3 border-t border-slate-200/60 dark:border-brand-800/40 space-y-2">
+                    <label className="flex items-start space-x-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={agreedToTerms}
+                        onChange={(e) => setAgreedToTerms(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-brand-700 text-brand-600 focus:ring-brand-500 cursor-pointer accent-brand-500 shrink-0"
+                      />
+                      <span className="text-xs text-slate-700 dark:text-brand-200 font-medium leading-tight">
+                        Ik ga akkoord met het <strong className="text-slate-900 dark:text-white">annulatiebeleid</strong> (gratis annuleren tot 48 uur op voorhand), de algemene voorwaarden en het privacybeleid. <span className="text-brand-500 font-bold">*</span>
+                      </span>
+                    </label>
+
+                    <div className="pl-7">
+                      <button
+                        type="button"
+                        onClick={() => setShowTermsModal(true)}
+                        className="text-[11px] font-bold text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 underline inline-flex items-center space-x-1 cursor-pointer"
+                      >
+                        <FileText className="h-3 w-3" />
+                        <span>Bekijk volledige voorwaarden, tarieven & privacybeleid</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -693,8 +722,13 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                 <button
                   type="button"
                   onClick={handleConfirmBooking}
-                  disabled={bookingInProgress}
-                  className="flex items-center space-x-2 py-2.5 px-6 rounded-xl text-xs font-bold text-white bg-brand-500 hover:bg-brand-600 active:scale-95 transition-all duration-150 shadow-md shadow-brand-500/10"
+                  disabled={bookingInProgress || !agreedToTerms}
+                  title={!agreedToTerms ? "Gelieve eerst akkoord te gaan met de voorwaarden en het annulatiebeleid" : undefined}
+                  className={`flex items-center space-x-2 py-2.5 px-6 rounded-xl text-xs font-bold text-white transition-all duration-150 shadow-md ${
+                    bookingInProgress || !agreedToTerms
+                      ? 'bg-slate-300 dark:bg-brand-950 text-slate-400 dark:text-brand-700 cursor-not-allowed shadow-none'
+                      : 'bg-brand-500 hover:bg-brand-600 active:scale-95 shadow-brand-500/10 cursor-pointer'
+                  }`}
                 >
                   {bookingInProgress ? (
                     <>
@@ -733,6 +767,86 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
           </>
         )}
       </div>
+
+      {/* Terms & Conditions Modal */}
+      {showTermsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white dark:bg-brand-900 w-full max-w-2xl rounded-3xl border border-slate-100 dark:border-brand-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div className="p-5 bg-slate-50 dark:bg-brand-950 border-b border-slate-100 dark:border-brand-800 flex items-center justify-between">
+              <div className="flex items-center space-x-2.5">
+                <FileText className="h-5 w-5 text-brand-500" />
+                <h3 className="font-bold text-base text-slate-800 dark:text-white">Tarieven, Voorwaarden & Privacybeleid</h3>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setShowTermsModal(false)}
+                className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-brand-800 text-slate-500 dark:text-brand-300 transition cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="p-6 overflow-y-auto space-y-5 text-xs text-slate-600 dark:text-brand-200 leading-relaxed">
+              <div className="bg-brand-50 dark:bg-brand-950/70 p-4 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-2">
+                <h4 className="font-bold text-brand-950 dark:text-brand-50 text-sm flex items-center space-x-1.5">
+                  <ShieldCheck className="h-4 w-4 text-brand-500" />
+                  <span>1. Geconventioneerde zorg (ELP)</span>
+                </h4>
+                <p>
+                  • <strong>Kinderen en jongeren (t.e.m. 23 jaar):</strong> Volledig gedekt door de ziekteverzekering (€ 0 eigen aandeel).<br />
+                  • <strong>Volwassenen (vanaf 24 jaar):</strong> Eerste sessie gratis, vervolgsessies € 11 (€ 4 bij verhoogde tegemoetkoming).<br />
+                  <em>Er is geen verwijsbrief nodig.</em>
+                </p>
+              </div>
+
+              <div className="bg-brand-50 dark:bg-brand-950/70 p-4 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-2">
+                <h4 className="font-bold text-brand-950 dark:text-brand-50 text-sm flex items-center space-x-1.5">
+                  <Euro className="h-4 w-4 text-brand-500" />
+                  <span>2. Regulier tarief & Terugbetaling</span>
+                </h4>
+                <p>
+                  • <strong>Individuele consultatie (45 min):</strong> € 75.<br />
+                  • <strong>Terugbetaling:</strong> Gedeeltelijke terugbetaling via aanvullende verzekering van je mutualiteit (zie{' '}
+                  <a 
+                    href="https://www.vindeentherapeut.be" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-brand-500 font-bold hover:underline inline-flex items-center space-x-0.5"
+                  >
+                    <span>VindeenTherapeut.be</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>).
+                </p>
+              </div>
+
+              <div className="bg-amber-50 dark:bg-amber-950/40 p-4 rounded-2xl border border-amber-200 dark:border-amber-900/60 space-y-2 text-amber-900 dark:text-amber-200">
+                <h4 className="font-bold text-sm flex items-center space-x-1.5 text-amber-800 dark:text-amber-300">
+                  <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                  <span>3. Algemene voorwaarden & Annulatiebeleid</span>
+                </h4>
+                <p>
+                  • <strong>Annulering:</strong> Om zorgzaam om te gaan met de beschikbare plaatsen in de agenda, kan een afspraak kosteloos worden geannuleerd tot <strong>48 uur op voorhand</strong>. Bij een laattijdige annulatie (minder dan 48 uur) of het niet verschijnen op de afspraak wordt de sessie aangerekend, tenzij er een geldig ziekteattest kan worden voorgelegd.<br />
+                  • <strong>Betaling:</strong> Betalen kan aan het einde van de sessie, contant of via mobiele bank-app (QR-code).
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-50 dark:bg-brand-950 border-t border-slate-100 dark:border-brand-800 flex items-center justify-between">
+              <span className="text-[11px] text-slate-400 dark:text-brand-400 font-medium">De Verstandhouding</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setAgreedToTerms(true);
+                  setShowTermsModal(false);
+                }}
+                className="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
+              >
+                Gelezen & Akkoord
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
