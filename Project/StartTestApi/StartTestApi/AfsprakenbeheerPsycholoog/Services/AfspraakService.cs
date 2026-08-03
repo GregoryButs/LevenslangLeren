@@ -222,6 +222,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                     type = _typeRepo.GetById(2) ?? _typeRepo.GetAll().FirstOrDefault();
                     vm.TypeId = type?.Id;
                 }
+            }
+
             var tz = TimeZoneHelper.DutchTimeZone;
 
             int duurMinuten = (vm.CustomDuurMinuten.HasValue && vm.CustomDuurMinuten.Value > 0)
