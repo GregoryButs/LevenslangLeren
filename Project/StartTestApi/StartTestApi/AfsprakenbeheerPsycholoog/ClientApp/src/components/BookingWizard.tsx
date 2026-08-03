@@ -385,7 +385,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                   <div>
                     <span className="font-bold block text-sm text-brand-950 dark:text-white">Groepspraktijk Voorde — De Verstandhouding</span>
                     <span className="text-slate-700 dark:text-brand-200 font-medium block mt-0.5">Brakelsesteenweg 559a bus 1, 9400 Ninove</span>
-                    <span className="text-slate-500 dark:text-brand-300 italic block text-[11px] mt-0.5">(Bovenverdieping, ingang via trap rechts om de hoek)</span>
+                    <span className="text-slate-600 dark:text-brand-300 font-medium block text-[11px] mt-0.5">(Bovenverdieping, ingang via trap rechts om de hoek)</span>
                   </div>
                 </div>
 
@@ -487,20 +487,20 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
             {step === 3 && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800 dark:text-white">Kies datum en tijd</h3>
-                  <p className="text-xs text-slate-400 dark:text-brand-300">Kies een beschikbare dag en een passend tijdstip.</p>
+                  <h3 className="text-xl font-bold text-slate-800 dark:text-white">Kies datum en tijd</h3>
+                  <p className="text-sm text-slate-600 dark:text-brand-200 font-medium">Kies een beschikbare dag en een passend tijdstip.</p>
                 </div>
 
                 {/* Banner: Eerstvolgende beschikbare afspraak met knop */}
                 {firstNextSlot && (
                   <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/60 dark:to-teal-950/60 border border-emerald-200/80 dark:border-emerald-800/40 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm animate-fadeIn">
                     <div className="flex items-center space-x-3">
-                      <div className="h-10 w-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center shrink-0 shadow-sm">
-                        <Sparkles className="h-5 w-5" />
+                      <div className="h-11 w-11 bg-emerald-500 text-white rounded-xl flex items-center justify-center shrink-0 shadow-sm">
+                        <Sparkles className="h-6 w-6" />
                       </div>
                       <div>
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full">Eerstvolgende Vrije Afspraak</span>
-                        <h4 className="font-bold text-slate-800 dark:text-white text-sm mt-0.5">{firstNextSlot.displayDate} om {firstNextSlot.time} uur</h4>
+                        <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-900/60 px-2.5 py-0.5 rounded-full">Eerstvolgende Vrije Afspraak</span>
+                        <h4 className="font-bold text-slate-800 dark:text-white text-base mt-0.5">{firstNextSlot.displayDate} om {firstNextSlot.time} uur</h4>
                       </div>
                     </div>
                     <button
@@ -508,34 +508,34 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                       onClick={() => {
                         setSelectedDate(firstNextSlot.date);
                       }}
-                      className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-sm transition-all shrink-0 flex items-center space-x-1.5 cursor-pointer"
+                      className="px-4 py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-sm rounded-xl shadow-sm transition-all shrink-0 flex items-center space-x-2 cursor-pointer"
                     >
                       <span>Ga naar {firstNextSlot.displayDate.split(' ')[0]} {firstNextSlot.time}</span>
-                      <ArrowRight className="h-4 w-4" />
+                      <ArrowRight className="h-4.5 w-4.5" />
                     </button>
                   </div>
                 )}
                 
                 {/* Dagen-Navigatie Bar */}
-                <div className="bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 p-2.5 rounded-2xl flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 p-3 rounded-2xl flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => navigateDays(-1)}
-                    className="flex items-center space-x-1 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-brand-200 hover:text-brand-600 hover:bg-white dark:hover:bg-brand-900 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-brand-800 transition-all"
+                    className="flex items-center space-x-1 px-3.5 py-2 text-sm font-bold text-slate-700 dark:text-brand-200 hover:text-brand-600 hover:bg-white dark:hover:bg-brand-900 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-brand-800 transition-all"
                   >
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft className="h-4.5 w-4.5" />
                     <span>Vorige dag</span>
                   </button>
-                  <span className="text-xs font-bold text-slate-800 dark:text-white bg-white dark:bg-brand-900 px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-brand-800 shadow-2xs">
+                  <span className="text-sm font-bold text-slate-800 dark:text-white bg-white dark:bg-brand-900 px-4 py-2 rounded-xl border border-slate-200 dark:border-brand-800 shadow-2xs">
                     {formatDateDutch(selectedDate)}
                   </span>
                   <button
                     type="button"
                     onClick={() => navigateDays(1)}
-                    className="flex items-center space-x-1 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-brand-200 hover:text-brand-600 hover:bg-white dark:hover:bg-brand-900 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-brand-800 transition-all"
+                    className="flex items-center space-x-1 px-3.5 py-2 text-sm font-bold text-slate-700 dark:text-brand-200 hover:text-brand-600 hover:bg-white dark:hover:bg-brand-900 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-brand-800 transition-all"
                   >
                     <span>Volgende dag</span>
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-4.5 w-4.5" />
                   </button>
                 </div>
 
@@ -550,43 +550,58 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                       min={new Date().toISOString().split('T')[0]}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-brand-800 text-sm font-semibold text-slate-700 dark:text-white bg-white dark:bg-brand-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm"
                     />
-                    <div className="mt-4 text-xs text-slate-400 dark:text-brand-300 flex items-start space-x-2">
-                      <CalendarDays className="h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" />
-                      <span>Geselecteerd: {formatDateDutch(selectedDate)}.</span>
+                    <div className="mt-4 text-sm text-slate-600 dark:text-brand-200 font-medium flex items-start space-x-2">
+                      <CalendarDays className="h-4.5 w-4.5 shrink-0 text-brand-600 dark:text-brand-400 mt-0.5" />
+                      <span>Geselecteerd: <strong>{formatDateDutch(selectedDate)}</strong>.</span>
                     </div>
                   </div>
 
                   {/* Right part: Time Slots selection */}
                   <div className="md:col-span-7 space-y-3">
-                    <label className="block text-xs font-bold text-slate-500 dark:text-brand-300 uppercase tracking-wide">Beschikbare Tijdstippen</label>
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs font-bold text-slate-500 dark:text-brand-300 uppercase tracking-wide">Beschikbare Tijdstippen</label>
+                      <div className="flex items-center space-x-3 text-xs font-semibold">
+                        <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                          Vrij
+                        </span>
+                        <span className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
+                          <span className="w-2.5 h-2.5 rounded-full bg-slate-400 dark:bg-slate-700 inline-block"></span>
+                          Bezet
+                        </span>
+                      </div>
+                    </div>
                     
                     {loadingSlots ? (
                       <div className="flex flex-col items-center justify-center p-8 bg-white dark:bg-brand-900 rounded-2xl border border-slate-100 dark:border-brand-800/40 min-h-[160px]">
                         <Loader2 className="animate-spin h-8 w-8 text-brand-600 dark:text-brand-400 mb-2" />
-                        <span className="text-xs text-slate-400 dark:text-brand-300">Sloten laden...</span>
+                        <span className="text-sm text-slate-500 dark:text-brand-300 font-medium">Sloten laden...</span>
                       </div>
                     ) : timeSlots.length === 0 ? (
                       <div className="flex flex-col items-center justify-center p-8 bg-slate-50 dark:bg-brand-950/60 rounded-2xl border border-dashed border-slate-200 dark:border-brand-800/60 min-h-[160px] text-center space-y-2">
                         <Calendar className="h-8 w-8 text-slate-300 dark:text-brand-600" />
-                        <span className="text-sm font-bold text-slate-700 dark:text-white">Geen slots beschikbaar op deze dag</span>
+                        <span className="text-base font-bold text-slate-700 dark:text-white">Geen slots beschikbaar op deze dag</span>
                         <span className="text-xs text-slate-400 dark:text-brand-300">Gebruik de snelknoppen hierboven of klik op de eerstvolgende afspraak.</span>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 max-h-[220px] overflow-y-auto pr-1">
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-[240px] overflow-y-auto pr-1">
                         {timeSlots.map((slot, idx) => (
                           <button
                             key={idx}
                             disabled={slot.isBezet}
                             onClick={() => setSelectedSlot(slot)}
-                            className={`py-2.5 px-3 rounded-xl text-xs font-bold text-center border transition-all duration-150 ${
+                            className={`py-3 px-3.5 rounded-xl text-sm font-extrabold text-center border transition-all duration-150 flex items-center justify-center gap-1.5 ${
                               slot.isBezet
-                                ? 'bg-slate-50 dark:bg-brand-950 border-slate-100 dark:border-brand-900 text-slate-300 dark:text-brand-600 cursor-not-allowed line-through'
+                                ? 'bg-slate-100/60 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed line-through opacity-50'
                                 : selectedSlot?.tijd === slot.tijd
-                                  ? 'bg-brand-500 border-brand-500 text-white ring-4 ring-brand-100 dark:ring-brand-800'
-                                  : 'bg-white dark:bg-brand-900 border-slate-100 dark:border-brand-800/60 text-slate-700 dark:text-brand-100 hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-300'
+                                  ? 'bg-brand-500 border-brand-500 text-white font-extrabold ring-4 ring-brand-200 dark:ring-brand-500/40 shadow-md scale-[1.02]'
+                                  : 'bg-emerald-50/90 dark:bg-emerald-950/60 border-2 border-emerald-500/70 dark:border-emerald-500/80 text-emerald-900 dark:text-emerald-200 font-extrabold hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-white hover:border-emerald-600 dark:hover:border-emerald-500 shadow-xs transition-all duration-150 transform hover:scale-[1.02]'
                             }`}
                           >
-                            {formatTime(slot.starttijd)}
+                            {!slot.isBezet && selectedSlot?.tijd !== slot.tijd && (
+                              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 shrink-0"></span>
+                            )}
+                            <span>{formatTime(slot.starttijd)}</span>
                           </button>
                         ))}
                       </div>
@@ -668,7 +683,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                       </div>
                       <div>
                         <p className="text-[10px] text-slate-400 dark:text-brand-400 font-bold uppercase tracking-wider">Opmerkingen</p>
-                        <p className="text-xs text-slate-600 dark:text-brand-100 bg-white dark:bg-brand-900 border border-slate-100 dark:border-brand-800 p-2.5 rounded-xl mt-1 max-w-md italic">{opmerkingen}</p>
+                        <p className="text-xs text-slate-700 dark:text-brand-100 bg-white dark:bg-brand-900 border border-slate-100 dark:border-brand-800 p-2.5 rounded-xl mt-1 max-w-md font-medium">{opmerkingen}</p>
                       </div>
                     </div>
                   )}
@@ -795,7 +810,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                 <p>
                   • <strong>Kinderen en jongeren (t.e.m. 23 jaar):</strong> Volledig gedekt door de ziekteverzekering (€ 0 eigen aandeel).<br />
                   • <strong>Volwassenen (vanaf 24 jaar):</strong> Eerste sessie gratis, vervolgsessies € 11 (€ 4 bij verhoogde tegemoetkoming).<br />
-                  <em>Er is geen verwijsbrief nodig.</em>
+                  <span className="font-semibold text-brand-600 dark:text-brand-400">Er is geen verwijsbrief nodig.</span>
                 </p>
               </div>
 

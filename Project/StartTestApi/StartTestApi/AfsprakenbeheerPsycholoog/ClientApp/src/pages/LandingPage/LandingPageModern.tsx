@@ -6,7 +6,7 @@ import {
   ChevronRight, Menu, X, Sun, Moon, 
   Phone, Mail, MapPin, Sparkles, Heart, 
   Compass, ArrowRight, Check, ExternalLink, Navigation,
-  Euro, ChevronDown, ChevronUp, ShieldCheck, Clock, CreditCard, FileText, Info
+  Euro, ChevronDown, ChevronUp, ShieldCheck, Clock, CreditCard, FileText
 } from 'lucide-react';
 
 interface LandingPageModernProps {
@@ -41,11 +41,13 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
   }, [heroSlides.length]);
 
   const [activeSection, setActiveSection] = useState('welkom');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const sections = ['welkom', 'flexibiliteit', 'verhaal', 'gesprek', 'contact', 'tarieven'];
     
     const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
       const scrollPosition = window.scrollY + 120; // offset for header height
 
       for (const section of sections) {
@@ -65,6 +67,63 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleFlexExpanded = () => {
+    const nextState = !flexExpanded;
+    setFlexExpanded(nextState);
+    if (nextState) {
+      setTimeout(() => {
+        const el = document.getElementById('flex-details');
+        if (el) {
+          const headerOffset = 100;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+        }
+      }, 80);
+    }
+  };
+
+  const toggleStoryExpanded = () => {
+    const nextState = !storyExpanded;
+    setStoryExpanded(nextState);
+    if (nextState) {
+      setTimeout(() => {
+        const el = document.getElementById('story-details');
+        if (el) {
+          const headerOffset = 100;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+        }
+      }, 80);
+    }
+  };
+
+  const toggleTarievenExpanded = () => {
+    const nextState = !tarievenExpanded;
+    setTarievenExpanded(nextState);
+    if (nextState) {
+      setTimeout(() => {
+        const el = document.getElementById('tarieven-details');
+        if (el) {
+          const headerOffset = 100;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: 'smooth'
+          });
+        }
+      }, 80);
+    }
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -125,27 +184,31 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
       <div className="absolute top-[120vh] -left-32 w-[30rem] h-[30rem] bg-brand-500/5 dark:bg-brand-500/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-96 right-10 w-80 h-80 bg-brand-800/5 dark:bg-brand-800/20 rounded-full blur-2xl pointer-events-none" />
 
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-40 bg-brand-50/90 dark:bg-brand-950/95 backdrop-blur-md border-b border-brand-100 dark:border-brand-900/60 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-24 flex items-center justify-between">
-          
+      {/* Fixed Header (Always visible on scroll) */}
+      <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${isScrolled ? 'pt-2 sm:pt-3 px-2 sm:px-4 md:px-6' : 'pt-0 px-0'}`}>
+        <div className={`mx-auto transition-all duration-300 flex items-center justify-between overflow-hidden ${
+          isScrolled 
+            ? 'max-w-7xl rounded-full bg-white/90 dark:bg-brand-950/90 backdrop-blur-lg border border-brand-200/70 dark:border-brand-800/70 shadow-xl shadow-brand-950/20 px-3 sm:px-5 md:px-6 h-14 md:h-16' 
+            : 'max-w-7xl px-4 sm:px-6 h-16 md:h-24 bg-brand-50/90 dark:bg-brand-950/95 backdrop-blur-md border-b border-brand-100 dark:border-brand-900/60'
+        }`}>
+
           {/* Brand Logo PNG */}
-          <button onClick={() => scrollToSection('welkom')} className="flex items-center outline-none group pt-1 md:pt-2.5 pb-1 pr-2 sm:pr-4 md:pr-6 shrink-0">
+          <button onClick={() => scrollToSection('welkom')} className="flex items-center outline-none group pt-1 pb-1 pr-2 sm:pr-3 md:pr-4 shrink-0 cursor-pointer">
             <img 
               src="/images/logo_hero.png" 
               alt="De Verstandhouding" 
-              className="h-11 sm:h-14 md:h-20 max-h-[80%] w-auto max-w-[55vw] sm:max-w-none object-contain dark:hidden transition-transform group-hover:scale-[1.02]" 
+              className={`${isScrolled ? 'h-8 sm:h-9 md:h-11' : 'h-11 sm:h-14 md:h-20'} max-h-[85%] w-auto max-w-[45vw] sm:max-w-none object-contain dark:hidden transition-all duration-300 group-hover:scale-[1.02]`} 
             />
             <img 
               src="/images/logo_dark_compact.png" 
               onError={(e) => { e.currentTarget.src = '/images/logo_dark_compact.svg'; }}
               alt="De Verstandhouding" 
-              className="h-11 sm:h-14 md:h-20 max-h-[80%] w-auto max-w-[55vw] sm:max-w-none object-contain hidden dark:block transition-transform group-hover:scale-[1.02] rounded-xl sm:rounded-2xl overflow-hidden shadow-md" 
+              className={`${isScrolled ? 'h-8 sm:h-9 md:h-11' : 'h-11 sm:h-14 md:h-20'} max-h-[85%] w-auto max-w-[45vw] sm:max-w-none object-contain hidden dark:block transition-all duration-300 group-hover:scale-[1.02] rounded-xl sm:rounded-2xl overflow-hidden shadow-md`} 
             />
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 xl:space-x-3 shrink min-w-0">
             {[
               { id: 'welkom', label: 'Welkom' },
               { id: 'flexibiliteit', label: 'Psychologische Flexibiliteit' },
@@ -157,25 +220,22 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
               <button 
                 key={section.id}
                 onClick={() => scrollToSection(section.id)} 
-                className={`text-sm font-semibold transition-all duration-200 relative py-2 ${
+                className={`whitespace-nowrap text-xs xl:text-sm font-semibold transition-all duration-200 py-1.5 px-2.5 xl:px-3 rounded-full cursor-pointer flex items-center justify-center text-center ${
                   activeSection === section.id 
-                    ? 'text-brand-800 dark:text-brand-300 font-bold' 
-                    : 'text-brand-800/70 dark:text-slate-300 hover:text-brand-800 dark:hover:text-white'
+                    ? 'text-brand-950 dark:text-white font-bold bg-brand-500/15 dark:bg-brand-500/25' 
+                    : 'text-brand-800/80 dark:text-slate-200 hover:text-brand-950 dark:hover:text-white hover:bg-brand-500/10'
                 }`}
               >
                 {section.label}
-                {activeSection === section.id && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-500 dark:bg-brand-400 rounded-full animate-fade-in" />
-                )}
               </button>
             ))}
           </nav>
 
           {/* Header Controls (Theme Toggle & CTA) */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-2 lg:space-x-2.5 shrink-0">
             <button 
               onClick={() => setDarkMode(!darkMode)}
-              className="p-2.5 rounded-full bg-white dark:bg-brand-900 border border-brand-200/60 dark:border-brand-800 text-brand-800 dark:text-brand-100 hover:bg-brand-100 dark:hover:bg-brand-800 transition"
+              className="p-2 lg:p-2.5 rounded-full bg-white/80 dark:bg-brand-900/80 border border-brand-200/60 dark:border-brand-800 text-brand-800 dark:text-brand-100 hover:bg-brand-100 dark:hover:bg-brand-800 transition cursor-pointer flex items-center justify-center"
               aria-label="Toggle Dark Mode"
             >
               {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -184,7 +244,9 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
             {user ? (
               <Link 
                 to={user.isPsycholoog ? "/dashboard" : "/portal"} 
-                className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-bold text-white bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 transition shadow-md shadow-brand-800/10 hover:shadow-brand-800/20"
+                className={`whitespace-nowrap inline-flex items-center justify-center text-center rounded-full font-bold text-white bg-brand-800 hover:bg-brand-900 dark:bg-brand-700 dark:hover:bg-brand-600 transition shadow-md ${
+                  isScrolled ? 'px-3.5 sm:px-4 py-1.5 text-xs xl:text-sm' : 'px-5 py-2.5 text-sm'
+                }`}
               >
                 Dashboard
                 <ChevronRight className="h-4 w-4 ml-1" />
@@ -192,7 +254,9 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
             ) : (
               <Link 
                 to="/login" 
-                className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-bold text-white bg-brand-500 hover:bg-brand-600 dark:bg-brand-500 dark:hover:bg-brand-600 transition shadow-md shadow-brand-500/10 hover:shadow-brand-500/20"
+                className={`whitespace-nowrap inline-flex items-center justify-center text-center rounded-full font-bold text-white bg-brand-500 hover:bg-brand-600 dark:bg-brand-500 dark:hover:bg-brand-600 transition shadow-md shadow-brand-500/10 ${
+                  isScrolled ? 'px-3.5 sm:px-4 py-1.5 text-xs xl:text-sm' : 'px-5 py-2.5 text-sm'
+                }`}
               >
                 Afspraak maken
               </Link>
@@ -264,7 +328,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
       {/* Hero Section (Welkom) */}
       <section 
         id="welkom" 
-        className="max-w-7xl mx-auto px-6 py-12 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[80vh]"
+        className="max-w-7xl mx-auto px-6 pt-24 md:pt-32 pb-12 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[80vh]"
       >
         {/* Left Side: Modern Glassmorphic Presentation Card */}
         <div className="lg:col-span-7 space-y-8 z-10 p-6 md:p-10 rounded-3xl bg-white/60 dark:bg-brand-900/90 backdrop-blur-xl border border-white/40 dark:border-brand-800/80 shadow-2xl">
@@ -417,7 +481,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
           {/* Collapsible / Expandable Details */}
           <div className="max-w-3xl mx-auto border-t border-brand-100 dark:border-brand-800 pt-8">
             {flexExpanded ? (
-              <div className="space-y-6 text-sm md:text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium animate-fade-in">
+              <div id="flex-details" className="space-y-6 text-sm md:text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium animate-fade-in">
                 <p>
                   Mijn werkwijze is in eerste instantie gebaseerd op onze verstandhouding - de relatie tussen jou als hulpvrager en mezelf als psycholoog. Vanaf het eerste contact kan je rekenen op <strong className="text-brand-950 dark:text-white font-bold">warmte en authenticiteit</strong>. Net zoals jij wil ik gewoon mezelf kunnen zijn. We zijn immers gelijkwaardig en respecteren elkaars expertise – jij bent expert over jouw ervaringen en ik in mijn vakgebied. Deze therapeutische relatie is een belangrijke voorwaarde om je te kunnen openstellen voor je gedachten en gevoelens en deze in vertrouwen te delen.
                 </p>
@@ -435,8 +499,8 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
 
             <div className="text-center pt-6">
               <button 
-                onClick={() => setFlexExpanded(!flexExpanded)}
-                className="inline-flex items-center space-x-1.5 px-6 py-2.5 rounded-full border border-brand-500 text-brand-500 dark:text-brand-400 font-bold text-xs uppercase tracking-wider hover:bg-brand-500 hover:text-white dark:hover:bg-brand-500 dark:hover:text-brand-950 transition duration-200"
+                onClick={toggleFlexExpanded}
+                className="inline-flex items-center space-x-1.5 px-6 py-2.5 rounded-full border border-brand-500 text-brand-500 dark:text-brand-400 font-bold text-xs uppercase tracking-wider hover:bg-brand-500 hover:text-white dark:hover:bg-brand-500 dark:hover:text-brand-950 transition duration-200 cursor-pointer"
               >
                 <span>{flexExpanded ? 'Lees minder' : 'Lees meer details'}</span>
               </button>
@@ -483,7 +547,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                 </p>
 
                 {storyExpanded ? (
-                  <div className="space-y-4 animate-fade-in">
+                  <div id="story-details" className="space-y-4 animate-fade-in">
                     <p>
                       Vanuit mijn interesse voor de invloed van de hersenen op ons gedrag heb ik een postgraduaat klinische neuropsychologie voltooid (VUB, 2020). Deze opleiding zorgde voor <strong className="text-brand-950 dark:text-brand-50 font-bold">verdieping in cognitieve functies die aan de basis liggen van persoonlijkheidseigenschappen en veerkracht</strong>, en stelt me bovendien in staat om ook mensen met een neurologische aandoening psychologisch te begeleiden.
                     </p>
@@ -501,8 +565,8 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
 
                 <div className="pt-4">
                   <button 
-                    onClick={() => setStoryExpanded(!storyExpanded)}
-                    className="inline-flex items-center space-x-1 text-brand-500 dark:text-brand-400 font-bold hover:underline"
+                    onClick={toggleStoryExpanded}
+                    className="inline-flex items-center space-x-1 text-brand-500 dark:text-brand-400 font-bold hover:underline cursor-pointer"
                   >
                     <span>{storyExpanded ? 'Lees minder' : 'Lees het volledige verhaal'}</span>
                   </button>
@@ -585,7 +649,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                     )}
                     <p className="text-sm font-semibold text-brand-800 dark:text-brand-300">{loc.address}</p>
                     {loc.extra && (
-                      <p className="text-xs text-brand-950/60 dark:text-brand-400/60 italic font-medium">{loc.extra}</p>
+                      <p className="text-xs text-brand-950/70 dark:text-brand-300 font-medium">{loc.extra}</p>
                     )}
                     {loc.note && (
                       <div className="mt-2 inline-block px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 text-xs font-medium">
@@ -834,193 +898,183 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
         id="tarieven" 
         className="py-20 md:py-28 bg-white dark:bg-brand-900 border-t border-brand-100 dark:border-brand-800/60 transition-colors duration-300 relative"
       >
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center space-y-4 mb-12">
+        <div className="max-w-5xl mx-auto px-6 space-y-8">
+          <div className="text-center space-y-4 mb-8">
             <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-brand-500/10 text-brand-500 dark:text-brand-400 text-xs font-bold uppercase tracking-wider">
               <Euro className="h-3.5 w-3.5" />
               <span>Transparante Tarieven</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-header font-bold text-brand-950 dark:text-brand-50 tracking-tight">
-              Tarieven & Praktische Info
+              Tarieven en Praktische info
             </h2>
-            <p className="text-base text-brand-950/70 dark:text-brand-300/70 max-w-2xl mx-auto font-medium">
-              Overzicht van onze tarieven, geconventioneerde zorg (ELP), terugbetalingsmogelijkheden en praktische afspraken.
+            <p className="text-base md:text-lg text-brand-950/90 dark:text-brand-100 max-w-2xl mx-auto font-semibold leading-relaxed">
+              Bij <strong className="text-brand-950 dark:text-white font-bold">De Verstandhouding</strong> bieden we enkel <strong>individuele consulten</strong> aan:
             </p>
           </div>
 
-          {/* Korte inleiding (Direct zichtbaar op de pagina) */}
-          <div className="bg-brand-50 dark:bg-brand-950 p-6 md:p-8 rounded-[2rem] border border-brand-100 dark:border-brand-800 shadow-lg space-y-6">
-            <div className="flex items-center space-x-3 pb-4 border-b border-brand-200/60 dark:border-brand-800/60">
-              <div className="h-10 w-10 rounded-full bg-brand-500/10 text-brand-500 flex items-center justify-center shrink-0">
-                <Info className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-brand-950 dark:text-brand-50">
-                  Tarieven & Praktische info in het kort
-                </h3>
-                <p className="text-xs text-brand-950/60 dark:text-brand-400 font-semibold">
-                  Bij <strong className="text-brand-950 dark:text-white">De Verstandhouding</strong> bieden we enkel <strong>individuele consulten</strong> aan:
+          {/* 3 Blokken met omgekeerd kleurschema rechtstreeks op de sectie */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-7 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 shadow-md hover:shadow-lg transition-all space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2 text-brand-600 dark:text-brand-400 font-bold text-base md:text-lg">
+                  <ShieldCheck className="h-5 w-5 shrink-0" />
+                  <span>Via ELP-conventie</span>
+                </div>
+                <p className="text-2xl md:text-3xl font-extrabold text-brand-950 dark:text-brand-50">
+                  € 0 <span className="text-xs md:text-sm font-normal text-brand-950/70 dark:text-brand-300">(t.e.m. 23j)</span> / € 11
+                </p>
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
+                  per sessie (<strong>€ 4</strong> bij verhoogde tegemoetkoming, 1e sessie gratis).
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white dark:bg-brand-900 p-5 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-2">
-                <div className="flex items-center space-x-2 text-brand-500 font-bold text-sm">
-                  <ShieldCheck className="h-4 w-4 shrink-0" />
-                  <span>Via ELP-conventie</span>
-                </div>
-                <p className="text-2xl font-extrabold text-brand-950 dark:text-brand-50">
-                  € 0 <span className="text-xs font-normal text-brand-950/60 dark:text-brand-300">(t.e.m. 23j)</span> / € 11
-                </p>
-                <p className="text-xs text-brand-950/70 dark:text-brand-300/80 leading-relaxed font-medium">
-                  per sessie (<strong>€ 4</strong> bij verhoogde tegemoetkoming, 1e sessie gratis).
-                </p>
-              </div>
-
-              <div className="bg-white dark:bg-brand-900 p-5 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-2">
-                <div className="flex items-center space-x-2 text-brand-500 font-bold text-sm">
-                  <Euro className="h-4 w-4 shrink-0" />
+            <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-7 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 shadow-md hover:shadow-lg transition-all space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2 text-brand-600 dark:text-brand-400 font-bold text-base md:text-lg">
+                  <Euro className="h-5 w-5 shrink-0" />
                   <span>Regulier tarief</span>
                 </div>
-                <p className="text-2xl font-extrabold text-brand-950 dark:text-brand-50">
-                  € 75 <span className="text-xs font-normal text-brand-950/60 dark:text-brand-300">/ consultatie</span>
+                <p className="text-2xl md:text-3xl font-extrabold text-brand-950 dark:text-brand-50">
+                  € 75 <span className="text-xs md:text-sm font-normal text-brand-950/70 dark:text-brand-300">/ consultatie</span>
                 </p>
-                <p className="text-xs text-brand-950/70 dark:text-brand-300/80 leading-relaxed font-medium">
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
                   Gedeeltelijke terugbetaling via je ziekenfonds mogelijk.
                 </p>
               </div>
+            </div>
 
-              <div className="bg-white dark:bg-brand-900 p-5 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-2">
-                <div className="flex items-center space-x-2 text-brand-500 font-bold text-sm">
-                  <Clock className="h-4 w-4 shrink-0" />
+            <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-7 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 shadow-md hover:shadow-lg transition-all space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2 text-brand-600 dark:text-brand-400 font-bold text-base md:text-lg">
+                  <Clock className="h-5 w-5 shrink-0" />
                   <span>Annuleren</span>
                 </div>
-                <p className="text-base font-extrabold text-brand-950 dark:text-brand-50">
+                <p className="text-lg md:text-xl font-extrabold text-brand-950 dark:text-brand-50">
                   Gratis tot 48u op voorhand
                 </p>
-                <p className="text-xs text-brand-950/70 dark:text-brand-300/80 leading-relaxed font-medium">
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
                   Bij laattijdige annulatie wordt de sessie aangerekend.
                 </p>
               </div>
             </div>
-
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-950/70 dark:text-brand-300/80 italic font-semibold">
-              <span>(Geen verwijsbrief nodig)</span>
-              
-              <button
-                type="button"
-                onClick={() => setTarievenExpanded(!tarievenExpanded)}
-                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold not-italic transition shadow-md shadow-brand-500/20 cursor-pointer"
-              >
-                <span>👇 {tarievenExpanded ? 'Minder details tonen' : 'Klik hier voor meer details over voorwaarden, terugbetaling en annulatie'}</span>
-                {tarievenExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </button>
-            </div>
-
-            {/* Volledige tekst (Zichtbaar na uitklappen / inklapbaar menu) */}
-            {tarievenExpanded && (
-              <div className="pt-6 border-t border-brand-200/80 dark:border-brand-800 space-y-8 animate-fade-in text-sm text-brand-950/80 dark:text-brand-200">
-                <div className="space-y-3">
-                  <h3 className="text-lg font-bold text-brand-950 dark:text-brand-50 flex items-center space-x-2">
-                    <FileText className="h-5 w-5 text-brand-500" />
-                    <span>Tarieven & Praktische Informatie</span>
-                  </h3>
-                  <p className="leading-relaxed text-xs sm:text-sm">
-                    Bij <strong>De Verstandhouding</strong> bieden we individuele consulten aan. Afhankelijk van jouw situatie en eventuele conventievoorwaarden valt jouw traject onder de ELP-conventie of onder het reguliere tarief.
-                  </p>
-                </div>
-
-                {/* Section 1 */}
-                <div className="bg-white dark:bg-brand-900 p-6 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-3">
-                  <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base">
-                    1. Geconventioneerde zorg (Eerstelijnspsychologische Zorg - ELP)
-                  </h4>
-                  <p className="text-xs text-brand-950/70 dark:text-brand-300">
-                    Val je binnen de doelgroep van de conventie? Dan wordt het grootste deel van de zorg rechtstreeks door de ziekteverzekering vergoed via de derdebetalersregeling:
-                  </p>
-                  <ul className="list-disc list-inside space-y-2 text-xs pl-2 font-medium">
-                    <li>
-                      <strong>Kinderen en jongeren (t.e.m. 23 jaar):</strong> Volledig gedekt door de ziekteverzekering (<strong>€ 0</strong> eigen aandeel).
-                    </li>
-                    <li>
-                      <strong>Volwassenen (vanaf 24 jaar):</strong>
-                      <ul className="list-disc list-inside pl-5 mt-1 space-y-1">
-                        <li>Eerste individuele sessie: <strong>Gratis</strong></li>
-                        <li>Vervolgsessies: <strong>€ 11</strong> per individuele sessie (<strong>€ 4</strong> bij verhoogde tegemoetkoming)</li>
-                      </ul>
-                    </li>
-                  </ul>
-                  <p className="text-xs italic font-semibold text-brand-500 pt-1">
-                    Er is geen verwijsbrief nodig om gebruik te maken van de ELP-conventie.
-                  </p>
-                </div>
-
-                {/* Section 2 */}
-                <div className="bg-white dark:bg-brand-900 p-6 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-3">
-                  <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base">
-                    2. Niet-geconventioneerde zorg (Regulier tarief)
-                  </h4>
-                  <p className="text-xs text-brand-950/70 dark:text-brand-300">
-                    Situeert jouw zorgvraag zich buiten het kader/de voorwaarden van de conventie, of zijn de geconventioneerde sessies opgebruikt? Dan geldt het reguliere tarief:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 text-xs pl-2 font-medium">
-                    <li>
-                      <strong>Individuele consultatie (45 min):</strong> <strong>€ 75</strong>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Section 3 */}
-                <div className="bg-white dark:bg-brand-900 p-6 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-3">
-                  <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base flex items-center space-x-2">
-                    <CreditCard className="h-4 w-4 text-brand-500" />
-                    <span>Terugbetaling via de Mutualiteit (voor niet-geconventioneerde zorg)</span>
-                  </h4>
-                  <p className="text-xs text-brand-950/70 dark:text-brand-300 leading-relaxed">
-                    Indien je een reguliere (niet-geconventioneerde) sessie volgt van € 75, voorzien de meeste mutualiteiten/ziekenfondsen een gedeeltelijke terugbetaling via hun aanvullende verzekering.
-                  </p>
-                  <p className="text-xs text-brand-950/70 dark:text-brand-300 leading-relaxed">
-                    De exacte voorwaarden en terugbetalingsbedragen verschillen per ziekenfonds. Voor actuele informatie en het aanvragen van formulieren verwijzen we je graag door naar de website van jouw mutualiteit of via{' '}
-                    <a 
-                      href="https://www.vindeentherapeut.be" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-brand-500 font-bold hover:underline inline-flex items-center space-x-1"
-                    >
-                      <span>VindeenTherapeut.be</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </a>.
-                  </p>
-                </div>
-
-                {/* Section 4 */}
-                <div className="bg-white dark:bg-brand-900 p-6 rounded-2xl border border-brand-100 dark:border-brand-800/40 space-y-3">
-                  <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base flex items-center space-x-2">
-                    <ShieldCheck className="h-4 w-4 text-brand-500" />
-                    <span>Algemene voorwaarden & privacybeleid</span>
-                  </h4>
-                  <p className="text-xs text-brand-950/70 dark:text-brand-300">
-                    Door een afspraak te maken, ga je akkoord met ons <strong>privacybeleid</strong> en onze <strong>algemene voorwaarden</strong>. Hieronder lichten we enkele belangrijke afspraken toe:
-                  </p>
-                  <ul className="space-y-3 text-xs pl-1">
-                    <li className="flex items-start space-x-2">
-                      <Clock className="h-4 w-4 text-brand-500 shrink-0 mt-0.5" />
-                      <div>
-                        <strong>Annulatiebeleid:</strong> Om zorgzaam om te gaan met de beschikbare plaatsen in de agenda, vragen we geplande afspraken zo veel mogelijk na te komen. Een afspraak kan kosteloos worden geannuleerd tot <strong>48 uur op voorhand</strong>. Bij een laattijdige annulatie (minder dan 48 uur) of het niet verschijnen op de afspraak wordt de sessie aangerekend, tenzij er een geldig ziekteattest kan worden voorgelegd.
-                      </div>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <CreditCard className="h-4 w-4 text-brand-500 shrink-0 mt-0.5" />
-                      <div>
-                        <strong>Betaling:</strong> Betalen kan aan het einde van de sessie, contant of via mobiele bank-app (QR-code).
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            )}
           </div>
+
+          <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm md:text-base text-brand-950/80 dark:text-brand-200 font-semibold">
+            <span>(Geen verwijsbrief nodig)</span>
+            
+            <button
+              type="button"
+              onClick={toggleTarievenExpanded}
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold transition shadow-md shadow-brand-500/20 cursor-pointer text-sm md:text-base"
+            >
+              <span>👇 {tarievenExpanded ? 'Minder details tonen' : 'Klik hier voor meer details over voorwaarden, terugbetaling en annulatie'}</span>
+              {tarievenExpanded ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </button>
+          </div>
+
+          {/* Volledige tekst (Zichtbaar na uitklappen / inklapbaar menu) */}
+          {tarievenExpanded && (
+            <div id="tarieven-details" className="pt-8 border-t border-brand-200/80 dark:border-brand-800 space-y-6 animate-fade-in text-sm md:text-base text-brand-950/90 dark:text-brand-200">
+              <div className="space-y-3">
+                <h3 className="text-xl md:text-2xl font-bold text-brand-950 dark:text-brand-50 flex items-center space-x-2">
+                  <FileText className="h-6 w-6 text-brand-500" />
+                  <span>Tarieven en Praktische info</span>
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-brand-950/80 dark:text-brand-200 font-medium">
+                  Bij <strong className="text-brand-950 dark:text-white font-bold">De Verstandhouding</strong> bieden we individuele consulten aan. Afhankelijk van jouw situatie en eventuele conventievoorwaarden valt jouw traject onder de ELP-conventie of onder het reguliere tarief.
+                </p>
+              </div>
+
+              {/* Section 1 */}
+              <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-8 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 space-y-4 shadow-sm">
+                <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base md:text-lg">
+                  1. Geconventioneerde zorg (Eerstelijnspsychologische Zorg - ELP)
+                </h4>
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
+                  Val je binnen de doelgroep van de conventie? Dan wordt het grootste deel van de zorg rechtstreeks door de ziekteverzekering vergoed via de derdebetalersregeling:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-sm md:text-base pl-2 font-medium text-brand-950/80 dark:text-brand-200 leading-relaxed">
+                  <li>
+                    <strong>Kinderen en jongeren (t.e.m. 23 jaar):</strong> Volledig gedekt door de ziekteverzekering (<strong>€ 0</strong> eigen aandeel).
+                  </li>
+                  <li>
+                    <strong>Volwassenen (vanaf 24 jaar):</strong>
+                    <ul className="list-disc list-inside pl-6 mt-2 space-y-1">
+                      <li>Eerste individuele sessie: <strong>Gratis</strong></li>
+                      <li>Vervolgsessies: <strong>€ 11</strong> per individuele sessie (<strong>€ 4</strong> bij verhoogde tegemoetkoming)</li>
+                    </ul>
+                  </li>
+                </ul>
+                <p className="text-sm md:text-base font-semibold text-brand-600 dark:text-brand-400 pt-1">
+                  Er is geen verwijsbrief nodig om gebruik te maken van de ELP-conventie.
+                </p>
+              </div>
+
+              {/* Section 2 */}
+              <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-8 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 space-y-4 shadow-sm">
+                <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base md:text-lg">
+                  2. Niet-geconventioneerde zorg (Regulier tarief)
+                </h4>
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
+                  Situeert jouw zorgvraag zich buiten het kader/de voorwaarden van de conventie, of zijn de geconventioneerde sessies opgebruikt? Dan geldt het reguliere tarief:
+                </p>
+                <ul className="list-disc list-inside space-y-1 text-sm md:text-base pl-2 font-medium text-brand-950/80 dark:text-brand-200 leading-relaxed">
+                  <li>
+                    <strong>Individuele consultatie (45 min):</strong> <strong>€ 75</strong>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Section 3 */}
+              <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-8 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 space-y-4 shadow-sm">
+                <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base md:text-lg flex items-center space-x-2">
+                  <CreditCard className="h-5 w-5 text-brand-500 shrink-0" />
+                  <span>Terugbetaling via de Mutualiteit (voor niet-geconventioneerde zorg)</span>
+                </h4>
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
+                  Indien je een reguliere (niet-geconventioneerde) sessie volgt van € 75, voorzien de meeste mutualiteiten/ziekenfondsen een gedeeltelijke terugbetaling via hun aanvullende verzekering.
+                </p>
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
+                  De exacte voorwaarden en terugbetalingsbedragen verschillen per ziekenfonds. Voor actuele informatie en het aanvragen van formulieren verwijzen we je graag door naar de website van jouw mutualiteit of via{' '}
+                  <a 
+                    href="https://www.vindeentherapeut.be" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-brand-500 font-bold hover:underline inline-flex items-center space-x-1"
+                  >
+                    <span>VindeenTherapeut.be</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>.
+                </p>
+              </div>
+
+              {/* Section 4 */}
+              <div className="bg-brand-50/90 dark:bg-brand-950 p-6 md:p-8 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 space-y-4 shadow-sm">
+                <h4 className="font-bold text-brand-950 dark:text-brand-50 text-base md:text-lg flex items-center space-x-2">
+                  <ShieldCheck className="h-5 w-5 text-brand-500 shrink-0" />
+                  <span>Algemene voorwaarden & privacybeleid</span>
+                </h4>
+                <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
+                  Door een afspraak te maken, ga je akkoord met ons <strong>privacybeleid</strong> en onze <strong>algemene voorwaarden</strong>. Hieronder lichten we enkele belangrijke afspraken toe:
+                </p>
+                <ul className="space-y-3 text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium pl-1">
+                  <li className="flex items-start space-x-3">
+                    <Clock className="h-5 w-5 text-brand-500 shrink-0 mt-0.5" />
+                    <div>
+                      <strong>Annulatiebeleid:</strong> Om zorgzaam om te gaan met de beschikbare plaatsen in de agenda, vragen we geplande afspraken zo veel mogelijk na te komen. Een afspraak kan kosteloos worden geannuleerd tot <strong>48 uur op voorhand</strong>. Bij een laattijdige annulatie (minder dan 48 uur) of het niet verschijnen op de afspraak wordt de sessie aangerekend, tenzij er een geldig ziekteattest kan worden voorgelegd.
+                    </div>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <CreditCard className="h-5 w-5 text-brand-500 shrink-0 mt-0.5" />
+                    <div>
+                      <strong>Betaling:</strong> Betalen kan aan het einde van de sessie, contant of via mobiele bank-app (QR-code).
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

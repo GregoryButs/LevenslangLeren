@@ -97,7 +97,7 @@ export const AiPatientRiskTable: React.FC<AiPatientRiskTableProps> = ({
                       {r.recommendedAction}
                     </span>
                   </td>
-                  <td className="py-4 px-4 text-xs text-slate-500 italic max-w-xs">{r.reason}</td>
+                  <td className="py-4 px-4 text-xs text-slate-500 font-medium max-w-xs">{r.reason}</td>
                 </tr>
               ))}
             </tbody>

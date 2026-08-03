@@ -3,20 +3,66 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #1a2c30;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Fluid typography met clamp() voor zachte, traploze schaling van koppen */
+  h1, .text-4xl, .text-5xl {
+    font-size: clamp(2rem, 4vw + 1rem, 3.25rem);
+    line-height: 1.15;
+  }
+
+  h2, .text-3xl {
+    font-size: clamp(1.6rem, 3vw + 0.8rem, 2.5rem);
+    line-height: 1.2;
+  }
+
+  h3, .text-2xl {
+    font-size: clamp(1.3rem, 2vw + 0.6rem, 1.75rem);
+    line-height: 1.3;
+  }
+
+  h4, .text-xl {
+    font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.35rem);
+    line-height: 1.35;
   }
 
   .font-serif-heading {
     font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* Gecontroleerde schaling voor kleine teksten: text-xs (14px) en text-sm (15.2px) */
+  .text-xs {
+    font-size: 0.875rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .text-sm {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Font leesbaarheid: Schuin/italic tekst uitschakelen voor maximale helderheid */
+  .italic, em, i {
+    font-style: normal !important;
   }
 }
 
@@ -55,102 +101,32 @@
 }
 
 /* =============================================
-   MOBILE TYPOGRAPHY BOOST
-   Maakt alle tekst op mobiel veel groter/leesbaarder.
+   MOBILE TYPOGRAPHY & TOUCH TARGET BOOST
    ============================================= */
 @media (max-width: 768px) {
-  /* Verhoog de basis font-size op mobiel */
   html {
-    font-size: 17px;
+    font-size: 16.5px;
   }
 
-  /* Body base text iets groter */
   body {
     font-size: 1rem;
     line-height: 1.6;
   }
 
-  /* Voorkom onleesbaar kleine tekst:
-     text-[10px] en text-[11px] → minimaal 13px op mobiel */
-  * {
-    --tw-mobile-min-font: 13px;
+  /* Voorkom onleesbaar kleine tekst op smartphones (<13px) */
+  [class*="text-\[10px\]"],
+  [class*="text-\[11px\]"],
+  [class*="text-\[12px\]"] {
+    font-size: 13.5px !important;
   }
 
-  /* Tailwind text-xs = 12px → 14px op mobiel */
-  .text-xs {
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-  }
-
-  /* Tailwind text-sm = 14px → 15px op mobiel */
-  .text-sm {
-    font-size: 15px !important;
-    line-height: 1.55 !important;
-  }
-
-  /* Tailwind text-base = 16px → 17px op mobiel (via root al gedekt) */
-
-  /* Headings een boost geven */
-  h1, .text-3xl, .text-4xl, .text-5xl {
-    font-size: clamp(1.6rem, 5vw, 2.5rem) !important;
-    line-height: 1.2 !important;
-  }
-
-  h2, .text-2xl {
-    font-size: clamp(1.35rem, 4vw, 2rem) !important;
-    line-height: 1.25 !important;
-  }
-
-  h3, .text-xl {
-    font-size: clamp(1.15rem, 3.5vw, 1.5rem) !important;
-    line-height: 1.3 !important;
-  }
-
-  h4, .text-lg {
-    font-size: 1.05rem !important;
-    line-height: 1.4 !important;
-  }
-
-  /* Labels, form inputs, buttons mogen niet klein zijn op mobiel */
-  label,
-  input,
-  select,
-  textarea,
-  button {
+  /* Garandeer comfortabele touch-targets voor formulier-elementen & knoppen */
+  input, select, textarea, button {
     font-size: max(15px, 1em) !important;
   }
 
-  /* Alle paragraphs minimaal leesbare grootte */
   p {
-    font-size: max(14px, 1em);
+    font-size: max(15px, 0.95rem);
     line-height: 1.6;
-  }
-
-  /* Tabel-content */
-  td, th {
-    font-size: max(13px, 0.85rem) !important;
-  }
-
-  /* Badge-tekst en pill-achtige elementen */
-  .rounded-full {
-    font-size: max(12px, inherit);
-  }
-
-  /* Specifieke Tailwind arbitrary sizes opvangen */
-  [class*="text-\[10px\]"] {
-    font-size: 13px !important;
-  }
-
-  [class*="text-\[11px\]"] {
-    font-size: 13px !important;
-  }
-
-  [class*="text-\[12px\]"] {
-    font-size: 14px !important;
-  }
-
-  /* Links en inline elementen */
-  a, span {
-    font-size: max(inherit, 13px);
   }
 }

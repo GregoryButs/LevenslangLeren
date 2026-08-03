@@ -591,7 +591,7 @@ export const CalendarPage: React.FC = () => {
                               ))}
                             </div>
                           ) : (
-                            <span className="text-[11px] text-slate-300 dark:text-brand-600 italic block text-center py-1">-</span>
+                            <span className="text-[11px] text-slate-300 dark:text-brand-600 font-medium block text-center py-1">-</span>
                           )}
                         </td>
                       );
@@ -615,15 +615,15 @@ export const CalendarPage: React.FC = () => {
                           ))}
                         </div>
                       ) : (
-                        <span className="text-[11px] text-slate-300 dark:text-brand-600 italic block text-center py-1">Geen hele-dag meldingen op deze dag</span>
+                        <span className="text-[11px] text-slate-400 dark:text-brand-500 font-medium block text-center py-1">Geen hele-dag meldingen op deze dag</span>
                       )}
                     </td>
                   )}
                 </tr>
 
                 {hours.map((hour) => (
-                  <tr key={hour} className="border-b border-slate-100 dark:border-brand-800/40 group">
-                    <td className="p-4 text-sm font-semibold text-slate-400 dark:text-brand-400 align-top">
+                  <tr key={hour} className="group">
+                    <td className="p-4 text-sm font-semibold text-slate-400 dark:text-brand-400 align-top border-b border-slate-100 dark:border-brand-800/40">
                       {formatHourString(hour)}
                     </td>
 
@@ -674,11 +674,11 @@ export const CalendarPage: React.FC = () => {
                                         }}
                                         style={{ borderLeftColor: colorBorder }}
                                         className={`flex-1 min-h-[42px] p-1.5 border-l-4 ${
-                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-brand-800/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-brand-800/60'
+                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-slate-700/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-slate-700/60'
                                         } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
-                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
-                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                          'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-100 dark:bg-slate-800/50' :
+                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
+                                          'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
                                         }`}
                                         title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                       >
@@ -715,11 +715,11 @@ export const CalendarPage: React.FC = () => {
                                       }}
                                       style={{ borderLeftColor: colorBorder }}
                                       className={`flex-1 min-h-[42px] w-full border-l-4 ${
-                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-brand-800/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-brand-800/60'
+                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-slate-700/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-slate-700/60'
                                       } ${
-                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
-                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                        'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-100 dark:bg-slate-800/50' :
+                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
+                                        'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
                                       } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
                                       title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                     />
@@ -735,6 +735,8 @@ export const CalendarPage: React.FC = () => {
                                     onMouseEnter={() => handleMouseEnterSubSlot(day, slotVal)}
                                     onTouchStart={(e) => handleTouchStartSubSlot(day, slotVal, false, e)}
                                     className={`flex-1 min-h-[38px] px-2 py-1 flex items-center justify-between text-[10px] transition cursor-pointer ${
+                                      subOffset === 0 ? 'border-b border-dashed border-slate-200/40 dark:border-brand-800/30' : 'border-b border-slate-100 dark:border-brand-800/40'
+                                    } ${
                                       isSelected
                                         ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
                                         : isBookingSlot
@@ -810,11 +812,11 @@ export const CalendarPage: React.FC = () => {
                                         }}
                                         style={{ borderLeftColor: colorBorder }}
                                         className={`flex-1 min-h-[42px] p-2.5 border-l-4 ${
-                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-brand-800/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-brand-800/60'
+                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-slate-700/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-slate-700/60'
                                         } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
-                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
-                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                          'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-100 dark:bg-slate-800/50' :
+                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
+                                          'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
                                         }`}
                                         title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                       >
@@ -856,11 +858,11 @@ export const CalendarPage: React.FC = () => {
                                       }}
                                       style={{ borderLeftColor: colorBorder }}
                                       className={`flex-1 min-h-[42px] w-full border-l-4 ${
-                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-brand-800/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-brand-800/60'
+                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-slate-700/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-slate-700/60'
                                       } ${
-                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
-                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                        'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-100 dark:bg-slate-800/50' :
+                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
+                                        'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
                                       } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-3`}
                                       title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                     />
@@ -876,6 +878,8 @@ export const CalendarPage: React.FC = () => {
                                     onMouseEnter={() => handleMouseEnterSubSlot(currentDate, slotVal)}
                                     onTouchStart={(e) => handleTouchStartSubSlot(currentDate, slotVal, false, e)}
                                     className={`flex-1 min-h-[38px] px-3 py-1.5 flex items-center justify-between text-[10px] transition cursor-pointer ${
+                                      subOffset === 0 ? 'border-b border-dashed border-slate-200/40 dark:border-brand-800/30' : 'border-b border-slate-100 dark:border-brand-800/40'
+                                    } ${
                                       isSelected
                                         ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
                                         : isBookingSlot
@@ -885,7 +889,7 @@ export const CalendarPage: React.FC = () => {
                                     title={
                                       isSelected
                                         ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
-                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(currentDate)}`
+                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)}`
                                     }
                                   >
                                     {isSelected ? (

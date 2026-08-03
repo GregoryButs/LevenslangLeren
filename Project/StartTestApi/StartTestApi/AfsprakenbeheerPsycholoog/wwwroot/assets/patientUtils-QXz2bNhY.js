@@ -1,0 +1,1 @@
+function r(a){if(a.volledigeNaam&&a.volledigeNaam.trim()!=="")return a.volledigeNaam;if(a.VolledigeNaam&&a.VolledigeNaam.trim()!=="")return a.VolledigeNaam;if(a.voornaam){const l=`${a.voornaam} ${a.achternaam||""}`.trim();if(l)return l}return`Patiënt #${a.id}`}export{r as g};

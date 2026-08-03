@@ -225,7 +225,7 @@ export const PatientDashboard: React.FC = () => {
                         {new Date(appt.eindtijd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
                       {appt.opmerkingen && (
-                        <p className="text-[10px] text-slate-400 dark:text-brand-400 italic mt-1 line-clamp-2">{appt.opmerkingen}</p>
+                        <p className="text-[10px] text-slate-500 dark:text-brand-300 font-medium mt-1 line-clamp-2">{appt.opmerkingen}</p>
                       )}
                     </div>
 
@@ -396,7 +396,7 @@ export const PatientDashboard: React.FC = () => {
                     <strong>Melding naar de praktijk:</strong> De praktijk ontvangt direct een automatische e-mail en melding met het tijdstip van je laattijdige annulering.
                   </li>
                 </ul>
-                <p className="text-[11px] italic font-semibold text-red-700 dark:text-red-300 pt-1">
+                <p className="text-[11px] font-semibold text-red-700 dark:text-red-300 pt-1">
                   Je kunt wel doorgaan met annuleren om deze plek vrij te maken, maar accepteert daarmee de voorwaarden.
                 </p>
               </div>

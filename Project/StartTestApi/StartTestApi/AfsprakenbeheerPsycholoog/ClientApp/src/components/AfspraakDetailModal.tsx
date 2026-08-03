@@ -276,7 +276,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
                   {selectedAfspraakData.status}
                 </span>
                 {selectedAfspraakData.status === 'Geannuleerd' && (
-                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold italic">
+                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
                     ✓ Tijdstip is vrij voor nieuwe boeking
                   </span>
                 )}

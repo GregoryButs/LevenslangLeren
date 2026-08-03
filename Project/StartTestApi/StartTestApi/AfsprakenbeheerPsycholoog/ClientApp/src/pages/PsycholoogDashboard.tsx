@@ -451,7 +451,7 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
                           {new Date(afspraak.eindtijd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                         {afspraak.opmerkingen && afspraak.opmerkingen.replace('[PH9500]', '').replace(/^\[Praktijkhuis9500\]\s*/, '').trim() !== '' && (
-                          <p className="text-xs text-slate-400 dark:text-brand-400 italic pt-1 line-clamp-2">
+                          <p className="text-xs text-slate-500 dark:text-brand-300 font-medium pt-1 line-clamp-2">
                             {afspraak.opmerkingen.replace('[PH9500]', '').replace(/^\[Praktijkhuis9500\]\s*/, '').trim()}
                           </p>
                         )}

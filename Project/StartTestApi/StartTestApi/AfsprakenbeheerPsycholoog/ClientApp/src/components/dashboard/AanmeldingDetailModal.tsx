@@ -370,7 +370,7 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
               </select>
 
               {filteredPatients.length === 0 && (
-                <p className="text-xs text-amber-600 dark:text-amber-400 italic">
+                <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
                   Geen patiënten gevonden die overeenkomen met "{patientSearchQuery}".
                 </p>
               )}

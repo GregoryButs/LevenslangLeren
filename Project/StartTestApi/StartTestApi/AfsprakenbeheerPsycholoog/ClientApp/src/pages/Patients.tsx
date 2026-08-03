@@ -398,7 +398,7 @@ export const Patients: React.FC = () => {
                     );
                   })
                 ) : (
-                  <p className="text-xs text-slate-400 dark:text-brand-400 italic text-center py-4">Nog geen afspraken gepland voor deze patiënt.</p>
+                  <p className="text-xs text-slate-400 dark:text-brand-400 font-medium text-center py-4">Nog geen afspraken gepland voor deze patiënt.</p>
                 )}
               </div>
             </div>
