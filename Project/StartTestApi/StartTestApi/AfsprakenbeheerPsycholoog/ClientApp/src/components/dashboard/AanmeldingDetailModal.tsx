@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UserCheck, X, Plus, Link as LinkIcon, Mail, Phone, User, Calendar, CheckCircle2, Clock } from 'lucide-react';
+import { UserCheck, X, Plus, Link as LinkIcon, Mail, Phone, User, Calendar, CheckCircle2, Clock, Search } from 'lucide-react';
 import { Patient } from '../../types';
 import { patientApi } from '../../services/api';
 import { extractErrorMessage } from '../../utils/errorUtils';
@@ -30,6 +30,7 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
   // Mode: 'create' (hergebruik/vooraf ingevuld patiëntenformulier) of 'link' (bestaande patiënt)
   const [activeTab, setActiveTab] = useState<'create' | 'link'>('create');
   const [loading, setLoading] = useState(false);
+  const [patientSearchQuery, setPatientSearchQuery] = useState('');
 
   // Bewerkbare patiënt-velden vooraf ingevuld met gegevens van de registratie
   const [formData, setFormData] = useState({
@@ -51,6 +52,16 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
       secundairEmail: '',
     });
   }, [aanmelding]);
+
+  // Gefilterde patiëntenlijst op basis van zoekopdracht
+  const filteredPatients = patientsList.filter(p => {
+    const query = patientSearchQuery.toLowerCase().trim();
+    if (!query) return true;
+    const fullName = `${p.voornaam || ''} ${p.achternaam || ''} ${p.volledigeNaam || ''}`.toLowerCase();
+    const email = (p.email || '').toLowerCase();
+    const dossier = (p.dossierNummer || '').toLowerCase();
+    return fullName.includes(query) || email.includes(query) || dossier.includes(query);
+  });
 
   // Nieuwe patiënt aanmaken met de ingevulde/aangepaste gegevens en direct koppelen
   const handleCreateAndLink = async (e: React.FormEvent) => {
@@ -77,7 +88,6 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
       onClose();
     } catch (err) {
       console.error('Fout bij aanmaken/koppelen:', err);
-      // Fallback probeer standaard approve endpoint
       try {
         await onApproveNewPatient(aanmelding.id);
         onClose();
@@ -306,31 +316,64 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
           </form>
         )}
 
-        {/* TAB 2: LINK TO EXISTING PATIENT */}
+        {/* TAB 2: LINK TO EXISTING PATIENT WITH SEARCH */}
         {activeTab === 'link' && (
           <div className="space-y-4">
             <div className="p-3 bg-emerald-50/60 dark:bg-brand-950/60 rounded-2xl border border-emerald-100 dark:border-brand-800/40">
               <p className="text-xs text-emerald-800 dark:text-brand-200">
-                Selecteer hieronder een reeds bestaande patiënt uit de praktijkdatabase om dit geregistreerde account aan te koppelen.
+                Zoek en selecteer hieronder een bestaande patiënt uit het praktijkbestand om het geregistreerde account aan te koppelen.
               </p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label className="text-xs font-bold text-slate-700 dark:text-brand-100 block">
-                Bestaande patiënt selecteren *
+                Bestaande patiënt zoeken & selecteren *
               </label>
+
+              {/* Patient Search Input */}
+              <div className="relative">
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 dark:text-brand-300" />
+                <input
+                  type="text"
+                  value={patientSearchQuery}
+                  onChange={(e) => setPatientSearchQuery(e.target.value)}
+                  placeholder="Zoek op naam, e-mailadres of dossiernummer..."
+                  className="pl-9 pr-8 w-full bg-white dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2 px-3 rounded-xl text-xs font-medium text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+                {patientSearchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setPatientSearchQuery('')}
+                    className="absolute right-3 top-2.5 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+
+              {/* Patient Selection Dropdown */}
               <select
                 value={selectedPatientId || ''}
                 onChange={(e) => onSelectPatientChange(e.target.value)}
                 className="text-xs w-full bg-white dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-3 rounded-xl text-slate-800 dark:text-brand-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold"
               >
-                <option value="">-- Kies een patiënt uit het bestand --</option>
-                {patientsList.map(p => (
+                <option value="">
+                  {filteredPatients.length > 0 
+                    ? `-- Kies een patiënt (${filteredPatients.length} gevonden) --` 
+                    : '-- Geen patiënten gevonden --'}
+                </option>
+                {filteredPatients.map(p => (
                   <option key={p.id} value={p.id}>
-                    {p.volledigeNaam} ({p.email || 'Geen e-mailadres'})
+                    {p.volledigeNaam} {p.email ? `(${p.email})` : ''} {p.dossierNummer ? `[Dossier: ${p.dossierNummer}]` : ''}
                   </option>
                 ))}
               </select>
+
+              {filteredPatients.length === 0 && (
+                <p className="text-xs text-amber-600 dark:text-amber-400 italic">
+                  Geen patiënten gevonden die overeenkomen met "{patientSearchQuery}".
+                </p>
+              )}
             </div>
 
             <div className="pt-4 border-t border-slate-100 dark:border-brand-800/40 flex justify-end space-x-2">
