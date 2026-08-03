@@ -46,6 +46,24 @@ export const PatientDashboard: React.FC = () => {
     }
   };
 
+  const [earlyMeetModal, setEarlyMeetModal] = useState<{
+    isOpen: boolean;
+    afspraak: Afspraak | null;
+    activeMeetLink: string;
+  }>({ isOpen: false, afspraak: null, activeMeetLink: '' });
+
+  const handleMeetClick = (appt: Afspraak, activeLink: string) => {
+    const start = new Date(appt.starttijd);
+    const now = new Date();
+    const diffMinutes = (start.getTime() - now.getTime()) / 60000;
+
+    if (diffMinutes > 15) {
+      setEarlyMeetModal({ isOpen: true, afspraak: appt, activeMeetLink: activeLink });
+    } else {
+      window.open(activeLink, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   // Filter afspraken in Actueel (toekomstige geplande afspraken) vs Historiek (afgelopen of geannuleerd)
   const nu = new Date();
   const actueleAfspraken = appointments.filter(a => a.status === 'Gepland' && new Date(a.starttijd) >= nu);
@@ -197,16 +215,14 @@ export const PatientDashboard: React.FC = () => {
                           : fallbackMeet;
 
                         return (
-                          <a
-                            href={activeLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button
+                            onClick={() => handleMeetClick(appt, activeLink)}
                             title="Open Google Meet videogesprek"
-                            className="flex items-center justify-center space-x-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl shadow-xs transition whitespace-nowrap"
+                            className="flex items-center justify-center space-x-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl shadow-xs transition whitespace-nowrap cursor-pointer"
                           >
                             <Video className="h-3.5 w-3.5 shrink-0" />
                             <span>Deelnemen aan Meet</span>
-                          </a>
+                          </button>
                         );
                       })()}
                       {appt.status === 'Gepland' && (
@@ -257,6 +273,69 @@ export const PatientDashboard: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Early Access Info Modal */}
+      {earlyMeetModal.isOpen && earlyMeetModal.afspraak && (() => {
+        const start = new Date(earlyMeetModal.afspraak.starttijd);
+        const now = new Date();
+        const diffDays = Math.round((start.getTime() - now.getTime()) / 86400000);
+        const formattedDate = start.toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        const formattedTime = start.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' });
+
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+            <div className="bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800/60 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
+              <div className="flex items-center space-x-3 text-purple-900 dark:text-purple-200">
+                <div className="p-3 bg-purple-100 dark:bg-purple-900/60 rounded-2xl">
+                  <Video className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base">Online Videoconsultatie</h3>
+                  <p className="text-xs text-purple-700 dark:text-purple-300">Google Meet Herinnering</p>
+                </div>
+              </div>
+
+              <div className="bg-purple-50/70 dark:bg-purple-950/40 p-4 rounded-2xl border border-purple-100 dark:border-purple-900/40 text-xs space-y-2">
+                <p className="font-semibold text-purple-900 dark:text-purple-200">
+                  📅 Datum & Tijdstip:
+                </p>
+                <p className="text-purple-800 dark:text-purple-300 text-sm font-bold">
+                  {formattedDate} om {formattedTime}
+                </p>
+                <div className="inline-block mt-1 px-2.5 py-1 bg-purple-200/80 dark:bg-purple-800/60 text-purple-900 dark:text-purple-100 font-semibold rounded-lg text-[11px]">
+                  ⏳ Afspraak staat gepland over {diffDays} {diffDays === 1 ? 'dag' : 'dagen'}
+                </div>
+              </div>
+
+              <div className="p-3 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900/40 rounded-2xl text-xs text-amber-900 dark:text-amber-200 flex items-start space-x-2.5">
+                <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                <span>
+                  De videocall knop wordt officieel actief <strong>15 minuten voor aanvang</strong> (vanaf {new Date(start.getTime() - 15 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}).
+                </span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                <button
+                  onClick={() => {
+                    window.open(earlyMeetModal.activeMeetLink, '_blank', 'noopener,noreferrer');
+                    setEarlyMeetModal({ isOpen: false, afspraak: null, activeMeetLink: '' });
+                  }}
+                  className="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5 cursor-pointer"
+                >
+                  <Video className="h-4 w-4" />
+                  <span>Toch naar Google Meet</span>
+                </button>
+                <button
+                  onClick={() => setEarlyMeetModal({ isOpen: false, afspraak: null, activeMeetLink: '' })}
+                  className="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-medium text-xs rounded-xl transition cursor-pointer"
+                >
+                  Begrepen
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };

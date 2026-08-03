@@ -184,14 +184,9 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
               const isMeet = !!selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')));
               if (!isMeet) return null;
               
-              const idNum = Math.abs(selectedAfspraakData.id);
-              const c1 = String.fromCharCode(97 + (idNum % 26));
-              const c2 = String.fromCharCode(97 + (Math.floor(idNum / 26) % 26));
-              const c3 = String.fromCharCode(97 + (Math.floor(idNum / 676) % 26));
-              const fallbackMeet = `https://meet.google.com/vst-hndg-${c3}${c2}${c1}`;
               const activeMeetLink = (selectedAfspraakData.googleMeetLink && !selectedAfspraakData.googleMeetLink.includes('lookup'))
                 ? selectedAfspraakData.googleMeetLink 
-                : fallbackMeet;
+                : 'https://meet.google.com/new';
 
               const startDate = new Date(selectedAfspraakData.starttijd);
               const now = new Date();

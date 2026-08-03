@@ -460,11 +460,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                 if (createMeetLink)
                 {
-                    int n = Math.Abs(afspraak.Id);
-                    char c1 = (char)('a' + (n % 26));
-                    char c2 = (char)('a' + ((n / 26) % 26));
-                    char c3 = (char)('a' + ((n / 676) % 26));
-                    afspraak.GoogleMeetLink = $"https://meet.google.com/vst-hndg-{c3}{c2}{c1}";
+                    afspraak.GoogleMeetLink = "https://meet.google.com/new";
                     _afspraakRepo.Update(afspraak);
                     _afspraakRepo.SaveChanges();
                 }
