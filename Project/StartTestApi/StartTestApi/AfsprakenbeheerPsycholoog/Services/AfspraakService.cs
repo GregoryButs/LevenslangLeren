@@ -141,8 +141,12 @@ namespace AfsprakenbeheerPsycholoog.Services
                 try
                 {
                     var pNaam = afspraak.Patient != null ? $"{afspraak.Patient.Voornaam} {afspraak.Patient.Achternaam}".Trim() : "";
-                    var googleEventId = await _calendarService.CreateEventAsync(afspraak.Starttijd, afspraak.Eindtijd, afspraak.Id, false, "", pNaam);
+                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraak.Starttijd, afspraak.Eindtijd, afspraak.Id, false, "", pNaam);
                     afspraak.GoogleEventId = googleEventId;
+                    if (!string.IsNullOrEmpty(googleMeetLink))
+                    {
+                        afspraak.GoogleMeetLink = googleMeetLink;
+                    }
                     _afspraakRepo.Update(afspraak);
                 }
                 catch (Exception) { }
@@ -243,8 +247,12 @@ namespace AfsprakenbeheerPsycholoog.Services
                 try
                 {
                     var pNaam = afspraakInDb.Patient != null ? $"{afspraakInDb.Patient.Voornaam} {afspraakInDb.Patient.Achternaam}".Trim() : "";
-                    var googleEventId = await _calendarService.CreateEventAsync(afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id, false, "", pNaam);
+                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id, false, "", pNaam);
                     afspraakInDb.GoogleEventId = googleEventId;
+                    if (!string.IsNullOrEmpty(googleMeetLink))
+                    {
+                        afspraakInDb.GoogleMeetLink = googleMeetLink;
+                    }
                     _afspraakRepo.Update(afspraakInDb);
                     _afspraakRepo.SaveChanges();
                 }
