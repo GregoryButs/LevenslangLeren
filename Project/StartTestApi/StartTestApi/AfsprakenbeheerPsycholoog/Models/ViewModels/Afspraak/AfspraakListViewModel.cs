@@ -15,6 +15,8 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         public int? TypeId { get; set; }
         public string? Opmerkingen { get; set; }
         public bool IsHeleDag { get; set; }
+        public string? GoogleEventId { get; set; }
+        public string? GoogleMeetLink { get; set; }
 
         [Display(Name = "Naam")]
         public string PatientNaam { get; set; }

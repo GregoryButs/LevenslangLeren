@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientPortaalApi } from '../services/api';
 import { Afspraak } from '../types';
 import { 
-  Clock, AlertCircle, XCircle, Loader2, Calendar
+  Clock, AlertCircle, XCircle, Loader2, Calendar, Video
 } from 'lucide-react';
 import { BookingWizard } from '../components/BookingWizard';
 import { extractErrorMessage } from '../utils/errorUtils';
@@ -143,10 +143,16 @@ export const PatientDashboard: React.FC = () => {
               getoondLijst.map((appt) => {
                 const start = new Date(appt.starttijd);
                 const isUpcoming = start > new Date() && appt.status === 'Gepland';
+                const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                
                 return (
                   <div 
                     key={appt.id} 
-                    className="p-4 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-2xl flex flex-col xl:flex-row xl:items-center justify-between gap-3 hover:bg-white dark:hover:bg-brand-950/90 hover:shadow-sm transition"
+                    className={`p-4 rounded-2xl flex flex-col xl:flex-row xl:items-center justify-between gap-3 transition ${
+                      isMeet 
+                        ? 'bg-purple-50/50 dark:bg-purple-950/30 border-2 border-purple-200 dark:border-purple-800/60 hover:shadow-md' 
+                        : 'bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 hover:bg-white dark:hover:bg-brand-950/90 hover:shadow-sm'
+                    }`}
                   >
                     <div className="space-y-1 min-w-0">
                       <div className="flex items-center space-x-2 flex-wrap gap-y-1">
@@ -160,6 +166,12 @@ export const PatientDashboard: React.FC = () => {
                         }`}>
                           {appt.status}
                         </span>
+                        {isMeet && (
+                          <span className="text-[10px] font-bold uppercase tracking-wider py-0.5 px-2 rounded-full bg-purple-100 dark:bg-purple-900/80 text-purple-800 dark:text-purple-200 border border-purple-300/60 flex items-center gap-1">
+                            <Video className="h-3 w-3 text-purple-600 dark:text-purple-300" />
+                            <span>Online Meet</span>
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-slate-600 dark:text-brand-200">
                         {start.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
@@ -174,6 +186,18 @@ export const PatientDashboard: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap sm:flex-nowrap xl:flex-col gap-2 shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-200/50 dark:border-brand-800/40">
+                      {isMeet && appt.googleMeetLink && appt.status === 'Gepland' && (
+                        <a
+                          href={appt.googleMeetLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Open Google Meet videogesprek"
+                          className="flex items-center justify-center space-x-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl shadow-xs transition whitespace-nowrap"
+                        >
+                          <Video className="h-3.5 w-3.5 shrink-0" />
+                          <span>Deelnemen aan Meet</span>
+                        </a>
+                      )}
                       {appt.status === 'Gepland' && (
                         <a
                           href={`/api/patientportaal/afspraak/${appt.id}/ics`}
@@ -193,7 +217,6 @@ export const PatientDashboard: React.FC = () => {
                           <XCircle className="h-3.5 w-3.5 shrink-0 text-red-500" />
                           <span>Annuleren</span>
                         </button>
-                      )}
                     </div>
                   </div>
                 );

@@ -1,4 +1,4 @@
-﻿namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
+namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
 {
     public class AfspraakDetailViewModel
     {
@@ -15,6 +15,8 @@
         public DateTime Eindtijd { get; set; }
         public string Status { get; set; }
         public string? Opmerkingen { get; set; }
+        public string? GoogleEventId { get; set; }
+        public string? GoogleMeetLink { get; set; }
 
         public string StatusLabel => Status switch
         {

@@ -140,9 +140,10 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                 // 1. Google Calendar Sync
                 string? googleEventId = null;
+                string? meetLink = null;
                 try
                 {
-                    googleEventId = await calendarService.CreateEventAsync(
+                    var (eventId, googleMeetLink) = await calendarService.CreateEventAsync(
                         afspraak.Starttijd,
                         afspraak.Eindtijd,
                         afspraak.Id,
@@ -150,6 +151,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                         task.LocationText ?? "",
                         patient.VolledigeNaam
                     );
+                    googleEventId = eventId;
+                    meetLink = googleMeetLink;
                 }
                 catch (Exception ex)
                 {
@@ -157,10 +160,11 @@ namespace AfsprakenbeheerPsycholoog.Services
                     throw; // Re-throw to trigger retry loop
                 }
 
-                // Update Google Event ID in database
-                if (!string.IsNullOrEmpty(googleEventId))
+                // Update Google Event ID and Meet Link in database
+                if (!string.IsNullOrEmpty(googleEventId) || !string.IsNullOrEmpty(meetLink))
                 {
                     afspraak.GoogleEventId = googleEventId;
+                    afspraak.GoogleMeetLink = meetLink;
                     dbContext.Update(afspraak);
                     await dbContext.SaveChangesAsync();
                 }
@@ -177,7 +181,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                             afspraak.Eindtijd,
                             afspraak.Type?.Naam ?? "Consult",
                             afspraak.Id,
-                            afspraak.Opmerkingen
+                            afspraak.Opmerkingen,
+                            meetLink
                         );
                     }
                     catch (Exception ex)

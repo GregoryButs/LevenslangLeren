@@ -40,6 +40,7 @@ export interface Afspraak {
   opmerkingen: string | null;
   reeksId: string | null;
   googleEventId: string | null;
+  googleMeetLink?: string | null;
   isHeleDag?: boolean;
 }
 

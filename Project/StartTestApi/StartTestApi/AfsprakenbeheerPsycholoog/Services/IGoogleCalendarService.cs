@@ -10,9 +10,9 @@ namespace AfsprakenbeheerPsycholoog.Services
     public interface IGoogleCalendarService
     {
         /// <summary>
-        /// Maakt een nieuw event aan in Google Calendar en geeft het unieke Google Event ID terug.
+        /// Maakt een nieuw event aan in Google Calendar en geeft het unieke Google Event ID en optionele Meet link terug.
         /// </summary>
-        Task<string> CreateEventAsync(DateTime startUtc, DateTime endUtc, int afspraakId, bool createMeetLink = false, string locationDetails = "", string patientNaam = "");
+        Task<(string EventId, string? MeetLink)> CreateEventAsync(DateTime startUtc, DateTime endUtc, int afspraakId, bool createMeetLink = false, string locationDetails = "", string patientNaam = "");
 
         /// <summary>
         /// Past een bestaand event aan in Google Calendar.

@@ -383,7 +383,14 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                         <MapPin className="h-6 w-6" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-800 dark:text-white text-sm">Groepspraktijk Voorde</h4>
+                        <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                          <h4 className="font-bold text-slate-800 dark:text-white text-sm">Groepspraktijk Voorde</h4>
+                          {selectedLocation === 'Praktijk' && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300/40">
+                              Geselecteerd
+                            </span>
+                          )}
+                        </div>
                         <p className="text-[11px] text-slate-400 dark:text-brand-300 mt-0.5">Brakelsesteenweg 559a bus 1, 9400 Ninove.</p>
                       </div>
                     </button>
@@ -402,7 +409,14 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                         <Video className="h-6 w-6" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-800 dark:text-white text-sm">Online (Google Meet)</h4>
+                        <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                          <h4 className="font-bold text-slate-800 dark:text-white text-sm">Online (Google Meet)</h4>
+                          {selectedLocation === 'GoogleMeet' && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300/40">
+                              Geselecteerd
+                            </span>
+                          )}
+                        </div>
                         <p className="text-[11px] text-slate-400 dark:text-brand-300 mt-0.5">Video-call via een veilige link.</p>
                       </div>
                     </button>
@@ -421,7 +435,14 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                         <Phone className="h-6 w-6" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-800 dark:text-white text-sm">Telefonisch</h4>
+                        <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                          <h4 className="font-bold text-slate-800 dark:text-white text-sm">Telefonisch</h4>
+                          {selectedLocation === 'Telefoon' && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300/40">
+                              Geselecteerd
+                            </span>
+                          )}
+                        </div>
                         <p className="text-[11px] text-slate-400 dark:text-brand-300 mt-0.5">Wij bellen je op je nummer.</p>
                       </div>
                     </button>

@@ -16,7 +16,7 @@ namespace AfsprakenbeheerPsycholoog.Services
         /// <summary>
         /// Verstuurt een bevestiging van een nieuwe afspraak inclusief .ics kalenderbijlage.
         /// </summary>
-        Task SendConfirmationEmailAsync(string toEmail, string patientNaam, DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen = null);
+        Task SendConfirmationEmailAsync(string toEmail, string patientNaam, DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen = null, string? googleMeetLink = null);
 
         /// <summary>
         /// Verstuurt een e-mail naar de patiënt wanneer de psycholoog het account heeft goedgekeurd/gekoppeld.
@@ -31,7 +31,7 @@ namespace AfsprakenbeheerPsycholoog.Services
         /// <summary>
         /// Genereert de string-inhoud van een ICS kalenderbestand volgens RFC 5545 (CRLF).
         /// </summary>
-        string BuildIcsContent(DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen, string patientNaam = "Patiënt", string toEmail = "");
+        string BuildIcsContent(DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen, string patientNaam = "Patiënt", string toEmail = "", string? googleMeetLink = null);
 
         /// <summary>
         /// Verstuurt een bericht dat een afspraak is verzet.

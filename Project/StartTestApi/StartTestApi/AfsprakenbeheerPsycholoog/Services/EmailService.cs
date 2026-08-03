@@ -170,7 +170,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
         }
 
-        public string BuildIcsContent(DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen, string patientNaam = "Patiënt", string toEmail = "")
+        public string BuildIcsContent(DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen, string patientNaam = "Patiënt", string toEmail = "", string? googleMeetLink = null)
         {
             var startUtcStr = startUtc.ToString("yyyyMMddTHHmmssZ");
             var eindUtcStr = endUtc.ToString("yyyyMMddTHHmmssZ");
@@ -178,9 +178,11 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var cleanType = afspraakType.Replace("\\", "\\\\").Replace(";", "\\;").Replace(",", "\\,");
             var cleanNotes = string.IsNullOrEmpty(opmerkingen) ? "" : opmerkingen.Replace("\r\n", " ").Replace("\n", " ").Replace("\\", "\\\\").Replace(";", "\\;").Replace(",", "\\,");
-            var description = $"Afspraak bij praktijk De Verstandhouding.\\nType sessie: {cleanType}" + (string.IsNullOrEmpty(cleanNotes) ? "" : $"\\nOpmerkingen: {cleanNotes}");
+            var meetText = string.IsNullOrEmpty(googleMeetLink) ? "" : $"\\nGoogle Meet: {googleMeetLink}";
+            var description = $"Afspraak bij praktijk De Verstandhouding.\\nType sessie: {cleanType}{meetText}" + (string.IsNullOrEmpty(cleanNotes) ? "" : $"\\nOpmerkingen: {cleanNotes}");
             var attendeeMail = string.IsNullOrEmpty(toEmail) ? "patient@deverstandhouding.be" : toEmail;
             var cleanPatient = patientNaam.Replace("\"", "'");
+            var locationText = !string.IsNullOrEmpty(googleMeetLink) ? googleMeetLink : "De Verstandhouding";
 
             var sb = new System.Text.StringBuilder();
             sb.Append("BEGIN:VCALENDAR\r\n");
@@ -195,7 +197,11 @@ namespace AfsprakenbeheerPsycholoog.Services
             sb.Append($"DTEND:{eindUtcStr}\r\n");
             sb.Append($"SUMMARY:{cleanType} - De Verstandhouding\r\n");
             sb.Append($"DESCRIPTION:{description}\r\n");
-            sb.Append("LOCATION:De Verstandhouding\r\n");
+            sb.Append($"LOCATION:{locationText}\r\n");
+            if (!string.IsNullOrEmpty(googleMeetLink))
+            {
+                sb.Append($"URL:{googleMeetLink}\r\n");
+            }
             sb.Append("ORGANIZER;CN=\"De Verstandhouding\":mailto:inge@deverstandhouding.be\r\n");
             sb.Append($"ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=\"{cleanPatient}\":mailto:{attendeeMail}\r\n");
             sb.Append("STATUS:CONFIRMED\r\n");
@@ -206,11 +212,22 @@ namespace AfsprakenbeheerPsycholoog.Services
             return sb.ToString();
         }
 
-        public async Task SendConfirmationEmailAsync(string toEmail, string patientNaam, DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen = null)
+        public async Task SendConfirmationEmailAsync(string toEmail, string patientNaam, DateTime startUtc, DateTime endUtc, string afspraakType, int afspraakId, string? opmerkingen = null, string? googleMeetLink = null)
         {
             // Timezone handling: In de mail tonen we de Belgische/Nederlandse tijd
             var localTime = TranslatieNaarLokaleTijd(startUtc);
             var datumString = localTime.ToString("dd-MM-yyyy 'om' HH:mm");
+
+            var locationDisplay = !string.IsNullOrEmpty(googleMeetLink) 
+                ? "Online (Google Meet)" 
+                : "Groepspraktijk Voorde";
+
+            var meetSection = !string.IsNullOrEmpty(googleMeetLink) ? $@"
+                    <div style='background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center;'>
+                        <p style='margin: 0 0 10px 0; color: #166534; font-weight: bold; font-size: 15px;'>🎥 Online Videoconsultatie via Google Meet</p>
+                        <p style='margin: 0 0 14px 0; color: #15803d; font-size: 13px;'>Klik op onderstaande knop op het afgesproken tijdstip om de videogespreksruimte te betreden:</p>
+                        <a href='{googleMeetLink}' target='_blank' style='display: inline-block; background-color: #16a34a; color: white; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>Deelnemen via Google Meet</a>
+                    </div>" : "";
 
             var subject = "Bevestiging van uw afspraak - De Verstandhouding";
             var body = $@"
@@ -229,15 +246,16 @@ namespace AfsprakenbeheerPsycholoog.Services
                         </tr>
                         <tr>
                             <td style='color: #64748b;'>Locatie:</td>
-                            <td style='font-weight: bold; color: #0f172a;'>Online of Praktijk (zie afspraakdetails)</td>
+                            <td style='font-weight: bold; color: #0f172a;'>{locationDisplay}</td>
                         </tr>
                     </table>
+                    {meetSection}
                     <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
                     <p style='color: #475569; font-size: 14px;'>Wenst u de afspraak te verzetten of te annuleren? Dit kan tot 24 uur van tevoren via het patiëntenportaal.</p>
                     <p style='color: #94a3b8; font-size: 12px; margin-top: 40px;'>Met vriendelijke groet,<br>Praktijk De Verstandhouding</p>
                 </div>";
 
-            var icsContent = BuildIcsContent(startUtc, endUtc, afspraakType, afspraakId, opmerkingen, patientNaam, toEmail);
+            var icsContent = BuildIcsContent(startUtc, endUtc, afspraakType, afspraakId, opmerkingen, patientNaam, toEmail, googleMeetLink);
             var filename = $"afspraak-{afspraakType.ToLower().Replace(" ", "-")}.ics";
 
             await SendEmailAsync(toEmail, subject, body, icsContent, filename);

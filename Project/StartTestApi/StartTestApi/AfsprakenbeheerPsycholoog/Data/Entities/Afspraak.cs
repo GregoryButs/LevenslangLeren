@@ -40,6 +40,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "Google Event ID")]
         public string? GoogleEventId { get; set; }
 
+        [Display(Name = "Google Meet Link")]
+        public string? GoogleMeetLink { get; set; }
+
         [Display(Name = "Herinnering 24u Verzonden")]
         public bool HerinneringVerzonden { get; set; } = false;
 

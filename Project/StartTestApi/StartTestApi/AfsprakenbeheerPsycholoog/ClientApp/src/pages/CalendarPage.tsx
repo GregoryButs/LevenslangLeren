@@ -3,7 +3,7 @@ import { afspraakApi, settingsApi, patientApi, afspraakTypeApi } from '../servic
 import { Afspraak, SettingsData } from '../types';
 import { 
   Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, 
-  RefreshCw, Loader2, Plus 
+  RefreshCw, Loader2, Plus, Video 
 } from 'lucide-react';
 import { AfspraakDetailModal } from '../components/AfspraakDetailModal';
 import { formatDateTimeInput, formatHourString, formatShortDutchDate } from '../utils/dateUtils';
@@ -596,35 +596,45 @@ export const CalendarPage: React.FC = () => {
                                   ⬛ {formatHourString(hour)} — {formatHourString(hour + 1)}
                                 </span>
                               ) : appts.length > 0 ? (
-                                appts.map((appt) => (
-                                  <div 
-                                    key={appt.id} 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedAfspraak(appt);
-                                    }}
-                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : appt.kleurcode }}
-                                    className={`p-2 border-l-4 rounded-r-xl bg-white dark:bg-brand-950 shadow-sm border border-slate-100 dark:border-brand-800/60 hover:shadow-md transition text-left cursor-pointer hover:scale-[1.01] ${
-                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40' : ''
-                                    }`}
-                                  >
-                                    <div className="flex justify-between items-start gap-1">
-                                      <span className={`text-xs font-bold truncate block ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
-                                        {appt.patientNaam}
+                                appts.map((appt) => {
+                                  const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                                  return (
+                                    <div 
+                                      key={appt.id} 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedAfspraak(appt);
+                                      }}
+                                      style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
+                                      className={`p-2 border-l-4 rounded-r-xl shadow-sm border hover:shadow-md transition text-left cursor-pointer hover:scale-[1.01] ${
+                                        appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
+                                        isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                        'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
+                                      }`}
+                                    >
+                                      <div className="flex justify-between items-start gap-1">
+                                        <span className={`text-xs font-bold truncate block ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
+                                          {appt.patientNaam}
+                                        </span>
+                                        {isMeet ? (
+                                          <span className="flex items-center gap-0.5 px-1 py-0.5 rounded bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200 text-[9px] font-bold shrink-0 border border-purple-200 dark:border-purple-700" title="Online Google Meet Afspraak">
+                                            <Video className="h-2.5 w-2.5 text-purple-600 dark:text-purple-300" />
+                                            <span>Meet</span>
+                                          </span>
+                                        ) : appt.googleEventId ? (
+                                          <span className="flex h-2 w-2 rounded-full bg-blue-500 flex-shrink-0" title="Gesynchroniseerd met Google Calendar" />
+                                        ) : null}
+                                      </div>
+                                      <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold block truncate mt-0.5">
+                                        {appt.afspraakTypeNaam}
                                       </span>
-                                      {appt.googleEventId ? (
-                                        <span className="flex h-2 w-2 rounded-full bg-blue-500 flex-shrink-0" title="Gesynchroniseerd met Google Calendar" />
-                                      ) : null}
+                                      <span className="text-[9px] text-slate-400 dark:text-brand-400 font-bold block mt-1 flex items-center">
+                                        <Clock className="h-3 w-3 mr-0.5" />
+                                        {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
+                                      </span>
                                     </div>
-                                    <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold block truncate mt-0.5">
-                                      {appt.afspraakTypeNaam}
-                                    </span>
-                                    <span className="text-[9px] text-slate-400 dark:text-brand-400 font-bold block mt-1 flex items-center">
-                                      <Clock className="h-3 w-3 mr-0.5" />
-                                      {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
-                                    </span>
-                                  </div>
-                                ))
+                                  );
+                                })
                               ) : isBookingSlot ? (
                                 <span className="text-[10px] text-teal-600/70 dark:text-teal-400/60 font-semibold flex items-center justify-center h-full py-3 opacity-0 group-hover:opacity-100 transition">
                                   <Plus className="h-3 w-3 mr-0.5 text-teal-600" /> Inplannen
@@ -660,41 +670,52 @@ export const CalendarPage: React.FC = () => {
                                   ⬛ {formatHourString(hour)} — {formatHourString(hour + 1)}
                                 </span>
                               ) : appts.length > 0 ? (
-                                appts.map((appt) => (
-                                  <div 
-                                    key={appt.id} 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedAfspraak(appt);
-                                    }}
-                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : appt.kleurcode }}
-                                    className={`p-3 border-l-4 rounded-r-xl bg-white dark:bg-brand-950 shadow-sm border border-slate-100 dark:border-brand-800/60 hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.01] ${
-                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40' : ''
-                                    }`}
-                                  >
-                                    <div>
-                                      <h4 className={`text-sm font-bold flex items-center space-x-1.5 ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
-                                        <span>{appt.patientNaam}</span>
-                                        <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
-                                          appt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
-                                          appt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
-                                          'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
-                                        }`}>
-                                          {appt.status}
+                                appts.map((appt) => {
+                                  const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                                  return (
+                                    <div 
+                                      key={appt.id} 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedAfspraak(appt);
+                                      }}
+                                      style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
+                                      className={`p-3 border-l-4 rounded-r-xl shadow-sm border hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.01] ${
+                                        appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
+                                        isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                        'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
+                                      }`}
+                                    >
+                                      <div>
+                                        <h4 className={`text-sm font-bold flex items-center space-x-1.5 ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
+                                          <span>{appt.patientNaam}</span>
+                                          <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
+                                            appt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
+                                            appt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
+                                            'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
+                                          }`}>
+                                            {appt.status}
+                                          </span>
+                                          {isMeet && (
+                                            <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-700 flex items-center gap-1">
+                                              <Video className="h-3 w-3 text-purple-600 dark:text-purple-300" />
+                                              <span>Online Meet</span>
+                                            </span>
+                                          )}
+                                        </h4>
+                                        <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
+                                          {appt.afspraakTypeNaam}
                                         </span>
-                                      </h4>
-                                      <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
-                                        {appt.afspraakTypeNaam}
-                                      </span>
+                                      </div>
+                                      <div className="flex items-center space-x-4 text-xs font-semibold text-slate-500 dark:text-brand-300 sm:text-right">
+                                        <span className="block flex items-center justify-end">
+                                          <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 mr-1" />
+                                          {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
+                                        </span>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center space-x-4 text-xs font-semibold text-slate-500 dark:text-brand-300 sm:text-right">
-                                      <span className="block flex items-center justify-end">
-                                        <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 mr-1" />
-                                        {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
-                                      </span>
-                                    </div>
-                                  </div>
-                                ))
+                                  );
+                                })
                               ) : isBookingSlot ? (
                                 <span className="text-xs text-teal-600/70 dark:text-teal-400/60 font-semibold flex items-center justify-center py-2">
                                   <Plus className="h-3.5 w-3.5 mr-1 text-teal-600" /> Praktijkuren — Sleep om te blokkeren

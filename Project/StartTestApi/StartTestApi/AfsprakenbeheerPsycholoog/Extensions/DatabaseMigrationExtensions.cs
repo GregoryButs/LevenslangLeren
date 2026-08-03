@@ -57,6 +57,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                             cmd.CommandText = "PRAGMA table_info(Afspraken);";
                             bool hasIsHeleDag = false;
                             bool hasHerinneringWeekVerzonden = false;
+                            bool hasGoogleMeetLink = false;
                             using (var reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
@@ -69,6 +70,10 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                     if (string.Equals(name, "HerinneringWeekVerzonden", StringComparison.OrdinalIgnoreCase))
                                     {
                                         hasHerinneringWeekVerzonden = true;
+                                    }
+                                    if (string.Equals(name, "GoogleMeetLink", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        hasGoogleMeetLink = true;
                                     }
                                 }
                             }
@@ -87,6 +92,15 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 using (var addColCmd = conn.CreateCommand())
                                 {
                                     addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN HerinneringWeekVerzonden INTEGER NOT NULL DEFAULT 0;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            if (!hasGoogleMeetLink)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN GoogleMeetLink TEXT NULL;";
                                     addColCmd.ExecuteNonQuery();
                                 }
                             }

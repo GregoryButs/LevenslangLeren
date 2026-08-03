@@ -89,13 +89,14 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
         }
 
-        public async Task<string> CreateEventAsync(DateTime startUtc, DateTime endUtc, int afspraakId, bool createMeetLink = false, string locationDetails = "", string patientNaam = "")
+        public async Task<(string EventId, string? MeetLink)> CreateEventAsync(DateTime startUtc, DateTime endUtc, int afspraakId, bool createMeetLink = false, string locationDetails = "", string patientNaam = "")
         {
             if (_useMock)
             {
                 var mockEventId = $"mock_event_{Guid.NewGuid():N}";
-                _logger.LogInformation($"[MOCK] Afspraak #{afspraakId} aangemaakt ({startUtc} tot {endUtc} UTC). MockID: {mockEventId}");
-                return mockEventId;
+                string? mockMeetLink = createMeetLink ? "https://meet.google.com/abc-defg-hij" : null;
+                _logger.LogInformation($"[MOCK] Afspraak #{afspraakId} aangemaakt ({startUtc} tot {endUtc} UTC). MockID: {mockEventId}, MeetLink: {mockMeetLink}");
+                return (mockEventId, mockMeetLink);
             }
 
             if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
@@ -129,8 +130,11 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (createMeetLink) request.ConferenceDataVersion = 1;
 
             var createdEvent = await request.ExecuteAsync();
-            _logger.LogInformation($"Google Calendar Event aangemaakt voor afspraak #{afspraakId} met ID: {createdEvent.Id}");
-            return createdEvent.Id;
+            string? meetLink = createdEvent.HangoutLink 
+                ?? createdEvent.ConferenceData?.EntryPoints?.FirstOrDefault(e => e.EntryPointType == "video")?.Uri;
+
+            _logger.LogInformation($"Google Calendar Event aangemaakt voor afspraak #{afspraakId} met ID: {createdEvent.Id}, MeetLink: {meetLink}");
+            return (createdEvent.Id, meetLink);
         }
 
         public async Task UpdateEventAsync(string googleEventId, DateTime startUtc, DateTime endUtc, int afspraakId, string patientNaam = "")
