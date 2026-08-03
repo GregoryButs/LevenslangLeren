@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { dashboardApi, afspraakApi, patientApi, aiApi } from '../services/api';
-import { DashboardData, Afspraak, Patient, AfspraakType } from '../types';
+import { dashboardApi, patientApi, aiApi } from '../services/api';
+import { DashboardData, Afspraak, Patient } from '../types';
 import { 
   Calendar, Clock, ArrowRight, ChevronLeft, ChevronRight, 
   Plus, AlertCircle, Loader2,
@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { GoogleSetupGuide } from './GoogleSetupGuide';
 import { AfspraakDetailModal } from '../components/AfspraakDetailModal';
+import { AfspraakInplannenModal } from '../components/AfspraakInplannenModal';
 import { InfoTooltip } from '../components/common/InfoTooltip';
 import { DashboardStatCards } from '../components/dashboard/DashboardStatCards';
 import { AiPatientRiskTable } from '../components/dashboard/AiPatientRiskTable';
@@ -59,18 +60,9 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
   const [simDone, setSimDone] = useState(false);
   const [simLoading, setSimLoading] = useState(false);
 
-  // New Booking Modal State
+  // New Booking & Edit Modal State
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
-  const [bookingPatients, setBookingPatients] = useState<{ id: number; naam: string }[]>([]);
-  const [bookingTypes, setBookingTypes] = useState<AfspraakType[]>([]);
-  const [newBooking, setNewBooking] = useState({
-    patientId: '' as string | number,
-    typeId: '',
-    starttijd: '',
-    opmerkingen: '',
-    herhaling: 0,
-    herhaalTot: ''
-  });
+  const [editingAfspraak, setEditingAfspraak] = useState<Afspraak | null>(null);
 
   // Details Modal State
   const [selectedAfspraak, setSelectedAfspraak] = useState<Afspraak | null>(null);
@@ -215,44 +207,8 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
     setSelectedDate(current.toISOString().split('T')[0]);
   };
 
-  const handleOpenBookModal = async () => {
-    try {
-      const res = await afspraakApi.getCreateData();
-      setBookingPatients(res.patienten);
-      setBookingTypes(res.types);
-      setNewBooking({
-        patientId: res.patienten[0]?.id || '',
-        typeId: res.types[0]?.id.toString() || '',
-        starttijd: `${selectedDate}T09:00`,
-        opmerkingen: '',
-        herhaling: 0,
-        herhaalTot: ''
-      });
-      setIsBookModalOpen(true);
-    } catch (err) {
-      console.error(err);
-      alert('Fout bij het ophalen van boekingsdata.');
-    }
-  };
-
-  const handleCreateBooking = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await afspraakApi.create({
-        patientId: newBooking.patientId ? Number(newBooking.patientId) : null,
-        typeId: Number(newBooking.typeId),
-        starttijd: newBooking.starttijd,
-        opmerkingen: newBooking.opmerkingen,
-        herhaling: Number(newBooking.herhaling),
-        herhaalTot: newBooking.herhaalTot ? newBooking.herhaalTot : null
-      });
-      setIsBookModalOpen(false);
-      loadDashboard(selectedDate);
-      alert('Afspraak succesvol ingepland!');
-    } catch (err: any) {
-      console.error(err);
-      alert(err.response?.data?.message || 'Inplannen mislukt. Controleer op eventuele overlappingen.');
-    }
+  const handleOpenBookModal = () => {
+    setIsBookModalOpen(true);
   };
 
 
@@ -836,115 +792,27 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
         <GoogleSetupGuide />
       )}
 
-      {/* Book Appointment Modal */}
-      {isBookModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg p-6 relative border border-slate-100 dark:border-brand-800/40 transition-colors">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4">Afspraak Inplannen</h3>
-            <form onSubmit={handleCreateBooking} className="space-y-4">
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Type afspraak</label>
-                <select
-                  required
-                  value={newBooking.typeId}
-                  onChange={(e) => setNewBooking({ ...newBooking, typeId: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-                >
-                  {bookingTypes.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.naam} ({t.standaardDuurMinuten} min)
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Patiënt</label>
-                <select
-                  value={newBooking.patientId}
-                  onChange={(e) => setNewBooking({ ...newBooking, patientId: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-                >
-                  <option value="">-- Geen patiënt (Blokkering) --</option>
-                  {bookingPatients.map((p) => (
-                    <option key={p.id} value={p.id}>{p.naam}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Starttijd</label>
-                <input
-                  type="datetime-local"
-                  required
-                  value={newBooking.starttijd}
-                  onChange={(e) => setNewBooking({ ...newBooking, starttijd: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Opmerkingen</label>
-                <textarea
-                  value={newBooking.opmerkingen}
-                  onChange={(e) => setNewBooking({ ...newBooking, opmerkingen: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 focus:outline-none h-20 resize-none"
-                  placeholder="Eventuele opmerkingen..."
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Herhaling</label>
-                  <select
-                    value={newBooking.herhaling}
-                    onChange={(e) => setNewBooking({ ...newBooking, herhaling: Number(e.target.value) })}
-                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
-                  >
-                    <option value={0}>Geen</option>
-                    <option value={1}>Dagelijks</option>
-                    <option value={2}>Wekelijks</option>
-                  </select>
-                </div>
-                {Number(newBooking.herhaling) !== 0 && (
-                  <div>
-                    <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Herhalen t.e.m.</label>
-                    <input
-                      type="date"
-                      required
-                      value={newBooking.herhaalTot}
-                      onChange={(e) => setNewBooking({ ...newBooking, herhaalTot: e.target.value })}
-                      className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100 dark:border-brand-800/40">
-                <button
-                  type="button"
-                  onClick={() => setIsBookModalOpen(false)}
-                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2.5 px-5 rounded-xl font-semibold transition"
-                >
-                  Annuleren
-                </button>
-                <button
-                  type="submit"
-                  className="bg-brand-600 hover:bg-brand-700 text-white py-2.5 px-5 rounded-xl font-semibold transition shadow-sm"
-                >
-                  Boeken
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Herbruikbare AfspraakInplannenModal (voor zowel Nieuw als Bewerken) */}
+      <AfspraakInplannenModal
+        isOpen={isBookModalOpen || !!editingAfspraak}
+        onClose={() => {
+          setIsBookModalOpen(false);
+          setEditingAfspraak(null);
+        }}
+        onSuccess={() => loadDashboard(selectedDate)}
+        initialDate={new Date(selectedDate)}
+        afspraakToEdit={editingAfspraak}
+      />
 
       {/* Herbruikbare AfspraakDetailModal */}
       <AfspraakDetailModal
         afspraak={selectedAfspraak}
         onClose={() => setSelectedAfspraak(null)}
         onSuccess={() => loadDashboard(selectedDate)}
+        onEdit={(appt) => {
+          setSelectedAfspraak(null);
+          setEditingAfspraak(appt);
+        }}
       />
     </div>
   );

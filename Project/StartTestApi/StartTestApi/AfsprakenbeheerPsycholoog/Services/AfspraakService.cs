@@ -216,7 +216,9 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var tz = TimeZoneHelper.DutchTimeZone;
 
-            int duurMinuten = type?.StandaardDuurMinuten ?? 60;
+            int duurMinuten = (vm.CustomDuurMinuten.HasValue && vm.CustomDuurMinuten.Value > 0)
+                ? vm.CustomDuurMinuten.Value
+                : (type?.StandaardDuurMinuten ?? 60);
             var startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(vm.Starttijd, DateTimeKind.Unspecified), tz);
             var eindtijdUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(vm.Starttijd.AddMinutes(duurMinuten), DateTimeKind.Unspecified), tz);
             var isBlokkering = !vm.PatientId.HasValue;

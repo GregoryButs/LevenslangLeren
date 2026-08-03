@@ -60,19 +60,19 @@ export const PendingApplicationsWidget: React.FC<PendingApplicationsWidgetProps>
 
             return (
               <div key={app.id} className="p-4 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-2xl space-y-3 hover:border-brand-200 dark:hover:border-brand-700 transition">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-semibold text-slate-800 dark:text-white">{app.voornaam} {app.achternaam}</h4>
-                    <p className="text-xs text-slate-500 dark:text-brand-300">{app.email}</p>
+                <div className="flex justify-between items-start gap-2">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-semibold text-slate-800 dark:text-white truncate">{app.voornaam} {app.achternaam}</h4>
+                    <p className="text-xs text-slate-500 dark:text-brand-300 truncate">{app.email}</p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setSelectedAppForModal(app)}
-                    className="flex items-center space-x-1 text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 bg-brand-50 dark:bg-brand-900/80 hover:bg-brand-100 dark:hover:bg-brand-800 border border-brand-200/60 dark:border-brand-800 py-1.5 px-2.5 rounded-xl transition cursor-pointer"
+                    className="shrink-0 flex items-center space-x-1 text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 bg-brand-50 dark:bg-brand-900/80 hover:bg-brand-100 dark:hover:bg-brand-800 border border-brand-200/60 dark:border-brand-800 py-1.5 px-2.5 rounded-xl transition cursor-pointer"
                     title="Bekijk alle registratie-invulvelden"
                   >
-                    <Eye className="h-3.5 w-3.5" />
-                    <span>Details</span>
+                    <Eye className="h-3.5 w-3.5 shrink-0" />
+                    <span>Detail</span>
                   </button>
                 </div>
 

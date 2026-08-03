@@ -52,7 +52,8 @@ namespace AfsprakenbeheerPsycholoog.Profiles
                 .ForMember(dest => dest.Type, opt => opt.Ignore());
 
             // Afspraak -> EditAfspraakViewModel
-            CreateMap<Afspraak, EditAfspraakViewModel>();
+            CreateMap<Afspraak, EditAfspraakViewModel>()
+                .ForMember(dest => dest.CustomDuurMinuten, opt => opt.MapFrom(src => (int)Math.Max(15, Math.Round((src.Eindtijd - src.Starttijd).TotalMinutes))));
 
             // PatientBoekAfspraakViewModel → Afspraak
             CreateMap<PatientBoekAfspraakViewModel, Afspraak>()

@@ -677,15 +677,15 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
 
             {/* Right Map */}
             <div className="lg:col-span-7 h-[420px] lg:h-[480px] rounded-3xl overflow-hidden border border-brand-100 dark:border-brand-800 shadow-xl flex flex-col">
-              <div className="flex items-center justify-between px-4 py-3 bg-brand-50 dark:bg-brand-950 border-b border-brand-100 dark:border-brand-800 text-xs">
-                <span className="text-brand-900 dark:text-brand-100 font-bold flex items-center gap-1.5">
-                  <MapPin className="h-4 w-4 text-brand-500" />
-                  {selectedLocation === 0 ? 'Ninove — De Verstandhouding' : 'Geraardsbergen — Praktijkhuis 9500'}
+              <div className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-brand-50 dark:bg-brand-950 border-b border-brand-100 dark:border-brand-800 text-xs">
+                <span className="text-brand-900 dark:text-brand-100 font-bold flex items-center gap-1.5 min-w-0 truncate text-xs sm:text-sm">
+                  <MapPin className="h-4 w-4 text-brand-500 shrink-0" />
+                  <span className="truncate">{selectedLocation === 0 ? 'Ninove — De Verstandhouding' : 'Geraardsbergen — Praktijkhuis 9500'}</span>
                 </span>
-                <div className="flex space-x-1.5">
+                <div className="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
                   <button
                     onClick={() => setSelectedLocation(0)}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                    className={`whitespace-nowrap px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                       selectedLocation === 0 
                         ? 'bg-brand-500 text-white shadow-sm' 
                         : 'bg-white dark:bg-brand-900 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-800'
@@ -695,7 +695,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                   </button>
                   <button
                     onClick={() => setSelectedLocation(1)}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                    className={`whitespace-nowrap px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                       selectedLocation === 1 
                         ? 'bg-brand-500 text-white shadow-sm' 
                         : 'bg-white dark:bg-brand-900 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-800'
