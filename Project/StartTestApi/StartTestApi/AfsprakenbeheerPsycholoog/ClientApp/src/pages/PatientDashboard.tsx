@@ -186,9 +186,9 @@ export const PatientDashboard: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap sm:flex-nowrap xl:flex-col gap-2 shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-200/50 dark:border-brand-800/40">
-                      {isMeet && appt.googleMeetLink && appt.status === 'Gepland' && (
+                      {isMeet && appt.status === 'Gepland' && (
                         <a
-                          href={appt.googleMeetLink}
+                          href={appt.googleMeetLink || `https://meet.google.com/lookup/dv-afspraak-${appt.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Open Google Meet videogesprek"

@@ -180,29 +180,31 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
         ) : !isEditMode ? (
           /* Details View */
           <div className="space-y-4">
-            {(selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')))) && (
-              <div className="p-4 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl space-y-2">
-                <div className="flex items-center space-x-2 text-purple-900 dark:text-purple-200 font-bold text-sm">
-                  <Video className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0" />
-                  <span>Online Google Meet Videoconsultatie</span>
-                </div>
-                {selectedAfspraakData.googleMeetLink ? (
-                  <div className="pt-1">
+            {(() => {
+              const isMeet = !!selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')));
+              if (!isMeet) return null;
+              const activeMeetLink = selectedAfspraakData.googleMeetLink || `https://meet.google.com/lookup/dv-afspraak-${selectedAfspraakData.id}`;
+
+              return (
+                <div className="p-4 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl space-y-3">
+                  <div className="flex items-center space-x-2 text-purple-900 dark:text-purple-200 font-bold text-sm">
+                    <Video className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0" />
+                    <span>Online Google Meet Videoconsultatie</span>
+                  </div>
+                  <div>
                     <a 
-                      href={selectedAfspraakData.googleMeetLink} 
+                      href={activeMeetLink} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2 px-4 rounded-xl transition shadow-sm"
+                      className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition shadow-sm"
                     >
                       <Video className="h-4 w-4" />
                       <span>Deelnemen via Google Meet</span>
                     </a>
                   </div>
-                ) : (
-                  <p className="text-xs text-purple-700 dark:text-purple-300 font-medium">Ingeboekt als online videogesprek via Google Meet.</p>
-                )}
-              </div>
-            )}
+                </div>
+              );
+            })()}
 
             {selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('Praktijkhuis') || selectedAfspraakData.opmerkingen.includes('[PH9500]')) && (
               <div className="p-3 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl flex items-center space-x-3 text-purple-800 dark:text-purple-300 text-xs">

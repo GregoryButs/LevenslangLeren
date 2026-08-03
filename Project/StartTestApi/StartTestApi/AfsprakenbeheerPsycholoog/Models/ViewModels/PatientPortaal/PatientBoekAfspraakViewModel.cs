@@ -18,5 +18,8 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.PatientPortaal
         public string? LocatieType { get; set; } // "Praktijk", "GoogleMeet", "Telefoon"
 
         public DateTime Datum { get; set; }
+
+        [Display(Name = "Afspraak Type ID")]
+        public int? AfspraakTypeId { get; set; }
     }
 }

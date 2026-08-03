@@ -279,8 +279,15 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (starttijd < nuLocal.AddHours(instelling.MinimaalVoorafUren)) return false;
             if (starttijd > nuLocal.Date.AddDays(instelling.MaximaleToekomstDagen)) return false;
 
-            var standaardType = GetStandaardTypeVoorPatientBoeking();
-            if (standaardType == null) return false;
+            var gekozenType = (vm.AfspraakTypeId.HasValue ? _typeRepo.GetById(vm.AfspraakTypeId.Value) : null) ?? GetStandaardTypeVoorPatientBoeking();
+            if (gekozenType == null) return false;
+
+            bool isIntake = gekozenType.Naam.Contains("intake", StringComparison.OrdinalIgnoreCase);
+            if (isIntake && string.Equals(vm.LocatieType, "GoogleMeet", StringComparison.OrdinalIgnoreCase))
+            {
+                // Online Google Meet is uitsluitend mogelijk voor consultaties, niet voor intakes
+                return false;
+            }
 
             var slotDuur = instelling.SlotDuurMinuten;
             var eindtijd = starttijd.AddMinutes(slotDuur);
@@ -427,7 +434,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
 
                 // Google Meet and Location details
-                bool createMeetLink = string.Equals(vm.LocatieType, "GoogleMeet", StringComparison.OrdinalIgnoreCase);
+                bool createMeetLink = string.Equals(vm.LocatieType, "GoogleMeet", StringComparison.OrdinalIgnoreCase) && !isIntake;
                 string locationText = vm.LocatieType switch
                 {
                     "Praktijk" => "Op de praktijk (in-person)",
@@ -441,7 +448,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 var afspraak = new Afspraak
                 {
                     PatientId = patientId,
-                    TypeId = standaardType.Id,
+                    TypeId = gekozenType.Id,
                     Starttijd = startUtc,
                     Eindtijd = endUtc,
                     Status = AfspraakStatus.Gepland,
@@ -449,7 +456,14 @@ namespace AfsprakenbeheerPsycholoog.Services
                 };
 
                 _afspraakRepo.Add(afspraak);
-                _afspraakRepo.SaveChanges();
+                _afspraakRepo.SaveChanges(); // Generates afspraak.Id
+
+                if (createMeetLink)
+                {
+                    afspraak.GoogleMeetLink = $"https://meet.google.com/lookup/dv-afspraak-{afspraak.Id}";
+                    _afspraakRepo.Update(afspraak);
+                    _afspraakRepo.SaveChanges();
+                }
 
                 await transaction.CommitAsync();
 

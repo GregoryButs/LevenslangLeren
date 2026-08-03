@@ -141,7 +141,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                 try
                 {
                     var pNaam = afspraak.Patient != null ? $"{afspraak.Patient.Voornaam} {afspraak.Patient.Achternaam}".Trim() : "";
-                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraak.Starttijd, afspraak.Eindtijd, afspraak.Id, false, "", pNaam);
+                    bool isMeet = afspraak.Opmerkingen != null && (afspraak.Opmerkingen.Contains("GoogleMeet") || afspraak.Opmerkingen.Contains("Google Meet"));
+                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraak.Starttijd, afspraak.Eindtijd, afspraak.Id, isMeet, "", pNaam);
                     afspraak.GoogleEventId = googleEventId;
                     if (!string.IsNullOrEmpty(googleMeetLink))
                     {
@@ -165,7 +166,8 @@ namespace AfsprakenbeheerPsycholoog.Services
                                 afspraak.Eindtijd,
                                 type?.Naam ?? "Sessie",
                                 afspraak.Id,
-                                afspraak.Opmerkingen
+                                afspraak.Opmerkingen,
+                                afspraak.GoogleMeetLink
                             );
                         }
                     }

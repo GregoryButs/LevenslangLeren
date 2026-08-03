@@ -43,12 +43,21 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
   const [bookingInProgress, setBookingInProgress] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
+  const isSelectedIntake = !!(selectedType?.naam.toLowerCase().includes('intake'));
+
   // Date Navigation Helpers
   const navigateDays = (deltaDays: number) => {
     const curr = new Date(selectedDate);
     curr.setDate(curr.getDate() + deltaDays);
     setSelectedDate(curr.toISOString().split('T')[0]);
   };
+
+  // Reset Google Meet if selected type is Intake
+  useEffect(() => {
+    if (selectedType && selectedType.naam.toLowerCase().includes('intake') && selectedLocation === 'GoogleMeet') {
+      setSelectedLocation('Praktijk');
+    }
+  }, [selectedType, selectedLocation]);
 
   // Load initial options: types and settings
   useEffect(() => {
@@ -154,7 +163,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
         gekozeTijdslot: selectedSlot.tijd,
         opmerkingen,
         locatieType: selectedLocation,
-        datum: selectedDate
+        datum: selectedDate,
+        afspraakTypeId: selectedType.id
       });
       setBookingSuccess(true);
       setStep(5);
@@ -357,6 +367,13 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                   <p className="text-xs text-slate-400 dark:text-brand-300">Hoe wil je dat het consult plaatsvindt?</p>
                 </div>
                 
+                {isSelectedIntake && (
+                  <div className="p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-900/60 rounded-2xl text-xs text-amber-900 dark:text-amber-200 flex items-center space-x-3 shadow-xs">
+                    <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <span><strong>Belangrijk:</strong> Online videoconsultaties (Google Meet) zijn uitsluitend beschikbaar voor vervolgconsultaties. Voor een eerste intakegesprek vragen wij je om fysiek op de praktijk af te spreken of telefonisch.</span>
+                  </div>
+                )}
+
                 {/* Groepspraktijk Voorde Adreskaart */}
                 <div className="bg-brand-50/50 dark:bg-brand-950/60 border border-brand-100/80 dark:border-brand-800/40 rounded-2xl p-4 flex items-start space-x-3.5 text-xs text-brand-900 dark:text-brand-100 shadow-sm">
                   <div className="h-10 w-10 bg-brand-500 text-white rounded-xl flex items-center justify-center shrink-0 shadow-sm">
@@ -372,6 +389,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {settings?.locatiePraktijk && (
                     <button
+                      type="button"
                       onClick={() => setSelectedLocation('Praktijk')}
                       className={`p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center text-center space-y-3 ${
                         selectedLocation === 'Praktijk'
@@ -398,26 +416,37 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                   
                   {settings?.locatieGoogleMeet && (
                     <button
-                      onClick={() => setSelectedLocation('GoogleMeet')}
+                      type="button"
+                      disabled={isSelectedIntake}
+                      onClick={() => !isSelectedIntake && setSelectedLocation('GoogleMeet')}
                       className={`p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center text-center space-y-3 ${
-                        selectedLocation === 'GoogleMeet'
+                        isSelectedIntake
+                          ? 'opacity-50 cursor-not-allowed border-slate-200 dark:border-brand-800/40 bg-slate-50 dark:bg-brand-950/20'
+                          : selectedLocation === 'GoogleMeet'
                           ? 'border-brand-500 bg-brand-50/30 dark:bg-brand-950/80 ring-2 ring-brand-500/10'
                           : 'border-slate-100 dark:border-brand-800/40 bg-white dark:bg-brand-950/40 hover:border-slate-300 dark:hover:border-brand-700'
                       }`}
                     >
-                      <div className={`h-12 w-12 rounded-full flex items-center justify-center ${selectedLocation === 'GoogleMeet' ? 'bg-brand-500 text-white' : 'bg-slate-50 dark:bg-brand-800 text-slate-600 dark:text-brand-200'}`}>
+                      <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isSelectedIntake ? 'bg-slate-200 text-slate-400 dark:bg-brand-800 dark:text-brand-500' : selectedLocation === 'GoogleMeet' ? 'bg-brand-500 text-white' : 'bg-slate-50 dark:bg-brand-800 text-slate-600 dark:text-brand-200'}`}>
                         <Video className="h-6 w-6" />
                       </div>
                       <div>
                         <div className="flex items-center justify-center gap-1.5 flex-wrap">
                           <h4 className="font-bold text-slate-800 dark:text-white text-sm">Online (Google Meet)</h4>
-                          {selectedLocation === 'GoogleMeet' && (
+                          {selectedLocation === 'GoogleMeet' && !isSelectedIntake && (
                             <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300/40">
                               Geselecteerd
                             </span>
                           )}
+                          {isSelectedIntake && (
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/80 px-2 py-0.5 rounded-full border border-amber-300/40">
+                              Niet voor Intake
+                            </span>
+                          )}
                         </div>
-                        <p className="text-[11px] text-slate-400 dark:text-brand-300 mt-0.5">Video-call via een veilige link.</p>
+                        <p className="text-[11px] text-slate-400 dark:text-brand-300 mt-0.5">
+                          {isSelectedIntake ? 'Enkel voor vervolgconsultaties' : 'Video-call via een veilige link.'}
+                        </p>
                       </div>
                     </button>
                   )}

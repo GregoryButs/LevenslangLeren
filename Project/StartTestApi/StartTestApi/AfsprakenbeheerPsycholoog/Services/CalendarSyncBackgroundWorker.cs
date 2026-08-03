@@ -156,18 +156,19 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Google Calendar sync mislukt voor afspraak {AfspraakId}", afspraak.Id);
-                    throw; // Re-throw to trigger retry loop
+                    _logger.LogWarning(ex, "Google Calendar sync mislukt voor afspraak {AfspraakId}, gaat door met e-mail verzenden", afspraak.Id);
                 }
 
                 // Update Google Event ID and Meet Link in database
                 if (!string.IsNullOrEmpty(googleEventId) || !string.IsNullOrEmpty(meetLink))
                 {
-                    afspraak.GoogleEventId = googleEventId;
-                    afspraak.GoogleMeetLink = meetLink;
+                    if (!string.IsNullOrEmpty(googleEventId)) afspraak.GoogleEventId = googleEventId;
+                    if (!string.IsNullOrEmpty(meetLink)) afspraak.GoogleMeetLink = meetLink;
                     dbContext.Update(afspraak);
                     await dbContext.SaveChangesAsync();
                 }
+
+                var finalMeetLink = afspraak.GoogleMeetLink ?? meetLink;
 
                 // 2. Send confirmation email
                 if (!string.IsNullOrEmpty(patient.Email))
@@ -182,13 +183,12 @@ namespace AfsprakenbeheerPsycholoog.Services
                             afspraak.Type?.Naam ?? "Consult",
                             afspraak.Id,
                             afspraak.Opmerkingen,
-                            meetLink
+                            finalMeetLink
                         );
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Bevestigingsmail verzenden mislukt voor afspraak {AfspraakId} naar {Email}", afspraak.Id, patient.Email);
-                        throw; // Re-throw to trigger retry loop
                     }
                 }
             }
