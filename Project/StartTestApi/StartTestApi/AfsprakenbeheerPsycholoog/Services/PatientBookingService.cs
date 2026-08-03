@@ -491,10 +491,24 @@ namespace AfsprakenbeheerPsycholoog.Services
             var afspraak = _afspraakRepo.GetByIdEnPatient(afspraakId, patientId);
             if (afspraak == null || afspraak.Status != AfspraakStatus.Gepland) return false;
 
-            // Annuleringstermijn controleren (bijv. 24 uur)
-            if (afspraak.Starttijd < DateTime.UtcNow.AddHours(24)) return false;
+            // Controleer of het een laattijdige annulering is (minder dan 48 uur op voorhand)
+            bool isLaattijdig = afspraak.Starttijd < DateTime.UtcNow.AddHours(48);
 
             afspraak.Status = AfspraakStatus.Geannuleerd;
+
+            if (isLaattijdig)
+            {
+                var tag = "[LAATTIJDIG GEANNULEERD <48u]";
+                if (string.IsNullOrWhiteSpace(afspraak.Opmerkingen))
+                {
+                    afspraak.Opmerkingen = tag;
+                }
+                else if (!afspraak.Opmerkingen.Contains(tag))
+                {
+                    afspraak.Opmerkingen = $"{tag} {afspraak.Opmerkingen}";
+                }
+            }
+
             _afspraakRepo.Update(afspraak);
             _afspraakRepo.SaveChanges();
 
@@ -505,6 +519,35 @@ namespace AfsprakenbeheerPsycholoog.Services
                 PatientId = patientId,
                 Action = SyncAction.Cancel
             });
+
+            // Als het een laattijdige annulering is (<48u), verstuur direct een dringende e-mailmelding naar de praktijk
+            if (isLaattijdig)
+            {
+                try
+                {
+                    var patient = afspraak.Patient ?? _patientRepo.GetById(patientId);
+                    var type = afspraak.Type ?? (afspraak.TypeId.HasValue ? _typeRepo.GetById(afspraak.TypeId.Value) : null);
+
+                    var patientNaam = patient != null ? $"{patient.Voornaam} {patient.Achternaam}".Trim() : "Onbekende Patiënt";
+                    var patientEmail = patient?.Email ?? "Onbekend";
+                    var patientTelefoon = patient?.Telefoonnummer ?? "Onbekend";
+                    var typeNaam = type?.Naam ?? "Consultatie";
+
+                    await _emailService.SendLaattijdigeAnnuleringMeldingAsync(
+                        patientNaam,
+                        patientEmail,
+                        patientTelefoon,
+                        afspraak.Starttijd,
+                        typeNaam,
+                        afspraak.Opmerkingen
+                    );
+                }
+                catch (Exception ex)
+                {
+                    // Stille opvang van e-mailfout zodat annulering in DB toch gehandhaafd blijft
+                    Console.Error.WriteLine($"Fout bij versturen laattijdige annuleringsemail: {ex.Message}");
+                }
+            }
 
             return true;
         }

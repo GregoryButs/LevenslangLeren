@@ -52,5 +52,10 @@ namespace AfsprakenbeheerPsycholoog.Services
         /// Verstuurt een herinneringsmail 1 week voor een aankomende afspraak.
         /// </summary>
         Task SendWeeklyReminderEmailAsync(string toEmail, string patientNaam, DateTime startUtc, string afspraakType, int afspraakId);
+
+        /// <summary>
+        /// Verstuurt een dringende melding naar de praktijk/psycholoog bij een laattijdige annulering (< 48u vooraf).
+        /// </summary>
+        Task SendLaattijdigeAnnuleringMeldingAsync(string patientNaam, string patientEmail, string patientTelefoon, DateTime startUtc, string afspraakType, string? opmerkingen);
     }
 }

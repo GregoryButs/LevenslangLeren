@@ -403,6 +403,40 @@ namespace AfsprakenbeheerPsycholoog.Services
             await SendEmailAsync(toEmail, subject, body);
         }
 
+        public async Task SendLaattijdigeAnnuleringMeldingAsync(string patientNaam, string patientEmail, string patientTelefoon, DateTime startUtc, string afspraakType, string? opmerkingen)
+        {
+            var lokaalStart = TranslatieNaarLokaleTijd(startUtc);
+            var datumStr = lokaalStart.ToString("dd/MM/yyyy HH:mm");
+            var praktijkEmail = _senderAddress;
+
+            var subject = $"⚠️ [LAATTIJDIGE ANNULERING] {patientNaam} - {datumStr}";
+            var body = $@"
+                <div style='font-family: Arial, sans-serif; color: #1a2c30; max-width: 600px; margin: 0 auto; border: 2px solid #e11d48; border-radius: 16px; padding: 24px; background-color: #fff1f2;'>
+                    <h2 style='color: #be123c; margin-top: 0;'>⚠️ Laattijdige Annulering Ontvangen</h2>
+                    <p style='font-size: 14px;'>Beste Inge,</p>
+                    <p style='font-size: 14px;'>Patiënt <strong>{patientNaam}</strong> heeft een geplande afspraak geannuleerd <strong>minder dan 48 uur op voorhand</strong>.</p>
+                    
+                    <div style='background-color: #ffffff; padding: 16px; border-radius: 12px; border: 1px solid #fecdd3; margin: 20px 0;'>
+                        <h3 style='margin-top: 0; color: #9f1239; font-size: 16px;'>Details van de geannuleerde afspraak:</h3>
+                        <ul style='line-height: 1.6; font-size: 14px; color: #334155;'>
+                            <li><strong>Patiënt:</strong> {patientNaam}</li>
+                            <li><strong>E-mail:</strong> <a href='mailto:{patientEmail}'>{patientEmail}</a></li>
+                            <li><strong>Telefoon:</strong> <a href='tel:{patientTelefoon}'>{patientTelefoon}</a></li>
+                            <li><strong>Type consult:</strong> {afspraakType}</li>
+                            <li><strong>Geannuleerd tijdstip afspraak:</strong> {datumStr}</li>
+                            <li><strong>Tijdstip van annulering:</strong> {DateTime.Now:dd/MM/yyyy HH:mm:ss}</li>
+                            {(string.IsNullOrWhiteSpace(opmerkingen) ? "" : $"<li><strong>Opmerking patiënt:</strong> {opmerkingen}</li>")}
+                        </ul>
+                    </div>
+
+                    <div style='background-color: #fffbe6; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #d97706; font-size: 13px; color: #92400e;'>
+                        📌 <strong>Beleid laattijdige annulering:</strong> Volgens het praktijkreglement wordt deze sessie aangerekend, tenzij er een geldig ziekteattest kan worden voorgelegd. De patiënt is hiervan expliciet op de hoogte gebracht en heeft dit akkoord bevestigd bij annulering.
+                    </div>
+                </div>";
+
+            await SendEmailAsync(praktijkEmail, subject, body);
+        }
+
         private DateTime TranslatieNaarLokaleTijd(DateTime utcTime)
         {
             // Omzetten van UTC naar de lokale tijdzone van de praktijk (bijv. West-Europa: CET/CEST)

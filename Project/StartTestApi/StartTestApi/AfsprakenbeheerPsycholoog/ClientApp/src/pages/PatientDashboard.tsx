@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientPortaalApi } from '../services/api';
 import { Afspraak } from '../types';
 import { 
-  Clock, AlertCircle, XCircle, Loader2, Calendar, Video
+  Clock, AlertCircle, XCircle, Loader2, Calendar, Video, AlertTriangle
 } from 'lucide-react';
 import { BookingWizard } from '../components/BookingWizard';
 import { extractErrorMessage } from '../utils/errorUtils';
@@ -12,6 +12,13 @@ export const PatientDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'actueel' | 'historiek'>('actueel');
+
+  const [cancelModal, setCancelModal] = useState<{
+    isOpen: boolean;
+    afspraak: Afspraak | null;
+    isLate: boolean;
+    hoursLeft: number;
+  }>({ isOpen: false, afspraak: null, isLate: false, hoursLeft: 0 });
 
   const loadData = async () => {
     try {
@@ -31,13 +38,32 @@ export const PatientDashboard: React.FC = () => {
     loadData();
   }, []);
 
-  const handleCancel = async (id: number) => {
-    if (!window.confirm('Weet u zeker dat u deze afspraak wilt annuleren?')) return;
+  const openCancelModal = (appt: Afspraak) => {
+    const start = new Date(appt.starttijd);
+    const diffHours = (start.getTime() - new Date().getTime()) / (1000 * 60 * 60);
+    const isLate = diffHours < 48;
+    setCancelModal({
+      isOpen: true,
+      afspraak: appt,
+      isLate,
+      hoursLeft: Math.max(0, Math.round(diffHours))
+    });
+  };
+
+  const confirmCancel = async () => {
+    if (!cancelModal.afspraak) return;
+    const id = cancelModal.afspraak.id;
+    const isLate = cancelModal.isLate;
+    setCancelModal({ isOpen: false, afspraak: null, isLate: false, hoursLeft: 0 });
     try {
       setLoading(true);
       await patientPortaalApi.cancel(id);
       await loadData();
-      alert('Afspraak succesvol geannuleerd.');
+      if (isLate) {
+        alert('Afspraak geannuleerd. De praktijk is per e-mail en melding op de hoogte gebracht van deze laattijdige annulering.');
+      } else {
+        alert('Afspraak succesvol en kosteloos geannuleerd.');
+      }
     } catch (err: any) {
       console.error(err);
       alert(extractErrorMessage(err, 'Annuleren mislukt.'));
@@ -233,8 +259,8 @@ export const PatientDashboard: React.FC = () => {
                       )}
                       {isUpcoming && (
                         <button
-                          onClick={() => handleCancel(appt.id)}
-                          className="flex items-center justify-center space-x-1.5 text-xs font-medium bg-red-50 dark:bg-red-950/60 hover:bg-red-100 text-red-700 dark:text-red-300 py-1.5 px-3 rounded-xl transition whitespace-nowrap"
+                          onClick={() => openCancelModal(appt)}
+                          className="flex items-center justify-center space-x-1.5 text-xs font-medium bg-red-50 dark:bg-red-950/60 hover:bg-red-100 text-red-700 dark:text-red-300 py-1.5 px-3 rounded-xl transition whitespace-nowrap cursor-pointer"
                         >
                           <XCircle className="h-3.5 w-3.5 shrink-0 text-red-500" />
                           <span>Annuleren</span>
@@ -331,6 +357,81 @@ export const PatientDashboard: React.FC = () => {
           </div>
         );
       })()}
+
+      {/* Cancellation Warning Modal */}
+      {cancelModal.isOpen && cancelModal.afspraak && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fade-in">
+          <div className="bg-white dark:bg-brand-900 w-full max-w-lg rounded-3xl border border-slate-100 dark:border-brand-800 shadow-2xl overflow-hidden p-6 space-y-5 transition-colors">
+            
+            <div className="flex items-start space-x-3">
+              <div className={`h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 ${
+                cancelModal.isLate 
+                  ? 'bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-400' 
+                  : 'bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400'
+              }`}>
+                {cancelModal.isLate ? <AlertTriangle className="h-6 w-6" /> : <AlertCircle className="h-6 w-6" />}
+              </div>
+              <div className="space-y-1 flex-1">
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white">
+                  {cancelModal.isLate ? '⚠️ Laattijdige annulering (< 48 uur)' : 'Afspraak annuleren'}
+                </h3>
+                <p className="text-xs font-semibold text-slate-500 dark:text-brand-300">
+                  {cancelModal.afspraak.afspraakTypeNaam} op{' '}
+                  {new Date(cancelModal.afspraak.starttijd).toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' })} om{' '}
+                  {new Date(cancelModal.afspraak.starttijd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+            </div>
+
+            {cancelModal.isLate ? (
+              <div className="space-y-3 bg-red-50 dark:bg-red-950/40 p-4 rounded-2xl border border-red-100 dark:border-red-900/60 text-xs text-red-900 dark:text-red-200">
+                <p className="font-bold text-red-800 dark:text-red-300">
+                  Let op: Je annuleert minder dan 48 uur op voorhand (nog {cancelModal.hoursLeft} uur tot de afspraak).
+                </p>
+                <ul className="list-disc list-inside space-y-1.5 font-medium">
+                  <li>
+                    <strong>Kosteloze annulatie is verstreken:</strong> Volgens het praktijkreglement wordt deze sessie aangerekend, tenzij er een geldig ziekteattest kan worden voorgelegd.
+                  </li>
+                  <li>
+                    <strong>Melding naar de praktijk:</strong> De praktijk ontvangt direct een automatische e-mail en melding met het tijdstip van je laattijdige annulering.
+                  </li>
+                </ul>
+                <p className="text-[11px] italic font-semibold text-red-700 dark:text-red-300 pt-1">
+                  Je kunt wel doorgaan met annuleren om deze plek vrij te maken, maar accepteert daarmee de voorwaarden.
+                </p>
+              </div>
+            ) : (
+              <div className="bg-slate-50 dark:bg-brand-950 p-4 rounded-2xl border border-slate-100 dark:border-brand-800 text-xs text-slate-600 dark:text-brand-200">
+                <p>
+                  Deze afspraak vindt plaats over meer dan 48 uur. Annuleren is in dit geval <strong>volledig gratis</strong>.
+                </p>
+              </div>
+            )}
+
+            <div className="flex items-center justify-end space-x-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setCancelModal({ isOpen: false, afspraak: null, isLate: false, hoursLeft: 0 })}
+                className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-brand-800 dark:hover:bg-brand-700 text-slate-700 dark:text-brand-200 font-bold text-xs rounded-xl transition cursor-pointer"
+              >
+                Behouden / Annuleren afbreken
+              </button>
+              <button
+                type="button"
+                onClick={confirmCancel}
+                className={`px-5 py-2.5 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer ${
+                  cancelModal.isLate 
+                    ? 'bg-red-600 hover:bg-red-700 shadow-red-600/20' 
+                    : 'bg-brand-600 hover:bg-brand-700 shadow-brand-600/20'
+                }`}
+              >
+                {cancelModal.isLate ? 'Ja, annuleer & accepteer voorwaarden' : 'Ja, afspraak kosteloos annuleren'}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };
