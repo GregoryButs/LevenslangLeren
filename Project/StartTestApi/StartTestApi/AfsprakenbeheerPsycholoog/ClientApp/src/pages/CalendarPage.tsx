@@ -646,6 +646,12 @@ export const CalendarPage: React.FC = () => {
                               {/* Starting Appointments */}
                               {startingAppts.map((appt) => {
                                 const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                                const startH = new Date(appt.starttijd).getHours();
+                                const endDate = new Date(appt.eindtijd);
+                                const endH = endDate.getHours();
+                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
+                                const isMulti = lastHour > startH;
+
                                 return (
                                   <div 
                                     key={appt.id} 
@@ -654,7 +660,9 @@ export const CalendarPage: React.FC = () => {
                                       setSelectedAfspraak(appt);
                                     }}
                                     style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className={`p-2 border-l-4 rounded-r-xl shadow-xs border hover:shadow-sm transition text-left cursor-pointer hover:scale-[1.01] ${
+                                    className={`p-2 border-l-4 ${
+                                      isMulti ? 'rounded-t-xl rounded-b-none border-b-0 border-t border-l border-r' : 'rounded-xl border'
+                                    } shadow-xs hover:shadow-sm transition text-left cursor-pointer hover:scale-[1.005] ${
                                       appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
                                       isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
                                       'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
@@ -684,9 +692,15 @@ export const CalendarPage: React.FC = () => {
                                 );
                               })}
 
-                              {/* Ongoing Continuation Banners */}
+                              {/* Ongoing Continuation Blocks (Seamless continuation without repeated text) */}
                               {ongoingAppts.map((appt) => {
                                 const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                                const startH = new Date(appt.starttijd).getHours();
+                                const endDate = new Date(appt.eindtijd);
+                                const endH = endDate.getHours();
+                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
+                                const isLastHour = hour === lastHour;
+
                                 return (
                                   <div 
                                     key={`ongoing-${appt.id}`} 
@@ -695,18 +709,15 @@ export const CalendarPage: React.FC = () => {
                                       setSelectedAfspraak(appt);
                                     }}
                                     style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className="p-1.5 border-l-4 rounded-r-xl shadow-2xs border bg-slate-50/80 dark:bg-brand-950/60 border-slate-200 dark:border-brand-800/60 hover:shadow-sm transition text-left cursor-pointer flex items-center justify-between gap-1 group/ongoing"
-                                    title={`Geblokkeerd/Afspraak vervolg: ${appt.patientNaam} (${formatLocalTime(appt.starttijd)} - ${formatLocalTime(appt.eindtijd)})`}
-                                  >
-                                    <div className="flex items-center space-x-1 truncate">
-                                      <span className="text-[10px] font-bold text-slate-600 dark:text-brand-300 italic truncate">
-                                        ↳ Vervolg: {appt.patientNaam}
-                                      </span>
-                                    </div>
-                                    <span className="text-[9px] text-slate-400 dark:text-brand-400 font-bold shrink-0">
-                                      {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
-                                    </span>
-                                  </div>
+                                    className={`w-full min-h-[40px] flex-1 border-l-4 ${
+                                      isLastHour ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0' : 'rounded-none border-l border-r border-t-0 border-b-0'
+                                    } ${
+                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
+                                      isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                      'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
+                                    } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
+                                    title={`${appt.patientNaam} (${formatLocalTime(appt.starttijd)} - ${formatLocalTime(appt.eindtijd)})`}
+                                  />
                                 );
                               })}
 
@@ -778,6 +789,12 @@ export const CalendarPage: React.FC = () => {
                               {/* Starting Appointments */}
                               {startingAppts.map((appt) => {
                                 const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                                const startH = new Date(appt.starttijd).getHours();
+                                const endDate = new Date(appt.eindtijd);
+                                const endH = endDate.getHours();
+                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
+                                const isMulti = lastHour > startH;
+
                                 return (
                                   <div 
                                     key={appt.id} 
@@ -786,7 +803,9 @@ export const CalendarPage: React.FC = () => {
                                       setSelectedAfspraak(appt);
                                     }}
                                     style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className={`p-3 border-l-4 rounded-r-xl shadow-sm border hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.01] ${
+                                    className={`p-3 border-l-4 ${
+                                      isMulti ? 'rounded-t-xl rounded-b-none border-b-0 border-t border-l border-r' : 'rounded-xl border'
+                                    } shadow-sm hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.005] ${
                                       appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
                                       isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
                                       'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
@@ -823,9 +842,15 @@ export const CalendarPage: React.FC = () => {
                                 );
                               })}
 
-                              {/* Ongoing Continuation Banners */}
+                              {/* Ongoing Continuation Blocks (Seamless continuation without repeated text) */}
                               {ongoingAppts.map((appt) => {
                                 const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
+                                const startH = new Date(appt.starttijd).getHours();
+                                const endDate = new Date(appt.eindtijd);
+                                const endH = endDate.getHours();
+                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
+                                const isLastHour = hour === lastHour;
+
                                 return (
                                   <div 
                                     key={`ongoing-${appt.id}`} 
@@ -834,18 +859,15 @@ export const CalendarPage: React.FC = () => {
                                       setSelectedAfspraak(appt);
                                     }}
                                     style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className="p-2 border-l-4 rounded-r-xl shadow-2xs border bg-slate-50/80 dark:bg-brand-950/60 border-slate-200 dark:border-brand-800/60 hover:shadow-sm transition text-left cursor-pointer flex items-center justify-between gap-2 group/ongoing"
-                                    title={`Geblokkeerd/Afspraak vervolg: ${appt.patientNaam} (${formatLocalTime(appt.starttijd)} - ${formatLocalTime(appt.eindtijd)})`}
-                                  >
-                                    <div className="flex items-center space-x-1.5 truncate">
-                                      <span className="text-xs font-bold text-slate-600 dark:text-brand-300 italic truncate">
-                                        ↳ Vervolg: {appt.patientNaam}
-                                      </span>
-                                    </div>
-                                    <span className="text-xs text-slate-400 dark:text-brand-400 font-bold shrink-0">
-                                      {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
-                                    </span>
-                                  </div>
+                                    className={`w-full min-h-[40px] flex-1 border-l-4 ${
+                                      isLastHour ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0' : 'rounded-none border-l border-r border-t-0 border-b-0'
+                                    } ${
+                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
+                                      isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                      'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
+                                    } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-3 group/ongoing`}
+                                    title={`${appt.patientNaam} (${formatLocalTime(appt.starttijd)} - ${formatLocalTime(appt.eindtijd)})`}
+                                  />
                                 );
                               })}
 
