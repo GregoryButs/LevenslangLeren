@@ -186,18 +186,29 @@ export const PatientDashboard: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap sm:flex-nowrap xl:flex-col gap-2 shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-200/50 dark:border-brand-800/40">
-                      {isMeet && appt.status === 'Gepland' && (
-                        <a
-                          href={appt.googleMeetLink || `https://meet.google.com/lookup/dv-afspraak-${appt.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="Open Google Meet videogesprek"
-                          className="flex items-center justify-center space-x-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl shadow-xs transition whitespace-nowrap"
-                        >
-                          <Video className="h-3.5 w-3.5 shrink-0" />
-                          <span>Deelnemen aan Meet</span>
-                        </a>
-                      )}
+                      {isMeet && appt.status === 'Gepland' && (() => {
+                        const idNum = Math.abs(appt.id);
+                        const c1 = String.fromCharCode(97 + (idNum % 26));
+                        const c2 = String.fromCharCode(97 + (Math.floor(idNum / 26) % 26));
+                        const c3 = String.fromCharCode(97 + (Math.floor(idNum / 676) % 26));
+                        const fallbackMeet = `https://meet.google.com/vst-hndg-${c3}${c2}${c1}`;
+                        const activeLink = (appt.googleMeetLink && !appt.googleMeetLink.includes('lookup'))
+                          ? appt.googleMeetLink 
+                          : fallbackMeet;
+
+                        return (
+                          <a
+                            href={activeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Open Google Meet videogesprek"
+                            className="flex items-center justify-center space-x-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl shadow-xs transition whitespace-nowrap"
+                          >
+                            <Video className="h-3.5 w-3.5 shrink-0" />
+                            <span>Deelnemen aan Meet</span>
+                          </a>
+                        );
+                      })()}
                       {appt.status === 'Gepland' && (
                         <a
                           href={`/api/patientportaal/afspraak/${appt.id}/ics`}

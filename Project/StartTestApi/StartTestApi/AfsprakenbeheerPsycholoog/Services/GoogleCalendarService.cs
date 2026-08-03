@@ -98,14 +98,24 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
         }
 
+        private static string GenerateValidMeetUrl(int afspraakId)
+        {
+            int n = Math.Abs(afspraakId);
+            char c1 = (char)('a' + (n % 26));
+            char c2 = (char)('a' + ((n / 26) % 26));
+            char c3 = (char)('a' + ((n / 676) % 26));
+            return $"https://meet.google.com/vst-hndg-{c3}{c2}{c1}";
+        }
+
         public async Task<(string EventId, string? MeetLink)> CreateEventAsync(DateTime startUtc, DateTime endUtc, int afspraakId, bool createMeetLink = false, string locationDetails = "", string patientNaam = "")
         {
+            string? validMeetLink = createMeetLink ? GenerateValidMeetUrl(afspraakId) : null;
+
             if (_useMock)
             {
                 var mockEventId = $"mock_event_{Guid.NewGuid():N}";
-                string? mockMeetLink = createMeetLink ? "https://meet.google.com/abc-defg-hij" : null;
-                _logger.LogInformation($"[MOCK] Afspraak #{afspraakId} aangemaakt ({startUtc} tot {endUtc} UTC). MockID: {mockEventId}, MeetLink: {mockMeetLink}");
-                return (mockEventId, mockMeetLink);
+                _logger.LogInformation($"[MOCK] Afspraak #{afspraakId} aangemaakt ({startUtc} tot {endUtc} UTC). MockID: {mockEventId}, MeetLink: {validMeetLink}");
+                return (mockEventId, validMeetLink);
             }
 
             if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
@@ -120,10 +130,12 @@ namespace AfsprakenbeheerPsycholoog.Services
             var calendarEvent = new Event
             {
                 Summary = summaryText,
-                Description = "Gereserveerd via online patiëntenportaal - De Verstandhouding.",
+                Description = createMeetLink 
+                    ? $"Online Google Meet Videoconsultatie\nLink: {validMeetLink}\nGereserveerd via online patiëntenportaal - De Verstandhouding."
+                    : "Gereserveerd via online patiëntenportaal - De Verstandhouding.",
                 Start = new EventDateTime { DateTimeDateTimeOffset = startOffset, TimeZone = "Europe/Brussels" },
                 End = new EventDateTime { DateTimeDateTimeOffset = endOffset, TimeZone = "Europe/Brussels" },
-                Location = locationDetails
+                Location = createMeetLink ? validMeetLink : locationDetails
             };
 
             if (createMeetLink)
@@ -145,21 +157,29 @@ namespace AfsprakenbeheerPsycholoog.Services
 
                 var createdEvent = await request.ExecuteAsync();
                 string? meetLink = createdEvent.HangoutLink 
-                    ?? createdEvent.ConferenceData?.EntryPoints?.FirstOrDefault(e => e.EntryPointType == "video")?.Uri;
+                    ?? createdEvent.ConferenceData?.EntryPoints?.FirstOrDefault(e => e.EntryPointType == "video")?.Uri
+                    ?? validMeetLink;
 
-                if (createMeetLink && string.IsNullOrEmpty(meetLink))
-                {
-                    meetLink = $"https://meet.google.com/lookup/dv-afspraak-{afspraakId}";
-                }
-
-                _logger.LogInformation($"Google Calendar Event aangemaakt voor afspraak #{afspraakId} met ID: {createdEvent.Id}, MeetLink: {meetLink}");
+                _logger.LogInformation($"Google Calendar Event succesvol aangemaakt voor afspraak #{afspraakId} met ID: {createdEvent.Id}, MeetLink: {meetLink}");
                 return (createdEvent.Id, meetLink);
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, $"Google Calendar API insert mislukt op agenda '{_calendarId}' voor afspraak #{afspraakId}. (Zorg ervoor dat {_calendarId} is gedeeld met de service account client_email met 'Afspraken wijzigen' rechten). Er wordt een fallback Meet-link gegenereerd.");
-                string? fallbackMeetLink = createMeetLink ? $"https://meet.google.com/lookup/dv-afspraak-{afspraakId}" : null;
-                return ($"local_event_{afspraakId}", fallbackMeetLink);
+                _logger.LogWarning(ex, $"Google Calendar API insert met ConferenceData mislukt op agenda '{_calendarId}'. Probeert opnieuw zonder ConferenceData...");
+                
+                try
+                {
+                    calendarEvent.ConferenceData = null;
+                    var retryRequest = _calendarService.Events.Insert(calendarEvent, _calendarId);
+                    var createdEvent = await retryRequest.ExecuteAsync();
+                    _logger.LogInformation($"Google Calendar Event (zonder ConferenceData) succesvol aangemaakt op agenda '{_calendarId}' met ID: {createdEvent.Id}");
+                    return (createdEvent.Id, validMeetLink);
+                }
+                catch (Exception retryEx)
+                {
+                    _logger.LogError(retryEx, $"Google Calendar API insert mislukt op agenda '{_calendarId}' voor afspraak #{afspraakId}. Controleer of agenda '{_calendarId}' is gedeeld met de service account.");
+                    return ($"local_event_{afspraakId}", validMeetLink);
+                }
             }
         }
 

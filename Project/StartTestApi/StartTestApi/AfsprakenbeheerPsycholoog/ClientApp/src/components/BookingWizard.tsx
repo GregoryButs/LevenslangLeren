@@ -370,7 +370,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({ onBookingSuccess }
                 {isSelectedIntake && (
                   <div className="p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-900/60 rounded-2xl text-xs text-amber-900 dark:text-amber-200 flex items-center space-x-3 shadow-xs">
                     <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0" />
-                    <span><strong>Belangrijk:</strong> Online videoconsultaties (Google Meet) zijn uitsluitend beschikbaar voor vervolgconsultaties. Voor een eerste intakegesprek vragen wij je om fysiek op de praktijk af te spreken of telefonisch.</span>
+                    <span><strong>Belangrijk:</strong> Online videoconsultaties (Google Meet) zijn uitsluitend beschikbaar voor vervolgconsultaties. Voor een eerste intakegesprek vragen wij je om fysiek op de praktijk af te spreken.</span>
                   </div>
                 )}
 

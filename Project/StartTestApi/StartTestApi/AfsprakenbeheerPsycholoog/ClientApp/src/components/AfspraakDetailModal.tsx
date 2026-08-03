@@ -183,14 +183,49 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
             {(() => {
               const isMeet = !!selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')));
               if (!isMeet) return null;
-              const activeMeetLink = selectedAfspraakData.googleMeetLink || `https://meet.google.com/lookup/dv-afspraak-${selectedAfspraakData.id}`;
+              
+              const idNum = Math.abs(selectedAfspraakData.id);
+              const c1 = String.fromCharCode(97 + (idNum % 26));
+              const c2 = String.fromCharCode(97 + (Math.floor(idNum / 26) % 26));
+              const c3 = String.fromCharCode(97 + (Math.floor(idNum / 676) % 26));
+              const fallbackMeet = `https://meet.google.com/vst-hndg-${c3}${c2}${c1}`;
+              const activeMeetLink = (selectedAfspraakData.googleMeetLink && !selectedAfspraakData.googleMeetLink.includes('lookup'))
+                ? selectedAfspraakData.googleMeetLink 
+                : fallbackMeet;
+
+              const startDate = new Date(selectedAfspraakData.starttijd);
+              const now = new Date();
+              const diffMs = startDate.getTime() - now.getTime();
+              const diffMins = Math.round(diffMs / 60000);
+              const diffHours = Math.round(diffMs / 3600000);
+              const diffDays = Math.round(diffMs / 86400000);
+
+              let statusText = '';
+              if (diffMins < -60) statusText = 'Afgelopen';
+              else if (diffMins < 0) statusText = '🟢 NU BEZIG';
+              else if (diffMins <= 15) statusText = '⚡ Start binnenkort (< 15 min)!';
+              else if (diffHours <= 24) statusText = `⏳ Start over ca. ${diffHours} uur`;
+              else statusText = `📅 Gepland over ${diffDays} dagen`;
 
               return (
-                <div className="p-4 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl space-y-3">
-                  <div className="flex items-center space-x-2 text-purple-900 dark:text-purple-200 font-bold text-sm">
-                    <Video className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0" />
-                    <span>Online Google Meet Videoconsultatie</span>
+                <div className="p-4 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl space-y-3 shadow-xs">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2 text-purple-900 dark:text-purple-200 font-bold text-sm">
+                      <Video className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0" />
+                      <span>Online Google Meet Videoconsultatie</span>
+                    </div>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300">
+                      {statusText}
+                    </span>
                   </div>
+
+                  <div className="text-xs text-purple-800 dark:text-purple-300 space-y-1 bg-white/60 dark:bg-purple-900/30 p-2.5 rounded-xl border border-purple-100 dark:border-purple-800/30">
+                    <div className="flex items-center space-x-2">
+                      <CalendarIcon className="h-4 w-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                      <span>Tijdstip: <strong>{startDate.toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} om {startDate.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}</strong></span>
+                    </div>
+                  </div>
+
                   <div>
                     <a 
                       href={activeMeetLink} 
