@@ -150,8 +150,9 @@ export const CalendarPage: React.FC = () => {
     }
   };
 
-  const handleTouchStartSubSlot = (day: Date, slotVal: number, hasAppts: boolean, _e: React.TouchEvent) => {
+  const handleTouchStartSubSlot = (day: Date, slotVal: number, hasAppts: boolean, e: React.TouchEvent) => {
     if (hasAppts) return;
+    e.preventDefault(); // Prevent scroll from starting during drag selection
     const key = getDayKey(day);
     setDragSelect({
       isDragging: true,
@@ -190,6 +191,7 @@ export const CalendarPage: React.FC = () => {
     if (!dragSelect.isDragging) return;
 
     const onGlobalTouchMove = (e: TouchEvent) => {
+      e.preventDefault(); // Block page scroll while drag-selecting
       if (e.touches.length === 0) return;
       const touch = e.touches[0];
       const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -210,7 +212,7 @@ export const CalendarPage: React.FC = () => {
       handleMouseUpSlot();
     };
 
-    window.addEventListener('touchmove', onGlobalTouchMove, { passive: true });
+    window.addEventListener('touchmove', onGlobalTouchMove, { passive: false });
     window.addEventListener('touchend', onGlobalTouchEnd);
 
     return () => {
@@ -382,10 +384,10 @@ export const CalendarPage: React.FC = () => {
     const endM = end.getMinutes();
     let endSlot: number;
     if (endM === 0) {
+      // Ends exactly on the hour → last occupied slot is previous hour's :30
       endSlot = endH - 0.5;
-    } else if (endM <= 30) {
-      endSlot = endH;
     } else {
+      // Ends anywhere within the hour → fill entire hour row visually
       endSlot = endH + 0.5;
     }
 
@@ -639,7 +641,7 @@ export const CalendarPage: React.FC = () => {
                                 : 'bg-slate-200/40 dark:bg-brand-950/90'
                             }`}
                           >
-                            <div className="flex flex-col h-full min-h-[84px] divide-y divide-dashed divide-slate-200/40 dark:divide-brand-800/30">
+                            <div className="flex flex-col h-full min-h-[84px]">
                               {[0, 0.5].map((subOffset) => {
                                 const slotVal = hour + subOffset;
                                 const isSelected = isSubSlotSelectedByDrag(day, slotVal);
@@ -775,7 +777,7 @@ export const CalendarPage: React.FC = () => {
                                 : 'bg-slate-200/40 dark:bg-brand-950/90'
                             }`}
                           >
-                            <div className="flex flex-col h-full min-h-[84px] divide-y divide-dashed divide-slate-200/40 dark:divide-brand-800/30">
+                            <div className="flex flex-col h-full min-h-[84px]">
                               {[0, 0.5].map((subOffset) => {
                                 const slotVal = hour + subOffset;
                                 const isSelected = isSubSlotSelectedByDrag(currentDate, slotVal);
