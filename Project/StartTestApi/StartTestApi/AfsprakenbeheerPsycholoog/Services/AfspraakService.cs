@@ -111,10 +111,20 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             foreach (var start in startmomenten)
             {
-                var eind = start.AddMinutes(duurMinuten);
-
-                var startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(start, DateTimeKind.Unspecified), tz);
-                var eindUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(eind, DateTimeKind.Unspecified), tz);
+                DateTime startUtc;
+                if (start.Kind == DateTimeKind.Utc)
+                {
+                    startUtc = start;
+                }
+                else if (start.Kind == DateTimeKind.Local)
+                {
+                    startUtc = start.ToUniversalTime();
+                }
+                else
+                {
+                    startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(start, DateTimeKind.Unspecified), tz);
+                }
+                var eindUtc = startUtc.AddMinutes(duurMinuten);
 
                 if (_afspraakRepo.HeeftConflict(startUtc, eindUtc, isBlokkering))
                 {
@@ -212,15 +222,27 @@ namespace AfsprakenbeheerPsycholoog.Services
                     type = _typeRepo.GetById(2) ?? _typeRepo.GetAll().FirstOrDefault();
                     vm.TypeId = type?.Id;
                 }
-            }
-
             var tz = TimeZoneHelper.DutchTimeZone;
 
             int duurMinuten = (vm.CustomDuurMinuten.HasValue && vm.CustomDuurMinuten.Value > 0)
                 ? vm.CustomDuurMinuten.Value
                 : (type?.StandaardDuurMinuten ?? 60);
-            var startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(vm.Starttijd, DateTimeKind.Unspecified), tz);
-            var eindtijdUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(vm.Starttijd.AddMinutes(duurMinuten), DateTimeKind.Unspecified), tz);
+
+            DateTime startUtc;
+            if (vm.Starttijd.Kind == DateTimeKind.Utc)
+            {
+                startUtc = vm.Starttijd;
+            }
+            else if (vm.Starttijd.Kind == DateTimeKind.Local)
+            {
+                startUtc = vm.Starttijd.ToUniversalTime();
+            }
+            else
+            {
+                startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(vm.Starttijd, DateTimeKind.Unspecified), tz);
+            }
+
+            var eindtijdUtc = startUtc.AddMinutes(duurMinuten);
             var isBlokkering = !vm.PatientId.HasValue;
 
             if (_afspraakRepo.HeeftConflict(startUtc, eindtijdUtc, isBlokkering, vm.Id))
