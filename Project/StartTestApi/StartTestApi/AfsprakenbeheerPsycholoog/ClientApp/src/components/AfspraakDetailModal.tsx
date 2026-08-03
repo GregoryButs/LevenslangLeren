@@ -184,7 +184,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
               const isMeet = !!selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')));
               if (!isMeet) return null;
               
-              const activeMeetLink = (selectedAfspraakData.googleMeetLink && !selectedAfspraakData.googleMeetLink.includes('lookup'))
+              const activeMeetLink = (selectedAfspraakData.googleMeetLink && selectedAfspraakData.googleMeetLink.startsWith('https://meet.google.com/') && !selectedAfspraakData.googleMeetLink.includes('meet-dv') && !selectedAfspraakData.googleMeetLink.includes('lookup') && !selectedAfspraakData.googleMeetLink.includes('vst-hndg'))
                 ? selectedAfspraakData.googleMeetLink 
                 : 'https://meet.google.com/new';
 

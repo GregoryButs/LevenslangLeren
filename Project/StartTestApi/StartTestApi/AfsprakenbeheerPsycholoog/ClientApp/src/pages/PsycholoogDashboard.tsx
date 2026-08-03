@@ -478,6 +478,7 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
               })}
               onApproveNewPatient={handleApproveNewPatient}
               onLinkExistingPatient={handleLinkExistingPatient}
+              onRefreshDashboard={() => loadDashboard(selectedDate)}
             />
           </div>
         </>

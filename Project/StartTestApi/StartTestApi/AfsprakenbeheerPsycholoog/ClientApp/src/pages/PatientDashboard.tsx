@@ -205,14 +205,9 @@ export const PatientDashboard: React.FC = () => {
 
                     <div className="flex flex-wrap sm:flex-nowrap xl:flex-col gap-2 shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-200/50 dark:border-brand-800/40">
                       {isMeet && appt.status === 'Gepland' && (() => {
-                        const idNum = Math.abs(appt.id);
-                        const c1 = String.fromCharCode(97 + (idNum % 26));
-                        const c2 = String.fromCharCode(97 + (Math.floor(idNum / 26) % 26));
-                        const c3 = String.fromCharCode(97 + (Math.floor(idNum / 676) % 26));
-                        const fallbackMeet = `https://meet.google.com/vst-hndg-${c3}${c2}${c1}`;
-                        const activeLink = (appt.googleMeetLink && !appt.googleMeetLink.includes('lookup'))
+                        const activeLink = (appt.googleMeetLink && appt.googleMeetLink.startsWith('https://meet.google.com/') && !appt.googleMeetLink.includes('meet-dv') && !appt.googleMeetLink.includes('lookup') && !appt.googleMeetLink.includes('vst-hndg'))
                           ? appt.googleMeetLink 
-                          : fallbackMeet;
+                          : 'https://meet.google.com/new';
 
                         return (
                           <button
