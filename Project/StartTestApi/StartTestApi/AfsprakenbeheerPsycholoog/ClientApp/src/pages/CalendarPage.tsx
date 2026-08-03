@@ -370,26 +370,26 @@ export const CalendarPage: React.FC = () => {
 
   const hours = Array.from({ length: maxHour - minHour + 1 }, (_, i) => i + minHour);
 
-  const getAppointmentsStartingInHour = (day: Date, hour: number) => {
-    return appointments.filter(app => {
-      if (app.isHeleDag) return false;
-      const appStart = new Date(app.starttijd);
-      return appStart.toDateString() === day.toDateString() && appStart.getHours() === hour;
-    });
-  };
+  const getApptSlotBounds = (appt: Afspraak) => {
+    const start = new Date(appt.starttijd);
+    const end = new Date(appt.eindtijd);
+    
+    const startH = start.getHours();
+    const startM = start.getMinutes();
+    const startSlot = startH + (startM >= 30 ? 0.5 : 0);
 
-  const getAppointmentsOngoingInHour = (day: Date, hour: number) => {
-    const slotStart = new Date(day);
-    slotStart.setHours(hour, 0, 0, 0);
+    const endH = end.getHours();
+    const endM = end.getMinutes();
+    let endSlot: number;
+    if (endM === 0) {
+      endSlot = endH - 0.5;
+    } else if (endM <= 30) {
+      endSlot = endH;
+    } else {
+      endSlot = endH + 0.5;
+    }
 
-    return appointments.filter(app => {
-      if (app.isHeleDag) return false;
-      const appStart = new Date(app.starttijd);
-      const appEnd = new Date(app.eindtijd);
-      return appStart.toDateString() === day.toDateString() &&
-        appStart < slotStart &&
-        appEnd > slotStart;
-    });
+    return { startSlot: Math.max(0, startSlot), endSlot: Math.max(startSlot, endSlot) };
   };
 
   const getAllDayNotificationsForDay = (day: Date) => {
@@ -627,294 +627,278 @@ export const CalendarPage: React.FC = () => {
 
                     {viewMode === 'week' ? (
                       getWeekDays(currentDate).map((day, dayIdx) => {
-                        const startingAppts = getAppointmentsStartingInHour(day, hour);
-                        const ongoingAppts = getAppointmentsOngoingInHour(day, hour);
                         const isBookingSlot = isPracticeBookingHour(day, hour);
-                        const hasAppts = startingAppts.length > 0 || ongoingAppts.length > 0;
                         const dayKey = getDayKey(day);
 
                         return (
                           <td 
                             key={dayIdx}
-                            className={`p-1.5 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[84px] transition-all select-none ${
+                            className={`p-0 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[84px] transition-all select-none ${
                               isBookingSlot
                                 ? 'bg-emerald-50/40 dark:bg-emerald-950/30 border-l-2 border-emerald-400 dark:border-emerald-700'
                                 : 'bg-slate-200/40 dark:bg-brand-950/90'
                             }`}
                           >
-                            <div className="flex flex-col h-full min-h-[72px] space-y-1">
-                              {/* Starting Appointments */}
-                              {startingAppts.map((appt) => {
-                                const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
-                                const startH = new Date(appt.starttijd).getHours();
-                                const endDate = new Date(appt.eindtijd);
-                                const endH = endDate.getHours();
-                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
-                                const isMulti = lastHour > startH;
+                            <div className="flex flex-col h-full min-h-[84px] divide-y divide-dashed divide-slate-200/40 dark:divide-brand-800/30">
+                              {[0, 0.5].map((subOffset) => {
+                                const slotVal = hour + subOffset;
+                                const isSelected = isSubSlotSelectedByDrag(day, slotVal);
+                                const isStart = dragSelect.isDragging && dragSelect.dayKey === dayKey && Math.min(dragSelect.startSlot!, dragSelect.currentSlot!) === slotVal;
+
+                                // Find appointment covering this exact sub-slot
+                                const coveringAppt = appointments.find(app => {
+                                  if (app.isHeleDag) return false;
+                                  const appStart = new Date(app.starttijd);
+                                  if (appStart.toDateString() !== day.toDateString()) return false;
+                                  const { startSlot, endSlot } = getApptSlotBounds(app);
+                                  return slotVal >= startSlot && slotVal <= endSlot;
+                                });
+
+                                if (coveringAppt) {
+                                  const { startSlot, endSlot } = getApptSlotBounds(coveringAppt);
+                                  const isStartSlot = slotVal === startSlot;
+                                  const isEndSlot = slotVal === endSlot;
+                                  const isSingleSlot = isStartSlot && isEndSlot;
+                                  const isMeet = !!coveringAppt.googleMeetLink || (coveringAppt.opmerkingen && (coveringAppt.opmerkingen.includes('GoogleMeet') || coveringAppt.opmerkingen.includes('Google Meet')));
+                                  const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : coveringAppt.kleurcode;
+
+                                  if (isStartSlot) {
+                                    return (
+                                      <div 
+                                        key={`appt-${coveringAppt.id}-${slotVal}`} 
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSelectedAfspraak(coveringAppt);
+                                        }}
+                                        style={{ borderLeftColor: colorBorder }}
+                                        className={`flex-1 min-h-[42px] p-1.5 border-l-4 ${
+                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-brand-800/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-brand-800/60'
+                                        } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
+                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
+                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                          'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                        }`}
+                                        title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                      >
+                                        <div className="flex justify-between items-start gap-1">
+                                          <span className={`text-xs font-bold truncate block ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
+                                            {coveringAppt.patientNaam}
+                                          </span>
+                                          {isMeet ? (
+                                            <span className="flex items-center gap-0.5 px-1 py-0.5 rounded bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200 text-[9px] font-bold shrink-0 border border-purple-200 dark:border-purple-700" title="Online Google Meet Afspraak">
+                                              <Video className="h-2.5 w-2.5 text-purple-600 dark:text-purple-300" />
+                                              <span>Meet</span>
+                                            </span>
+                                          ) : coveringAppt.googleEventId ? (
+                                            <span className="flex h-2 w-2 rounded-full bg-blue-500 flex-shrink-0" title="Gesynchroniseerd met Google Calendar" />
+                                          ) : null}
+                                        </div>
+                                        <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold block truncate mt-0.5">
+                                          {coveringAppt.afspraakTypeNaam}
+                                        </span>
+                                        <span className="text-[9px] text-slate-400 dark:text-brand-400 font-bold block mt-0.5 flex items-center">
+                                          <Clock className="h-2.5 w-2.5 mr-0.5" />
+                                          {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
+                                        </span>
+                                      </div>
+                                    );
+                                  }
+
+                                  return (
+                                    <div 
+                                      key={`ongoing-${coveringAppt.id}-${slotVal}`} 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedAfspraak(coveringAppt);
+                                      }}
+                                      style={{ borderLeftColor: colorBorder }}
+                                      className={`flex-1 min-h-[42px] w-full border-l-4 ${
+                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-brand-800/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-brand-800/60'
+                                      } ${
+                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
+                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                        'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                      } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
+                                      title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                    />
+                                  );
+                                }
 
                                 return (
-                                  <div 
-                                    key={appt.id} 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedAfspraak(appt);
-                                    }}
-                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className={`p-2 border-l-4 ${
-                                      isMulti ? 'rounded-t-xl rounded-b-none border-b-0 border-t border-l border-r' : 'rounded-xl border'
-                                    } shadow-xs hover:shadow-sm transition text-left cursor-pointer hover:scale-[1.005] ${
-                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
-                                      isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                      'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
+                                  <div
+                                    key={subOffset}
+                                    data-day-key={dayKey}
+                                    data-slot-val={slotVal}
+                                    onMouseDown={(e) => handleMouseDownSubSlot(day, slotVal, false, e)}
+                                    onMouseEnter={() => handleMouseEnterSubSlot(day, slotVal)}
+                                    onTouchStart={(e) => handleTouchStartSubSlot(day, slotVal, false, e)}
+                                    className={`flex-1 min-h-[38px] px-2 py-1 flex items-center justify-between text-[10px] transition cursor-pointer ${
+                                      isSelected
+                                        ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
+                                        : isBookingSlot
+                                          ? 'hover:bg-emerald-200/70 dark:hover:bg-emerald-900/60 text-slate-500 dark:text-brand-300 group/sub'
+                                          : 'hover:bg-slate-300/50 dark:hover:bg-brand-800/50 text-slate-400 dark:text-brand-500 group/sub'
                                     }`}
+                                    title={
+                                      isSelected
+                                        ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
+                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(day)}`
+                                    }
                                   >
-                                    <div className="flex justify-between items-start gap-1">
-                                      <span className={`text-xs font-bold truncate block ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
-                                        {appt.patientNaam}
+                                    {isSelected ? (
+                                      <span className="font-bold flex items-center gap-1 truncate text-white">
+                                        {isStart && <span>⬛</span>}
+                                        <span>{formatSlotTimeString(slotVal)}</span>
                                       </span>
-                                      {isMeet ? (
-                                        <span className="flex items-center gap-0.5 px-1 py-0.5 rounded bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200 text-[9px] font-bold shrink-0 border border-purple-200 dark:border-purple-700" title="Online Google Meet Afspraak">
-                                          <Video className="h-2.5 w-2.5 text-purple-600 dark:text-purple-300" />
-                                          <span>Meet</span>
-                                        </span>
-                                      ) : appt.googleEventId ? (
-                                        <span className="flex h-2 w-2 rounded-full bg-blue-500 flex-shrink-0" title="Gesynchroniseerd met Google Calendar" />
-                                      ) : null}
-                                    </div>
-                                    <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold block truncate mt-0.5">
-                                      {appt.afspraakTypeNaam}
-                                    </span>
-                                    <span className="text-[9px] text-slate-400 dark:text-brand-400 font-bold block mt-1 flex items-center">
-                                      <Clock className="h-3 w-3 mr-0.5" />
-                                      {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
-                                    </span>
+                                    ) : (
+                                      <span className="opacity-0 group-hover/sub:opacity-100 transition text-[9px] font-semibold text-teal-600 dark:text-teal-400">
+                                        + {formatSlotTimeString(slotVal)}
+                                      </span>
+                                    )}
                                   </div>
                                 );
                               })}
-
-                              {/* Ongoing Continuation Blocks (Seamless continuation without repeated text) */}
-                              {ongoingAppts.map((appt) => {
-                                const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
-                                const startH = new Date(appt.starttijd).getHours();
-                                const endDate = new Date(appt.eindtijd);
-                                const endH = endDate.getHours();
-                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
-                                const isLastHour = hour === lastHour;
-
-                                return (
-                                  <div 
-                                    key={`ongoing-${appt.id}`} 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedAfspraak(appt);
-                                    }}
-                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className={`w-full min-h-[40px] flex-1 border-l-4 ${
-                                      isLastHour ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0' : 'rounded-none border-l border-r border-t-0 border-b-0'
-                                    } ${
-                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
-                                      isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                      'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
-                                    } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
-                                    title={`${appt.patientNaam} (${formatLocalTime(appt.starttijd)} - ${formatLocalTime(appt.eindtijd)})`}
-                                  />
-                                );
-                              })}
-
-                              {/* Sub-slots when free */}
-                              {!hasAppts && (
-                                <div className="flex flex-col flex-1 divide-y divide-dashed divide-slate-200/60 dark:divide-brand-800/40 rounded-lg overflow-hidden min-h-[64px]">
-                                  {[0, 0.5].map((subOffset) => {
-                                    const slotVal = hour + subOffset;
-                                    const isSelected = isSubSlotSelectedByDrag(day, slotVal);
-                                    const isStart = dragSelect.isDragging && dragSelect.dayKey === dayKey && Math.min(dragSelect.startSlot!, dragSelect.currentSlot!) === slotVal;
-
-                                    return (
-                                      <div
-                                        key={subOffset}
-                                        data-day-key={dayKey}
-                                        data-slot-val={slotVal}
-                                        onMouseDown={(e) => handleMouseDownSubSlot(day, slotVal, false, e)}
-                                        onMouseEnter={() => handleMouseEnterSubSlot(day, slotVal)}
-                                        onTouchStart={(e) => handleTouchStartSubSlot(day, slotVal, false, e)}
-                                        className={`flex-1 min-h-[30px] px-2 py-1 flex items-center justify-between text-[10px] rounded transition cursor-pointer ${
-                                          isSelected
-                                            ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
-                                            : isBookingSlot
-                                              ? 'hover:bg-emerald-200/70 dark:hover:bg-emerald-900/60 text-slate-500 dark:text-brand-300 group/sub'
-                                              : 'hover:bg-slate-300/50 dark:hover:bg-brand-800/50 text-slate-400 dark:text-brand-500 group/sub'
-                                        }`}
-                                        title={
-                                          isSelected
-                                            ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
-                                            : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(day)}`
-                                        }
-                                      >
-                                        {isSelected ? (
-                                          <span className="font-bold flex items-center gap-1 truncate text-white">
-                                            {isStart && <span>⬛</span>}
-                                            <span>{formatSlotTimeString(slotVal)}</span>
-                                          </span>
-                                        ) : (
-                                          <span className="opacity-0 group-hover/sub:opacity-100 transition text-[9px] font-semibold text-teal-600 dark:text-teal-400">
-                                            + {formatSlotTimeString(slotVal)}
-                                          </span>
-                                        )}
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              )}
                             </div>
                           </td>
                         );
                       })
                     ) : (
                       (() => {
-                        const startingAppts = getAppointmentsStartingInHour(currentDate, hour);
-                        const ongoingAppts = getAppointmentsOngoingInHour(currentDate, hour);
                         const isBookingSlot = isPracticeBookingHour(currentDate, hour);
-                        const hasAppts = startingAppts.length > 0 || ongoingAppts.length > 0;
                         const dayKey = getDayKey(currentDate);
 
                         return (
                           <td 
-                            className={`p-2 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[84px] transition-all select-none ${
+                            className={`p-0 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[84px] transition-all select-none ${
                               isBookingSlot
                                 ? 'bg-emerald-50/40 dark:bg-emerald-950/30 border-l-2 border-emerald-400 dark:border-emerald-700'
                                 : 'bg-slate-200/40 dark:bg-brand-950/90'
                             }`}
                           >
-                            <div className="flex flex-col h-full min-h-[72px] space-y-2">
-                              {/* Starting Appointments */}
-                              {startingAppts.map((appt) => {
-                                const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
-                                const startH = new Date(appt.starttijd).getHours();
-                                const endDate = new Date(appt.eindtijd);
-                                const endH = endDate.getHours();
-                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
-                                const isMulti = lastHour > startH;
+                            <div className="flex flex-col h-full min-h-[84px] divide-y divide-dashed divide-slate-200/40 dark:divide-brand-800/30">
+                              {[0, 0.5].map((subOffset) => {
+                                const slotVal = hour + subOffset;
+                                const isSelected = isSubSlotSelectedByDrag(currentDate, slotVal);
+                                const isStart = dragSelect.isDragging && dragSelect.dayKey === dayKey && Math.min(dragSelect.startSlot!, dragSelect.currentSlot!) === slotVal;
+
+                                // Find appointment covering this exact sub-slot
+                                const coveringAppt = appointments.find(app => {
+                                  if (app.isHeleDag) return false;
+                                  const appStart = new Date(app.starttijd);
+                                  if (appStart.toDateString() !== currentDate.toDateString()) return false;
+                                  const { startSlot, endSlot } = getApptSlotBounds(app);
+                                  return slotVal >= startSlot && slotVal <= endSlot;
+                                });
+
+                                if (coveringAppt) {
+                                  const { startSlot, endSlot } = getApptSlotBounds(coveringAppt);
+                                  const isStartSlot = slotVal === startSlot;
+                                  const isEndSlot = slotVal === endSlot;
+                                  const isSingleSlot = isStartSlot && isEndSlot;
+                                  const isMeet = !!coveringAppt.googleMeetLink || (coveringAppt.opmerkingen && (coveringAppt.opmerkingen.includes('GoogleMeet') || coveringAppt.opmerkingen.includes('Google Meet')));
+                                  const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : coveringAppt.kleurcode;
+
+                                  if (isStartSlot) {
+                                    return (
+                                      <div 
+                                        key={`appt-${coveringAppt.id}-${slotVal}`} 
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSelectedAfspraak(coveringAppt);
+                                        }}
+                                        style={{ borderLeftColor: colorBorder }}
+                                        className={`flex-1 min-h-[42px] p-2.5 border-l-4 ${
+                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-brand-800/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-brand-800/60'
+                                        } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
+                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
+                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                          'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                        }`}
+                                        title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                      >
+                                        <div className="flex justify-between items-start gap-2">
+                                          <h4 className={`text-sm font-bold flex items-center space-x-1.5 ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
+                                            <span>{coveringAppt.patientNaam}</span>
+                                            <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
+                                              coveringAppt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
+                                              coveringAppt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
+                                              'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
+                                            }`}>
+                                              {coveringAppt.status}
+                                            </span>
+                                            {isMeet && (
+                                              <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-700 flex items-center gap-1">
+                                                <Video className="h-3 w-3 text-purple-600 dark:text-purple-300" />
+                                                <span>Online Meet</span>
+                                              </span>
+                                            )}
+                                          </h4>
+                                          <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold shrink-0">
+                                            <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 inline mr-1" />
+                                            {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
+                                          </span>
+                                        </div>
+                                        <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
+                                          {coveringAppt.afspraakTypeNaam}
+                                        </span>
+                                      </div>
+                                    );
+                                  }
+
+                                  return (
+                                    <div 
+                                      key={`ongoing-${coveringAppt.id}-${slotVal}`} 
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedAfspraak(coveringAppt);
+                                      }}
+                                      style={{ borderLeftColor: colorBorder }}
+                                      className={`flex-1 min-h-[42px] w-full border-l-4 ${
+                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-brand-800/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-brand-800/60'
+                                      } ${
+                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/90 dark:bg-brand-950/40' :
+                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
+                                        'bg-white dark:bg-brand-950 border-slate-200 dark:border-brand-800/60'
+                                      } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-3`}
+                                      title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                    />
+                                  );
+                                }
 
                                 return (
-                                  <div 
-                                    key={appt.id} 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedAfspraak(appt);
-                                    }}
-                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className={`p-3 border-l-4 ${
-                                      isMulti ? 'rounded-t-xl rounded-b-none border-b-0 border-t border-l border-r' : 'rounded-xl border'
-                                    } shadow-sm hover:shadow-md transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-left cursor-pointer hover:scale-[1.005] ${
-                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
-                                      isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                      'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
+                                  <div
+                                    key={subOffset}
+                                    data-day-key={dayKey}
+                                    data-slot-val={slotVal}
+                                    onMouseDown={(e) => handleMouseDownSubSlot(currentDate, slotVal, false, e)}
+                                    onMouseEnter={() => handleMouseEnterSubSlot(currentDate, slotVal)}
+                                    onTouchStart={(e) => handleTouchStartSubSlot(currentDate, slotVal, false, e)}
+                                    className={`flex-1 min-h-[38px] px-3 py-1.5 flex items-center justify-between text-[10px] transition cursor-pointer ${
+                                      isSelected
+                                        ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
+                                        : isBookingSlot
+                                          ? 'hover:bg-emerald-200/70 dark:hover:bg-emerald-900/60 text-slate-500 dark:text-brand-300 group/sub'
+                                          : 'hover:bg-slate-300/50 dark:hover:bg-brand-800/50 text-slate-400 dark:text-brand-500 group/sub'
                                     }`}
+                                    title={
+                                      isSelected
+                                        ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
+                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(currentDate)}`
+                                    }
                                   >
-                                    <div>
-                                      <h4 className={`text-sm font-bold flex items-center space-x-1.5 ${appt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}`}>
-                                        <span>{appt.patientNaam}</span>
-                                        <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
-                                          appt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
-                                          appt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
-                                          'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
-                                        }`}>
-                                          {appt.status}
-                                        </span>
-                                        {isMeet && (
-                                          <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-700 flex items-center gap-1">
-                                            <Video className="h-3 w-3 text-purple-600 dark:text-purple-300" />
-                                            <span>Online Meet</span>
-                                          </span>
-                                        )}
-                                      </h4>
-                                      <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
-                                        {appt.afspraakTypeNaam}
+                                    {isSelected ? (
+                                      <span className="font-bold flex items-center gap-1 truncate text-white">
+                                        {isStart && <span>⬛</span>}
+                                        <span>{formatSlotTimeString(slotVal)}</span>
                                       </span>
-                                    </div>
-                                    <div className="flex items-center space-x-4 text-xs font-semibold text-slate-500 dark:text-brand-300 sm:text-right">
-                                      <span className="block flex items-center justify-end">
-                                        <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 mr-1" />
-                                        {formatLocalTime(appt.starttijd)} - {formatLocalTime(appt.eindtijd)}
+                                    ) : (
+                                      <span className="opacity-0 group-hover/sub:opacity-100 transition text-[9px] font-semibold text-teal-600 dark:text-teal-400">
+                                        + {formatSlotTimeString(slotVal)}
                                       </span>
-                                    </div>
+                                    )}
                                   </div>
                                 );
                               })}
-
-                              {/* Ongoing Continuation Blocks (Seamless continuation without repeated text) */}
-                              {ongoingAppts.map((appt) => {
-                                const isMeet = !!appt.googleMeetLink || (appt.opmerkingen && (appt.opmerkingen.includes('GoogleMeet') || appt.opmerkingen.includes('Google Meet')));
-                                const startH = new Date(appt.starttijd).getHours();
-                                const endDate = new Date(appt.eindtijd);
-                                const endH = endDate.getHours();
-                                const lastHour = endDate.getMinutes() > 0 ? endH : Math.max(startH, endH - 1);
-                                const isLastHour = hour === lastHour;
-
-                                return (
-                                  <div 
-                                    key={`ongoing-${appt.id}`} 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedAfspraak(appt);
-                                    }}
-                                    style={{ borderLeftColor: appt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : appt.kleurcode }}
-                                    className={`w-full min-h-[40px] flex-1 border-l-4 ${
-                                      isLastHour ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0' : 'rounded-none border-l border-r border-t-0 border-b-0'
-                                    } ${
-                                      appt.status === 'Geannuleerd' ? 'opacity-60 bg-slate-50/80 dark:bg-brand-950/40 border-slate-100 dark:border-brand-800/60' :
-                                      isMeet ? 'bg-purple-50/80 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800/60' :
-                                      'bg-white dark:bg-brand-950 border-slate-100 dark:border-brand-800/60'
-                                    } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-3 group/ongoing`}
-                                    title={`${appt.patientNaam} (${formatLocalTime(appt.starttijd)} - ${formatLocalTime(appt.eindtijd)})`}
-                                  />
-                                );
-                              })}
-
-                              {/* Sub-slots when free */}
-                              {!hasAppts && (
-                                <div className="flex flex-col flex-1 divide-y divide-dashed divide-slate-200/60 dark:divide-brand-800/40 rounded-lg overflow-hidden min-h-[64px]">
-                                  {[0, 0.5].map((subOffset) => {
-                                    const slotVal = hour + subOffset;
-                                    const isSelected = isSubSlotSelectedByDrag(currentDate, slotVal);
-                                    const isStart = dragSelect.isDragging && dragSelect.dayKey === dayKey && Math.min(dragSelect.startSlot!, dragSelect.currentSlot!) === slotVal;
-
-                                    return (
-                                      <div
-                                        key={subOffset}
-                                        data-day-key={dayKey}
-                                        data-slot-val={slotVal}
-                                        onMouseDown={(e) => handleMouseDownSubSlot(currentDate, slotVal, false, e)}
-                                        onMouseEnter={() => handleMouseEnterSubSlot(currentDate, slotVal)}
-                                        onTouchStart={(e) => handleTouchStartSubSlot(currentDate, slotVal, false, e)}
-                                        className={`flex-1 min-h-[32px] px-3 py-1.5 flex items-center justify-between text-xs rounded transition cursor-pointer ${
-                                          isSelected
-                                            ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
-                                            : isBookingSlot
-                                              ? 'hover:bg-emerald-200/70 dark:hover:bg-emerald-900/60 text-slate-500 dark:text-brand-300 group/sub'
-                                              : 'hover:bg-slate-300/50 dark:hover:bg-brand-800/50 text-slate-400 dark:text-brand-500 group/sub'
-                                        }`}
-                                        title={
-                                          isSelected
-                                            ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
-                                            : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)}`
-                                        }
-                                      >
-                                        {isSelected ? (
-                                          <span className="font-bold flex items-center gap-1 truncate text-white">
-                                            {isStart && <span>⬛</span>}
-                                            <span>{formatSlotTimeString(slotVal)}</span>
-                                          </span>
-                                        ) : (
-                                          <span className="opacity-0 group-hover/sub:opacity-100 transition text-xs font-semibold text-teal-600 dark:text-teal-400">
-                                            + Inplannen om {formatSlotTimeString(slotVal)}
-                                          </span>
-                                        )}
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              )}
                             </div>
                           </td>
                         );
@@ -955,7 +939,14 @@ export const CalendarPage: React.FC = () => {
                 <select
                   required
                   value={newBooking.typeId}
-                  onChange={(e) => setNewBooking({ ...newBooking, typeId: e.target.value })}
+                  onChange={(e) => {
+                    const tId = e.target.value;
+                    const selectedTypeObj = bookingTypes.find(t => t.id.toString() === tId);
+                    const updatedDuration = (newBooking.patientId !== '' && selectedTypeObj) 
+                      ? selectedTypeObj.standaardDuurMinuten 
+                      : newBooking.duurMinuten;
+                    setNewBooking({ ...newBooking, typeId: tId, duurMinuten: updatedDuration });
+                  }}
                   className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   {bookingTypes.map((t) => (
@@ -970,7 +961,14 @@ export const CalendarPage: React.FC = () => {
                 <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Patiënt</label>
                 <select
                   value={newBooking.patientId}
-                  onChange={(e) => setNewBooking({ ...newBooking, patientId: e.target.value })}
+                  onChange={(e) => {
+                    const pId = e.target.value;
+                    const selectedTypeObj = bookingTypes.find(t => t.id.toString() === newBooking.typeId);
+                    const updatedDuration = (pId !== '' && selectedTypeObj) 
+                      ? selectedTypeObj.standaardDuurMinuten 
+                      : newBooking.duurMinuten;
+                    setNewBooking({ ...newBooking, patientId: pId, duurMinuten: updatedDuration });
+                  }}
                   className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   <option value="">-- Geen patiënt (Blokkering) --</option>
@@ -992,50 +990,78 @@ export const CalendarPage: React.FC = () => {
               </div>
 
               {/* Duur / Eindtijd Selector */}
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Duur</label>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {[30, 60, 120, 180, 240, 480].map((min) => {
-                    const label = min < 60 ? `${min}m` : min === 480 ? '8u (hele dag)' : `${min / 60}u`;
-                    return (
-                      <button
-                        key={min}
-                        type="button"
-                        onClick={() => setNewBooking({ ...newBooking, duurMinuten: min })}
-                        className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition ${
-                          Number(newBooking.duurMinuten) === min
-                            ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
-                            : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100 dark:hover:bg-brand-800'
-                        }`}
-                      >
-                        {label}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="number"
-                    min={15}
-                    max={1440}
-                    step={15}
-                    value={newBooking.duurMinuten}
-                    onChange={(e) => setNewBooking({ ...newBooking, duurMinuten: Math.max(15, Number(e.target.value)) })}
-                    className="w-28 bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2 px-3 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
-                  />
-                  <span className="text-xs text-slate-500 dark:text-brand-400 font-medium">minuten</span>
-                  {newBooking.starttijd && (
-                    <span className="text-xs text-brand-600 dark:text-brand-300 font-bold flex items-center bg-brand-50 dark:bg-brand-950 px-2.5 py-1 rounded-lg border border-brand-200/60 dark:border-brand-800/60">
-                      <Clock className="h-3 w-3 mr-1" />
-                      {(() => {
-                        const start = new Date(newBooking.starttijd);
-                        const end = new Date(start.getTime() + Number(newBooking.duurMinuten) * 60000);
-                        return `${start.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })} — ${end.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}`;
-                      })()}
-                    </span>
-                  )}
-                </div>
-              </div>
+              {(() => {
+                const selectedTypeObj = bookingTypes.find(t => t.id.toString() === newBooking.typeId);
+                const isPatientSelected = newBooking.patientId !== '';
+
+                if (isPatientSelected) {
+                  const duration = selectedTypeObj?.standaardDuurMinuten || 50;
+                  return (
+                    <div className="bg-brand-50/80 dark:bg-brand-950/70 p-3.5 rounded-2xl border border-brand-200/60 dark:border-brand-800/60 flex items-center justify-between text-xs text-brand-900 dark:text-brand-200 shadow-2xs">
+                      <span className="flex items-center font-medium">
+                        <Clock className="h-4 w-4 mr-1.5 text-brand-600 dark:text-brand-400 shrink-0" />
+                        <span>Duur afspraaktype: <strong>{duration} minuten</strong></span>
+                      </span>
+                      {newBooking.starttijd && (
+                        <span className="font-bold text-brand-700 dark:text-brand-300 bg-white/80 dark:bg-brand-900 px-2.5 py-1 rounded-xl border border-brand-200/60 dark:border-brand-700/60">
+                          {(() => {
+                            const start = new Date(newBooking.starttijd);
+                            const end = new Date(start.getTime() + duration * 60000);
+                            return `${start.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })} — ${end.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}`;
+                          })()}
+                        </span>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <div>
+                    <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Duur blokkering</label>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {[30, 60, 120, 180, 240, 480].map((min) => {
+                        const label = min < 60 ? `${min}m` : min === 480 ? '8u (hele dag)' : `${min / 60}u`;
+                        return (
+                          <button
+                            key={min}
+                            type="button"
+                            onClick={() => setNewBooking({ ...newBooking, duurMinuten: min })}
+                            className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition ${
+                              Number(newBooking.duurMinuten) === min
+                                ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
+                                : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100 dark:hover:bg-brand-800'
+                            }`}
+                          >
+                            {label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="number"
+                        min={15}
+                        max={1440}
+                        step={15}
+                        value={newBooking.duurMinuten}
+                        onChange={(e) => setNewBooking({ ...newBooking, duurMinuten: Math.max(15, Number(e.target.value)) })}
+                        className="w-28 bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2 px-3 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+                      />
+                      <span className="text-xs text-slate-500 dark:text-brand-400 font-medium">minuten</span>
+                      {newBooking.starttijd && (
+                        <span className="text-xs text-brand-600 dark:text-brand-300 font-bold flex items-center bg-brand-50 dark:bg-brand-950 px-2.5 py-1 rounded-lg border border-brand-200/60 dark:border-brand-800/60">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {(() => {
+                            const start = new Date(newBooking.starttijd);
+                            const end = new Date(start.getTime() + Number(newBooking.duurMinuten) * 60000);
+                            return `${start.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })} — ${end.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}`;
+                          })()}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div>
                 <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Opmerkingen</label>
