@@ -336,21 +336,9 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 context.SaveChanges();
 
 
-                // Clean up any old jockman / dummy patients from SQLite database
+                // Update existing patients created with shared email addresses to unique per-patient emails
                 try
                 {
-                    var dummyPatients = context.Patienten.Where(p => p.Voornaam.ToLower().Contains("jockman") || p.Achternaam.ToLower().Contains("daniels") || (p.Email != null && p.Email.ToLower().Contains("jockman"))).ToList();
-                    if (dummyPatients.Any())
-                    {
-                        var dummyIds = dummyPatients.Select(p => p.Id).ToList();
-                        var apptsToReset = context.Afspraken.Where(a => a.PatientId.HasValue && dummyIds.Contains(a.PatientId.Value)).ToList();
-                        foreach (var app in apptsToReset)
-                        {
-                            app.PatientId = null;
-                        }
-                        context.Patienten.RemoveRange(dummyPatients);
-                    }
-
                     var sharedPatients = context.Patienten.Where(p => p.Email != null && (p.Email.ToLower().Contains("praktijkhuis9500.be") || p.Email.ToLower().Contains("ingedebast@gmail.com"))).ToList();
                     foreach (var p in sharedPatients)
                     {
