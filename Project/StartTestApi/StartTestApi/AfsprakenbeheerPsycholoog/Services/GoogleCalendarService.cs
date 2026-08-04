@@ -491,7 +491,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     Email = patientEmail,
                     Geboortedatum = info.Geboortedatum,
                     IsActief = true,
-                    Telefoonnummer = string.IsNullOrWhiteSpace(info.Telefoonnummer) ? null : info.Telefoonnummer
+                    Telefoonnummer = string.IsNullOrWhiteSpace(info.Telefoonnummer) ? "" : info.Telefoonnummer
                 };
 
                 dbContext.Patienten.Add(patient);

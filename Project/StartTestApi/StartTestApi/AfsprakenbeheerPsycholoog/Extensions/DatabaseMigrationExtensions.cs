@@ -375,7 +375,9 @@ namespace AfsprakenbeheerPsycholoog.Extensions
 
                     if (appt == null)
                     {
-                        appt = context.Afspraken.FirstOrDefault(a => Math.Abs((a.Starttijd - utcStart).TotalMinutes) < 5);
+                        DateTime windowStart = utcStart.AddMinutes(-5);
+                        DateTime windowEnd = utcStart.AddMinutes(5);
+                        appt = context.Afspraken.FirstOrDefault(a => a.Starttijd >= windowStart && a.Starttijd <= windowEnd);
                     }
 
                     if (appt == null)
