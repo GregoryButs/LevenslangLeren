@@ -15,13 +15,20 @@ export function extractErrorMessage(error: unknown, fallbackMessage = 'Er is een
       if (typeof data === 'string') return data;
       if (data.detail) return data.detail;
       if (data.message) return data.message;
-      if (data.title) return data.title;
       if (data.errors && typeof data.errors === 'object') {
-        const firstErrorKey = Object.keys(data.errors)[0];
-        if (firstErrorKey && Array.isArray(data.errors[firstErrorKey])) {
-          return `${firstErrorKey}: ${data.errors[firstErrorKey][0]}`;
+        const messages: string[] = [];
+        for (const [field, msgs] of Object.entries(data.errors)) {
+          if (Array.isArray(msgs)) {
+            messages.push(`${field}: ${msgs.join(', ')}`);
+          } else if (typeof msgs === 'string') {
+            messages.push(`${field}: ${msgs}`);
+          }
+        }
+        if (messages.length > 0) {
+          return messages.join(' | ');
         }
       }
+      if (data.title) return data.title;
     }
 
     if (err.message && typeof err.message === 'string') {
@@ -31,3 +38,4 @@ export function extractErrorMessage(error: unknown, fallbackMessage = 'Er is een
 
   return fallbackMessage;
 }
+

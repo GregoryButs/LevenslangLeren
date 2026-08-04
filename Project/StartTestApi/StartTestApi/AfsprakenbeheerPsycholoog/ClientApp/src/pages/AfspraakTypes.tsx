@@ -187,7 +187,9 @@ export const AfspraakTypes: React.FC = () => {
             </h3>
             <form onSubmit={handleSaveType} className="space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Naam</label>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Naam <span className="text-red-500 font-bold ml-0.5">*</span>
+                </label>
                 <input
                   type="text"
                   required
@@ -199,7 +201,9 @@ export const AfspraakTypes: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Standaardduur (minuten)</label>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Standaardduur (minuten) <span className="text-red-500 font-bold ml-0.5">*</span>
+                </label>
                 <input
                   type="number"
                   min={5}
@@ -212,7 +216,9 @@ export const AfspraakTypes: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Kleurcode (HEX)</label>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Kleurcode (HEX) <span className="text-red-500 font-bold ml-0.5">*</span>
+                </label>
                 <div className="flex space-x-2">
                   <input
                     type="color"

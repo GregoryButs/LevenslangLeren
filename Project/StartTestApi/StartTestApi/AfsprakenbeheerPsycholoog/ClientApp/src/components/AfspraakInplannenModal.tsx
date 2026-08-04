@@ -215,7 +215,9 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Type afspraak</label>
+              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                Type afspraak <span className="text-red-500 font-bold ml-0.5">*</span>
+              </label>
               <select
                 required
                 value={newBooking.typeId}
@@ -238,7 +240,9 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Patiënt</label>
+              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                Patiënt <span className="text-xs font-normal text-slate-400">(Optioneel bij blokkering)</span>
+              </label>
               <select
                 value={newBooking.patientId}
                 onChange={(e) => {
@@ -259,7 +263,9 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Starttijd</label>
+              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                Starttijd <span className="text-red-500 font-bold ml-0.5">*</span>
+              </label>
               <input
                 type="datetime-local"
                 required

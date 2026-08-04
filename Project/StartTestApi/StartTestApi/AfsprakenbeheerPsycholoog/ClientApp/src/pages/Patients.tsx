@@ -3,7 +3,7 @@ import { patientApi } from '../services/api';
 import { Patient } from '../types';
 import { 
   Users, Search, Plus, Edit2, Trash2, ArrowLeft, 
-  Link2, Link2Off, RefreshCw, Calendar, Loader2
+  Link2, Link2Off, RefreshCw, Calendar, Loader2, AlertCircle
 } from 'lucide-react';
 import { InfoTooltip } from '../components/common/InfoTooltip';
 import { getPatientDisplayName } from '../utils/patientUtils';
@@ -31,6 +31,8 @@ export const Patients: React.FC = () => {
 
   // Edit / Create Modal State
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: boolean }>({});
   const [formPatient, setFormPatient] = useState<any>({
     id: null,
     voornaam: '',
@@ -75,6 +77,8 @@ export const Patients: React.FC = () => {
   };
 
   const handleOpenCreateModal = () => {
+    setFormError(null);
+    setFieldErrors({});
     setFormPatient({
       id: null,
       voornaam: '',
@@ -90,6 +94,8 @@ export const Patients: React.FC = () => {
   };
 
   const handleOpenEditModal = (patient: Patient) => {
+    setFormError(null);
+    setFieldErrors({});
     setFormPatient({
       id: patient.id,
       voornaam: patient.voornaam,
@@ -106,10 +112,45 @@ export const Patients: React.FC = () => {
 
   const handleSavePatient = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError(null);
+    const errors: { [key: string]: boolean } = {};
+
+    if (!formPatient.voornaam?.trim()) errors.voornaam = true;
+    if (!formPatient.achternaam?.trim()) errors.achternaam = true;
+    if (!formPatient.geboortedatum) errors.geboortedatum = true;
+    if (!formPatient.email?.trim()) errors.email = true;
+
+    let stabVal: number | null = null;
+    if (formPatient.emotioneleStabiliteit !== undefined && formPatient.emotioneleStabiliteit !== null && formPatient.emotioneleStabiliteit !== '') {
+      const rawStr = String(formPatient.emotioneleStabiliteit).replace(',', '.');
+      const parsed = parseFloat(rawStr);
+      if (isNaN(parsed) || parsed < 1.0 || parsed > 10.0) {
+        errors.emotioneleStabiliteit = true;
+      } else {
+        stabVal = parsed;
+      }
+    } else {
+      errors.emotioneleStabiliteit = true;
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setFormError('Vul alle verplichte velden (*) correct in.');
+      return;
+    }
+
+    setFieldErrors({});
+
     try {
       const payload = {
         ...formPatient,
-        emotioneleStabiliteit: formPatient.emotioneleStabiliteit ? Number(formPatient.emotioneleStabiliteit) : null
+        voornaam: formPatient.voornaam.trim(),
+        achternaam: formPatient.achternaam.trim(),
+        email: formPatient.email.trim(),
+        secundairEmail: formPatient.secundairEmail?.trim() || null,
+        telefoonnummer: formPatient.telefoonnummer?.trim() || null,
+        dossierNummer: formPatient.dossierNummer?.trim() || null,
+        emotioneleStabiliteit: stabVal
       };
 
       if (formPatient.id === null) {
@@ -118,8 +159,9 @@ export const Patients: React.FC = () => {
           achternaam: payload.achternaam,
           geboortedatum: payload.geboortedatum,
           email: payload.email,
-          telefoonnummer: payload.telefoonnummer || null,
-          dossierNummer: payload.dossierNummer || null,
+          secundairEmail: payload.secundairEmail,
+          telefoonnummer: payload.telefoonnummer,
+          dossierNummer: payload.dossierNummer,
           emotioneleStabiliteit: payload.emotioneleStabiliteit
         });
         alert('Patiënt succesvol aangemaakt!');
@@ -134,7 +176,8 @@ export const Patients: React.FC = () => {
       }
     } catch (err) {
       console.error(err);
-      alert('Opslaan mislukt. Controleer de velden.');
+      const errMsg = extractErrorMessage(err, 'Opslaan mislukt. Controleer de velden.');
+      setFormError(errMsg);
     }
   };
 
@@ -568,87 +611,127 @@ export const Patients: React.FC = () => {
       {isFormModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg p-6 border border-slate-100 dark:border-brand-800/40 transition-colors">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4">
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
               {formPatient.id === null ? 'Patiënt Toevoegen' : 'Patiënt Bewerken'}
             </h3>
+            <p className="text-xs text-slate-500 dark:text-brand-300 mb-4">
+              Velden met een <span className="text-red-500 font-bold">*</span> zijn verplicht.
+            </p>
+
+            {formError && (
+              <div className="mb-4 p-3.5 bg-red-50 dark:bg-red-950/70 border border-red-200 dark:border-red-800/60 rounded-2xl text-red-700 dark:text-red-300 text-sm flex items-start space-x-2.5 shadow-sm">
+                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-semibold text-xs uppercase tracking-wide text-red-800 dark:text-red-200">Opslaan Mislukt</p>
+                  <p className="text-xs mt-0.5 leading-relaxed font-medium">{formError}</p>
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleSavePatient} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Voornaam</label>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Voornaam <span className="text-red-500 font-bold ml-0.5">*</span>
+                  </label>
                   <input
                     type="text"
                     required
                     value={formPatient.voornaam}
-                    onChange={(e) => setFormPatient({ ...formPatient, voornaam: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
+                    onChange={(e) => {
+                      setFormPatient({ ...formPatient, voornaam: e.target.value });
+                      if (fieldErrors.voornaam) setFieldErrors({ ...fieldErrors, voornaam: false });
+                    }}
+                    className={`w-full bg-slate-50 dark:bg-brand-950 border ${fieldErrors.voornaam ? 'border-red-500 ring-2 ring-red-500/30' : 'border-slate-200 dark:border-brand-800'} py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400`}
                     placeholder="Voornaam"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Achternaam</label>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Achternaam <span className="text-red-500 font-bold ml-0.5">*</span>
+                  </label>
                   <input
                     type="text"
                     required
                     value={formPatient.achternaam}
-                    onChange={(e) => setFormPatient({ ...formPatient, achternaam: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
+                    onChange={(e) => {
+                      setFormPatient({ ...formPatient, achternaam: e.target.value });
+                      if (fieldErrors.achternaam) setFieldErrors({ ...fieldErrors, achternaam: false });
+                    }}
+                    className={`w-full bg-slate-50 dark:bg-brand-950 border ${fieldErrors.achternaam ? 'border-red-500 ring-2 ring-red-500/30' : 'border-slate-200 dark:border-brand-800'} py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400`}
                     placeholder="Achternaam"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Geboortedatum</label>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Geboortedatum <span className="text-red-500 font-bold ml-0.5">*</span>
+                </label>
                 <input
                   type="date"
                   required
                   value={formPatient.geboortedatum ? formPatient.geboortedatum.split('T')[0] : ''}
-                  onChange={(e) => setFormPatient({ ...formPatient, geboortedatum: e.target.value })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white"
+                  onChange={(e) => {
+                    setFormPatient({ ...formPatient, geboortedatum: e.target.value });
+                    if (fieldErrors.geboortedatum) setFieldErrors({ ...fieldErrors, geboortedatum: false });
+                  }}
+                  className={`w-full bg-slate-50 dark:bg-brand-950 border ${fieldErrors.geboortedatum ? 'border-red-500 ring-2 ring-red-500/30' : 'border-slate-200 dark:border-brand-800'} py-2.5 px-4 rounded-xl text-slate-800 dark:text-white`}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Primair E-mailadres</label>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Primair E-mailadres <span className="text-red-500 font-bold ml-0.5">*</span>
+                  </label>
                   <input
                     type="email"
                     required
                     value={formPatient.email}
-                    onChange={(e) => setFormPatient({ ...formPatient, email: e.target.value })}
-                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
+                    onChange={(e) => {
+                      setFormPatient({ ...formPatient, email: e.target.value });
+                      if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: false });
+                    }}
+                    className={`w-full bg-slate-50 dark:bg-brand-950 border ${fieldErrors.email ? 'border-red-500 ring-2 ring-red-500/30' : 'border-slate-200 dark:border-brand-800'} py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400`}
                     placeholder="primair@adres.be"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Secundair E-mailadres <span className="text-xs font-normal text-slate-400">(Optioneel)</span></label>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Secundair E-mailadres <span className="text-xs font-normal text-slate-400">(Optioneel)</span>
+                  </label>
                   <input
                     type="email"
                     value={formPatient.secundairEmail || ''}
                     onChange={(e) => setFormPatient({ ...formPatient, secundairEmail: e.target.value })}
                     className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
-                    placeholder="secundair@adres.be (of leegmaken)"
+                    placeholder="secundair@adres.be"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Telefoonnummer</label>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Telefoonnummer <span className="text-xs font-normal text-slate-400">(Optioneel)</span>
+                  </label>
                   <input
                     type="tel"
-                    value={formPatient.telefoonnummer}
+                    value={formPatient.telefoonnummer || ''}
                     onChange={(e) => setFormPatient({ ...formPatient, telefoonnummer: e.target.value })}
                     className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
                     placeholder="04..."
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Dossiernummer</label>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Dossiernummer <span className="text-xs font-normal text-slate-400">(Optioneel)</span>
+                  </label>
                   <input
                     type="text"
-                    value={formPatient.dossierNummer}
+                    value={formPatient.dossierNummer || ''}
                     onChange={(e) => setFormPatient({ ...formPatient, dossierNummer: e.target.value })}
                     className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white font-mono placeholder-slate-400 dark:placeholder-brand-400"
                     placeholder="DOS-001"
@@ -657,17 +740,19 @@ export const Patients: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Emotionele Stabiliteit (1.0 - 10.0)</label>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Emotionele Stabiliteit (1.0 - 10.0) <span className="text-red-500 font-bold ml-0.5">*</span>
+                </label>
                 <input
-                  type="number"
-                  step="0.1"
-                  min="1.0"
-                  max="10.0"
+                  type="text"
                   required
-                  value={formPatient.emotioneleStabiliteit}
-                  onChange={(e) => setFormPatient({ ...formPatient, emotioneleStabiliteit: Number(e.target.value) })}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white font-semibold"
-                  placeholder="5.5"
+                  value={formPatient.emotioneleStabiliteit !== undefined && formPatient.emotioneleStabiliteit !== null ? formPatient.emotioneleStabiliteit : ''}
+                  onChange={(e) => {
+                    setFormPatient({ ...formPatient, emotioneleStabiliteit: e.target.value });
+                    if (fieldErrors.emotioneleStabiliteit) setFieldErrors({ ...fieldErrors, emotioneleStabiliteit: false });
+                  }}
+                  className={`w-full bg-slate-50 dark:bg-brand-950 border ${fieldErrors.emotioneleStabiliteit ? 'border-red-500 ring-2 ring-red-500/30' : 'border-slate-200 dark:border-brand-800'} py-2.5 px-4 rounded-xl text-slate-800 dark:text-white font-semibold`}
+                  placeholder="5.5 (of 5,5)"
                 />
               </div>
 
