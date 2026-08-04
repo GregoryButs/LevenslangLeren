@@ -256,46 +256,53 @@ namespace AfsprakenbeheerPsycholoog.Extensions
         {
             try
             {
-                if (!File.Exists("db_dump.txt")) return;
-
-                var lines = File.ReadAllLines("db_dump.txt");
-                bool inAppts = false;
-                int restoredCount = 0;
                 var defaultType = context.AfspraakTypes.FirstOrDefault();
                 int defaultTypeId = defaultType?.Id ?? 1;
+                int restoredCount = 0;
 
-                foreach (var line in lines)
+                // Embedded hardcoded backup snapshot from db_dump.txt
+                var embeddedDump = new (int PatientId, string StartIso, string GoogleEv, string Opm)[]
                 {
-                    if (line.Contains("--- AFSPRAKEN"))
-                    {
-                        inAppts = true;
-                        continue;
-                    }
-                    if (!inAppts || !line.StartsWith("Appt ID ")) continue;
+                    (39, "2026-08-13T08:00:00Z", "4d9f0oukpcjrr0118fnb61guvj", ""),
+                    (44, "2026-08-13T11:00:00Z", "67hgs8ebnqrr4nq7f7s9pfs59t", ""),
+                    (53, "2026-08-14T12:00:00Z", "447gbjgpnt5g5srh12esfug9e3", ""),
+                    (63, "2026-08-04T09:00:00Z", "2rsabitt18cl4pu62qmo6238vq", ""),
+                    (64, "2026-08-14T08:00:00Z", "3lka6pcknjit3gbr38u3lh8s7c", ""),
+                    (68, "2026-08-14T09:00:00Z", "7rpt0d9r4a2i89pbuemu1q0665", ""),
+                    (69, "2026-08-07T08:30:00Z", "6l3t88gs1h3vcqbo0f0qsjamq8", ""),
+                    (72, "2026-08-07T12:00:00Z", "3nmg101ggk1e56294moii6iphn", ""),
+                    (74, "2026-08-03T13:15:00Z", "70gqapug8alihad334aeoff7vo", ""),
+                    (75, "2026-08-10T13:00:00Z", "68qj0d1occs68bb2c8q6ab9k64rjab9o71i6ab9j75j3gc1g6pj68ohgcc", ""),
+                    (78, "2026-08-04T08:00:00Z", "48m7fpmsh4e2qamgff78vjj139", ""),
+                    (80, "2026-08-12T08:00:00Z", "c4p62opncgs62bb5clhj6b9kckp66b9p60o3gb9gc4qm2p9o70pj8cr1co", ""),
+                    (81, "2026-08-03T12:00:00Z", "c5j34opg6sq38bb66cq32b9k6dgm4b9p74om8bb2clh30d9p6hi62oph64", ""),
+                    (85, "2026-08-03T10:00:00Z", "2c3lj5i6trm4s6v40dqno0nh22", ""),
+                    (91, "2026-08-07T09:30:00Z", "6aa4rsthalv60i98qroh77q05l", ""),
+                    (244, "2026-08-05T08:00:00Z", "5jgbqj9dno7ghn8okmjie90olg", ""),
+                    (94, "2026-08-10T09:30:00Z", "3ujanih7g1o2bpj3355dkslm6l", ""),
+                    (95, "2026-08-07T15:30:00Z", "3fbuoinv1goeauogduff9bgg2d", ""),
+                    (204, "2026-08-06T09:00:00Z", "6tj6aor4c4rj0b9ic9i66b9k6gojibb16phj0b9kcdgj0ohoc4s68pb56k", "[PH9500]"),
+                    (206, "2026-08-06T07:00:00Z", "5lgeu2tvsv2sg3kr0v6h3st2kh", "[PH9500]"),
+                    (213, "2026-08-11T16:00:00Z", "4rcq0k18n7rinn4gjvj7lnta8c", "[PH9500]"),
+                    (214, "2026-08-11T12:00:00Z", "5rhlc5kn65cd6hcdjeejq4hvt6", "[PH9500]"),
+                    (215, "2026-08-11T11:00:00Z", "53ecqiuq9osof606dntm66nnhp", "[PH9500]"),
+                    (229, "2026-08-11T17:00:00Z", "coqjgoj665h68b9occrj0b9k6dimabb1c8rm8b9l6opjep1j6orm6db3c4", "[PH9500]"),
+                    (232, "2026-08-11T15:00:00Z", "39k6cqfoqukkmg81mbt2fd2n8n", "[PH9500]\nconsult\nsluit zich sociaal meer en meer af\ngeen depr of suic gedachten\nelke ochtend spijt van wakker te worden\nsinds overlijden vrouw tien jaar terug\nwens nog geen medic\nooit al naar psy geweest maar werd er niet gelukkig van\nKathleen"),
+                    (231, "2026-08-06T08:00:00Z", "19cgvguqqv9tnu5q7sl63f9b1q_20260806T080000Z", "[PH9500]\nstemmings- en concentratieproblemen - relationele problematiek is etiologie")
+                };
 
-                    var pIdMatch = Regex.Match(line, @"PatientId=(\d+)");
-                    var gEvMatch = Regex.Match(line, @"GoogleEv=([^\s,\r\n]+)");
-                    var startMatch = Regex.Match(line, @"Start=([^\s,]+ [^\s,]+)");
-                    var opmMatch = Regex.Match(line, @"Opm=(.*?), GoogleEv=");
-
-                    if (!pIdMatch.Success || !startMatch.Success) continue;
-
-                    int patientId = int.Parse(pIdMatch.Groups[1].Value);
-                    string? googleEv = gEvMatch.Success ? gEvMatch.Groups[1].Value : null;
-                    string opm = opmMatch.Success ? opmMatch.Groups[1].Value.Trim() : "";
-
-                    if (!DateTime.TryParse(startMatch.Groups[1].Value, out var startTime)) continue;
-                    var utcStart = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
-                    var utcEnd = utcStart.AddMinutes(50);
+                foreach (var item in embeddedDump)
+                {
+                    int patientId = item.PatientId;
+                    string googleEv = item.GoogleEv;
+                    string opm = item.Opm;
+                    DateTime utcStart = DateTime.Parse(item.StartIso).ToUniversalTime();
+                    DateTime utcEnd = utcStart.AddMinutes(50);
 
                     var patientExists = context.Patienten.Any(p => p.Id == patientId);
                     if (!patientExists) continue;
 
-                    Afspraak? appt = null;
-                    if (!string.IsNullOrEmpty(googleEv))
-                    {
-                        appt = context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv);
-                    }
+                    Afspraak? appt = context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv);
 
                     if (appt == null)
                     {
@@ -304,7 +311,6 @@ namespace AfsprakenbeheerPsycholoog.Extensions
 
                     if (appt == null)
                     {
-                        // Re-create missing appointment record directly into DB
                         var newAppt = new Afspraak
                         {
                             PatientId = patientId,
@@ -312,7 +318,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                             Starttijd = utcStart,
                             Eindtijd = utcEnd,
                             Status = AfspraakStatus.Gepland,
-                            GoogleEventId = string.IsNullOrEmpty(googleEv) ? null : googleEv,
+                            GoogleEventId = googleEv,
                             Opmerkingen = opm
                         };
                         context.Afspraken.Add(newAppt);
@@ -326,6 +332,57 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                             appt.Opmerkingen = opm;
                         }
                         restoredCount++;
+                    }
+                }
+
+                // Also attempt file parse if db_dump.txt happens to exist
+                if (File.Exists("db_dump.txt"))
+                {
+                    var lines = File.ReadAllLines("db_dump.txt");
+                    bool inAppts = false;
+
+                    foreach (var line in lines)
+                    {
+                        if (line.Contains("--- AFSPRAKEN")) { inAppts = true; continue; }
+                        if (!inAppts || !line.StartsWith("Appt ID ")) continue;
+
+                        var pIdMatch = Regex.Match(line, @"PatientId=(\d+)");
+                        var gEvMatch = Regex.Match(line, @"GoogleEv=([^\s,\r\n]+)");
+                        var startMatch = Regex.Match(line, @"Start=([^\s,]+ [^\s,]+)");
+
+                        if (!pIdMatch.Success || !startMatch.Success) continue;
+
+                        int patientId = int.Parse(pIdMatch.Groups[1].Value);
+                        string? googleEv = gEvMatch.Success ? gEvMatch.Groups[1].Value : null;
+
+                        if (!DateTime.TryParse(startMatch.Groups[1].Value, out var startTime)) continue;
+                        var utcStart = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
+                        var utcEnd = utcStart.AddMinutes(50);
+
+                        if (!context.Patienten.Any(p => p.Id == patientId)) continue;
+
+                        Afspraak? appt = !string.IsNullOrEmpty(googleEv) ? context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv) : null;
+                        if (appt == null) appt = context.Afspraken.FirstOrDefault(a => Math.Abs((a.Starttijd - utcStart).TotalMinutes) < 5);
+
+                        if (appt == null)
+                        {
+                            var newAppt = new Afspraak
+                            {
+                                PatientId = patientId,
+                                TypeId = defaultTypeId,
+                                Starttijd = utcStart,
+                                Eindtijd = utcEnd,
+                                Status = AfspraakStatus.Gepland,
+                                GoogleEventId = googleEv
+                            };
+                            context.Afspraken.Add(newAppt);
+                            restoredCount++;
+                        }
+                        else if (appt.PatientId == null)
+                        {
+                            appt.PatientId = patientId;
+                            restoredCount++;
+                        }
                     }
                 }
 
