@@ -309,20 +309,30 @@ namespace AfsprakenbeheerPsycholoog.Extensions
         {
             try
             {
+                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Consultatie", Kleurcode = "#478d96", StandaardDuurMinuten = 50, VereistPatient = true });
+                }
+                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Intake", Kleurcode = "#3b82f6", StandaardDuurMinuten = 60, VereistPatient = true });
+                }
+                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Praktijkhuis Consultatie", Kleurcode = "#8b5cf6", StandaardDuurMinuten = 50, VereistPatient = true });
+                }
+                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Pauze", StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Pauze / Lunch", Kleurcode = "#6b7280", StandaardDuurMinuten = 30, VereistPatient = false });
+                }
+                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Verlof", StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Verlof / Afwezig", Kleurcode = "#ef4444", StandaardDuurMinuten = 480, VereistPatient = false });
+                }
+                context.SaveChanges();
+
                 var consultatieType = context.AfspraakTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
                                      ?? context.AfspraakTypes.FirstOrDefault();
-                if (consultatieType == null)
-                {
-                    consultatieType = new AfspraakType
-                    {
-                        Naam = "Consultatie",
-                        Kleurcode = "#478d96",
-                        StandaardDuurMinuten = 50,
-                        VereistPatient = true
-                    };
-                    context.AfspraakTypes.Add(consultatieType);
-                    context.SaveChanges();
-                }
                 int? defaultTypeId = consultatieType?.Id;
                 int restoredCount = 0;
 

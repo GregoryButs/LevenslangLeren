@@ -329,10 +329,11 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
             else
             {
+                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description);
                 var blockerAfspraak = new Afspraak
                 {
                     PatientId = null,
-                    TypeId = null,
+                    TypeId = afspraakType?.Id,
                     Starttijd = startUtc,
                     Eindtijd = endUtc,
                     Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
@@ -549,27 +550,58 @@ namespace AfsprakenbeheerPsycholoog.Services
             return patient;
         }
 
-        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null)
+        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null, string? description = null)
         {
             var allTypes = dbContext.AfspraakTypes.ToList();
+            if (!allTypes.Any()) return null;
+
+            var textToSearch = $"{summary ?? ""} {description ?? ""}".Trim();
+
+            // 1. Direct name match against any existing AfspraakType in the database
+            if (!string.IsNullOrWhiteSpace(textToSearch))
+            {
+                foreach (var type in allTypes)
+                {
+                    if (!string.IsNullOrWhiteSpace(type.Naam) && textToSearch.Contains(type.Naam, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return type;
+                    }
+                }
+            }
+
+            // 2. Keyword fallback matching
+            var lowerText = textToSearch.ToLower();
+
+            if (lowerText.Contains("pauze") || lowerText.Contains("lunch"))
+            {
+                var pauzeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Pauze", StringComparison.OrdinalIgnoreCase) || t.Naam.Contains("Lunch", StringComparison.OrdinalIgnoreCase));
+                if (pauzeType != null) return pauzeType;
+            }
+
+            if (lowerText.Contains("verlof") || lowerText.Contains("vakantie") || lowerText.Contains("afwezig") || lowerText.Contains("vrij"))
+            {
+                var verlofType = allTypes.FirstOrDefault(t => t.Naam.Contains("Verlof", StringComparison.OrdinalIgnoreCase) || t.Naam.Contains("Vakantie", StringComparison.OrdinalIgnoreCase) || t.Naam.Contains("Afwezig", StringComparison.OrdinalIgnoreCase));
+                if (verlofType != null) return verlofType;
+            }
+
+            if (lowerText.Contains("intake") || lowerText.Contains("1ste") || lowerText.Contains("eerste") || lowerText.Contains("kennismaking"))
+            {
+                var intakeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase));
+                if (intakeType != null) return intakeType;
+            }
+
+            if (isPraktijkhuis)
+            {
+                var praktijkhuisType = allTypes.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase));
+                if (praktijkhuisType != null) return praktijkhuisType;
+            }
+
+            // 3. Default fallback to Consultatie
             var consultatieType = allTypes.FirstOrDefault(t => string.Equals(t.Naam, "Consultatie", StringComparison.OrdinalIgnoreCase))
                                  ?? allTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
                                  ?? allTypes.FirstOrDefault();
 
-            var praktijkhuisType = allTypes.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase));
-            var intakeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase));
-
-            if (!string.IsNullOrWhiteSpace(summary) && (summary.Contains("intake", StringComparison.OrdinalIgnoreCase) || summary.Contains("1ste", StringComparison.OrdinalIgnoreCase) || summary.Contains("eerste", StringComparison.OrdinalIgnoreCase)))
-            {
-                return intakeType ?? consultatieType;
-            }
-
-            if (isPraktijkhuis && praktijkhuisType != null)
-            {
-                return praktijkhuisType;
-            }
-
-            return consultatieType ?? allTypes.FirstOrDefault();
+            return consultatieType;
         }
 
         private static bool IsExplicitBlocker(string? summary)
