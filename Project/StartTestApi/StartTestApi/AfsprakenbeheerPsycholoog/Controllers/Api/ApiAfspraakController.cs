@@ -63,14 +63,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 });
             }
 
-            var afspraken = _afspraakService.GetAlleAfspraken();
-            if (!afspraken.Any())
+            using (var scope = HttpContext.RequestServices.CreateScope())
             {
-                using var scope = HttpContext.RequestServices.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 DatabaseMigrationExtensions.RestoreFromDump(db);
-                afspraken = _afspraakService.GetAlleAfspraken();
             }
+
+            var afspraken = _afspraakService.GetAlleAfspraken();
             return Ok(afspraken);
         }
 

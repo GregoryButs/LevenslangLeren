@@ -452,8 +452,12 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 {
                     context.SaveChanges();
                 }
+                Console.WriteLine($"[RestoreFromDump] Herstelde afspraken verwerkt. Aantal aangepast/toegevoegd: {restoredCount}");
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[RestoreFromDump] Fout tijdens herstel: {ex.Message}");
+            }
         }
     }
 }
