@@ -284,7 +284,11 @@ export const CalendarPage: React.FC = () => {
   // Determine working hours span dynamically
   let minHour = 8;
   let maxHour = 18;
-  if (!showFull24h && appointments.length > 0) {
+
+  if (showFull24h) {
+    minHour = 0;
+    maxHour = 23;
+  } else if (appointments.length > 0) {
     appointments.forEach(app => {
       if (app.isHeleDag) return;
       const startH = new Date(app.starttijd).getHours();
