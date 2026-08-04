@@ -117,8 +117,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (_calendarService == null) throw new InvalidOperationException("Google Calendar Service is niet geïnitialiseerd.");
 
             var summaryText = string.IsNullOrWhiteSpace(patientNaam)
-                ? $"Afspraak #{afspraakId} - patiëntenportaal"
-                : $"{patientNaam} - patiëntenportaal";
+                ? $"Afspraak #{afspraakId}"
+                : patientNaam;
 
             var startOffset = new DateTimeOffset(startUtc, TimeSpan.Zero);
             var endOffset = new DateTimeOffset(endUtc, TimeSpan.Zero);

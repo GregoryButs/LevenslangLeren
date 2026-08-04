@@ -150,7 +150,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 try
                 {
-                    var pNaam = afspraak.Patient != null ? $"{afspraak.Patient.Voornaam} {afspraak.Patient.Achternaam}".Trim() : "";
+                    var patientObj = afspraak.Patient ?? (afspraak.PatientId.HasValue ? _patientRepo.GetById(afspraak.PatientId.Value) : null);
+                    var pNaam = patientObj != null ? $"{patientObj.Voornaam} {patientObj.Achternaam}".Trim() : "";
                     bool isMeet = afspraak.Opmerkingen != null && (afspraak.Opmerkingen.Contains("GoogleMeet") || afspraak.Opmerkingen.Contains("Google Meet"));
                     var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraak.Starttijd, afspraak.Eindtijd, afspraak.Id, isMeet, "", pNaam);
                     afspraak.GoogleEventId = googleEventId;
@@ -274,7 +275,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 try
                 {
-                    var pNaam = afspraakInDb.Patient != null ? $"{afspraakInDb.Patient.Voornaam} {afspraakInDb.Patient.Achternaam}".Trim() : "";
+                    var patientObj = afspraakInDb.Patient ?? (afspraakInDb.PatientId.HasValue ? _patientRepo.GetById(afspraakInDb.PatientId.Value) : null);
+                    var pNaam = patientObj != null ? $"{patientObj.Voornaam} {patientObj.Achternaam}".Trim() : "";
                     var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id, false, "", pNaam);
                     afspraakInDb.GoogleEventId = googleEventId;
                     if (!string.IsNullOrEmpty(googleMeetLink))

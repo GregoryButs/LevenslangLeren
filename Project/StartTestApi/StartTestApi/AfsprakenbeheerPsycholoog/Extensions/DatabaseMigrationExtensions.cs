@@ -155,13 +155,13 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 using (var addColCmd = conn.CreateCommand())
                                 {
                                     addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN VerwijderdReden TEXT NULL;";
-                        try
-                        {
-                            context.Database.EnsureDeleted();
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
                         }
-                        catch (Exception) { }
                     }
                 }
+                catch (Exception) { }
 
                 try
                 {
