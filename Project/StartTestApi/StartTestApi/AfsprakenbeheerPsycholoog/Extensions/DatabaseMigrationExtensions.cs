@@ -155,22 +155,23 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 using (var addColCmd = conn.CreateCommand())
                                 {
                                     addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN VerwijderdReden TEXT NULL;";
-                                    addColCmd.ExecuteNonQuery();
-                                }
-                            }
+                        try
+                        {
+                            context.Database.EnsureDeleted();
                         }
+                        catch (Exception) { }
                     }
                 }
-                catch { }
 
                 try
                 {
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
                 }
                 catch (Exception)
                 {
                     context.Database.Migrate();
                 }
+
                 SeedData.Initialize(scope.ServiceProvider).GetAwaiter().GetResult();
 
                 // Ensure existing Praktijkhuis appointments use 'Therapie Praktijkhuis' (ID 3, orange)
@@ -211,21 +212,21 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 }
                 catch (Exception) { }
 
-                // Dump patients and appointments info
+                // Dump patients and appointments info if not exists
                 try
                 {
-                    var patients = context.Patienten.ToList();
-                    var pLines = patients.Select(p => $"Patient ID {p.Id}: {p.Voornaam} {p.Achternaam} ({p.Email}, {p.Telefoonnummer})");
-                    
-                    var appts = context.Afspraken.Include(a => a.Patient).Where(a => a.Starttijd >= new DateTime(2026, 8, 1) && a.Starttijd <= new DateTime(2026, 8, 15)).ToList();
-                    var aLines = appts.Select(a => $"Appt ID {a.Id}: Start={a.Starttijd}, PatientId={a.PatientId}, Patient={a.Patient?.Voornaam} {a.Patient?.Achternaam}, Opm={a.Opmerkingen}, GoogleEv={a.GoogleEventId}");
+                    if (!File.Exists("db_dump.txt"))
+                    {
+                        var patients = context.Patienten.ToList();
+                        var pLines = patients.Select(p => $"Patient ID {p.Id}: {p.Voornaam} {p.Achternaam} ({p.Email}, {p.Telefoonnummer})");
+                        
+                        var appts = context.Afspraken.Include(a => a.Patient).Where(a => a.Starttijd >= new DateTime(2026, 8, 1) && a.Starttijd <= new DateTime(2026, 8, 15)).ToList();
+                        var aLines = appts.Select(a => $"Appt ID {a.Id}: Start={a.Starttijd}, PatientId={a.PatientId}, Patient={a.Patient?.Voornaam} {a.Patient?.Achternaam}, Opm={a.Opmerkingen}, GoogleEv={a.GoogleEventId}");
 
-                    File.WriteAllText("db_dump.txt", "--- PATIENTEN ---\n" + string.Join("\n", pLines) + "\n\n--- AFSPRAKEN (1-15 aug) ---\n" + string.Join("\n", aLines));
+                        File.WriteAllText("db_dump.txt", "--- PATIENTEN ---\n" + string.Join("\n", pLines) + "\n\n--- AFSPRAKEN (1-15 aug) ---\n" + string.Join("\n", aLines));
+                    }
                 }
-                catch (Exception ex)
-                {
-                    File.WriteAllText("db_dump.txt", "Error: " + ex.Message);
-                }
+                catch (Exception) { }
 
                 // Automatically sync Google Calendar & Praktijkhuis appointments on startup
                 try
@@ -237,9 +238,71 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     }
                 }
                 catch (Exception) { }
+
+                // Restore patient links from db_dump.txt if any appointments lost PatientId
+                RestoreFromDump(context);
             }
 
             return app;
+        }
+
+        public static void RestoreFromDump(ApplicationDbContext context)
+        {
+            try
+            {
+                if (!File.Exists("db_dump.txt")) return;
+
+                var lines = File.ReadAllLines("db_dump.txt");
+                bool inAppts = false;
+                int restoredCount = 0;
+
+                foreach (var line in lines)
+                {
+                    if (line.Contains("--- AFSPRAKEN"))
+                    {
+                        inAppts = true;
+                        continue;
+                    }
+                    if (!inAppts || !line.StartsWith("Appt ID ")) continue;
+
+                    var pIdMatch = Regex.Match(line, @"PatientId=(\d+)");
+                    var gEvMatch = Regex.Match(line, @"GoogleEv=([^\s,\r\n]+)");
+                    var startMatch = Regex.Match(line, @"Start=([^\s,]+ [^\s,]+)");
+
+                    if (!pIdMatch.Success) continue;
+                    int patientId = int.Parse(pIdMatch.Groups[1].Value);
+
+                    string? googleEv = gEvMatch.Success ? gEvMatch.Groups[1].Value : null;
+
+                    Afspraak? appt = null;
+                    if (!string.IsNullOrEmpty(googleEv))
+                    {
+                        appt = context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv);
+                    }
+
+                    if (appt == null && startMatch.Success && DateTime.TryParse(startMatch.Groups[1].Value, out var startTime))
+                    {
+                        var utcStart = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
+                        appt = context.Afspraken.FirstOrDefault(a => (a.Starttijd == utcStart || Math.Abs((a.Starttijd - utcStart).TotalMinutes) < 5) && a.PatientId == null);
+                    }
+
+                    if (appt != null && appt.PatientId == null)
+                    {
+                        var patientExists = context.Patienten.Any(p => p.Id == patientId);
+                        if (patientExists)
+                        {
+                            appt.PatientId = patientId;
+                            restoredCount++;
+                        }
+                    }
+                }
+
+                if (restoredCount > 0)
+                {
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception) { }
         }
     }
 }

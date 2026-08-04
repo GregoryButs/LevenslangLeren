@@ -140,12 +140,30 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         {
             try
             {
-                var syncedAppts = _context.Afspraken.Where(a => a.GoogleEventId != null);
-                _context.Afspraken.RemoveRange(syncedAppts);
+                // Alleen externe blokkeringen / Google-events ZONDER patiënt verwijderen!
+                // Afspraken van patiënten (PatientId != null) moeten bewaard blijven voor patiënt- en boekingshistoriek.
+                var externalBlockers = _context.Afspraken.Where(a => a.GoogleEventId != null && a.PatientId == null);
+                _context.Afspraken.RemoveRange(externalBlockers);
                 await _context.SaveChangesAsync();
 
                 await _googleCalendarService.SyncIncomingChangesAsync();
-                return Ok(new { message = "Agenda is volledig opschoond en opnieuw gesynchroniseerd vanuit Google Calendar." });
+                DatabaseMigrationExtensions.RestoreFromDump(_context);
+                return Ok(new { message = "Agenda is opgeschoond voor externe blokkeringen en opnieuw gesynchroniseerd vanuit Google Calendar. Patiëntafspraken zijn behouden." });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        [HttpPost("restore-dump")]
+        [Authorize(Policy = "PsycholoogOnly")]
+        public IActionResult RestoreDump()
+        {
+            try
+            {
+                DatabaseMigrationExtensions.RestoreFromDump(_context);
+                return Ok(new { message = "Herstelprocedure succesvol uitgevoerd. Patiëntkoppelingen zijn opnieuw opgebouwd." });
             }
             catch (System.Exception ex)
             {
