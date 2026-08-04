@@ -309,31 +309,16 @@ namespace AfsprakenbeheerPsycholoog.Extensions
         {
             try
             {
-                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("consult")))
+                if (!context.AfspraakTypes.Any())
                 {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Consultatie", Kleurcode = "#478d96", StandaardDuurMinuten = 50, VereistPatient = true });
-                }
-                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("intake")))
-                {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Intake", Kleurcode = "#3b82f6", StandaardDuurMinuten = 60, VereistPatient = true });
-                }
-                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("praktijkhuis")))
-                {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Praktijkhuis Consultatie", Kleurcode = "#a855f7", StandaardDuurMinuten = 50, VereistPatient = true });
-                }
-                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("online")))
-                {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Online Consultatie", Kleurcode = "#06b6d4", StandaardDuurMinuten = 50, VereistPatient = true });
-                }
-                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("pauze")))
-                {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Pauze / Lunch", Kleurcode = "#6b7280", StandaardDuurMinuten = 30, VereistPatient = false });
-                }
-                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("verlof")))
-                {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Verlof / Afwezig", Kleurcode = "#ef4444", StandaardDuurMinuten = 480, VereistPatient = false });
+                    context.SaveChanges();
                 }
-                context.SaveChanges();
 
 
                 // Update existing patients created with shared email addresses to unique per-patient emails
