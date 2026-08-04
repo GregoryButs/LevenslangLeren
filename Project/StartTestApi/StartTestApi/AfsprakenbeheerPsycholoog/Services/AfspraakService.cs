@@ -136,6 +136,24 @@ namespace AfsprakenbeheerPsycholoog.Services
                 afspraak.Eindtijd = eindUtc;
                 afspraak.ReeksId = reeksId;
 
+                if (!string.IsNullOrEmpty(vm.LocatieType))
+                {
+                    string locationTag = vm.LocatieType switch
+                    {
+                        "GoogleMeet" => "[Online via Google Meet]",
+                        "Telefoon" => "[Telefonische meeting]",
+                        "Praktijk" => "[Op de praktijk]",
+                        _ => ""
+                    };
+
+                    if (!string.IsNullOrEmpty(locationTag) && (afspraak.Opmerkingen == null || !afspraak.Opmerkingen.Contains(locationTag)))
+                    {
+                        afspraak.Opmerkingen = string.IsNullOrEmpty(afspraak.Opmerkingen)
+                            ? locationTag
+                            : $"{locationTag}\n{afspraak.Opmerkingen}";
+                    }
+                }
+
                 _afspraakRepo.Add(afspraak);
                 toegevoegdeAfspraken.Add(afspraak);
                 aangemaakt++;
@@ -152,7 +170,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     var patientObj = afspraak.Patient ?? (afspraak.PatientId.HasValue ? _patientRepo.GetById(afspraak.PatientId.Value) : null);
                     var pNaam = patientObj != null ? $"{patientObj.Voornaam} {patientObj.Achternaam}".Trim() : "";
-                    bool isMeet = afspraak.Opmerkingen != null && (afspraak.Opmerkingen.Contains("GoogleMeet") || afspraak.Opmerkingen.Contains("Google Meet"));
+                    bool isMeet = (vm.LocatieType == "GoogleMeet") || (afspraak.Opmerkingen != null && (afspraak.Opmerkingen.Contains("GoogleMeet") || afspraak.Opmerkingen.Contains("Google Meet") || afspraak.Opmerkingen.Contains("Online")));
                     var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraak.Starttijd, afspraak.Eindtijd, afspraak.Id, isMeet, "", pNaam);
                     afspraak.GoogleEventId = googleEventId;
                     if (!string.IsNullOrEmpty(googleMeetLink))

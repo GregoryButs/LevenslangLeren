@@ -31,6 +31,9 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Display(Name = "Opmerkingen")]
         public string? Opmerkingen { get; set; }
 
+        [Display(Name = "Locatie / Consult Vorm")]
+        public string? LocatieType { get; set; } // "Praktijk", "GoogleMeet", "Telefoon"
+
         // Herhalingsopties
         [Display(Name = "Herhaling")]
         public HerhaalPatroon Herhaling { get; set; } = HerhaalPatroon.Geen;

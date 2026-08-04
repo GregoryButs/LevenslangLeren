@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, X, Loader2 } from 'lucide-react';
+import { Clock, X, Loader2, MapPin, Video, Phone } from 'lucide-react';
 import { patientApi, afspraakTypeApi, afspraakApi } from '../services/api';
 import { getPatientDisplayName } from '../utils/patientUtils';
 import { Afspraak } from '../types';
@@ -34,6 +34,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
     patientId: '',
     starttijd: '',
     duurMinuten: 60,
+    locatieType: 'Praktijk' as 'Praktijk' | 'GoogleMeet' | 'Telefoon',
     opmerkingen: '',
     status: 'Gepland' as 'Gepland' | 'Voltooid' | 'Geannuleerd',
     herhaling: 0,
@@ -91,6 +92,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             patientId: res.viewModel?.patientId ? String(res.viewModel.patientId) : '',
             starttijd: localIso,
             duurMinuten: duration,
+            locatieType: (res.viewModel?.locatieType || 'Praktijk') as any,
             opmerkingen: res.viewModel?.opmerkingen || '',
             status: res.viewModel?.status || 'Gepland',
             herhaling: 0,
@@ -124,6 +126,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             patientId: '',
             starttijd: formattedStarttijd,
             duurMinuten: initialDuration,
+            locatieType: 'Praktijk',
             opmerkingen: '',
             status: 'Gepland',
             herhaling: 0,
@@ -159,6 +162,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
           patientId: newBooking.patientId ? parseInt(newBooking.patientId, 10) : null,
           starttijd: new Date(newBooking.starttijd).toISOString(),
           customDuurMinuten: Number(newBooking.duurMinuten),
+          locatieType: newBooking.locatieType,
           opmerkingen: newBooking.opmerkingen,
           status: newBooking.status
         });
@@ -168,6 +172,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
           patientId: newBooking.patientId ? parseInt(newBooking.patientId, 10) : null,
           starttijd: new Date(newBooking.starttijd).toISOString(),
           customDuurMinuten: Number(newBooking.duurMinuten),
+          locatieType: newBooking.locatieType,
           opmerkingen: newBooking.opmerkingen,
           herhaling: newBooking.herhaling,
           herhaalTot: newBooking.herhaling !== 0 && newBooking.herhaalTot ? new Date(newBooking.herhaalTot).toISOString() : null
@@ -237,6 +242,53 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Locatie / Consult Vorm Selector */}
+            <div>
+              <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                Locatie / Consult Vorm
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setNewBooking({ ...newBooking, locatieType: 'Praktijk' })}
+                  className={`py-2 px-3 text-xs font-bold rounded-xl border transition flex items-center justify-center space-x-1.5 cursor-pointer ${
+                    newBooking.locatieType === 'Praktijk'
+                      ? 'bg-brand-600 text-white border-brand-600 shadow-xs'
+                      : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100 dark:hover:bg-brand-800'
+                  }`}
+                >
+                  <MapPin className="h-4 w-4 shrink-0 text-brand-400" />
+                  <span>Praktijk</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setNewBooking({ ...newBooking, locatieType: 'GoogleMeet' })}
+                  className={`py-2 px-3 text-xs font-bold rounded-xl border transition flex items-center justify-center space-x-1.5 cursor-pointer ${
+                    newBooking.locatieType === 'GoogleMeet'
+                      ? 'bg-purple-600 text-white border-purple-600 shadow-xs'
+                      : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100 dark:hover:bg-brand-800'
+                  }`}
+                >
+                  <Video className="h-4 w-4 shrink-0 text-purple-400" />
+                  <span>Online (Meet)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setNewBooking({ ...newBooking, locatieType: 'Telefoon' })}
+                  className={`py-2 px-3 text-xs font-bold rounded-xl border transition flex items-center justify-center space-x-1.5 cursor-pointer ${
+                    newBooking.locatieType === 'Telefoon'
+                      ? 'bg-teal-600 text-white border-teal-600 shadow-xs'
+                      : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100 dark:hover:bg-brand-800'
+                  }`}
+                >
+                  <Phone className="h-4 w-4 shrink-0 text-teal-400" />
+                  <span>Telefonisch</span>
+                </button>
+              </div>
             </div>
 
             <div>

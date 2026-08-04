@@ -592,8 +592,8 @@ export const CalendarPage: React.FC = () => {
                                       isSelected
                                         ? 'bg-brand-500 text-white font-bold shadow-md z-20 relative -mb-[1px]'
                                         : isBookingSlot
-                                          ? 'bg-teal-50/40 dark:bg-teal-950/25 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/60 dark:hover:bg-teal-900/40 text-slate-600 dark:text-brand-200 group/sub'
-                                          : 'bg-slate-100/70 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/80 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
+                                          ? 'bg-teal-50/70 dark:bg-teal-950/35 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/80 dark:hover:bg-teal-900/50 text-slate-700 dark:text-brand-200 group/sub'
+                                          : 'bg-slate-100/90 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/90 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
                                     }`}
                                     title={
                                       isSelected
@@ -642,25 +642,25 @@ export const CalendarPage: React.FC = () => {
                                     borderLeftColor: colorBorder,
                                     zIndex: 10
                                   }}
-                                  className={`p-1.5 border-l-4 rounded-lg shadow-md transition text-left cursor-pointer overflow-hidden ${
+                                  className={`p-1.5 border-l-4 rounded-lg shadow-xs hover:shadow-md transition text-left cursor-pointer overflow-hidden ${
                                     coveringAppt.status === 'Geannuleerd' 
-                                      ? 'opacity-75 bg-slate-800/90 dark:bg-slate-800/90 border-dashed border-slate-600 text-slate-300' 
-                                      : 'bg-slate-800/95 dark:bg-slate-900/95 text-white border border-slate-700/80 hover:border-teal-500/80'
+                                      ? 'opacity-75 bg-slate-100 dark:bg-slate-800/90 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-300' 
+                                      : 'bg-white dark:bg-slate-900/95 text-slate-900 dark:text-white border border-slate-200/90 dark:border-slate-700/80 hover:border-teal-500 dark:hover:border-teal-400'
                                   }`}
                                   title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                 >
                                   <div className="flex justify-between items-center text-xs font-bold truncate leading-tight">
-                                    <span className={`truncate ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400' : 'text-white'}`}>
+                                    <span className={`truncate ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-white'}`}>
                                       {coveringAppt.patientNaam}
                                     </span>
-                                    <span className="text-[10px] font-semibold text-slate-300 shrink-0 ml-1">
+                                    <span className="text-[10px] font-semibold text-slate-600 dark:text-slate-300 shrink-0 ml-1">
                                       {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
                                     </span>
                                   </div>
                                   {heightPx > 30 && (
-                                    <div className="text-[10px] sm:text-xs text-teal-300 truncate font-medium mt-0.5 flex items-center justify-between">
+                                    <div className="text-[10px] sm:text-xs text-teal-700 dark:text-teal-300 truncate font-semibold mt-0.5 flex items-center justify-between">
                                       <span className="truncate">{coveringAppt.afspraakTypeNaam}</span>
-                                      {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-400 shrink-0 inline ml-1" />}
+                                      {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400 shrink-0 inline ml-1" />}
                                     </div>
                                   )}
                                 </div>
@@ -707,8 +707,8 @@ export const CalendarPage: React.FC = () => {
                                       isSelected
                                         ? 'bg-brand-500 text-white font-bold shadow-md z-20 relative -mb-[1px]'
                                         : isBookingSlot
-                                          ? 'bg-teal-50/40 dark:bg-teal-950/25 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/60 dark:hover:bg-teal-900/40 text-slate-600 dark:text-brand-200 group/sub'
-                                          : 'bg-slate-100/70 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/80 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
+                                          ? 'bg-teal-50/70 dark:bg-teal-950/35 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/80 dark:hover:bg-teal-900/50 text-slate-700 dark:text-brand-200 group/sub'
+                                          : 'bg-slate-100/90 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/90 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
                                     }`}
                                     title={
                                       isSelected
@@ -757,25 +757,25 @@ export const CalendarPage: React.FC = () => {
                                     borderLeftColor: colorBorder,
                                     zIndex: 10
                                   }}
-                                  className={`p-2 border-l-4 rounded-lg shadow-md transition text-left cursor-pointer overflow-hidden ${
+                                  className={`p-2 border-l-4 rounded-lg shadow-xs hover:shadow-md transition text-left cursor-pointer overflow-hidden ${
                                     coveringAppt.status === 'Geannuleerd' 
-                                      ? 'opacity-75 bg-slate-800/90 dark:bg-slate-800/90 border-dashed border-slate-600 text-slate-300' 
-                                      : 'bg-slate-800/95 dark:bg-slate-900/95 text-white border border-slate-700/80 hover:border-teal-500/80'
+                                      ? 'opacity-75 bg-slate-100 dark:bg-slate-800/90 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-300' 
+                                      : 'bg-white dark:bg-slate-900/95 text-slate-900 dark:text-white border border-slate-200/90 dark:border-slate-700/80 hover:border-teal-500 dark:hover:border-teal-400'
                                   }`}
                                   title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                 >
                                   <div className="flex justify-between items-center text-xs font-bold truncate leading-tight">
-                                    <span className={`truncate ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400' : 'text-white'}`}>
+                                    <span className={`truncate ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-white'}`}>
                                       {coveringAppt.patientNaam}
                                     </span>
-                                    <span className="text-[10px] font-semibold text-slate-300 shrink-0 ml-1">
+                                    <span className="text-[10px] font-semibold text-slate-600 dark:text-slate-300 shrink-0 ml-1">
                                       {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
                                     </span>
                                   </div>
                                   {heightPx > 30 && (
-                                    <div className="text-xs text-teal-300 truncate font-medium mt-0.5 flex items-center justify-between">
+                                    <div className="text-xs text-teal-700 dark:text-teal-300 truncate font-semibold mt-0.5 flex items-center justify-between">
                                       <span className="truncate">{coveringAppt.afspraakTypeNaam}</span>
-                                      {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-400 shrink-0 inline ml-1" />}
+                                      {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400 shrink-0 inline ml-1" />}
                                     </div>
                                   )}
                                 </div>
