@@ -108,7 +108,7 @@ export const CalendarPage: React.FC = () => {
       const parts = dragSelect.dayKey.split('-');
       const targetDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
 
-      const totalHours = (maxSlot + 0.25) - minSlot;
+      const totalHours = (maxSlot + (1 / 12)) - minSlot;
       const durationMin = Math.round(totalHours * 60);
 
       setDragSelect({ isDragging: false, dayKey: null, startSlot: null, currentSlot: null });
@@ -306,23 +306,7 @@ export const CalendarPage: React.FC = () => {
 
   const hours = Array.from({ length: maxHour - minHour + 1 }, (_, i) => i + minHour);
 
-  const getApptSlotBounds = (appt: Afspraak) => {
-    const start = new Date(appt.starttijd);
-    const end = new Date(appt.eindtijd);
-    
-    const startH = start.getHours();
-    const startM = start.getMinutes();
-    const startSlot = startH + (startM >= 45 ? 0.75 : startM >= 30 ? 0.5 : startM >= 15 ? 0.25 : 0);
 
-    const endH = end.getHours();
-    const endM = end.getMinutes();
-    const endTotalM = endH * 60 + endM;
-
-    let endSlot = Math.max(0, (endTotalM > 0 ? (endTotalM - 15) / 60 : 0));
-    endSlot = Math.floor(endSlot * 4) / 4;
-
-    return { startSlot: Math.max(0, startSlot), endSlot: Math.max(startSlot, endSlot) };
-  };
 
   const getAllDayNotificationsForDay = (day: Date) => {
     return appointments.filter(app => {
@@ -553,170 +537,40 @@ export const CalendarPage: React.FC = () => {
 
                 {hours.map((hour) => (
                   <tr key={hour} className="group">
-                    <td className="p-4 text-sm font-semibold text-slate-400 dark:text-brand-400 align-top border-b border-slate-100 dark:border-brand-800/40">
-                      {formatHourString(hour)}
+                    <td className="p-0 border-b border-slate-100 dark:border-brand-800/40 align-top select-none h-[72px] max-h-[72px]">
+                      <div className="flex flex-col h-[72px]">
+                        <div className="h-[36px] px-3 py-0.5 text-xs sm:text-sm font-bold text-slate-800 dark:text-brand-100 border-b border-dashed border-slate-200/40 dark:border-brand-800/30 flex items-start pt-1 justify-between">
+                          <span>{formatHourString(hour)}</span>
+                        </div>
+                        <div className="h-[36px] px-3 py-0.5 text-xs font-semibold text-slate-500 dark:text-brand-300 flex items-start pt-1 justify-between">
+                          <span>{formatSlotTimeString(hour + 0.5)}</span>
+                        </div>
+                      </div>
                     </td>
 
                     {viewMode === 'week' ? (
                       getWeekDays(currentDate).map((day, dayIdx) => {
                         const dayKey = getDayKey(day);
 
+                        // Find all appointments starting in this hour for this day
+                        const hourStartAppts = appointments.filter(app => {
+                          if (app.isHeleDag) return false;
+                          const appStart = new Date(app.starttijd);
+                          if (appStart.toDateString() !== day.toDateString()) return false;
+                          return appStart.getHours() === hour;
+                        });
+
                         return (
                           <td 
                             key={dayIdx}
-                            className="p-0 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[84px] transition-all select-none"
+                            className="p-0 border-l border-slate-100 dark:border-brand-800/40 align-top transition-all select-none relative h-[72px] max-h-[72px] overflow-visible"
                           >
-                            <div className="flex flex-col h-full min-h-[84px]">
-                              {[0, 0.25, 0.5, 0.75].map((subOffset) => {
-                                const slotVal = hour + subOffset;
+                            {/* Grid Subslots */}
+                            <div className="flex flex-col h-[72px] w-full">
+                              {[0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12].map((subOffset, subIdx) => {
+                                const slotVal = Math.round((hour + subOffset) * 12) / 12;
                                 const isBookingSlot = isPracticeBookingSlot(day, slotVal);
                                 const isSelected = isSubSlotSelectedByDrag(day, slotVal);
-                                const isStart = dragSelect.isDragging && dragSelect.dayKey === dayKey && Math.min(dragSelect.startSlot!, dragSelect.currentSlot!) === slotVal;
-
-                                // Find all appointments covering this exact sub-slot
-                                const matchingAppts = appointments.filter(app => {
-                                  if (app.isHeleDag) return false;
-                                  const appStart = new Date(app.starttijd);
-                                  if (appStart.toDateString() !== day.toDateString()) return false;
-                                  const { startSlot, endSlot } = getApptSlotBounds(app);
-                                  return slotVal >= startSlot && slotVal <= endSlot;
-                                });
-                                const activeAppts = matchingAppts.filter(a => a.status !== 'Geannuleerd');
-                                const cancelledAppts = matchingAppts.filter(a => a.status === 'Geannuleerd');
-                                const apptsToRender = activeAppts.length > 0 ? activeAppts : cancelledAppts;
-                                const isCancelledOnly = activeAppts.length === 0 && cancelledAppts.length > 0;
-                                const isDoubleBooking = activeAppts.length > 1;
-
-                                if (apptsToRender.length > 0) {
-                                  return (
-                                    <div key={`slot-container-${slotVal}`} className="flex flex-row gap-1 w-full h-full min-h-[42px]">
-                                      {apptsToRender.map((coveringAppt) => {
-                                        const { startSlot, endSlot } = getApptSlotBounds(coveringAppt);
-                                        const isStartSlot = slotVal === startSlot;
-                                        const isEndSlot = slotVal === endSlot;
-                                        const isSingleSlot = isStartSlot && isEndSlot;
-                                        const isMeet = !!coveringAppt.googleMeetLink;
-                                        const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : (coveringAppt.kleurcode || '#478d96');
-
-                                        if (isStartSlot) {
-                                          return (
-                                            <div 
-                                              key={`appt-${coveringAppt.id}-${slotVal}`} 
-                                              data-day-key={dayKey}
-                                              data-slot-val={slotVal}
-                                              onMouseDown={(e) => {
-                                                if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
-                                                  handleMouseDownSubSlot(day, slotVal, false, e);
-                                                }
-                                              }}
-                                              onMouseEnter={() => {
-                                                if (isCancelledOnly) handleMouseEnterSubSlot(day, slotVal);
-                                              }}
-                                              onTouchStart={(e) => {
-                                                if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
-                                                  handleTouchStartSubSlot(day, slotVal, false, e);
-                                                }
-                                              }}
-                                              style={{ borderLeftColor: colorBorder }}
-                                              className={`flex-1 min-w-0 min-h-[42px] p-2 border-l-4 ${
-                                                isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-slate-700/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
-                                              } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
-                                                isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
-                                                coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/90 dark:bg-slate-800/40 border-dashed border-slate-300 dark:border-slate-700' :
-                                                isDoubleBooking ? 'bg-amber-50/95 dark:bg-amber-950/70 border-amber-300 dark:border-amber-700' :
-                                                isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
-                                                'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
-                                              }`}
-                                              title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
-                                            >
-                                              {isSelected ? (
-                                                <span className="font-bold flex items-center gap-1 truncate text-white text-xs">
-                                                  {isStart && <span>⬛</span>}
-                                                  <span>{formatSlotTimeString(slotVal)}</span>
-                                                </span>
-                                              ) : (
-                                                <>
-                                                  <div className="flex justify-between items-start gap-1">
-                                                    <button
-                                                      type="button"
-                                                      onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setSelectedAfspraak(coveringAppt);
-                                                      }}
-                                                      className="cancelled-action-btn text-xs font-bold truncate block text-left hover:underline focus:outline-none"
-                                                    >
-                                                      <span className={coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}>
-                                                        {coveringAppt.patientNaam}
-                                                      </span>
-                                                    </button>
-                                                    {coveringAppt.status === 'Geannuleerd' ? (
-                                                      <button
-                                                        type="button"
-                                                        onClick={(e) => {
-                                                          e.stopPropagation();
-                                                          handleOpenBookModal(day, slotVal, 60);
-                                                        }}
-                                                        className="cancelled-action-btn px-1.5 py-0.5 rounded bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-[9px] font-bold shrink-0 shadow-xs transition cursor-pointer"
-                                                        title="Nieuwe afspraak inplannen op dit uur"
-                                                      >
-                                                        + Inplannen
-                                                      </button>
-                                                    ) : (
-                                                      <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold shrink-0">
-                                                        {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
-                                                      </span>
-                                                    )}
-                                                  </div>
-                                                  <div className="text-[10px] text-slate-500 dark:text-brand-300 font-medium truncate flex items-center gap-1">
-                                                    <span>{coveringAppt.afspraakTypeNaam}</span>
-                                                    {isMeet && <Video className="h-3 w-3 text-purple-600 dark:text-purple-400 shrink-0 inline" />}
-                                                    {isDoubleBooking && (
-                                                      <span className="text-amber-700 dark:text-amber-300 font-bold bg-amber-100 dark:bg-amber-900/80 px-1 py-0.2 rounded text-[9px]" title="Dubbele boeking op dit uur">⚠️ Dubbel</span>
-                                                    )}
-                                                  </div>
-                                                </>
-                                              )}
-                                            </div>
-                                          );
-                                        }
-
-                                        return (
-                                          <div 
-                                            key={`ongoing-${coveringAppt.id}-${slotVal}`} 
-                                            data-day-key={dayKey}
-                                            data-slot-val={slotVal}
-                                            onMouseDown={(e) => {
-                                              if (isCancelledOnly) handleMouseDownSubSlot(day, slotVal, false, e);
-                                            }}
-                                            onMouseEnter={() => {
-                                              if (isCancelledOnly) handleMouseEnterSubSlot(day, slotVal);
-                                            }}
-                                            onTouchStart={(e) => {
-                                              if (isCancelledOnly) handleTouchStartSubSlot(day, slotVal, false, e);
-                                            }}
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              if (!isCancelledOnly) {
-                                                setSelectedAfspraak(coveringAppt);
-                                              }
-                                            }}
-                                            style={{ borderLeftColor: colorBorder }}
-                                            className={`flex-1 min-w-0 min-h-[42px] w-full border-l-4 ${
-                                              isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-slate-700/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
-                                            } ${
-                                              isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
-                                              coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/80 dark:bg-slate-800/40' :
-                                              isDoubleBooking ? 'bg-amber-50/95 dark:bg-amber-950/70 border-amber-300 dark:border-amber-700' :
-                                              isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
-                                              'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
-                                            } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
-                                            title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
-                                          />
-                                        );
-                                      })}
-                                    </div>
-                                  );
-                                }
 
                                 return (
                                   <div
@@ -726,35 +580,98 @@ export const CalendarPage: React.FC = () => {
                                     onMouseDown={(e) => handleMouseDownSubSlot(day, slotVal, false, e)}
                                     onMouseEnter={() => handleMouseEnterSubSlot(day, slotVal)}
                                     onTouchStart={(e) => handleTouchStartSubSlot(day, slotVal, false, e)}
-                                    className={`flex-1 min-h-[21px] px-2 py-1 flex items-center justify-between text-[10px] transition cursor-pointer ${
-                                      subOffset === 0 ? 'border-b border-dashed border-slate-200/40 dark:border-brand-800/30' : ''
+                                    className={`h-[6px] w-full flex items-center justify-between text-[9px] transition cursor-pointer box-border ${
+                                      subIdx === 11 
+                                        ? 'border-b border-solid border-slate-200/60 dark:border-brand-800/60' 
+                                        : ''
                                     } ${
                                       isSelected
-                                        ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
+                                        ? 'bg-brand-500 text-white font-bold shadow-md z-20 relative -mb-[1px]'
                                         : isBookingSlot
-                                          ? 'bg-emerald-50/40 dark:bg-emerald-950/30 border-l-2 border-emerald-400 dark:border-emerald-700 hover:bg-emerald-200/70 dark:hover:bg-emerald-900/60 text-slate-500 dark:text-brand-300 group/sub'
-                                          : 'bg-slate-200/40 dark:bg-brand-950/90 hover:bg-slate-300/50 dark:hover:bg-brand-800/50 text-slate-400 dark:text-brand-500 group/sub'
+                                          ? 'bg-teal-50/40 dark:bg-teal-950/25 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/60 dark:hover:bg-teal-900/40 text-slate-600 dark:text-brand-200 group/sub'
+                                          : 'bg-slate-100/70 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/80 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
                                     }`}
                                     title={
                                       isSelected
-                                        ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
-                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(day)}`
+                                        ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + (1 / 12))}`
+                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(day)} ${isBookingSlot ? '' : '(buiten praktijkuren)'}`
                                     }
                                   >
-                                    {isSelected ? (
-                                      <span className="font-bold flex items-center gap-1 truncate text-white">
-                                        {isStart && <span>⬛</span>}
-                                        <span>{formatSlotTimeString(slotVal)}</span>
-                                      </span>
-                                    ) : (
-                                      <span className="opacity-0 group-hover/sub:opacity-100 transition text-[9px] font-semibold text-teal-600 dark:text-teal-400">
-                                        + {formatSlotTimeString(slotVal)}
+                                    {isSelected && subIdx === 0 && (
+                                      <span className="font-bold px-1 text-white text-[9px]">
+                                        {formatSlotTimeString(slotVal)}
                                       </span>
                                     )}
                                   </div>
                                 );
                               })}
                             </div>
+
+                            {/* Appointment Cards Overlay starting in this hour */}
+                            {hourStartAppts.map((coveringAppt, apptIdx) => {
+                              const appStart = new Date(coveringAppt.starttijd);
+                              const appEnd = new Date(coveringAppt.eindtijd);
+                              const startM = appStart.getMinutes();
+                              const durationMin = Math.max(15, Math.round((appEnd.getTime() - appStart.getTime()) / 60000));
+
+                              const topPx = (startM / 60) * 72;
+                              const heightPx = Math.max(20, (durationMin / 60) * 72);
+                              const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : (coveringAppt.kleurcode || '#478d96');
+
+                              const totalInHour = hourStartAppts.length;
+                              const leftPercent = totalInHour > 1 ? (apptIdx / totalInHour) * 100 : 0;
+                              const widthPercent = totalInHour > 1 ? (1 / totalInHour) * 100 : 100;
+
+                              return (
+                                <div 
+                                  key={`appt-overlay-${coveringAppt.id}`} 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedAfspraak(coveringAppt);
+                                  }}
+                                  onMouseDown={(e) => {
+                                    if (!(e.target as HTMLElement).closest('button, a, .cancelled-action-btn')) {
+                                      const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
+                                      handleMouseDownSubSlot(day, slotVal, false, e);
+                                    }
+                                  }}
+                                  onMouseEnter={() => {
+                                    const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
+                                    handleMouseEnterSubSlot(day, slotVal);
+                                  }}
+                                  style={{ 
+                                    position: 'absolute',
+                                    top: `${topPx}px`,
+                                    left: totalInHour > 1 ? `calc(${leftPercent}% + 2px)` : '2px',
+                                    width: totalInHour > 1 ? `calc(${widthPercent}% - 4px)` : 'calc(100% - 4px)',
+                                    height: `${heightPx}px`,
+                                    borderLeftColor: colorBorder,
+                                    zIndex: 10
+                                  }}
+                                  className={`p-1.5 border-l-4 rounded-lg shadow-md transition text-left cursor-pointer overflow-hidden ${
+                                    coveringAppt.status === 'Geannuleerd' 
+                                      ? 'opacity-75 bg-slate-800/90 dark:bg-slate-800/90 border-dashed border-slate-600 text-slate-300' 
+                                      : 'bg-slate-800/95 dark:bg-slate-900/95 text-white border border-slate-700/80 hover:border-teal-500/80'
+                                  }`}
+                                  title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                >
+                                  <div className="flex justify-between items-center text-xs font-bold truncate leading-tight">
+                                    <span className={`truncate ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400' : 'text-white'}`}>
+                                      {coveringAppt.patientNaam}
+                                    </span>
+                                    <span className="text-[10px] font-semibold text-slate-300 shrink-0 ml-1">
+                                      {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
+                                    </span>
+                                  </div>
+                                  {heightPx > 30 && (
+                                    <div className="text-[10px] sm:text-xs text-teal-300 truncate font-medium mt-0.5 flex items-center justify-between">
+                                      <span className="truncate">{coveringAppt.afspraakTypeNaam}</span>
+                                      {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-400 shrink-0 inline ml-1" />}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </td>
                         );
                       })
@@ -762,171 +679,23 @@ export const CalendarPage: React.FC = () => {
                       (() => {
                         const dayKey = getDayKey(currentDate);
 
+                        const hourStartAppts = appointments.filter(app => {
+                          if (app.isHeleDag) return false;
+                          const appStart = new Date(app.starttijd);
+                          if (appStart.toDateString() !== currentDate.toDateString()) return false;
+                          return appStart.getHours() === hour;
+                        });
+
                         return (
                           <td 
-                            className="p-0 border-l border-slate-100 dark:border-brand-800/40 align-top min-h-[84px] transition-all select-none"
+                            className="p-0 border-l border-slate-100 dark:border-brand-800/40 align-top transition-all select-none relative h-[72px] max-h-[72px] overflow-visible"
                           >
-                            <div className="flex flex-col h-full min-h-[84px]">
-                              {[0, 0.25, 0.5, 0.75].map((subOffset) => {
-                                const slotVal = hour + subOffset;
+                            {/* Grid Subslots */}
+                            <div className="flex flex-col h-[72px] w-full">
+                              {[0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12].map((subOffset, subIdx) => {
+                                const slotVal = Math.round((hour + subOffset) * 12) / 12;
                                 const isBookingSlot = isPracticeBookingSlot(currentDate, slotVal);
                                 const isSelected = isSubSlotSelectedByDrag(currentDate, slotVal);
-                                const isStart = dragSelect.isDragging && dragSelect.dayKey === dayKey && Math.min(dragSelect.startSlot!, dragSelect.currentSlot!) === slotVal;
-
-                                // Find all appointments covering this exact sub-slot
-                                const matchingAppts = appointments.filter(app => {
-                                  if (app.isHeleDag) return false;
-                                  const appStart = new Date(app.starttijd);
-                                  if (appStart.toDateString() !== currentDate.toDateString()) return false;
-                                  const { startSlot, endSlot } = getApptSlotBounds(app);
-                                  return slotVal >= startSlot && slotVal <= endSlot;
-                                });
-
-                                const activeAppt = matchingAppts.find(a => a.status !== 'Geannuleerd');
-                                const cancelledAppt = matchingAppts.find(a => a.status === 'Geannuleerd');
-
-                                // Prioritize active appointment over cancelled appointment
-                                const coveringAppt = activeAppt || cancelledAppt;
-                                const isCancelledOnly = !activeAppt && !!cancelledAppt;
-
-                                if (coveringAppt) {
-                                  const { startSlot, endSlot } = getApptSlotBounds(coveringAppt);
-                                  const isStartSlot = slotVal === startSlot;
-                                  const isEndSlot = slotVal === endSlot;
-                                  const isSingleSlot = isStartSlot && isEndSlot;
-                                  const isMeet = !!coveringAppt.googleMeetLink;
-                                  const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : (coveringAppt.kleurcode || '#478d96');
-
-                                  if (isStartSlot) {
-                                    return (
-                                      <div 
-                                        key={`appt-${coveringAppt.id}-${slotVal}`} 
-                                        data-day-key={dayKey}
-                                        data-slot-val={slotVal}
-                                        onMouseDown={(e) => {
-                                          if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
-                                            handleMouseDownSubSlot(currentDate, slotVal, false, e);
-                                          }
-                                        }}
-                                        onMouseEnter={() => {
-                                          if (isCancelledOnly) handleMouseEnterSubSlot(currentDate, slotVal);
-                                        }}
-                                        onTouchStart={(e) => {
-                                          if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
-                                            handleTouchStartSubSlot(currentDate, slotVal, false, e);
-                                          }
-                                        }}
-                                        style={{ borderLeftColor: colorBorder }}
-                                        className={`flex-1 min-h-[42px] p-2.5 border-l-4 ${
-                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-slate-700/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
-                                        } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
-                                          isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
-                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/90 dark:bg-slate-800/40 border-dashed border-slate-300 dark:border-slate-700' :
-                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
-                                          'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
-                                        }`}
-                                        title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
-                                      >
-                                        {isSelected ? (
-                                          <span className="font-bold flex items-center gap-1 truncate text-white text-xs">
-                                            {isStart && <span>⬛</span>}
-                                            <span>{formatSlotTimeString(slotVal)}</span>
-                                          </span>
-                                        ) : (
-                                          <>
-                                            <div className="flex justify-between items-start gap-2">
-                                              <h4 className="text-sm font-bold flex items-center space-x-1.5 flex-wrap gap-y-1">
-                                                <button
-                                                  type="button"
-                                                  onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setSelectedAfspraak(coveringAppt);
-                                                  }}
-                                                  className="cancelled-action-btn hover:underline text-left focus:outline-none"
-                                                >
-                                                  <span className={coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}>
-                                                    {coveringAppt.patientNaam}
-                                                  </span>
-                                                </button>
-                                                <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${
-                                                  coveringAppt.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-100 dark:border-red-900/40' :
-                                                  coveringAppt.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40' :
-                                                  'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40'
-                                                }`}>
-                                                  {coveringAppt.status}
-                                                </span>
-                                                {isMeet && (
-                                                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-700 flex items-center gap-1">
-                                                    <Video className="h-3 w-3 text-purple-600 dark:text-purple-300" />
-                                                    <span>Online Meet</span>
-                                                  </span>
-                                                )}
-                                              </h4>
-                                              <div className="flex items-center gap-2 shrink-0">
-                                                {coveringAppt.status === 'Geannuleerd' && (
-                                                  <button
-                                                    type="button"
-                                                    onClick={(e) => {
-                                                      e.stopPropagation();
-                                                      handleOpenBookModal(currentDate, slotVal, 60);
-                                                    }}
-                                                    className="cancelled-action-btn px-2 py-1 rounded bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-xs font-bold shadow-xs transition cursor-pointer"
-                                                    title="Nieuwe afspraak inplannen op dit uur"
-                                                  >
-                                                    + Inplannen
-                                                  </button>
-                                                )}
-                                                <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold">
-                                                  <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-brand-400 inline mr-1" />
-                                                  {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
-                                                </span>
-                                              </div>
-                                            </div>
-                                            <span className="text-xs text-slate-500 dark:text-brand-300 font-semibold mt-0.5 block">
-                                              {coveringAppt.afspraakTypeNaam}
-                                              {activeAppt && cancelledAppt && (
-                                                <span className="ml-1.5 text-xs text-amber-600 dark:text-amber-400 font-bold" title="Er is ook 1 geannuleerde afspraak op dit tijdstip">(+1 geannuleerd)</span>
-                                              )}
-                                            </span>
-                                          </>
-                                        )}
-                                      </div>
-                                    );
-                                  }
-
-                                  return (
-                                    <div 
-                                      key={`ongoing-${coveringAppt.id}-${slotVal}`} 
-                                      data-day-key={dayKey}
-                                      data-slot-val={slotVal}
-                                      onMouseDown={(e) => {
-                                        if (isCancelledOnly) handleMouseDownSubSlot(currentDate, slotVal, false, e);
-                                      }}
-                                      onMouseEnter={() => {
-                                        if (isCancelledOnly) handleMouseEnterSubSlot(currentDate, slotVal);
-                                      }}
-                                      onTouchStart={(e) => {
-                                        if (isCancelledOnly) handleTouchStartSubSlot(currentDate, slotVal, false, e);
-                                      }}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!isCancelledOnly) {
-                                          setSelectedAfspraak(coveringAppt);
-                                        }
-                                      }}
-                                      style={{ borderLeftColor: colorBorder }}
-                                      className={`flex-1 min-h-[42px] w-full border-l-4 ${
-                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-slate-700/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
-                                      } ${
-                                        isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
-                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/80 dark:bg-slate-800/40' :
-                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
-                                        'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
-                                      } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-3`}
-                                      title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
-                                    />
-                                  );
-                                }
 
                                 return (
                                   <div
@@ -936,35 +705,98 @@ export const CalendarPage: React.FC = () => {
                                     onMouseDown={(e) => handleMouseDownSubSlot(currentDate, slotVal, false, e)}
                                     onMouseEnter={() => handleMouseEnterSubSlot(currentDate, slotVal)}
                                     onTouchStart={(e) => handleTouchStartSubSlot(currentDate, slotVal, false, e)}
-                                    className={`flex-1 min-h-[21px] px-2 py-1 flex items-center justify-between text-[10px] transition cursor-pointer ${
-                                      subOffset === 0 ? 'border-b border-dashed border-slate-200/40 dark:border-brand-800/30' : ''
+                                    className={`h-[6px] w-full flex items-center justify-between text-[9px] transition cursor-pointer box-border ${
+                                      subIdx === 11 
+                                        ? 'border-b border-solid border-slate-200/60 dark:border-brand-800/60' 
+                                        : ''
                                     } ${
                                       isSelected
-                                        ? 'bg-brand-500 text-white font-bold shadow-xs animate-pulse'
+                                        ? 'bg-brand-500 text-white font-bold shadow-md z-20 relative -mb-[1px]'
                                         : isBookingSlot
-                                          ? 'bg-emerald-50/40 dark:bg-emerald-950/30 border-l-2 border-emerald-400 dark:border-emerald-700 hover:bg-emerald-200/70 dark:hover:bg-emerald-900/60 text-slate-500 dark:text-brand-300 group/sub'
-                                          : 'bg-slate-200/40 dark:bg-brand-950/90 hover:bg-slate-300/50 dark:hover:bg-brand-800/50 text-slate-400 dark:text-brand-500 group/sub'
+                                          ? 'bg-teal-50/40 dark:bg-teal-950/25 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/60 dark:hover:bg-teal-900/40 text-slate-600 dark:text-brand-200 group/sub'
+                                          : 'bg-slate-100/70 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/80 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
                                     }`}
                                     title={
                                       isSelected
-                                        ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + 0.5)}`
-                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(currentDate)}`
+                                        ? `Selectie: ${formatSlotTimeString(Math.min(dragSelect.startSlot!, dragSelect.currentSlot!))} - ${formatSlotTimeString(Math.max(dragSelect.startSlot!, dragSelect.currentSlot!) + (1 / 12))}`
+                                        : `Klik of sleep vanaf ${formatSlotTimeString(slotVal)} op ${formatShortDutchDate(currentDate)} ${isBookingSlot ? '' : '(buiten praktijkuren)'}`
                                     }
                                   >
-                                    {isSelected ? (
-                                      <span className="font-bold flex items-center gap-1 truncate text-white">
-                                        {isStart && <span>⬛</span>}
-                                        <span>{formatSlotTimeString(slotVal)}</span>
-                                      </span>
-                                    ) : (
-                                      <span className="opacity-0 group-hover/sub:opacity-100 transition text-[9px] font-semibold text-teal-600 dark:text-teal-400">
-                                        + {formatSlotTimeString(slotVal)}
+                                    {isSelected && subIdx === 0 && (
+                                      <span className="font-bold px-1 text-white text-[9px]">
+                                        {formatSlotTimeString(slotVal)}
                                       </span>
                                     )}
                                   </div>
                                 );
                               })}
                             </div>
+
+                            {/* Appointment Cards Overlay starting in this hour */}
+                            {hourStartAppts.map((coveringAppt, apptIdx) => {
+                              const appStart = new Date(coveringAppt.starttijd);
+                              const appEnd = new Date(coveringAppt.eindtijd);
+                              const startM = appStart.getMinutes();
+                              const durationMin = Math.max(15, Math.round((appEnd.getTime() - appStart.getTime()) / 60000));
+
+                              const topPx = (startM / 60) * 72;
+                              const heightPx = Math.max(20, (durationMin / 60) * 72);
+                              const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : (coveringAppt.kleurcode || '#478d96');
+
+                              const totalInHour = hourStartAppts.length;
+                              const leftPercent = totalInHour > 1 ? (apptIdx / totalInHour) * 100 : 0;
+                              const widthPercent = totalInHour > 1 ? (1 / totalInHour) * 100 : 100;
+
+                              return (
+                                <div 
+                                  key={`appt-overlay-${coveringAppt.id}`} 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedAfspraak(coveringAppt);
+                                  }}
+                                  onMouseDown={(e) => {
+                                    if (!(e.target as HTMLElement).closest('button, a, .cancelled-action-btn')) {
+                                      const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
+                                      handleMouseDownSubSlot(currentDate, slotVal, false, e);
+                                    }
+                                  }}
+                                  onMouseEnter={() => {
+                                    const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
+                                    handleMouseEnterSubSlot(currentDate, slotVal);
+                                  }}
+                                  style={{ 
+                                    position: 'absolute',
+                                    top: `${topPx}px`,
+                                    left: totalInHour > 1 ? `calc(${leftPercent}% + 2px)` : '2px',
+                                    width: totalInHour > 1 ? `calc(${widthPercent}% - 4px)` : 'calc(100% - 4px)',
+                                    height: `${heightPx}px`,
+                                    borderLeftColor: colorBorder,
+                                    zIndex: 10
+                                  }}
+                                  className={`p-2 border-l-4 rounded-lg shadow-md transition text-left cursor-pointer overflow-hidden ${
+                                    coveringAppt.status === 'Geannuleerd' 
+                                      ? 'opacity-75 bg-slate-800/90 dark:bg-slate-800/90 border-dashed border-slate-600 text-slate-300' 
+                                      : 'bg-slate-800/95 dark:bg-slate-900/95 text-white border border-slate-700/80 hover:border-teal-500/80'
+                                  }`}
+                                  title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                >
+                                  <div className="flex justify-between items-center text-xs font-bold truncate leading-tight">
+                                    <span className={`truncate ${coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400' : 'text-white'}`}>
+                                      {coveringAppt.patientNaam}
+                                    </span>
+                                    <span className="text-[10px] font-semibold text-slate-300 shrink-0 ml-1">
+                                      {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
+                                    </span>
+                                  </div>
+                                  {heightPx > 30 && (
+                                    <div className="text-xs text-teal-300 truncate font-medium mt-0.5 flex items-center justify-between">
+                                      <span className="truncate">{coveringAppt.afspraakTypeNaam}</span>
+                                      {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-400 shrink-0 inline ml-1" />}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </td>
                         );
                       })()
