@@ -276,6 +276,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var patientInfo = ExtractPatientDetails(ev, isPraktijkhuis);
             bool isPatientAppointment = !isExplicitBlocker && !patientInfo.IsAnonymized && (!string.IsNullOrEmpty(patientInfo.Email) || !string.IsNullOrWhiteSpace(ev.Summary));
+            string? googleMeetLink = ExtractGoogleMeetLink(ev);
 
             var localAppointment = dbContext.Afspraken.Local.FirstOrDefault(a => a.GoogleEventId == ev.Id)
                 ?? dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
@@ -286,11 +287,15 @@ namespace AfsprakenbeheerPsycholoog.Services
                 localAppointment.Eindtijd = endUtc;
                 localAppointment.IsHeleDag = isAllDay || isTransparent;
                 localAppointment.Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland;
+                if (!string.IsNullOrWhiteSpace(googleMeetLink))
+                {
+                    localAppointment.GoogleMeetLink = googleMeetLink;
+                }
 
                 if (isPatientAppointment)
                 {
                     var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
-                    var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary);
+                    var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
                     if (patient != null && patient.Id > 0)
                     {
                         localAppointment.PatientId = patient.Id;
@@ -310,7 +315,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (isPatientAppointment)
             {
                 var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
-                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary);
+                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
                 int? assignedPatientId = (patient != null && patient.Id > 0) ? patient.Id : null;
 
                 var nieuweAfspraak = new Afspraak
@@ -321,6 +326,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     Eindtijd = endUtc,
                     Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
                     GoogleEventId = ev.Id,
+                    GoogleMeetLink = googleMeetLink,
                     Opmerkingen = patientInfo.Opmerkingen,
                     IsHeleDag = isAllDay || isTransparent
                 };
@@ -329,7 +335,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
             else
             {
-                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description);
+                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
                 var blockerAfspraak = new Afspraak
                 {
                     PatientId = null,
@@ -338,6 +344,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                     Eindtijd = endUtc,
                     Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
                     GoogleEventId = ev.Id,
+                    GoogleMeetLink = googleMeetLink,
                     Opmerkingen = ev.Summary ?? "Blokkering / Melding",
                     IsHeleDag = isAllDay || isTransparent
                 };
@@ -549,12 +556,49 @@ namespace AfsprakenbeheerPsycholoog.Services
             return patient;
         }
 
-        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null, string? description = null)
+        private static string? ExtractGoogleMeetLink(Event ev)
+        {
+            if (ev == null) return null;
+            if (!string.IsNullOrWhiteSpace(ev.HangoutLink)) return ev.HangoutLink;
+
+            if (ev.ConferenceData?.EntryPoints != null)
+            {
+                var videoEntryPoint = ev.ConferenceData.EntryPoints.FirstOrDefault(e => e.EntryPointType == "video" || (!string.IsNullOrEmpty(e.Uri) && e.Uri.Contains("meet.google.com")));
+                if (videoEntryPoint != null && !string.IsNullOrWhiteSpace(videoEntryPoint.Uri))
+                {
+                    return videoEntryPoint.Uri;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(ev.Location) && ev.Location.Contains("meet.google.com"))
+            {
+                var match = Regex.Match(ev.Location, @"https?://meet\.google\.com/[a-z0-9\-]+", RegexOptions.IgnoreCase);
+                if (match.Success) return match.Value;
+            }
+
+            if (!string.IsNullOrWhiteSpace(ev.Description) && ev.Description.Contains("meet.google.com"))
+            {
+                var match = Regex.Match(ev.Description, @"https?://meet\.google\.com/[a-z0-9\-]+", RegexOptions.IgnoreCase);
+                if (match.Success) return match.Value;
+            }
+
+            return null;
+        }
+
+        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null, string? description = null, string? meetLink = null)
         {
             var allTypes = dbContext.AfspraakTypes.ToList();
             if (!allTypes.Any()) return null;
 
             var textToSearch = $"{summary ?? ""} {description ?? ""}".Trim();
+            var lowerText = textToSearch.ToLower();
+
+            // 0. Google Meet / Online meeting detection
+            if (!string.IsNullOrWhiteSpace(meetLink) || lowerText.Contains("google meet") || lowerText.Contains("online") || lowerText.Contains("videoconsult"))
+            {
+                var onlineType = allTypes.FirstOrDefault(t => t.Naam.Contains("Online", StringComparison.OrdinalIgnoreCase) || t.Naam.Contains("Video", StringComparison.OrdinalIgnoreCase));
+                if (onlineType != null) return onlineType;
+            }
 
             // 1. Direct name match against any existing AfspraakType in the database
             if (!string.IsNullOrWhiteSpace(textToSearch))
@@ -569,8 +613,6 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
 
             // 2. Keyword fallback matching
-            var lowerText = textToSearch.ToLower();
-
             if (lowerText.Contains("pauze") || lowerText.Contains("lunch"))
             {
                 var pauzeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Pauze", StringComparison.OrdinalIgnoreCase) || t.Naam.Contains("Lunch", StringComparison.OrdinalIgnoreCase));

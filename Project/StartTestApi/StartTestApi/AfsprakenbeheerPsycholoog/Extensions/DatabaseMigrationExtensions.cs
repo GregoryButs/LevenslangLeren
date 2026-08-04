@@ -319,7 +319,11 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 }
                 if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)))
                 {
-                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Praktijkhuis Consultatie", Kleurcode = "#8b5cf6", StandaardDuurMinuten = 50, VereistPatient = true });
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Praktijkhuis Consultatie", Kleurcode = "#a855f7", StandaardDuurMinuten = 50, VereistPatient = true });
+                }
+                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Online", StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Online Consultatie", Kleurcode = "#8b5cf6", StandaardDuurMinuten = 50, VereistPatient = true });
                 }
                 if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Pauze", StringComparison.OrdinalIgnoreCase)))
                 {
@@ -330,6 +334,24 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Verlof / Afwezig", Kleurcode = "#ef4444", StandaardDuurMinuten = 480, VereistPatient = false });
                 }
                 context.SaveChanges();
+
+                // Clean up any old jockman dummy patients from SQLite database
+                try
+                {
+                    var jockmanPatients = context.Patienten.Where(p => p.Voornaam.ToLower().Contains("jockman") || p.Achternaam.ToLower().Contains("daniels") || (p.Email != null && p.Email.ToLower().Contains("jockman"))).ToList();
+                    if (jockmanPatients.Any())
+                    {
+                        var jockmanIds = jockmanPatients.Select(p => p.Id).ToList();
+                        var apptsToReset = context.Afspraken.Where(a => a.PatientId.HasValue && jockmanIds.Contains(a.PatientId.Value)).ToList();
+                        foreach (var app in apptsToReset)
+                        {
+                            app.PatientId = null;
+                        }
+                        context.Patienten.RemoveRange(jockmanPatients);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception) { }
 
                 var consultatieType = context.AfspraakTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
                                      ?? context.AfspraakTypes.FirstOrDefault();
