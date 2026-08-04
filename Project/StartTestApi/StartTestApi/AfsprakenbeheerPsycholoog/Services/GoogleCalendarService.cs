@@ -637,11 +637,11 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         private static (string Voornaam, string Achternaam, DateOnly Geboortedatum, string Telefoonnummer, string CleanOpmerkingen) ParsePraktijkhuisEventInfo(Event ev, string defaultDisplayNaam)
         {
-            var summary = ev.Summary ?? defaultDisplayNaam ?? "";
+            var summary = ev.Summary ?? "";
             var description = ev.Description ?? "";
 
             DateOnly geboortedatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-30));
-            var dobMatch = Regex.Match(summary, @"\(\s*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{4})\s*\)");
+            var dobMatch = Regex.Match(summary + " " + description, @"\(\s*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{4})\s*\)");
             if (dobMatch.Success)
             {
                 var dobStr = dobMatch.Groups[1].Value.Replace('-', '/').Replace('.', '/');
@@ -654,6 +654,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             string telefoonnummer = "";
             var descLines = description.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             var cleanDescList = new List<string>();
+            string patientNameFromDesc = "";
 
             foreach (var line in descLines)
             {
@@ -664,17 +665,36 @@ namespace AfsprakenbeheerPsycholoog.Services
                 }
                 else if (!string.IsNullOrWhiteSpace(trimmed))
                 {
+                    if (trimmed.StartsWith("Naam:", StringComparison.OrdinalIgnoreCase) || trimmed.StartsWith("Patiënt:", StringComparison.OrdinalIgnoreCase) || trimmed.StartsWith("Patient:", StringComparison.OrdinalIgnoreCase))
+                    {
+                        patientNameFromDesc = Regex.Replace(trimmed, @"^(Naam|Patiënt|Patient):\s*", "", RegexOptions.IgnoreCase).Trim();
+                    }
                     cleanDescList.Add(trimmed);
                 }
             }
 
-            var cleanName = summary;
+            string candidateName = summary;
+            string cleanSummaryCheck = Regex.Replace(summary, @"\b(Praktijkhuis|Consultatie|Consult|Intake|Psycholoog|1ste|2de|3de)\b", "", RegexOptions.IgnoreCase).Trim();
+
+            if (string.IsNullOrWhiteSpace(cleanSummaryCheck))
+            {
+                if (!string.IsNullOrWhiteSpace(patientNameFromDesc))
+                {
+                    candidateName = patientNameFromDesc;
+                }
+                else if (!string.IsNullOrWhiteSpace(defaultDisplayNaam) && !defaultDisplayNaam.Contains("jockman", StringComparison.OrdinalIgnoreCase) && !defaultDisplayNaam.Contains("praktijkhuis", StringComparison.OrdinalIgnoreCase))
+                {
+                    candidateName = defaultDisplayNaam;
+                }
+            }
+
+            var cleanName = candidateName;
             if (dobMatch.Success) cleanName = cleanName.Replace(dobMatch.Value, "");
-            cleanName = Regex.Replace(cleanName, @"\b(1ste|2de|3de|Psycholoog|consult|intake)\b", "", RegexOptions.IgnoreCase).Trim();
+            cleanName = Regex.Replace(cleanName, @"\b(Praktijkhuis|Psycholoog|consultatie|consult|intake|1ste|2de|3de)\b", "", RegexOptions.IgnoreCase).Trim();
 
             var nameParts = cleanName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string voornaam = "Patient";
-            string achternaam = "van Google";
+            string achternaam = "";
 
             if (nameParts.Length == 1)
             {

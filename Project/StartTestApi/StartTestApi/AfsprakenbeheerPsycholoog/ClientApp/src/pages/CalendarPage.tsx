@@ -581,134 +581,140 @@ export const CalendarPage: React.FC = () => {
                                   const { startSlot, endSlot } = getApptSlotBounds(app);
                                   return slotVal >= startSlot && slotVal <= endSlot;
                                 });
+                                const activeAppts = matchingAppts.filter(a => a.status !== 'Geannuleerd');
+                                const cancelledAppts = matchingAppts.filter(a => a.status === 'Geannuleerd');
+                                const apptsToRender = activeAppts.length > 0 ? activeAppts : cancelledAppts;
+                                const isCancelledOnly = activeAppts.length === 0 && cancelledAppts.length > 0;
+                                const isDoubleBooking = activeAppts.length > 1;
 
-                                const activeAppt = matchingAppts.find(a => a.status !== 'Geannuleerd');
-                                const cancelledAppt = matchingAppts.find(a => a.status === 'Geannuleerd');
-
-                                // Prioritize active appointment over cancelled appointment
-                                const coveringAppt = activeAppt || cancelledAppt;
-                                const isCancelledOnly = !activeAppt && !!cancelledAppt;
-
-                                if (coveringAppt) {
-                                  const { startSlot, endSlot } = getApptSlotBounds(coveringAppt);
-                                  const isStartSlot = slotVal === startSlot;
-                                  const isEndSlot = slotVal === endSlot;
-                                  const isSingleSlot = isStartSlot && isEndSlot;
-                                  const isMeet = !!coveringAppt.googleMeetLink || (coveringAppt.opmerkingen && (coveringAppt.opmerkingen.includes('GoogleMeet') || coveringAppt.opmerkingen.includes('Google Meet')));
-                                  const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : coveringAppt.kleurcode;
-
-                                  if (isStartSlot) {
-                                    return (
-                                      <div 
-                                        key={`appt-${coveringAppt.id}-${slotVal}`} 
-                                        data-day-key={dayKey}
-                                        data-slot-val={slotVal}
-                                        onMouseDown={(e) => {
-                                          if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
-                                            handleMouseDownSubSlot(day, slotVal, false, e);
-                                          }
-                                        }}
-                                        onMouseEnter={() => {
-                                          if (isCancelledOnly) handleMouseEnterSubSlot(day, slotVal);
-                                        }}
-                                        onTouchStart={(e) => {
-                                          if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
-                                            handleTouchStartSubSlot(day, slotVal, false, e);
-                                          }
-                                        }}
-                                        style={{ borderLeftColor: colorBorder }}
-                                        className={`flex-1 min-h-[42px] p-2 border-l-4 ${
-                                          isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-slate-700/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
-                                        } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
-                                          isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
-                                          coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/90 dark:bg-slate-800/40 border-dashed border-slate-300 dark:border-slate-700' :
-                                          isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
-                                          'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
-                                        }`}
-                                        title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
-                                      >
-                                        {isSelected ? (
-                                          <span className="font-bold flex items-center gap-1 truncate text-white text-xs">
-                                            {isStart && <span>⬛</span>}
-                                            <span>{formatSlotTimeString(slotVal)}</span>
-                                          </span>
-                                        ) : (
-                                          <>
-                                            <div className="flex justify-between items-start gap-1">
-                                              <button
-                                                type="button"
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                  setSelectedAfspraak(coveringAppt);
-                                                }}
-                                                className="cancelled-action-btn text-xs font-bold truncate block text-left hover:underline focus:outline-none"
-                                              >
-                                                <span className={coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}>
-                                                  {coveringAppt.patientNaam}
-                                                </span>
-                                              </button>
-                                              {coveringAppt.status === 'Geannuleerd' ? (
-                                                <button
-                                                  type="button"
-                                                  onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleOpenBookModal(day, slotVal, 60);
-                                                  }}
-                                                  className="cancelled-action-btn px-1.5 py-0.5 rounded bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-[9px] font-bold shrink-0 shadow-xs transition cursor-pointer"
-                                                  title="Nieuwe afspraak inplannen op dit uur"
-                                                >
-                                                  + Inplannen
-                                                </button>
-                                              ) : (
-                                                <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold shrink-0">
-                                                  {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
-                                                </span>
-                                              )}
-                                            </div>
-                                            <div className="text-[10px] text-slate-500 dark:text-brand-300 font-medium truncate flex items-center gap-1">
-                                              <span>{coveringAppt.afspraakTypeNaam}</span>
-                                              {isMeet && <Video className="h-3 w-3 text-purple-600 dark:text-purple-400 shrink-0 inline" />}
-                                              {activeAppt && cancelledAppt && (
-                                                <span className="text-amber-600 dark:text-amber-400 font-bold" title="Er is ook 1 geannuleerde afspraak op dit tijdstip">(+1 geannuleerd)</span>
-                                              )}
-                                            </div>
-                                          </>
-                                        )}
-                                      </div>
-                                    );
-                                  }
-
+                                if (apptsToRender.length > 0) {
                                   return (
-                                    <div 
-                                      key={`ongoing-${coveringAppt.id}-${slotVal}`} 
-                                      data-day-key={dayKey}
-                                      data-slot-val={slotVal}
-                                      onMouseDown={(e) => {
-                                        if (isCancelledOnly) handleMouseDownSubSlot(day, slotVal, false, e);
-                                      }}
-                                      onMouseEnter={() => {
-                                        if (isCancelledOnly) handleMouseEnterSubSlot(day, slotVal);
-                                      }}
-                                      onTouchStart={(e) => {
-                                        if (isCancelledOnly) handleTouchStartSubSlot(day, slotVal, false, e);
-                                      }}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!isCancelledOnly) {
-                                          setSelectedAfspraak(coveringAppt);
+                                    <div key={`slot-container-${slotVal}`} className="flex flex-row gap-1 w-full h-full min-h-[42px]">
+                                      {apptsToRender.map((coveringAppt) => {
+                                        const { startSlot, endSlot } = getApptSlotBounds(coveringAppt);
+                                        const isStartSlot = slotVal === startSlot;
+                                        const isEndSlot = slotVal === endSlot;
+                                        const isSingleSlot = isStartSlot && isEndSlot;
+                                        const isMeet = !!coveringAppt.googleMeetLink || (coveringAppt.opmerkingen && (coveringAppt.opmerkingen.includes('GoogleMeet') || coveringAppt.opmerkingen.includes('Google Meet')));
+                                        const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : coveringAppt.kleurcode;
+
+                                        if (isStartSlot) {
+                                          return (
+                                            <div 
+                                              key={`appt-${coveringAppt.id}-${slotVal}`} 
+                                              data-day-key={dayKey}
+                                              data-slot-val={slotVal}
+                                              onMouseDown={(e) => {
+                                                if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
+                                                  handleMouseDownSubSlot(day, slotVal, false, e);
+                                                }
+                                              }}
+                                              onMouseEnter={() => {
+                                                if (isCancelledOnly) handleMouseEnterSubSlot(day, slotVal);
+                                              }}
+                                              onTouchStart={(e) => {
+                                                if (isCancelledOnly && !(e.target as HTMLElement).closest('.cancelled-action-btn')) {
+                                                  handleTouchStartSubSlot(day, slotVal, false, e);
+                                                }
+                                              }}
+                                              style={{ borderLeftColor: colorBorder }}
+                                              className={`flex-1 min-w-0 min-h-[42px] p-2 border-l-4 ${
+                                                isSingleSlot ? 'rounded-xl border border-slate-200 dark:border-slate-700/60' : 'rounded-t-xl rounded-b-none border-t border-l border-r border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
+                                              } shadow-2xs hover:shadow-xs transition text-left cursor-pointer ${
+                                                isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
+                                                coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/90 dark:bg-slate-800/40 border-dashed border-slate-300 dark:border-slate-700' :
+                                                isDoubleBooking ? 'bg-amber-50/95 dark:bg-amber-950/70 border-amber-300 dark:border-amber-700' :
+                                                isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
+                                                'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
+                                              }`}
+                                              title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                            >
+                                              {isSelected ? (
+                                                <span className="font-bold flex items-center gap-1 truncate text-white text-xs">
+                                                  {isStart && <span>⬛</span>}
+                                                  <span>{formatSlotTimeString(slotVal)}</span>
+                                                </span>
+                                              ) : (
+                                                <>
+                                                  <div className="flex justify-between items-start gap-1">
+                                                    <button
+                                                      type="button"
+                                                      onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setSelectedAfspraak(coveringAppt);
+                                                      }}
+                                                      className="cancelled-action-btn text-xs font-bold truncate block text-left hover:underline focus:outline-none"
+                                                    >
+                                                      <span className={coveringAppt.status === 'Geannuleerd' ? 'line-through text-slate-400 dark:text-brand-400' : 'text-slate-800 dark:text-white'}>
+                                                        {coveringAppt.patientNaam}
+                                                      </span>
+                                                    </button>
+                                                    {coveringAppt.status === 'Geannuleerd' ? (
+                                                      <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          handleOpenBookModal(day, slotVal, 60);
+                                                        }}
+                                                        className="cancelled-action-btn px-1.5 py-0.5 rounded bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-[9px] font-bold shrink-0 shadow-xs transition cursor-pointer"
+                                                        title="Nieuwe afspraak inplannen op dit uur"
+                                                      >
+                                                        + Inplannen
+                                                      </button>
+                                                    ) : (
+                                                      <span className="text-[10px] text-slate-500 dark:text-brand-300 font-semibold shrink-0">
+                                                        {formatLocalTime(coveringAppt.starttijd)} - {formatLocalTime(coveringAppt.eindtijd)}
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  <div className="text-[10px] text-slate-500 dark:text-brand-300 font-medium truncate flex items-center gap-1">
+                                                    <span>{coveringAppt.afspraakTypeNaam}</span>
+                                                    {isMeet && <Video className="h-3 w-3 text-purple-600 dark:text-purple-400 shrink-0 inline" />}
+                                                    {isDoubleBooking && (
+                                                      <span className="text-amber-700 dark:text-amber-300 font-bold bg-amber-100 dark:bg-amber-900/80 px-1 py-0.2 rounded text-[9px]" title="Dubbele boeking op dit uur">⚠️ Dubbel</span>
+                                                    )}
+                                                  </div>
+                                                </>
+                                              )}
+                                            </div>
+                                          );
                                         }
-                                      }}
-                                      style={{ borderLeftColor: colorBorder }}
-                                      className={`flex-1 min-h-[42px] w-full border-l-4 ${
-                                        isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-slate-700/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
-                                      } ${
-                                        isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
-                                        coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/80 dark:bg-slate-800/40' :
-                                        isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
-                                        'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
-                                      } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
-                                      title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
-                                    />
+
+                                        return (
+                                          <div 
+                                            key={`ongoing-${coveringAppt.id}-${slotVal}`} 
+                                            data-day-key={dayKey}
+                                            data-slot-val={slotVal}
+                                            onMouseDown={(e) => {
+                                              if (isCancelledOnly) handleMouseDownSubSlot(day, slotVal, false, e);
+                                            }}
+                                            onMouseEnter={() => {
+                                              if (isCancelledOnly) handleMouseEnterSubSlot(day, slotVal);
+                                            }}
+                                            onTouchStart={(e) => {
+                                              if (isCancelledOnly) handleTouchStartSubSlot(day, slotVal, false, e);
+                                            }}
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              if (!isCancelledOnly) {
+                                                setSelectedAfspraak(coveringAppt);
+                                              }
+                                            }}
+                                            style={{ borderLeftColor: colorBorder }}
+                                            className={`flex-1 min-w-0 min-h-[42px] w-full border-l-4 ${
+                                              isEndSlot ? 'rounded-b-xl rounded-t-none border-b border-l border-r border-t-0 border-slate-200 dark:border-slate-700/60' : 'rounded-none border-l border-r border-t-0 border-b-0 border-slate-200 dark:border-slate-700/60 -mb-[2px] relative z-10'
+                                            } ${
+                                              isSelected ? 'bg-brand-500 text-white font-bold shadow-md animate-pulse' :
+                                              coveringAppt.status === 'Geannuleerd' ? 'opacity-70 bg-slate-100/80 dark:bg-slate-800/40' :
+                                              isDoubleBooking ? 'bg-amber-50/95 dark:bg-amber-950/70 border-amber-300 dark:border-amber-700' :
+                                              isMeet ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60' :
+                                              'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/60'
+                                            } cursor-pointer transition hover:opacity-90 flex items-center justify-between px-2`}
+                                            title={isSelected ? 'Selectie voor nieuwe afspraak' : `${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
+                                          />
+                                        );
+                                      })}
+                                    </div>
                                   );
                                 }
 
