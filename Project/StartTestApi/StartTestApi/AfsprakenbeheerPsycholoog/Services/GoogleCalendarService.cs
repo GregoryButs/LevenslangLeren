@@ -456,7 +456,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 var splitNaam = displayNaam.Split(' ', 2);
                 voornaam = splitNaam.Length > 0 ? splitNaam[0] : "Patient";
-                achternaam = splitNaam.Length > 1 ? splitNaam[1] : "van Google";
+                achternaam = splitNaam.Length > 1 ? splitNaam[1] : "";
                 geboortedatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-30));
                 telefoonnummer = "";
                 cleanOpmerkingen = ev.Description ?? "";
@@ -481,21 +481,20 @@ namespace AfsprakenbeheerPsycholoog.Services
             var vNorm = (info.Voornaam ?? "").Trim().ToLower();
             var aNorm = (info.Achternaam ?? "").Trim().ToLower();
             var eNorm = (info.Email ?? "").Trim().ToLower();
+            var fullNorm = $"{vNorm} {aNorm}".Trim();
 
             var patient = dbContext.Patienten.Local.FirstOrDefault(p =>
+                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
                 (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
                 (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm) ||
-                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
-                (aNorm.Length >= 3 && p.Achternaam.ToLower() == aNorm) ||
-                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm)) ||
-                ((p.Achternaam + " " + p.Voornaam).ToLower() == (vNorm + " " + aNorm))
+                ((p.Voornaam + " " + p.Achternaam).Trim().ToLower() == fullNorm) ||
+                ((p.Achternaam + " " + p.Voornaam).Trim().ToLower() == fullNorm)
             ) ?? dbContext.Patienten.FirstOrDefault(p =>
+                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
                 (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
                 (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm) ||
-                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
-                (aNorm.Length >= 3 && p.Achternaam.ToLower() == aNorm) ||
-                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm)) ||
-                ((p.Achternaam + " " + p.Voornaam).ToLower() == (vNorm + " " + aNorm))
+                ((p.Voornaam + " " + p.Achternaam).Trim().ToLower() == fullNorm) ||
+                ((p.Achternaam + " " + p.Voornaam).Trim().ToLower() == fullNorm)
             );
 
             if (patient == null)
