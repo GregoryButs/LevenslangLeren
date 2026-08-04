@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net8.0": {
       "AutoMapper/16.1.1": {
@@ -65,7 +65,7 @@
           }
         }
       },
-      "BouncyCastle.Cryptography/2.5.0": {
+      "BouncyCastle.Cryptography/2.6.2": {
         "type": "package",
         "compile": {
           "lib/net6.0/BouncyCastle.Cryptography.dll": {
@@ -739,10 +739,10 @@
           }
         }
       },
-      "MailKit/4.10.0": {
+      "MailKit/4.17.0": {
         "type": "package",
         "dependencies": {
-          "MimeKit": "4.10.0",
+          "MimeKit": "4.17.0",
           "System.Formats.Asn1": "8.0.1"
         },
         "compile": {
@@ -2242,11 +2242,10 @@
           }
         }
       },
-      "MimeKit/4.10.0": {
+      "MimeKit/4.17.0": {
         "type": "package",
         "dependencies": {
-          "BouncyCastle.Cryptography": "2.5.0",
-          "System.Formats.Asn1": "8.0.1",
+          "BouncyCastle.Cryptography": "2.6.2",
           "System.Security.Cryptography.Pkcs": "8.0.1"
         },
         "compile": {
@@ -3180,16 +3179,16 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
-    "BouncyCastle.Cryptography/2.5.0": {
-      "sha512": "rc7vRCq/KD3GtIwSgRtjanGaBwTb9nLenFDZnEcauWlssuuEoxcbMfWA3QWWho6QDMSOSkWjs657McdHzEtEcw==",
+    "BouncyCastle.Cryptography/2.6.2": {
+      "sha512": "7oWOcvnntmMKNzDLsdxAYqApt+AjpRpP2CShjMfIa3umZ42UQMvH0tl1qAliYPNYO6vTdcGMqnRrCPmsfzTI1w==",
       "type": "package",
-      "path": "bouncycastle.cryptography/2.5.0",
+      "path": "bouncycastle.cryptography/2.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "README.md",
-        "bouncycastle.cryptography.2.5.0.nupkg.sha512",
+        "bouncycastle.cryptography.2.6.2.nupkg.sha512",
         "bouncycastle.cryptography.nuspec",
         "lib/net461/BouncyCastle.Cryptography.dll",
         "lib/net461/BouncyCastle.Cryptography.xml",
@@ -4034,10 +4033,10 @@
         "logo.png"
       ]
     },
-    "MailKit/4.10.0": {
-      "sha512": "C6gwHQGHru2x/g1pzk0NXn5BIv0qoeKbSgb4BIFfWl4OjTZOEajSIR+O6i4WElsuJI8Z77LGr4rH5nVjypyvDQ==",
+    "MailKit/4.17.0": {
+      "sha512": "1nUAVLxM9fhT/78we6/AGsCesnpn5dRNLLeRqOfr52Wnk87pzVwo5YMTMyqnmoXrYc7piGhmayiMA/OgDluIjg==",
       "type": "package",
-      "path": "mailkit/4.10.0",
+      "path": "mailkit/4.17.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4046,6 +4045,10 @@
         "docs/GMailOAuth2.md",
         "docs/README.md",
         "icons/mailkit-50.png",
+        "lib/net10.0/MailKit.dll",
+        "lib/net10.0/MailKit.dll.config",
+        "lib/net10.0/MailKit.pdb",
+        "lib/net10.0/MailKit.xml",
         "lib/net462/MailKit.dll",
         "lib/net462/MailKit.dll.config",
         "lib/net462/MailKit.pdb",
@@ -4070,7 +4073,7 @@
         "lib/netstandard2.1/MailKit.dll.config",
         "lib/netstandard2.1/MailKit.pdb",
         "lib/netstandard2.1/MailKit.xml",
-        "mailkit.4.10.0.nupkg.sha512",
+        "mailkit.4.17.0.nupkg.sha512",
         "mailkit.nuspec"
       ]
     },
@@ -6918,16 +6921,20 @@
         "microsoft.visualstudio.web.codegenerators.mvc.nuspec"
       ]
     },
-    "MimeKit/4.10.0": {
-      "sha512": "GQofI17cH55XSh109hJmHaYMtSFqTX/eUek3UcV7hTnYayAIXZ6eHlv345tfdc+bQ/BrEnYOSZVzx9I3wpvvpg==",
+    "MimeKit/4.17.0": {
+      "sha512": "h/KXsCreJf8RpR/PSAtlbvYtZFndp9N8Wn1Bs248AL7ITyhn+AiIY5bLTvt60tbN2mu6g8KadtBNWygTji2lqg==",
       "type": "package",
-      "path": "mimekit/4.10.0",
+      "path": "mimekit/4.17.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/FAQ.md",
         "docs/README.md",
         "icons/mimekit-50.png",
+        "lib/net10.0/MimeKit.dll",
+        "lib/net10.0/MimeKit.dll.config",
+        "lib/net10.0/MimeKit.pdb",
+        "lib/net10.0/MimeKit.xml",
         "lib/net462/MimeKit.dll",
         "lib/net462/MimeKit.pdb",
         "lib/net462/MimeKit.xml",
@@ -6949,7 +6956,7 @@
         "lib/netstandard2.1/MimeKit.dll.config",
         "lib/netstandard2.1/MimeKit.pdb",
         "lib/netstandard2.1/MimeKit.xml",
-        "mimekit.4.10.0.nupkg.sha512",
+        "mimekit.4.17.0.nupkg.sha512",
         "mimekit.nuspec"
       ]
     },
@@ -8311,7 +8318,7 @@
     "net8.0": [
       "AutoMapper >= 16.1.1",
       "Google.Apis.Calendar.v3 >= 1.68.0.3423",
-      "MailKit >= 4.10.0",
+      "MailKit >= 4.17.0",
       "Microsoft.AspNetCore.Authentication.Facebook >= 8.0.13",
       "Microsoft.AspNetCore.Authentication.Google >= 8.0.13",
       "Microsoft.AspNetCore.Authentication.MicrosoftAccount >= 8.0.13",
@@ -8326,28 +8333,37 @@
     ]
   },
   "packageFolders": {
-    "/home/gregory/.nuget/packages/": {}
+    "C:\\Users\\butsg\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj",
+      "projectUniqueName": "C:\\Users\\butsg\\Documents\\LevenslangLeren\\DeVerstandhouding\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj",
       "projectName": "AfsprakenbeheerPsycholoog",
-      "projectPath": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/AfsprakenbeheerPsycholoog.csproj",
-      "packagesPath": "/home/gregory/.nuget/packages/",
-      "outputPath": "/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/obj/",
+      "projectPath": "C:\\Users\\butsg\\Documents\\LevenslangLeren\\DeVerstandhouding\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\AfsprakenbeheerPsycholoog.csproj",
+      "packagesPath": "C:\\Users\\butsg\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\butsg\\Documents\\LevenslangLeren\\DeVerstandhouding\\Project\\StartTestApi\\StartTestApi\\AfsprakenbeheerPsycholoog\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/gregory/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\butsg\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {}
         }
@@ -8362,10 +8378,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net8.0": {
+        "framework": "net8.0",
         "targetAlias": "net8.0",
         "dependencies": {
           "AutoMapper": {
@@ -8378,7 +8395,7 @@
           },
           "MailKit": {
             "target": "Package",
-            "version": "[4.10.0, )"
+            "version": "[4.17.0, )"
           },
           "Microsoft.AspNetCore.Authentication.Facebook": {
             "target": "Package",
@@ -8448,7 +8465,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/gregory/.dotnet/sdk/9.0.314/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -8459,16 +8476,6 @@
       "warningLevel": 1,
       "message": "AfsprakenbeheerPsycholoog depends on Google.Apis.Calendar.v3 (>= 1.68.0.3423) but Google.Apis.Calendar.v3 1.68.0.3423 was not found. Google.Apis.Calendar.v3 1.68.0.3430 was resolved instead.",
       "libraryId": "Google.Apis.Calendar.v3",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    },
-    {
-      "code": "NU1902",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'MailKit' 4.10.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-9j88-vvj5-vhgr",
-      "libraryId": "MailKit",
       "targetGraphs": [
         "net8.0"
       ]

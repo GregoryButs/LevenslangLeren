@@ -102,7 +102,6 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         }
 
         [HttpPost]
-        [Microsoft.AspNetCore.RateLimiting.EnableRateLimiting("booking-policy")]
         public async Task<IActionResult> Create([FromBody] CreateAfspraakViewModel vm)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
