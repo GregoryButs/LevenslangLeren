@@ -271,29 +271,41 @@ namespace AfsprakenbeheerPsycholoog.Services
             bool isAllDay = IsAllDayEvent(ev);
             bool isTransparent = string.Equals(ev.Transparency, "transparent", StringComparison.OrdinalIgnoreCase);
 
-            var localAppointment = dbContext.Afspraken.Local.FirstOrDefault(a => a.GoogleEventId == ev.Id)
-                ?? dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
-
-            if (localAppointment != null)
-            {
-                if (isDeclined)
-                {
-                    localAppointment.Status = AfspraakStatus.Geannuleerd;
-                }
-                else
-                {
-                    localAppointment.Starttijd = startUtc;
-                    localAppointment.Eindtijd = endUtc;
-                    localAppointment.IsHeleDag = isAllDay || isTransparent;
-                }
-                return;
-            }
-
             bool isPraktijkhuis = CheckIsPraktijkhuis(ev);
             bool isExplicitBlocker = IsExplicitBlocker(ev.Summary);
 
             var patientInfo = ExtractPatientDetails(ev, isPraktijkhuis);
             bool isPatientAppointment = !isExplicitBlocker && !patientInfo.IsAnonymized && (!string.IsNullOrEmpty(patientInfo.Email) || !string.IsNullOrWhiteSpace(ev.Summary));
+
+            var localAppointment = dbContext.Afspraken.Local.FirstOrDefault(a => a.GoogleEventId == ev.Id)
+                ?? dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
+
+            if (localAppointment != null)
+            {
+                localAppointment.Starttijd = startUtc;
+                localAppointment.Eindtijd = endUtc;
+                localAppointment.IsHeleDag = isAllDay || isTransparent;
+                localAppointment.Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland;
+
+                if (isPatientAppointment)
+                {
+                    var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
+                    var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary);
+                    if (patient != null && patient.Id > 0)
+                    {
+                        localAppointment.PatientId = patient.Id;
+                    }
+                    if (afspraakType != null)
+                    {
+                        localAppointment.TypeId = afspraakType.Id;
+                    }
+                    if (!string.IsNullOrWhiteSpace(patientInfo.Opmerkingen))
+                    {
+                        localAppointment.Opmerkingen = patientInfo.Opmerkingen;
+                    }
+                }
+                return;
+            }
 
             if (isPatientAppointment)
             {

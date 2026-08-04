@@ -142,15 +142,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         {
             try
             {
-                // Alleen externe blokkeringen / Google-events ZONDER patiënt verwijderen!
-                // Afspraken van patiënten (PatientId != null) moeten bewaard blijven voor patiënt- en boekingshistoriek.
-                var externalBlockers = _context.Afspraken.Where(a => a.GoogleEventId != null && a.PatientId == null);
-                _context.Afspraken.RemoveRange(externalBlockers);
+                var googleAppts = _context.Afspraken.Where(a => a.GoogleEventId != null);
+                _context.Afspraken.RemoveRange(googleAppts);
                 await _context.SaveChangesAsync();
 
                 await _googleCalendarService.SyncIncomingChangesAsync();
                 DatabaseMigrationExtensions.RestoreFromDump(_context);
-                return Ok(new { message = "Agenda is opgeschoond voor externe blokkeringen en opnieuw gesynchroniseerd vanuit Google Calendar. Patiëntafspraken zijn behouden." });
+                return Ok(new { message = "Agenda is volledig opgeschoond en opnieuw opgebouwd vanuit Google Calendar!" });
             }
             catch (System.Exception ex)
             {
