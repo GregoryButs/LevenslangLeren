@@ -1,6 +1,8 @@
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak;
 using AfsprakenbeheerPsycholoog.Services;
+using AfsprakenbeheerPsycholoog.Data;
 using AfsprakenbeheerPsycholoog.Data.Repositories;
+using AfsprakenbeheerPsycholoog.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
