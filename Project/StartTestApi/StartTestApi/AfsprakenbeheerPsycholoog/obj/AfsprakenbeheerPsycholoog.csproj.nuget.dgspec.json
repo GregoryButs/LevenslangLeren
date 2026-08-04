@@ -44,10 +44,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AspNet.Security.OAuth.Apple": {
-              "target": "Package",
-              "version": "[8.3.0, )"
-            },
             "AutoMapper": {
               "target": "Package",
               "version": "[16.1.1, )"
@@ -55,6 +51,10 @@
             "Google.Apis.Calendar.v3": {
               "target": "Package",
               "version": "[1.68.0.3423, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.10.0, )"
             },
             "Microsoft.AspNetCore.Authentication.Facebook": {
               "target": "Package",
@@ -65,6 +65,10 @@
               "version": "[8.0.13, )"
             },
             "Microsoft.AspNetCore.Authentication.MicrosoftAccount": {
+              "target": "Package",
+              "version": "[8.0.13, )"
+            },
+            "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
               "target": "Package",
               "version": "[8.0.13, )"
             },

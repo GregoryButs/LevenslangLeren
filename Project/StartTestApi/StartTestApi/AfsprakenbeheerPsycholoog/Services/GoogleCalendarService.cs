@@ -593,8 +593,9 @@ namespace AfsprakenbeheerPsycholoog.Services
             var textToSearch = $"{summary ?? ""} {description ?? ""}".Trim();
             var lowerText = textToSearch.ToLower();
 
-            // 0. Google Meet / Online meeting detection
-            if (!string.IsNullOrWhiteSpace(meetLink) || lowerText.Contains("google meet") || lowerText.Contains("online") || lowerText.Contains("videoconsult"))
+            // 0. Google Meet / Online meeting detection (only for explicit online keywords)
+            bool isExplicitOnline = lowerText.Contains("google meet") || lowerText.Contains("online") || lowerText.Contains("videoconsult") || lowerText.Contains("webinar");
+            if (isExplicitOnline)
             {
                 var onlineType = allTypes.FirstOrDefault(t => t.Naam.Contains("Online", StringComparison.OrdinalIgnoreCase) || t.Naam.Contains("Video", StringComparison.OrdinalIgnoreCase));
                 if (onlineType != null) return onlineType;
@@ -735,8 +736,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             cleanName = Regex.Replace(cleanName, @"\b(Praktijkhuis|Psycholoog|consultatie|consult|intake|1ste|2de|3de)\b", "", RegexOptions.IgnoreCase).Trim();
 
             var nameParts = cleanName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            string voornaam = "Patient";
-            string achternaam = "";
+            string voornaam = "Praktijkhuis";
+            string achternaam = "Consultatie";
 
             if (nameParts.Length == 1)
             {

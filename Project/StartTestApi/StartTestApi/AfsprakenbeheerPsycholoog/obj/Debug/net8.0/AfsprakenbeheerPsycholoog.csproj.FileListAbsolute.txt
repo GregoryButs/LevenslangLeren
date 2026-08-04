@@ -588,7 +588,12 @@ C:/Users/butsg/Documents/Application Development/AD-GregoryButs-2526/Project/Sta
 /home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/System.Management.dll
 /home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Management.dll
 /home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/google-credentials.json
-/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/AspNet.Security.OAuth.Apple.dll
 /home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.Facebook.dll
 /home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.Google.dll
 /home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll
+/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/MailKit.dll
+/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/MimeKit.dll
+/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/System.Security.Cryptography.Pkcs.dll
+/home/gregory/project/AD-GregoryButs-2526/Project/StartTestApi/StartTestApi/AfsprakenbeheerPsycholoog/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
