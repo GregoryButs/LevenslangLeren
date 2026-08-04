@@ -595,8 +595,8 @@ export const CalendarPage: React.FC = () => {
                                         const isStartSlot = slotVal === startSlot;
                                         const isEndSlot = slotVal === endSlot;
                                         const isSingleSlot = isStartSlot && isEndSlot;
-                                        const isMeet = !!coveringAppt.googleMeetLink || (coveringAppt.opmerkingen && (coveringAppt.opmerkingen.includes('GoogleMeet') || coveringAppt.opmerkingen.includes('Google Meet')));
-                                        const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : coveringAppt.kleurcode;
+                                        const isMeet = !!coveringAppt.googleMeetLink;
+                                        const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : (coveringAppt.kleurcode || '#478d96');
 
                                         if (isStartSlot) {
                                           return (
@@ -794,8 +794,8 @@ export const CalendarPage: React.FC = () => {
                                   const isStartSlot = slotVal === startSlot;
                                   const isEndSlot = slotVal === endSlot;
                                   const isSingleSlot = isStartSlot && isEndSlot;
-                                  const isMeet = !!coveringAppt.googleMeetLink || (coveringAppt.opmerkingen && (coveringAppt.opmerkingen.includes('GoogleMeet') || coveringAppt.opmerkingen.includes('Google Meet')));
-                                  const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : isMeet ? '#8b5cf6' : coveringAppt.kleurcode;
+                                  const isMeet = !!coveringAppt.googleMeetLink;
+                                  const colorBorder = coveringAppt.status === 'Geannuleerd' ? '#94a3b8' : (coveringAppt.kleurcode || '#478d96');
 
                                   if (isStartSlot) {
                                     return (

@@ -309,51 +309,61 @@ namespace AfsprakenbeheerPsycholoog.Extensions
         {
             try
             {
-                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase)))
+                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("consult")))
                 {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Consultatie", Kleurcode = "#478d96", StandaardDuurMinuten = 50, VereistPatient = true });
                 }
-                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase)))
+                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("intake")))
                 {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Intake", Kleurcode = "#3b82f6", StandaardDuurMinuten = 60, VereistPatient = true });
                 }
-                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase)))
+                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("praktijkhuis")))
                 {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Praktijkhuis Consultatie", Kleurcode = "#a855f7", StandaardDuurMinuten = 50, VereistPatient = true });
                 }
-                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Online", StringComparison.OrdinalIgnoreCase)))
+                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("online")))
                 {
-                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Online Consultatie", Kleurcode = "#8b5cf6", StandaardDuurMinuten = 50, VereistPatient = true });
+                    context.AfspraakTypes.Add(new AfspraakType { Naam = "Online Consultatie", Kleurcode = "#06b6d4", StandaardDuurMinuten = 50, VereistPatient = true });
                 }
-                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Pauze", StringComparison.OrdinalIgnoreCase)))
+                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("pauze")))
                 {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Pauze / Lunch", Kleurcode = "#6b7280", StandaardDuurMinuten = 30, VereistPatient = false });
                 }
-                if (!context.AfspraakTypes.Any(t => t.Naam.Contains("Verlof", StringComparison.OrdinalIgnoreCase)))
+                if (!context.AfspraakTypes.Any(t => t.Naam.ToLower().Contains("verlof")))
                 {
                     context.AfspraakTypes.Add(new AfspraakType { Naam = "Verlof / Afwezig", Kleurcode = "#ef4444", StandaardDuurMinuten = 480, VereistPatient = false });
                 }
                 context.SaveChanges();
 
-                // Clean up any old jockman dummy patients from SQLite database
+
+                // Clean up any old jockman / dummy patients from SQLite database
                 try
                 {
-                    var jockmanPatients = context.Patienten.Where(p => p.Voornaam.ToLower().Contains("jockman") || p.Achternaam.ToLower().Contains("daniels") || (p.Email != null && p.Email.ToLower().Contains("jockman"))).ToList();
-                    if (jockmanPatients.Any())
+                    var dummyPatients = context.Patienten.Where(p => p.Voornaam.ToLower().Contains("jockman") || p.Achternaam.ToLower().Contains("daniels") || (p.Email != null && p.Email.ToLower().Contains("jockman"))).ToList();
+                    if (dummyPatients.Any())
                     {
-                        var jockmanIds = jockmanPatients.Select(p => p.Id).ToList();
-                        var apptsToReset = context.Afspraken.Where(a => a.PatientId.HasValue && jockmanIds.Contains(a.PatientId.Value)).ToList();
+                        var dummyIds = dummyPatients.Select(p => p.Id).ToList();
+                        var apptsToReset = context.Afspraken.Where(a => a.PatientId.HasValue && dummyIds.Contains(a.PatientId.Value)).ToList();
                         foreach (var app in apptsToReset)
                         {
                             app.PatientId = null;
                         }
-                        context.Patienten.RemoveRange(jockmanPatients);
-                        context.SaveChanges();
+                        context.Patienten.RemoveRange(dummyPatients);
                     }
+
+                    var sharedPatients = context.Patienten.Where(p => p.Email != null && (p.Email.ToLower().Contains("praktijkhuis9500.be") || p.Email.ToLower().Contains("ingedebast@gmail.com"))).ToList();
+                    foreach (var p in sharedPatients)
+                    {
+                        var safeV = Regex.Replace(p.Voornaam.ToLower(), @"[^a-z0-9]", "");
+                        var safeA = Regex.Replace(p.Achternaam.ToLower(), @"[^a-z0-9]", "");
+                        if (string.IsNullOrEmpty(safeV)) safeV = "patient";
+                        p.Email = $"{safeV}.{safeA}@praktijkhuis.local";
+                    }
+                    context.SaveChanges();
                 }
                 catch (Exception) { }
 
-                var consultatieType = context.AfspraakTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
+                var consultatieType = context.AfspraakTypes.FirstOrDefault(t => t.Naam.ToLower().Contains("consult"))
                                      ?? context.AfspraakTypes.FirstOrDefault();
                 int? defaultTypeId = consultatieType?.Id;
                 int restoredCount = 0;
@@ -397,12 +407,16 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     DateTime utcStart = DateTime.Parse(item.StartIso).ToUniversalTime();
                     DateTime utcEnd = utcStart.AddMinutes(50);
 
-                    var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId);
-                    if (patient != null && !patient.IsActief)
+                    int? resolvedPatientId = null;
+                    if (!opm.Contains("[PH9500]"))
                     {
-                        patient.IsActief = true;
+                        var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId);
+                        if (patient != null && !patient.IsActief)
+                        {
+                            patient.IsActief = true;
+                        }
+                        resolvedPatientId = patient?.Id;
                     }
-                    int? resolvedPatientId = patient?.Id;
 
                     Afspraak? appt = context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv);
 
@@ -439,62 +453,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     }
                 }
 
-                // Also attempt file parse if db_dump.txt happens to exist
-                if (File.Exists("db_dump.txt"))
-                {
-                    var lines = File.ReadAllLines("db_dump.txt");
-                    bool inAppts = false;
-
-                    foreach (var line in lines)
-                    {
-                        if (line.Contains("--- AFSPRAKEN")) { inAppts = true; continue; }
-                        if (!inAppts || !line.StartsWith("Appt ID ")) continue;
-
-                        var pIdMatch = Regex.Match(line, @"PatientId=(\d+)");
-                        var gEvMatch = Regex.Match(line, @"GoogleEv=([^\s,\r\n]+)");
-                        var startMatch = Regex.Match(line, @"Start=([^\s,]+ [^\s,]+)");
-
-                        if (!pIdMatch.Success || !startMatch.Success) continue;
-
-                        int patientId = int.Parse(pIdMatch.Groups[1].Value);
-                        string? googleEv = gEvMatch.Success ? gEvMatch.Groups[1].Value : null;
-
-                        if (!DateTime.TryParse(startMatch.Groups[1].Value, out var startTime)) continue;
-                        var utcStart = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
-                        var utcEnd = utcStart.AddMinutes(50);
-
-                        var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.IgnoreQueryFilters().FirstOrDefault();
-                        if (patient != null && !patient.IsActief)
-                        {
-                            patient.IsActief = true;
-                        }
-                        int? resolvedPatientId = patient?.Id;
-
-                        Afspraak? appt = !string.IsNullOrEmpty(googleEv) ? context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv) : null;
-                        if (appt == null) appt = context.Afspraken.FirstOrDefault(a => Math.Abs((a.Starttijd - utcStart).TotalMinutes) < 5);
-
-                        if (appt == null)
-                        {
-                            var newAppt = new Afspraak
-                            {
-                                PatientId = resolvedPatientId,
-                                TypeId = defaultTypeId,
-                                Starttijd = utcStart,
-                                Eindtijd = utcEnd,
-                                Status = AfspraakStatus.Gepland,
-                                GoogleEventId = googleEv
-                            };
-                            context.Afspraken.Add(newAppt);
-                            restoredCount++;
-                        }
-                        else if (appt.PatientId == null && resolvedPatientId.HasValue)
-                        {
-                            appt.PatientId = resolvedPatientId.Value;
-                            restoredCount++;
-                        }
-                    }
-                }
-
+                // Do not parse stale db_dump.txt file to prevent resurrecting old dummy patient links
                 if (restoredCount > 0)
                 {
                     context.SaveChanges();

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AfsprakenbeheerPsycholoog")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+133c197fbd5425dae66c0bcd999dedb33ef0ffa2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e9e82f832725a1e9b2bcd99f6c92671b9c6300f")]
 [assembly: System.Reflection.AssemblyProductAttribute("AfsprakenbeheerPsycholoog")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AfsprakenbeheerPsycholoog")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

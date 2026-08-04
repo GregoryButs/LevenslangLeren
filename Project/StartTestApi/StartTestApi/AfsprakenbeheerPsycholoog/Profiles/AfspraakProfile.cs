@@ -16,20 +16,26 @@ namespace AfsprakenbeheerPsycholoog.Profiles
             // Afspraak -> AfspraakListViewModel
             CreateMap<Afspraak, AfspraakListViewModel>()
                 .ForMember(dest => dest.PatientNaam,
-                    opt => opt.MapFrom(src => src.Patient != null
-                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}".Trim()
-                        : (!string.IsNullOrEmpty(src.Opmerkingen) && src.Opmerkingen != "Blokkering" ? src.Opmerkingen.Replace("[PH9500]", "").Trim() : "Blokkering")))
+                    opt => opt.MapFrom(src =>
+                        src.Patient != null
+                            ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}".Trim()
+                            : (!string.IsNullOrWhiteSpace(src.Opmerkingen) && !src.Opmerkingen.Trim().Equals("[PH9500]") && !src.Opmerkingen.Trim().Equals("Blokkering", StringComparison.OrdinalIgnoreCase))
+                                ? src.Opmerkingen.Replace("[PH9500]", "").Trim().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0].Trim()
+                                : (src.Type != null ? src.Type.Naam : "Praktijkhuis Consultatie")))
                 .ForMember(dest => dest.AfspraakTypeNaam,
-                    opt => opt.MapFrom(src => src.Type != null ? src.Type.Naam : (src.PatientId.HasValue ? "Therapie" : "Blokkering")))
+                    opt => opt.MapFrom(src => src.Type != null ? src.Type.Naam : (src.PatientId.HasValue ? "Consultatie" : "Blokkering")))
                 .ForMember(dest => dest.Kleurcode,
                     opt => opt.MapFrom(src => src.Type != null ? src.Type.Kleurcode : (src.PatientId.HasValue ? "#478d96" : "#64748B")));
 
             // Afspraak -> AfspraakDetailViewModel
             CreateMap<Afspraak, AfspraakDetailViewModel>()
                 .ForMember(dest => dest.PatientVolledigeNaam,
-                    opt => opt.MapFrom(src => src.Patient != null
-                        ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}".Trim()
-                        : (!string.IsNullOrEmpty(src.Opmerkingen) && src.Opmerkingen != "Blokkering" ? src.Opmerkingen.Replace("[PH9500]", "").Trim() : "Blokkering")))
+                    opt => opt.MapFrom(src =>
+                        src.Patient != null
+                            ? $"{src.Patient.Voornaam} {src.Patient.Achternaam}".Trim()
+                            : (!string.IsNullOrWhiteSpace(src.Opmerkingen) && !src.Opmerkingen.Trim().Equals("[PH9500]") && !src.Opmerkingen.Trim().Equals("Blokkering", StringComparison.OrdinalIgnoreCase))
+                                ? src.Opmerkingen.Replace("[PH9500]", "").Trim().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0].Trim()
+                                : (src.Type != null ? src.Type.Naam : "Praktijkhuis Consultatie")))
                 .ForMember(dest => dest.PatientEmail,
                     opt => opt.MapFrom(src => src.Patient != null ? src.Patient.Email : "—"))
                 .ForMember(dest => dest.PatientTelefoon,

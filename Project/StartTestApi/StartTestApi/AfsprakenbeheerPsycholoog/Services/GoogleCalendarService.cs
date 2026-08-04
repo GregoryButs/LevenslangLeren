@@ -275,7 +275,12 @@ namespace AfsprakenbeheerPsycholoog.Services
             bool isExplicitBlocker = IsExplicitBlocker(ev.Summary);
 
             var patientInfo = ExtractPatientDetails(ev, isPraktijkhuis);
-            bool isPatientAppointment = !isExplicitBlocker && !patientInfo.IsAnonymized && (!string.IsNullOrEmpty(patientInfo.Email) || !string.IsNullOrWhiteSpace(ev.Summary));
+            bool hasRealPatientName = !string.IsNullOrWhiteSpace(patientInfo.Voornaam) 
+                && !patientInfo.Voornaam.Equals("Praktijkhuis", StringComparison.OrdinalIgnoreCase) 
+                && !patientInfo.Voornaam.Equals("Patient", StringComparison.OrdinalIgnoreCase)
+                && !patientInfo.Voornaam.Equals("Onbekende", StringComparison.OrdinalIgnoreCase);
+
+            bool isPatientAppointment = !isExplicitBlocker && !patientInfo.IsAnonymized && hasRealPatientName && (!string.IsNullOrEmpty(patientInfo.Email) || !string.IsNullOrWhiteSpace(ev.Summary));
             string? googleMeetLink = ExtractGoogleMeetLink(ev);
 
             var localAppointment = dbContext.Afspraken.Local.FirstOrDefault(a => a.GoogleEventId == ev.Id)
@@ -287,27 +292,29 @@ namespace AfsprakenbeheerPsycholoog.Services
                 localAppointment.Eindtijd = endUtc;
                 localAppointment.IsHeleDag = isAllDay || isTransparent;
                 localAppointment.Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland;
-                if (!string.IsNullOrWhiteSpace(googleMeetLink))
+                localAppointment.GoogleMeetLink = googleMeetLink;
+
+                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
+                if (afspraakType != null)
                 {
-                    localAppointment.GoogleMeetLink = googleMeetLink;
+                    localAppointment.TypeId = afspraakType.Id;
                 }
 
                 if (isPatientAppointment)
                 {
                     var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
-                    var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
                     if (patient != null && patient.Id > 0)
                     {
                         localAppointment.PatientId = patient.Id;
-                    }
-                    if (afspraakType != null)
-                    {
-                        localAppointment.TypeId = afspraakType.Id;
                     }
                     if (!string.IsNullOrWhiteSpace(patientInfo.Opmerkingen))
                     {
                         localAppointment.Opmerkingen = patientInfo.Opmerkingen;
                     }
+                }
+                else
+                {
+                    localAppointment.PatientId = null;
                 }
                 return;
             }
@@ -458,6 +465,11 @@ namespace AfsprakenbeheerPsycholoog.Services
                 geboortedatum = parsed.Geboortedatum;
                 telefoonnummer = parsed.Telefoonnummer;
                 cleanOpmerkingen = "[PH9500]\n" + parsed.CleanOpmerkingen;
+
+                var safeV = Regex.Replace(voornaam.ToLower(), @"[^a-z0-9]", "");
+                var safeA = Regex.Replace(achternaam.ToLower(), @"[^a-z0-9]", "");
+                if (string.IsNullOrEmpty(safeV)) safeV = "patient";
+                email = $"{safeV}.{safeA}@praktijkhuis.local";
             }
             else
             {
@@ -490,18 +502,21 @@ namespace AfsprakenbeheerPsycholoog.Services
             var eNorm = (info.Email ?? "").Trim().ToLower();
             var fullNorm = $"{vNorm} {aNorm}".Trim();
 
+            bool isSharedEmail = !string.IsNullOrEmpty(eNorm) && 
+                (eNorm.Contains("praktijkhuis@") || eNorm.Contains("googlecalendar.local") || eNorm.Contains("ingedebast@gmail.com"));
+
             var patient = dbContext.Patienten.Local.FirstOrDefault(p =>
-                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
-                (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
-                (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm) ||
-                ((p.Voornaam + " " + p.Achternaam).Trim().ToLower() == fullNorm) ||
-                ((p.Achternaam + " " + p.Voornaam).Trim().ToLower() == fullNorm)
+                (!isSharedEmail && !string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
+                (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm && !string.IsNullOrEmpty(vNorm)) ||
+                (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm && !string.IsNullOrEmpty(vNorm)) ||
+                ((p.Voornaam + " " + p.Achternaam).Trim().ToLower() == fullNorm && !string.IsNullOrEmpty(fullNorm)) ||
+                ((p.Achternaam + " " + p.Voornaam).Trim().ToLower() == fullNorm && !string.IsNullOrEmpty(fullNorm))
             ) ?? dbContext.Patienten.FirstOrDefault(p =>
-                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
-                (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
-                (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm) ||
-                ((p.Voornaam + " " + p.Achternaam).Trim().ToLower() == fullNorm) ||
-                ((p.Achternaam + " " + p.Voornaam).Trim().ToLower() == fullNorm)
+                (!isSharedEmail && !string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
+                (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm && !string.IsNullOrEmpty(vNorm)) ||
+                (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm && !string.IsNullOrEmpty(vNorm)) ||
+                ((p.Voornaam + " " + p.Achternaam).Trim().ToLower() == fullNorm && !string.IsNullOrEmpty(fullNorm)) ||
+                ((p.Achternaam + " " + p.Voornaam).Trim().ToLower() == fullNorm && !string.IsNullOrEmpty(fullNorm))
             );
 
             if (patient == null)
@@ -559,6 +574,19 @@ namespace AfsprakenbeheerPsycholoog.Services
         private static string? ExtractGoogleMeetLink(Event ev)
         {
             if (ev == null) return null;
+
+            var textToSearch = $"{ev.Summary ?? ""} {ev.Description ?? ""} {ev.Location ?? ""}".ToLower();
+
+            // Only extract Google Meet link for explicitly online appointments
+            bool isExplicitOnline = textToSearch.Contains("google meet") || textToSearch.Contains("online") ||
+                                    textToSearch.Contains("videoconsult") || textToSearch.Contains("webinar") ||
+                                    textToSearch.Contains("meet.google.com");
+
+            if (!isExplicitOnline)
+            {
+                return null;
+            }
+
             if (!string.IsNullOrWhiteSpace(ev.HangoutLink)) return ev.HangoutLink;
 
             if (ev.ConferenceData?.EntryPoints != null)
@@ -582,7 +610,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 if (match.Success) return match.Value;
             }
 
-            return null;
+            return "https://meet.google.com/";
         }
 
         private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null, string? description = null, string? meetLink = null)
@@ -639,8 +667,9 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
 
             // 3. Default fallback to Consultatie
-            var consultatieType = allTypes.FirstOrDefault(t => string.Equals(t.Naam, "Consultatie", StringComparison.OrdinalIgnoreCase))
+            var consultatieType = allTypes.FirstOrDefault(t => string.Equals(t.Naam.Trim(), "Consultatie", StringComparison.OrdinalIgnoreCase))
                                  ?? allTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
+                                 ?? allTypes.FirstOrDefault(t => !t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase))
                                  ?? allTypes.FirstOrDefault();
 
             return consultatieType;
