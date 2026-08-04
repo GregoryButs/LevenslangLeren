@@ -165,6 +165,51 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 }
                 catch (Exception) { }
 
+                // Safely synchronize EF Migrations History if tables already exist in SQLite
+                try
+                {
+                    using (var conn = context.Database.GetDbConnection())
+                    {
+                        conn.Open();
+                        bool hasRoles = false;
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='AspNetRoles';";
+                            hasRoles = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                        }
+
+                        if (hasRoles)
+                        {
+                            using (var cmd = conn.CreateCommand())
+                            {
+                                cmd.CommandText = @"
+                                    CREATE TABLE IF NOT EXISTS ""__EFMigrationsHistory"" (
+                                        ""MigrationId"" TEXT NOT NULL CONSTRAINT ""PK___EFMigrationsHistory"" PRIMARY KEY,
+                                        ""ProductVersion"" TEXT NOT NULL
+                                    );";
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            var pending = context.Database.GetPendingMigrations();
+                            foreach (var migrationId in pending)
+                            {
+                                using (var cmd = conn.CreateCommand())
+                                {
+                                    cmd.CommandText = @"
+                                        INSERT OR IGNORE INTO ""__EFMigrationsHistory"" (""MigrationId"", ""ProductVersion"")
+                                        VALUES (@mId, '8.0.0');";
+                                    var p = cmd.CreateParameter();
+                                    p.ParameterName = "@mId";
+                                    p.Value = migrationId;
+                                    cmd.Parameters.Add(p);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception) { }
+
                 try
                 {
                     context.Database.Migrate();
