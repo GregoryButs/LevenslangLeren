@@ -298,7 +298,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (isPatientAppointment)
             {
                 var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
-                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis);
+                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary);
                 int? assignedPatientId = (patient != null && patient.Id > 0) ? patient.Id : null;
 
                 var nieuweAfspraak = new Afspraak
@@ -465,12 +465,20 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         private async Task<Patient> GetOrCreatePatientAsync(ApplicationDbContext dbContext, PatientInfoDTO info)
         {
+            var vNorm = (info.Voornaam ?? "").Trim().ToLower();
+            var aNorm = (info.Achternaam ?? "").Trim().ToLower();
+            var eNorm = (info.Email ?? "").Trim().ToLower();
+
             var patient = dbContext.Patienten.Local.FirstOrDefault(p =>
-                (p.Voornaam == info.Voornaam && p.Achternaam == info.Achternaam) ||
-                (!string.IsNullOrEmpty(info.Email) && p.Email == info.Email && p.Voornaam == info.Voornaam)
+                (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
+                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
+                (aNorm.Length >= 3 && p.Achternaam.ToLower() == aNorm) ||
+                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm))
             ) ?? dbContext.Patienten.FirstOrDefault(p =>
-                (p.Voornaam == info.Voornaam && p.Achternaam == info.Achternaam) ||
-                (!string.IsNullOrEmpty(info.Email) && p.Email == info.Email && p.Voornaam == info.Voornaam)
+                (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
+                (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
+                (aNorm.Length >= 3 && p.Achternaam.ToLower() == aNorm) ||
+                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm))
             );
 
             if (patient == null)
@@ -525,14 +533,21 @@ namespace AfsprakenbeheerPsycholoog.Services
             return patient;
         }
 
-        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis)
+        private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null)
         {
             var allTypes = dbContext.AfspraakTypes.ToList();
-            var praktijkhuisType = allTypes.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase))
-                                   ?? allTypes.FirstOrDefault(t => t.Id == 3);
-            var therapieType = allTypes.FirstOrDefault(t => t.Id == 2) ?? allTypes.FirstOrDefault();
+            var intakeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase))
+                             ?? allTypes.FirstOrDefault(t => t.Id == 3);
+            var consultatieType = allTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
+                                 ?? allTypes.FirstOrDefault(t => t.Id == 2)
+                                 ?? allTypes.FirstOrDefault();
 
-            return isPraktijkhuis && praktijkhuisType != null ? praktijkhuisType : (therapieType ?? allTypes.FirstOrDefault());
+            if (!string.IsNullOrWhiteSpace(summary) && (summary.Contains("intake", StringComparison.OrdinalIgnoreCase) || summary.Contains("1ste", StringComparison.OrdinalIgnoreCase) || summary.Contains("eerste", StringComparison.OrdinalIgnoreCase)))
+            {
+                return intakeType ?? consultatieType;
+            }
+
+            return consultatieType ?? intakeType ?? allTypes.FirstOrDefault();
         }
 
         private static bool IsExplicitBlocker(string? summary)

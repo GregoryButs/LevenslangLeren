@@ -364,7 +364,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     DateTime utcStart = DateTime.Parse(item.StartIso).ToUniversalTime();
                     DateTime utcEnd = utcStart.AddMinutes(50);
 
-                    var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.IgnoreQueryFilters().FirstOrDefault();
+                    var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId);
                     if (patient != null && !patient.IsActief)
                     {
                         patient.IsActief = true;
