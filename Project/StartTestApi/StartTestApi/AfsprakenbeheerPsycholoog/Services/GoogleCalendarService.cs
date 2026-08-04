@@ -552,18 +552,24 @@ namespace AfsprakenbeheerPsycholoog.Services
         private static AfspraakType? ResolveAfspraakType(ApplicationDbContext dbContext, bool isPraktijkhuis, string? summary = null)
         {
             var allTypes = dbContext.AfspraakTypes.ToList();
-            var intakeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase))
-                             ?? allTypes.FirstOrDefault(t => t.Id == 3);
-            var consultatieType = allTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
-                                 ?? allTypes.FirstOrDefault(t => t.Id == 2)
+            var consultatieType = allTypes.FirstOrDefault(t => string.Equals(t.Naam, "Consultatie", StringComparison.OrdinalIgnoreCase))
+                                 ?? allTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
                                  ?? allTypes.FirstOrDefault();
+
+            var praktijkhuisType = allTypes.FirstOrDefault(t => t.Naam.Contains("Praktijkhuis", StringComparison.OrdinalIgnoreCase));
+            var intakeType = allTypes.FirstOrDefault(t => t.Naam.Contains("Intake", StringComparison.OrdinalIgnoreCase));
 
             if (!string.IsNullOrWhiteSpace(summary) && (summary.Contains("intake", StringComparison.OrdinalIgnoreCase) || summary.Contains("1ste", StringComparison.OrdinalIgnoreCase) || summary.Contains("eerste", StringComparison.OrdinalIgnoreCase)))
             {
                 return intakeType ?? consultatieType;
             }
 
-            return consultatieType ?? intakeType ?? allTypes.FirstOrDefault();
+            if (isPraktijkhuis && praktijkhuisType != null)
+            {
+                return praktijkhuisType;
+            }
+
+            return consultatieType ?? allTypes.FirstOrDefault();
         }
 
         private static bool IsExplicitBlocker(string? summary)

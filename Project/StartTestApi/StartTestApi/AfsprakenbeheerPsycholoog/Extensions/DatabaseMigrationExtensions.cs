@@ -309,20 +309,21 @@ namespace AfsprakenbeheerPsycholoog.Extensions
         {
             try
             {
-                var defaultType = context.AfspraakTypes.FirstOrDefault();
-                if (defaultType == null)
+                var consultatieType = context.AfspraakTypes.FirstOrDefault(t => t.Naam.Contains("Consult", StringComparison.OrdinalIgnoreCase))
+                                     ?? context.AfspraakTypes.FirstOrDefault();
+                if (consultatieType == null)
                 {
-                    defaultType = new AfspraakType
+                    consultatieType = new AfspraakType
                     {
                         Naam = "Consultatie",
                         Kleurcode = "#478d96",
                         StandaardDuurMinuten = 50,
                         VereistPatient = true
                     };
-                    context.AfspraakTypes.Add(defaultType);
+                    context.AfspraakTypes.Add(consultatieType);
                     context.SaveChanges();
                 }
-                int? defaultTypeId = defaultType?.Id;
+                int? defaultTypeId = consultatieType?.Id;
                 int restoredCount = 0;
 
                 // Embedded hardcoded backup snapshot from db_dump.txt
