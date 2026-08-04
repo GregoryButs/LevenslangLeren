@@ -109,7 +109,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             var succes = await _afspraakService.CreateAfspraakAsync(vm);
             if (!succes)
             {
-                return BadRequest(new { message = "Kies een ander moment: dit tijdstip overlapt met een reeds geplande afspraak of de invoer is ongeldig." });
+                return Conflict(new { message = "Kies een ander moment: dit tijdstip overlapt met een reeds geplande afspraak of de invoer is ongeldig." });
             }
 
             return Ok(new { message = "Afspraak is ingepland." });
@@ -140,7 +140,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             var succes = await _afspraakService.EditAfspraakAsync(vm);
             if (!succes)
             {
-                return BadRequest(new { message = "Kies een ander moment: dit tijdstip overlapt met een reeds geplande afspraak of de invoer is ongeldig." });
+                return Conflict(new { message = "Kies een ander moment: dit tijdstip overlapt met een reeds geplande afspraak of de invoer is ongeldig." });
             }
 
             return Ok(new { message = "Afspraak is bijgewerkt." });

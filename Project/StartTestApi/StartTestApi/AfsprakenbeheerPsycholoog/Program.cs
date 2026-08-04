@@ -38,7 +38,15 @@ namespace AfsprakenbeheerPsycholoog
                 .PersistKeysToFileSystem(new DirectoryInfo(keysFolder));
 
             // Web API Controllers instead of MVC Views
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var errors = string.Join(" ", context.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                        return new Microsoft.AspNetCore.Mvc.BadRequestObjectResult(new { message = $"We konden de afspraak niet opslaan door een validatiefout: {errors}" });
+                    };
+                });
 
             // Caching & Performance Services
             builder.Services.AddMemoryCache();

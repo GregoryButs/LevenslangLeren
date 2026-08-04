@@ -896,10 +896,10 @@ C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\swae.build.ex.cache
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\Afsprake.50A3F19A.Up2Date
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\AfsprakenbeheerPsycholoog.dll
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\refint\AfsprakenbeheerPsycholoog.dll
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\AfsprakenbeheerPsycholoog.pdb
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\AfsprakenbeheerPsycholoog.genruntimeconfig.cache
 C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\ref\AfsprakenbeheerPsycholoog.dll
+C:\Users\butsg\Documents\LevenslangLeren\DeVerstandhouding\Project\StartTestApi\StartTestApi\AfsprakenbeheerPsycholoog\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
