@@ -310,7 +310,19 @@ namespace AfsprakenbeheerPsycholoog.Extensions
             try
             {
                 var defaultType = context.AfspraakTypes.FirstOrDefault();
-                int defaultTypeId = defaultType?.Id ?? 1;
+                if (defaultType == null)
+                {
+                    defaultType = new AfspraakType
+                    {
+                        Naam = "Consultatie",
+                        Kleurcode = "#478d96",
+                        StandaardDuurMinuten = 50,
+                        VereistPatient = true
+                    };
+                    context.AfspraakTypes.Add(defaultType);
+                    context.SaveChanges();
+                }
+                int? defaultTypeId = defaultType?.Id;
                 int restoredCount = 0;
 
                 // Embedded hardcoded backup snapshot from db_dump.txt
