@@ -1021,7 +1021,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                 </p>
                 <ul className="list-disc list-inside space-y-1 text-sm md:text-base pl-2 font-medium text-brand-950/80 dark:text-brand-200 leading-relaxed">
                   <li>
-                    <strong>Individuele consultatie (45 min):</strong> <strong>€ 75</strong>
+                    <strong>Individuele consultatie (50 min):</strong> <strong>€ 75</strong>
                   </li>
                 </ul>
               </div>
@@ -1038,7 +1038,7 @@ export const LandingPageModern: React.FC<LandingPageModernProps> = ({ user }) =>
                 <p className="text-sm md:text-base text-brand-950/80 dark:text-brand-200 leading-relaxed font-medium">
                   De exacte voorwaarden en terugbetalingsbedragen verschillen per ziekenfonds. Voor actuele informatie en het aanvragen van formulieren verwijzen we je graag door naar de website van jouw mutualiteit of via{' '}
                   <a 
-                    href="https://www.vindeentherapeut.be" 
+                    href="https://www.vindeentherapeut.be/info/terugbetaling-psychotherapie.html" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-brand-500 font-bold hover:underline inline-flex items-center space-x-1"
