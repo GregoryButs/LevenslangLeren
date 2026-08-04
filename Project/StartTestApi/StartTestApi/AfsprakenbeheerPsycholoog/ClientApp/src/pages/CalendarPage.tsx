@@ -633,21 +633,11 @@ export const CalendarPage: React.FC = () => {
                                     e.stopPropagation();
                                     setSelectedAfspraak(coveringAppt);
                                   }}
-                                  onMouseDown={(e) => {
-                                    if (!(e.target as HTMLElement).closest('button, a, .cancelled-action-btn')) {
-                                      const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
-                                      handleMouseDownSubSlot(day, slotVal, false, e);
-                                    }
-                                  }}
-                                  onMouseEnter={() => {
-                                    const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
-                                    handleMouseEnterSubSlot(day, slotVal);
-                                  }}
                                   style={{ 
                                     position: 'absolute',
                                     top: `${topPx}px`,
                                     left: totalInHour > 1 ? `calc(${leftPercent}% + 2px)` : '2px',
-                                    width: totalInHour > 1 ? `calc(${widthPercent}% - 4px)` : 'calc(100% - 4px)',
+                                    width: totalInHour > 1 ? `calc(${widthPercent}% - 6px)` : 'calc(100% - 14px)',
                                     height: `${heightPx}px`,
                                     borderLeftColor: colorBorder,
                                     zIndex: 10
@@ -758,21 +748,11 @@ export const CalendarPage: React.FC = () => {
                                     e.stopPropagation();
                                     setSelectedAfspraak(coveringAppt);
                                   }}
-                                  onMouseDown={(e) => {
-                                    if (!(e.target as HTMLElement).closest('button, a, .cancelled-action-btn')) {
-                                      const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
-                                      handleMouseDownSubSlot(currentDate, slotVal, false, e);
-                                    }
-                                  }}
-                                  onMouseEnter={() => {
-                                    const slotVal = hour + (Math.floor(startM / 5) * 5) / 60;
-                                    handleMouseEnterSubSlot(currentDate, slotVal);
-                                  }}
                                   style={{ 
                                     position: 'absolute',
                                     top: `${topPx}px`,
                                     left: totalInHour > 1 ? `calc(${leftPercent}% + 2px)` : '2px',
-                                    width: totalInHour > 1 ? `calc(${widthPercent}% - 4px)` : 'calc(100% - 4px)',
+                                    width: totalInHour > 1 ? `calc(${widthPercent}% - 6px)` : 'calc(100% - 14px)',
                                     height: `${heightPx}px`,
                                     borderLeftColor: colorBorder,
                                     zIndex: 10
