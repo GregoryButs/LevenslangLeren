@@ -142,10 +142,20 @@ export const Patients: React.FC = () => {
     setFieldErrors({});
 
     try {
+      let formattedDate = formPatient.geboortedatum ? formPatient.geboortedatum.split('T')[0] : '';
+      if (formattedDate.includes('/')) {
+        const parts = formattedDate.split('/');
+        if (parts.length === 3 && parts[2].length === 4) {
+          formattedDate = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+        }
+      }
+
       const payload = {
         ...formPatient,
+        id: formPatient.id,
         voornaam: formPatient.voornaam.trim(),
         achternaam: formPatient.achternaam.trim(),
+        geboortedatum: formattedDate,
         email: formPatient.email.trim(),
         secundairEmail: formPatient.secundairEmail?.trim() || null,
         telefoonnummer: formPatient.telefoonnummer?.trim() || null,

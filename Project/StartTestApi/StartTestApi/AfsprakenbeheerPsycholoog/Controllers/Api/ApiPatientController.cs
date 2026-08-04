@@ -90,6 +90,10 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         [HttpPut("{id}")]
         public IActionResult EditPatient(int id, [FromBody] EditPatientViewModel vm)
         {
+            if (vm != null && vm.Id == 0)
+            {
+                vm.Id = id;
+            }
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (id != vm.Id) return BadRequest(new { message = "ID in URL komt niet overeen met ID in body." });
 
