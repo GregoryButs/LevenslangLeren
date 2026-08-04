@@ -439,7 +439,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                 email = ev.Creator.Email;
             }
 
-            var displayNaam = attendee?.DisplayName ?? ev.Summary ?? "Onbekende Patient";
+            var displayNaam = !string.IsNullOrWhiteSpace(ev.Summary) ? ev.Summary : (attendee?.DisplayName ?? "Onbekende Patient");
             string voornaam, achternaam, telefoonnummer, cleanOpmerkingen;
             DateOnly geboortedatum;
 
