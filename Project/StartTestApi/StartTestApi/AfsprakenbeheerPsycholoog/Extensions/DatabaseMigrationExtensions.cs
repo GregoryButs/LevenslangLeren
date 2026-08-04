@@ -171,7 +171,11 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 }
                 catch (Exception)
                 {
-                    context.Database.Migrate();
+                    try
+                    {
+                        context.Database.EnsureCreated();
+                    }
+                    catch (Exception) { }
                 }
 
                 SeedData.Initialize(scope.ServiceProvider).GetAwaiter().GetResult();
