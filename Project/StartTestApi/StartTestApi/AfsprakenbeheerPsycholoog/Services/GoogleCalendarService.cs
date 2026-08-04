@@ -471,14 +471,18 @@ namespace AfsprakenbeheerPsycholoog.Services
 
             var patient = dbContext.Patienten.Local.FirstOrDefault(p =>
                 (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
+                (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm) ||
                 (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
                 (aNorm.Length >= 3 && p.Achternaam.ToLower() == aNorm) ||
-                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm))
+                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm)) ||
+                ((p.Achternaam + " " + p.Voornaam).ToLower() == (vNorm + " " + aNorm))
             ) ?? dbContext.Patienten.FirstOrDefault(p =>
                 (p.Voornaam.ToLower() == vNorm && p.Achternaam.ToLower() == aNorm) ||
+                (p.Voornaam.ToLower() == aNorm && p.Achternaam.ToLower() == vNorm) ||
                 (!string.IsNullOrEmpty(eNorm) && p.Email.ToLower() == eNorm) ||
                 (aNorm.Length >= 3 && p.Achternaam.ToLower() == aNorm) ||
-                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm))
+                ((p.Voornaam + " " + p.Achternaam).ToLower() == (vNorm + " " + aNorm)) ||
+                ((p.Achternaam + " " + p.Voornaam).ToLower() == (vNorm + " " + aNorm))
             );
 
             if (patient == null)
@@ -630,8 +634,8 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
             else if (nameParts.Length >= 2)
             {
-                achternaam = nameParts[0];
-                voornaam = string.Join(" ", nameParts.Skip(1));
+                voornaam = nameParts[0];
+                achternaam = string.Join(" ", nameParts.Skip(1));
             }
 
             return (voornaam, achternaam, geboortedatum, telefoonnummer, string.Join("\n", cleanDescList));
