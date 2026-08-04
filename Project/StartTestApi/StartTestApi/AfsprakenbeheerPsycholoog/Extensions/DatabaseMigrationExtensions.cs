@@ -299,7 +299,11 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     DateTime utcStart = DateTime.Parse(item.StartIso).ToUniversalTime();
                     DateTime utcEnd = utcStart.AddMinutes(50);
 
-                    var patient = context.Patienten.FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.FirstOrDefault();
+                    var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.IgnoreQueryFilters().FirstOrDefault();
+                    if (patient != null && !patient.IsActief)
+                    {
+                        patient.IsActief = true;
+                    }
                     int? resolvedPatientId = patient?.Id;
 
                     Afspraak? appt = context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv);
@@ -359,7 +363,11 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                         var utcStart = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
                         var utcEnd = utcStart.AddMinutes(50);
 
-                        var patient = context.Patienten.FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.FirstOrDefault();
+                        var patient = context.Patienten.IgnoreQueryFilters().FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.IgnoreQueryFilters().FirstOrDefault();
+                        if (patient != null && !patient.IsActief)
+                        {
+                            patient.IsActief = true;
+                        }
                         int? resolvedPatientId = patient?.Id;
 
                         Afspraak? appt = !string.IsNullOrEmpty(googleEv) ? context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv) : null;

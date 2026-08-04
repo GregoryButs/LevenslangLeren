@@ -49,9 +49,6 @@ namespace AfsprakenbeheerPsycholoog.Data
             builder.Entity<Patient>()
                 .HasQueryFilter(p => p.IsActief);
 
-            builder.Entity<Afspraak>()
-                .HasQueryFilter(a => a.PatientId == null || a.Patient.IsActief);
-
             // Relatie: Afspraak → Patient
             builder.Entity<Afspraak>()
                 .HasOne(a => a.Patient)
