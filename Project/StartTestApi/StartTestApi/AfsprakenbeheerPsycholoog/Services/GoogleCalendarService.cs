@@ -299,10 +299,11 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
                 var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis);
+                int? assignedPatientId = (patient != null && patient.Id > 0) ? patient.Id : null;
 
                 var nieuweAfspraak = new Afspraak
                 {
-                    PatientId = patient.Id,
+                    PatientId = assignedPatientId,
                     TypeId = afspraakType?.Id,
                     Starttijd = startUtc,
                     Eindtijd = endUtc,
@@ -475,10 +476,12 @@ namespace AfsprakenbeheerPsycholoog.Services
             if (patient == null)
             {
                 var patientEmail = info.Email;
+                var safeName = Regex.Replace(((info.Voornaam ?? "") + (info.Achternaam ?? "")).ToLower(), @"[^a-z0-9]", ".");
+                if (string.IsNullOrEmpty(safeName)) safeName = "patient";
+
                 if (!string.IsNullOrEmpty(info.Email) && (dbContext.Patienten.Local.Any(p => p.Email == info.Email) || dbContext.Patienten.Any(p => p.Email == info.Email)))
                 {
-                    var safeName = Regex.Replace((info.Voornaam + info.Achternaam).ToLower(), @"[^a-z0-9]", ".");
-                    patientEmail = $"{safeName}@praktijkhuis9500.be";
+                    patientEmail = $"{safeName}.{Guid.NewGuid().ToString().Substring(0, 6)}@praktijkhuis9500.be";
                 }
 
                 patient = new Patient
@@ -496,9 +499,18 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     await dbContext.SaveChangesAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _logger.LogWarning(ex, "Fout bij opslaan van nieuwe patiënt {Naam}", patient.VolledigeNaam);
+                    // Fallback to unique email if first save failed due to email constraint
+                    patient.Email = $"{safeName}.{Guid.NewGuid().ToString().Substring(0, 8)}@praktijkhuis9500.be";
+                    try
+                    {
+                        await dbContext.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Fout bij opslaan van nieuwe patiënt {Naam}", patient.VolledigeNaam);
+                    }
                 }
                 _logger.LogInformation($"Nieuwe patiënt {patient.VolledigeNaam} aangemaakt na synchronisatie uit Google Calendar.");
             }
