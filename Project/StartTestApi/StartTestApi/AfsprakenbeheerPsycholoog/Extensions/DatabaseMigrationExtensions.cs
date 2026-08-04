@@ -299,8 +299,8 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     DateTime utcStart = DateTime.Parse(item.StartIso).ToUniversalTime();
                     DateTime utcEnd = utcStart.AddMinutes(50);
 
-                    var patientExists = context.Patienten.Any(p => p.Id == patientId);
-                    if (!patientExists) continue;
+                    var patient = context.Patienten.FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.FirstOrDefault();
+                    int? resolvedPatientId = patient?.Id;
 
                     Afspraak? appt = context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv);
 
@@ -313,7 +313,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                     {
                         var newAppt = new Afspraak
                         {
-                            PatientId = patientId,
+                            PatientId = resolvedPatientId,
                             TypeId = defaultTypeId,
                             Starttijd = utcStart,
                             Eindtijd = utcEnd,
@@ -324,9 +324,9 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                         context.Afspraken.Add(newAppt);
                         restoredCount++;
                     }
-                    else if (appt.PatientId == null)
+                    else if (appt.PatientId == null && resolvedPatientId.HasValue)
                     {
-                        appt.PatientId = patientId;
+                        appt.PatientId = resolvedPatientId.Value;
                         if (!string.IsNullOrWhiteSpace(opm) && string.IsNullOrWhiteSpace(appt.Opmerkingen))
                         {
                             appt.Opmerkingen = opm;
@@ -359,7 +359,8 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                         var utcStart = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
                         var utcEnd = utcStart.AddMinutes(50);
 
-                        if (!context.Patienten.Any(p => p.Id == patientId)) continue;
+                        var patient = context.Patienten.FirstOrDefault(p => p.Id == patientId) ?? context.Patienten.FirstOrDefault();
+                        int? resolvedPatientId = patient?.Id;
 
                         Afspraak? appt = !string.IsNullOrEmpty(googleEv) ? context.Afspraken.FirstOrDefault(a => a.GoogleEventId == googleEv) : null;
                         if (appt == null) appt = context.Afspraken.FirstOrDefault(a => Math.Abs((a.Starttijd - utcStart).TotalMinutes) < 5);
@@ -368,7 +369,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                         {
                             var newAppt = new Afspraak
                             {
-                                PatientId = patientId,
+                                PatientId = resolvedPatientId,
                                 TypeId = defaultTypeId,
                                 Starttijd = utcStart,
                                 Eindtijd = utcEnd,
@@ -378,9 +379,9 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                             context.Afspraken.Add(newAppt);
                             restoredCount++;
                         }
-                        else if (appt.PatientId == null)
+                        else if (appt.PatientId == null && resolvedPatientId.HasValue)
                         {
-                            appt.PatientId = patientId;
+                            appt.PatientId = resolvedPatientId.Value;
                             restoredCount++;
                         }
                     }
