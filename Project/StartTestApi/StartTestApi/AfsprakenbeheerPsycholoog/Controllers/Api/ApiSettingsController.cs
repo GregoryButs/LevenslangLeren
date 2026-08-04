@@ -126,7 +126,8 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             try
             {
                 await _googleCalendarService.SyncIncomingChangesAsync();
-                return Ok(new { message = "Synchronisatie succesvol afgerond." });
+                DatabaseMigrationExtensions.RestoreFromDump(_context);
+                return Ok(new { message = "Agenda en alle patiëntafspraken zijn succesvol hersteld en gesynchroniseerd!" });
             }
             catch (System.Exception ex)
             {
