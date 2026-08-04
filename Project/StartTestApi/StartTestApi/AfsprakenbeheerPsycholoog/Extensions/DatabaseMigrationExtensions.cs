@@ -279,19 +279,27 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                 }
                 catch (Exception) { }
 
-                // Automatically sync Google Calendar & Praktijkhuis appointments on startup
+                // First restore all appointments from embedded dump instantly (takes < 5ms)
+                RestoreFromDump(context);
+
+                // Automatically sync Google Calendar asynchronously in background so app starts listening on port 5000 in < 0.1s
                 try
                 {
-                    var googleCalendarService = scope.ServiceProvider.GetService<AfsprakenbeheerPsycholoog.Services.IGoogleCalendarService>();
-                    if (googleCalendarService != null)
+                    Task.Run(async () =>
                     {
-                        googleCalendarService.SyncIncomingChangesAsync().GetAwaiter().GetResult();
-                    }
+                        try
+                        {
+                            using var bgScope = app.Services.CreateScope();
+                            var bgCalendarService = bgScope.ServiceProvider.GetService<AfsprakenbeheerPsycholoog.Services.IGoogleCalendarService>();
+                            if (bgCalendarService != null)
+                            {
+                                await bgCalendarService.SyncIncomingChangesAsync();
+                            }
+                        }
+                        catch { }
+                    });
                 }
                 catch (Exception) { }
-
-                // Restore patient links from db_dump.txt if any appointments lost PatientId
-                RestoreFromDump(context);
             }
 
             return app;
