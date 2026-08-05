@@ -112,19 +112,47 @@ export const Register: React.FC<RegisterProps> = ({ setUser }) => {
         </div>
 
         {confirmationSent ? (
-          <div className="py-6 text-center space-y-4">
-            <div className="h-14 w-14 rounded-full bg-brand-100 dark:bg-brand-800 text-brand-600 dark:text-brand-300 flex items-center justify-center mx-auto">
-              <CheckCircle2 className="h-8 w-8" />
+          <div className="py-6 space-y-4">
+            <div className="text-center space-y-3">
+              <div className="h-14 w-14 rounded-full bg-brand-100 dark:bg-brand-800 text-brand-600 dark:text-brand-300 flex items-center justify-center mx-auto">
+                <CheckCircle2 className="h-8 w-8" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-brand-50">Bevestigingsmail Verzonden!</h3>
+              <p className="text-sm text-slate-600 dark:text-brand-200 leading-relaxed">
+                We hebben een e-mail gestuurd naar <strong className="text-brand-600 dark:text-brand-400">{email}</strong>.
+              </p>
+              <p className="text-xs text-slate-500 dark:text-brand-300">
+                Klik op de verificatielink in de mail om uw account te activeren.
+              </p>
             </div>
-            <h3 className="text-lg font-bold text-slate-800 dark:text-brand-50">Bevestigingsmail Verzonden!</h3>
-            <p className="text-sm text-slate-600 dark:text-brand-200 leading-relaxed">
-              We hebben een e-mail gestuurd naar <strong className="text-brand-600 dark:text-brand-400">{email}</strong>.
-            </p>
-            <p className="text-xs text-slate-500 dark:text-brand-300">
-              Klik op de verificatielink in de mail om uw account te activeren.
-            </p>
+
+            {/* Informatietektst na registratie */}
+            <div className="mt-6 pt-5 border-t border-slate-200 dark:border-brand-800/60 space-y-3 text-left">
+              <h4 className="text-sm font-bold text-slate-800 dark:text-brand-50">Wat te verwachten na je registratie</h4>
+              <p className="text-xs text-slate-600 dark:text-brand-200 leading-relaxed">
+                Bedankt voor je aanmelding. Om de kwaliteit van de zorg en een goede match te waarborgen, neem ik elke aanvraag persoonlijk door.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-brand-200">
+                <li className="flex items-start space-x-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0" />
+                  <div><strong className="font-semibold text-slate-900 dark:text-brand-100">Wachtlijst:</strong> Na je registratie sta je automatisch op de wachtlijst. Je hoeft hiervoor zelf geen verdere actie te ondernemen.</div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0" />
+                  <div><strong className="font-semibold text-slate-900 dark:text-brand-100">Beoordeling:</strong> Ik bekijk je aanmelding <strong className="font-semibold text-brand-700 dark:text-brand-300">binnen één week</strong>.</div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-500 mt-1.5 shrink-0" />
+                  <div><strong className="font-semibold text-slate-900 dark:text-brand-100">Goedkeuring:</strong> Zodra je aanmelding is goedgekeurd, ontvang je een e-mail met verdere instructies om definitief een afspraak in te plannen.</div>
+                </li>
+              </ul>
+              <p className="text-[11px] text-slate-500 dark:text-brand-300 pt-2 leading-relaxed italic">
+                Heb je in de tussentijd dringende vragen of is er sprake van een acute crisis? Neem dan direct contact op met je huisarts of de huisartsenpost.
+              </p>
+            </div>
+
             <div className="pt-4">
-              <Link to="/login" className="inline-block w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-2xl text-sm transition">
+              <Link to="/login" className="inline-block w-full py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-2xl text-sm transition text-center shadow-md">
                 Naar Inloggen
               </Link>
             </div>

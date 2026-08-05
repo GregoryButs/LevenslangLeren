@@ -107,17 +107,59 @@ export const PatientDashboard: React.FC = () => {
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto mt-8 p-6 bg-amber-50 text-amber-800 rounded-3xl border border-amber-200 shadow-sm space-y-4">
-        <div className="flex items-center space-x-2">
-          <AlertCircle className="h-6 w-6 text-amber-600" />
-          <h3 className="text-lg font-bold">Account nog niet gekoppeld</h3>
+      <div className="max-w-4xl mx-auto mt-8 space-y-6 p-6 sm:p-8 bg-white dark:bg-brand-900 rounded-3xl border border-slate-200/80 dark:border-brand-800/60 shadow-xl shadow-slate-200/50 dark:shadow-brand-950/50 transition-colors">
+        {/* Waarschuwingsbanner voor ontbrekende koppeling */}
+        <div className="p-4 sm:p-5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 rounded-2xl flex items-start space-x-3 text-amber-900 dark:text-amber-200">
+          <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h3 className="text-base font-bold">Account nog niet gekoppeld</h3>
+            <p className="text-sm text-amber-800 dark:text-amber-300/90 leading-relaxed">
+              Uw account is succesvol geregistreerd, maar de psycholoog moet uw account nog handmatig koppelen aan een patiëntendossier of uw aanmelding goedkeuren.
+            </p>
+          </div>
         </div>
-        <p className="text-sm">
-          Uw account is succesvol geregistreerd, maar de psycholoog moet uw account nog handmatig koppelen aan een patiëntendossier of uw aanmelding goedkeuren.
-        </p>
-        <p className="text-sm text-slate-500">
-          Neem contact op met de praktijk of wacht tot de psycholoog uw registratie heeft verwerkt in het beheerpaneel.
-        </p>
+
+        {/* Sectie: Wat te verwachten na je registratie */}
+        <div className="space-y-4 pt-2">
+          <div className="flex items-center space-x-2">
+            <Clock className="h-5 w-5 text-brand-600 dark:text-brand-400" />
+            <h3 className="text-xl font-bold text-slate-800 dark:text-brand-50">
+              Wat te verwachten na je registratie
+            </h3>
+          </div>
+
+          <p className="text-sm text-slate-600 dark:text-brand-200 leading-relaxed">
+            Bedankt voor je aanmelding. Om de kwaliteit van de zorg en een goede match te waarborgen, neem ik elke aanvraag persoonlijk door.
+          </p>
+
+          <ul className="space-y-3 pt-1">
+            <li className="flex items-start space-x-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40">
+              <span className="h-2 w-2 rounded-full bg-brand-500 mt-2 shrink-0" />
+              <div className="text-sm text-slate-700 dark:text-brand-200">
+                <strong className="font-semibold text-slate-900 dark:text-brand-100">Wachtlijst:</strong>{' '}
+                Na je registratie sta je automatisch op de wachtlijst. Je hoeft hiervoor zelf geen verdere actie te ondernemen.
+              </div>
+            </li>
+            <li className="flex items-start space-x-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40">
+              <span className="h-2 w-2 rounded-full bg-brand-500 mt-2 shrink-0" />
+              <div className="text-sm text-slate-700 dark:text-brand-200">
+                <strong className="font-semibold text-slate-900 dark:text-brand-100">Beoordeling:</strong>{' '}
+                Ik bekijk je aanmelding <strong className="font-semibold text-brand-700 dark:text-brand-300">binnen één week</strong>.
+              </div>
+            </li>
+            <li className="flex items-start space-x-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40">
+              <span className="h-2 w-2 rounded-full bg-brand-500 mt-2 shrink-0" />
+              <div className="text-sm text-slate-700 dark:text-brand-200">
+                <strong className="font-semibold text-slate-900 dark:text-brand-100">Goedkeuring:</strong>{' '}
+                Zodra je aanmelding is goedgekeurd, ontvang je een e-mail met verdere instructies om definitief een afspraak in te plannen.
+              </div>
+            </li>
+          </ul>
+
+          <div className="mt-4 p-4 rounded-2xl bg-slate-100/70 dark:bg-brand-950/80 border border-slate-200/60 dark:border-brand-800/40 text-xs text-slate-600 dark:text-brand-300 leading-relaxed">
+            Heb je in de tussentijd dringende vragen of is er sprake van een acute crisis? Neem dan direct contact op met je huisarts of de huisartsenpost.
+          </div>
+        </div>
       </div>
     );
   }
