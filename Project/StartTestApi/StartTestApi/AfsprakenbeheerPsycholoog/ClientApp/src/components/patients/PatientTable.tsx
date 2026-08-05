@@ -53,6 +53,7 @@ const DEFAULT_COLUMN_ORDER = [
   'emotioneleStabiliteit',
   'noShowRisk',
   'isGekoppeld',
+  'standaardTariefType',
   'actions'
 ];
 
@@ -111,8 +112,9 @@ export const PatientTable: React.FC<PatientTableProps> = ({
             parsed.push('rijksregisternummer');
           }
         }
-        // Garandeer dat 'actions' altijd als allerlaatste kolom staat
-        const filtered = parsed.filter(c => c !== 'actions');
+        // Garandeer dat 'standaardTariefType' voor 'actions' staat en 'actions' als allerlaatste
+        const filtered = parsed.filter(c => c !== 'actions' && c !== 'standaardTariefType');
+        filtered.push('standaardTariefType');
         filtered.push('actions');
         return filtered;
       }
@@ -532,7 +534,7 @@ export const PatientTable: React.FC<PatientTableProps> = ({
         )
       },
 
-      // Standaard Tarieftype (ELP / Regulier)
+      // Standaard Tarieftype (ELP / Regulier) - Verplaatst naar net vóór Acties
       {
         accessorKey: 'standaardTariefType',
         size: 130,
@@ -860,7 +862,8 @@ export const PatientTable: React.FC<PatientTableProps> = ({
                           column.id === 'geboortedatum' ? 'Geboortedatum' :
                           column.id === 'emotioneleStabiliteit' ? 'Stabiliteit' :
                           column.id === 'noShowRisk' ? 'AI Risk' :
-                          column.id === 'isGekoppeld' ? 'Account Status' : column.id;
+                          column.id === 'isGekoppeld' ? 'Account Status' :
+                          column.id === 'standaardTariefType' ? 'Tarief' : column.id;
 
                         return (
                           <div key={column.id} className="p-2 rounded-xl border border-slate-100 dark:border-brand-800/40 bg-slate-50/60 dark:bg-brand-950/60 space-y-1.5">
@@ -1061,7 +1064,7 @@ export const PatientTable: React.FC<PatientTableProps> = ({
                                           ? 'bg-brand-50 dark:bg-brand-800'
                                           : 'bg-white dark:bg-brand-900 group-hover:bg-slate-50 dark:group-hover:bg-brand-950'
                                       }`
-                                    : ''
+                                      : ''
                                 }`}
                               >
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -1090,17 +1093,17 @@ export const PatientTable: React.FC<PatientTableProps> = ({
                                             <span className="text-[11px] text-slate-500 dark:text-brand-300">
                                               {start.toLocaleDateString('nl-NL')} om {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
-                                          </div>
-                                          <span
-                                            className="py-0.5 px-2 rounded-full text-[10px] font-bold text-white uppercase shadow-xs"
-                                            style={{ backgroundColor: appt.kleurcode || '#478d96' }}
-                                          >
-                                            {appt.status}
-                                          </span>
                                         </div>
-                                      );
-                                    })}
-                                  </div>
+                                        <span
+                                          className="py-0.5 px-2 rounded-full text-[10px] font-bold text-white uppercase shadow-xs"
+                                          style={{ backgroundColor: appt.kleurcode || '#478d96' }}
+                                        >
+                                          {appt.status}
+                                        </span>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
                                 ) : (
                                   <p className="text-xs text-slate-400 dark:text-brand-400 italic">Geen afspraken gepland of gevonden.</p>
                                 )}
@@ -1132,17 +1135,17 @@ export const PatientTable: React.FC<PatientTableProps> = ({
             <div className="flex items-center space-x-3">
               {/* Page Size Selector */}
               <div className="flex items-center space-x-1.5">
-                <span className="text-slate-400">Per pagina:</span>
-                <select
-                  value={table.getState().pagination.pageSize}
-                  onChange={(e) => table.setPageSize(Number(e.target.value))}
-                  className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-800 rounded-xl px-2 py-1 text-slate-800 dark:text-white font-semibold focus:outline-none cursor-pointer"
-                >
-                  {[10, 25, 50, 100].map((pageSize) => (
-                    <option key={pageSize} value={pageSize}>
-                      {pageSize}
-                    </option>
-                  ))}
+                  <span className="text-slate-400">Per pagina:</span>
+                  <select
+                    value={table.getState().pagination.pageSize}
+                    onChange={(e) => table.setPageSize(Number(e.target.value))}
+                    className="bg-white dark:bg-brand-900 border border-slate-200 dark:border-brand-800 rounded-xl px-2 py-1 text-slate-800 dark:text-white font-semibold focus:outline-none cursor-pointer"
+                  >
+                    {[10, 25, 50, 100].map((pageSize) => (
+                      <option key={pageSize} value={pageSize}>
+                        {pageSize}
+                      </option>
+                    ))}
                 </select>
               </div>
 
@@ -1247,14 +1250,14 @@ export const PatientTable: React.FC<PatientTableProps> = ({
                   </div>
                 </div>
               );
-            })
-          ) : (
-            <div className="text-center py-12 bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 text-slate-400">
-              Geen patiënten gevonden.
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+          })
+        ) : (
+          <div className="text-center py-12 bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 text-slate-400">
+            Geen patiënten gevonden.
+          </div>
+        )}
+      </div>
+    )}
+  </div>
   );
 };
