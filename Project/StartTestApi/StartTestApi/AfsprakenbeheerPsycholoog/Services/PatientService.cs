@@ -146,16 +146,32 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         public bool KoppelPatientAanUser(int patientId, string userEmail, bool setAsPrimary = true)
         {
-            var user = _repo.GetUserByEmail(userEmail);
-            if (user == null) return false;
-            if (user.PatientId.HasValue && user.PatientId != patientId) return false;
+            var (success, _) = KoppelPatientAanUserDetailed(patientId, userEmail, setAsPrimary);
+            return success;
+        }
+
+        public (bool Success, string ErrorMessage) KoppelPatientAanUserDetailed(int patientId, string userEmail, bool setAsPrimary = true)
+        {
+            if (string.IsNullOrWhiteSpace(userEmail))
+                return (false, "Er is geen e-mailadres opgegeven.");
+
+            var cleanEmail = userEmail.Trim();
+            var user = _repo.GetUserByEmail(cleanEmail);
+            if (user == null)
+            {
+                return (false, $"Geen geregistreerd account gevonden voor '{cleanEmail}'. De patiënt moet zich eerst registreren via de registratiepagina.");
+            }
+
+            if (user.PatientId.HasValue && user.PatientId.Value != patientId)
+            {
+                return (false, $"Het account '{cleanEmail}' is al gekoppeld aan een ander patiëntendossier (ID: {user.PatientId.Value}).");
+            }
 
             user.PatientId = patientId;
 
             var patient = _repo.GetById(patientId);
-            if (patient != null && !string.IsNullOrWhiteSpace(userEmail))
+            if (patient != null)
             {
-                var cleanEmail = userEmail.Trim();
                 if (setAsPrimary)
                 {
                     if (!string.Equals(patient.Email, cleanEmail, StringComparison.OrdinalIgnoreCase))
@@ -174,7 +190,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
 
             _repo.SaveChanges();
-            return true;
+            return (true, string.Empty);
         }
 
         public bool OntkoppelPatientVanUser(int patientId)
@@ -187,7 +203,7 @@ namespace AfsprakenbeheerPsycholoog.Services
             return true;
         }
 
-        // --- NIEUWE AANMELDINGEN BEHEREN ---
+        // --- NIEUWE AANMELDINGEN & WACHTLIJT BEHEREN ---
 
         public async Task<IEnumerable<ApplicationUser>> GetNieuweAanmeldingenAsync()
         {
@@ -195,10 +211,45 @@ namespace AfsprakenbeheerPsycholoog.Services
             var psycholoogIds = psychologen.Select(p => p.Id).ToList();
 
             var nieuweGebruikers = await _userManager.Users
-                .Where(u => u.PatientId == null && !psycholoogIds.Contains(u.Id))
+                .Where(u => u.PatientId == null && !u.IsOpWachtlijst && !psycholoogIds.Contains(u.Id))
                 .ToListAsync();
 
             return nieuweGebruikers;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetWachtlijstAanmeldingenAsync()
+        {
+            var psychologen = await _userManager.GetUsersForClaimAsync(new System.Security.Claims.Claim("IsPsycholoog", "true"));
+            var psycholoogIds = psychologen.Select(p => p.Id).ToList();
+
+            var wachtlijstGebruikers = await _userManager.Users
+                .Where(u => u.PatientId == null && u.IsOpWachtlijst && !psycholoogIds.Contains(u.Id))
+                .OrderByDescending(u => u.WachtlijstDatum)
+                .ToListAsync();
+
+            return wachtlijstGebruikers;
+        }
+
+        public async Task<bool> PlaatsOpWachtlijstAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return false;
+
+            user.IsOpWachtlijst = true;
+            user.WachtlijstDatum = DateTime.UtcNow;
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded;
+        }
+
+        public async Task<bool> HerstelVanWachtlijstAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return false;
+
+            user.IsOpWachtlijst = false;
+            user.WachtlijstDatum = null;
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded;
         }
 
         public async Task<(bool succes, string naam)> MaakEnKoppelNieuwePatientAsync(string userId)
@@ -209,6 +260,10 @@ namespace AfsprakenbeheerPsycholoog.Services
             var newPatientVm = _mapper.Map<CreatePatientViewModel>(user);
             var newPatientId = CreatePatient(newPatientVm);
             
+            user.IsOpWachtlijst = false;
+            user.WachtlijstDatum = null;
+            await _userManager.UpdateAsync(user);
+
             KoppelPatientAanUser(newPatientId, user.Email);
             
             return (true, $"{newPatientVm.Voornaam} {newPatientVm.Achternaam}");

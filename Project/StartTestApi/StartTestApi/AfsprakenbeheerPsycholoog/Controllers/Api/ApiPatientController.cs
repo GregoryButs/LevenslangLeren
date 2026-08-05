@@ -129,6 +129,29 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             return Ok(aanmeldingen);
         }
 
+        [HttpGet("wachtlijst")]
+        public async Task<IActionResult> GetWachtlijst()
+        {
+            var wachtlijst = await _service.GetWachtlijstAanmeldingenAsync();
+            return Ok(wachtlijst);
+        }
+
+        [HttpPost("aanmeldingen/{userId}/weigeren")]
+        public async Task<IActionResult> WeigerAanmelding(string userId)
+        {
+            var succes = await _service.PlaatsOpWachtlijstAsync(userId);
+            if (!succes) return BadRequest(new { message = "Gebruiker niet gevonden of kon niet op wachtlijst geplaatst worden." });
+            return Ok(new { message = "Geregistreerde patiënt is tijdelijk geweigerd en op de wachtlijst geplaatst." });
+        }
+
+        [HttpPost("wachtlijst/{userId}/herstellen")]
+        public async Task<IActionResult> HerstelWachtlijst(string userId)
+        {
+            var succes = await _service.HerstelVanWachtlijstAsync(userId);
+            if (!succes) return BadRequest(new { message = "Gebruiker niet gevonden of kon niet hersteld worden." });
+            return Ok(new { message = "Patiënt is hersteld en opnieuw zichtbaar bij de actieve aanmeldingen." });
+        }
+
         [HttpPost("aanmeldingen/{userId}/goedkeuren")]
         public async Task<IActionResult> MaakNieuwePatient(string userId)
         {
@@ -165,8 +188,8 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         public IActionResult Koppel([FromBody] KoppelRequest request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var succes = _service.KoppelPatientAanUser(request.PatientId, request.Email, request.SetAsPrimaryEmail);
-            if (!succes) return BadRequest(new { message = "Kon patiënt niet koppelen. Bestaat deze account niet of is deze al gekoppeld?" });
+            var (succes, errorMessage) = _service.KoppelPatientAanUserDetailed(request.PatientId, request.Email, request.SetAsPrimaryEmail);
+            if (!succes) return BadRequest(new { message = errorMessage });
 
             var patient = _service.GetPatientDetail(request.PatientId);
             var patientNaam = patient != null ? $"{patient.Voornaam} {patient.Achternaam}" : "Patiënt";

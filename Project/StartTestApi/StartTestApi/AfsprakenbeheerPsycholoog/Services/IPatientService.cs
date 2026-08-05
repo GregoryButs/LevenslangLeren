@@ -15,12 +15,16 @@ namespace AfsprakenbeheerPsycholoog.Services
         void EditPatient(EditPatientViewModel model);
         void DeletePatient(int id);
         bool KoppelPatientAanUser(int patientId, string userEmail, bool setAsPrimary = true);
+        (bool Success, string ErrorMessage) KoppelPatientAanUserDetailed(int patientId, string userEmail, bool setAsPrimary = true);
         bool OntkoppelPatientVanUser(int patientId);
 
         IEnumerable<PatientListViewModel> GetInactievePatienten();
         bool HeractiveerPatient(int id);
 
         Task<IEnumerable<ApplicationUser>> GetNieuweAanmeldingenAsync();
+        Task<IEnumerable<ApplicationUser>> GetWachtlijstAanmeldingenAsync();
+        Task<bool> PlaatsOpWachtlijstAsync(string userId);
+        Task<bool> HerstelVanWachtlijstAsync(string userId);
         Task<(bool succes, string naam)> MaakEnKoppelNieuwePatientAsync(string userId);
     }
 }

@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +21,12 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
                 .ToHashSet();
 
         public ApplicationUser? GetUserByEmail(string email)
-            => _context.Users.FirstOrDefault(u => u.Email == email);
+        {
+            if (string.IsNullOrWhiteSpace(email)) return null;
+            var cleanEmail = email.Trim();
+            var normalizedEmail = cleanEmail.ToUpperInvariant();
+            return _context.Users.FirstOrDefault(u => u.NormalizedEmail == normalizedEmail || (u.Email != null && u.Email.ToLower() == cleanEmail.ToLower()));
+        }
 
         public ApplicationUser? GetUserByPatientId(int patientId)
             => _context.Users.FirstOrDefault(u => u.PatientId == patientId);

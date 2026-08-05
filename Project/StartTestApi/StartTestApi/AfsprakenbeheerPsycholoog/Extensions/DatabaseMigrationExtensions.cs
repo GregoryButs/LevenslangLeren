@@ -161,6 +161,40 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 }
                             }
                         }
+
+                        // Automatic SQLite schema migration for AspNetUsers table columns
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.CommandText = "PRAGMA table_info(AspNetUsers);";
+                            bool hasIsOpWachtlijst = false;
+                            bool hasWachtlijstDatum = false;
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var name = reader["name"]?.ToString();
+                                    if (string.Equals(name, "IsOpWachtlijst", StringComparison.OrdinalIgnoreCase)) hasIsOpWachtlijst = true;
+                                    if (string.Equals(name, "WachtlijstDatum", StringComparison.OrdinalIgnoreCase)) hasWachtlijstDatum = true;
+                                }
+                            }
+
+                            if (!hasIsOpWachtlijst)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE AspNetUsers ADD COLUMN IsOpWachtlijst INTEGER NOT NULL DEFAULT 0;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasWachtlijstDatum)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE AspNetUsers ADD COLUMN WachtlijstDatum TEXT NULL;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
                     }
                 }
                 catch (Exception) { }

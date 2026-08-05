@@ -11,6 +11,7 @@ interface AanmeldingDetailModalProps {
   onSelectPatientChange: (patientId: string) => void;
   onApproveNewPatient: (appId: any) => void;
   onLinkExistingPatient: (email: string, appId: any) => void;
+  onWeigerAanmelding?: (appId: any) => void;
   onClose: () => void;
   onSuccess: () => void;
 }
@@ -22,6 +23,7 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
   onSelectPatientChange,
   onApproveNewPatient,
   onLinkExistingPatient,
+  onWeigerAanmelding,
   onClose,
   onSuccess,
 }) => {
@@ -296,22 +298,51 @@ export const AanmeldingDetailModal: React.FC<AanmeldingDetailModalProps> = ({
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-100 dark:border-brand-800/40 flex justify-end space-x-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2.5 px-4 rounded-xl text-xs font-semibold transition cursor-pointer"
-              >
-                Annuleren
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white py-2.5 px-5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-brand-500/10 cursor-pointer"
-              >
-                <Plus className="h-4 w-4" />
-                <span>{loading ? 'Aanmaken...' : 'Patiëntendossier Aanmaken & Koppelen'}</span>
-              </button>
+            <div className="pt-3 border-t border-slate-100 dark:border-brand-800/40 flex items-center justify-between">
+              {onWeigerAanmelding ? (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (window.confirm(`Weet u zeker dat u ${aanmelding.voornaam} ${aanmelding.achternaam} tijdelijk wilt weigeren en op de wachtlijst wilt plaatsen?`)) {
+                      setLoading(true);
+                      try {
+                        await patientApi.weigerAanmelding(aanmelding.id);
+                        alert(`${aanmelding.voornaam} ${aanmelding.achternaam} is op de wachtlijst geplaatst.`);
+                        onSuccess();
+                        onClose();
+                      } catch (err) {
+                        console.error(err);
+                        alert(extractErrorMessage(err, 'Weigeren mislukt.'));
+                      } finally {
+                        setLoading(false);
+                      }
+                    }
+                  }}
+                  disabled={loading}
+                  className="bg-amber-100 dark:bg-amber-950/60 hover:bg-amber-200 dark:hover:bg-amber-900 text-amber-800 dark:text-amber-200 py-2.5 px-3.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center space-x-1.5 border border-amber-200/60 dark:border-amber-800/40"
+                >
+                  <Clock className="h-3.5 w-3.5" />
+                  <span>Tijdelijk Weigeren (Wachtlijst)</span>
+                </button>
+              ) : <div />}
+
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2.5 px-4 rounded-xl text-xs font-semibold transition cursor-pointer"
+                >
+                  Annuleren
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white py-2.5 px-5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-brand-500/10 cursor-pointer"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>{loading ? 'Aanmaken...' : 'Patiëntendossier Aanmaken & Koppelen'}</span>
+                </button>
+              </div>
             </div>
           </form>
         )}

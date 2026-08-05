@@ -101,8 +101,18 @@ export const patientApi = {
     const res = await api.get<any[]>('/patient/aanmeldingen');
     return res.data;
   },
+  getWachtlijst: async (): Promise<any[]> => {
+    const res = await api.get<any[]>('/patient/wachtlijst');
+    return res.data;
+  },
   approveAanmelding: async (userId: string): Promise<void> => {
     await api.post(`/patient/aanmeldingen/${userId}/goedkeuren`);
+  },
+  weigerAanmelding: async (userId: string): Promise<void> => {
+    await api.post(`/patient/aanmeldingen/${userId}/weigeren`);
+  },
+  herstelWachtlijst: async (userId: string): Promise<void> => {
+    await api.post(`/patient/wachtlijst/${userId}/herstellen`);
   },
   link: async (patientId: number, email: string): Promise<void> => {
     await api.post('/patient/koppel', { patientId, email });

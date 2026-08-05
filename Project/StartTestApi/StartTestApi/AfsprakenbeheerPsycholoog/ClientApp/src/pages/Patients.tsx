@@ -48,6 +48,28 @@ export const Patients: React.FC = () => {
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const [linkEmail, setLinkEmail] = useState('');
   const [linkPatientId, setLinkPatientId] = useState<number | null>(null);
+  const [unlinkedUsers, setUnlinkedUsers] = useState<any[]>([]);
+  const [loadingUnlinked, setLoadingUnlinked] = useState(false);
+  const [useManualEmailInput, setUseManualEmailInput] = useState(false);
+
+  useEffect(() => {
+    if (isLinkModalOpen) {
+      setLoadingUnlinked(true);
+      patientApi.getAanmeldingen()
+        .then((users) => {
+          setUnlinkedUsers(users || []);
+          if (users && users.length > 0) {
+            setLinkEmail(users[0].email || '');
+            setUseManualEmailInput(false);
+          } else {
+            setLinkEmail('');
+            setUseManualEmailInput(false);
+          }
+        })
+        .catch((err) => console.error('Fout bij laden ongekoppelde accounts:', err))
+        .finally(() => setLoadingUnlinked(false));
+    }
+  }, [isLinkModalOpen]);
 
   const loadPatients = async () => {
     try {
@@ -789,23 +811,81 @@ export const Patients: React.FC = () => {
       {/* Link Account Modal */}
       {isLinkModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-sm p-6 border border-slate-100 dark:border-brand-800/40 transition-colors">
+          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-md p-6 border border-slate-100 dark:border-brand-800/40 transition-colors">
             <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">Gebruikersaccount Koppelen</h3>
             <p className="text-xs text-slate-500 dark:text-brand-300 mb-4">
-              Geef het e-mailadres op van het geregistreerde patiëntenaccount dat gekoppeld moet worden aan dit medisch dossier.
+              Selecteer een geregistreerd patiëntenaccount om te koppelen aan dit medisch dossier.
             </p>
             <form onSubmit={handleLink} className="space-y-4">
-              <div>
-                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">Gebruiker e-mailadres</label>
-                <input
-                  type="email"
-                  required
-                  value={linkEmail}
-                  onChange={(e) => setLinkEmail(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400"
-                  placeholder="patient@email.be"
-                />
-              </div>
+              {loadingUnlinked ? (
+                <div className="py-6 text-center text-xs text-slate-500 dark:text-brand-300">
+                  Geregistreerde accounts laden...
+                </div>
+              ) : !useManualEmailInput ? (
+                <div>
+                  {unlinkedUsers.length > 0 ? (
+                    <div>
+                      <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                        Selecteer Geregistreerde Gebruiker
+                      </label>
+                      <select
+                        required
+                        value={linkEmail}
+                        onChange={(e) => setLinkEmail(e.target.value)}
+                        className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                      >
+                        <option value="" disabled>-- Selecteer een geregistreerd account --</option>
+                        {unlinkedUsers.map((u) => (
+                          <option key={u.id} value={u.email}>
+                            {u.voornaam || u.achternaam
+                              ? `${u.voornaam ?? ''} ${u.achternaam ?? ''} (${u.email})`.trim()
+                              : u.email}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <div className="p-3.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-2xl text-xs text-amber-800 dark:text-amber-200">
+                      <p className="font-semibold mb-1">Geen ongekoppelde accounts beschikbaar</p>
+                      <p>Er zijn momenteel geen geregistreerde accounts die nog niet gekoppeld zijn. De patiënt moet zich eerst registreren via het portaal.</p>
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setUseManualEmailInput(true)}
+                    className="mt-2 text-xs text-brand-600 dark:text-brand-400 hover:underline inline-block font-medium"
+                  >
+                    Handmatig e-mailadres invoeren
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                    Gebruiker e-mailadres (handmatig)
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={linkEmail}
+                    onChange={(e) => setLinkEmail(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                    placeholder="patient@email.be"
+                  />
+                  {unlinkedUsers.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setUseManualEmailInput(false);
+                        if (unlinkedUsers.length > 0) setLinkEmail(unlinkedUsers[0].email || '');
+                      }}
+                      className="mt-2 text-xs text-brand-600 dark:text-brand-400 hover:underline inline-block font-medium"
+                    >
+                      Kies uit geregistreerde accounts ({unlinkedUsers.length})
+                    </button>
+                  )}
+                </div>
+              )}
+
               <div className="flex justify-end space-x-2 pt-2 border-t border-slate-100 dark:border-brand-800/40">
                 <button
                   type="button"
@@ -816,7 +896,8 @@ export const Patients: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-brand-600 hover:bg-brand-700 text-white py-2 px-4 rounded-xl font-semibold transition text-sm shadow-sm"
+                  disabled={!linkEmail}
+                  className="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-2 px-4 rounded-xl font-semibold transition text-sm shadow-sm"
                 >
                   Koppelen
                 </button>

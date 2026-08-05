@@ -67,8 +67,9 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
   // Details Modal State
   const [selectedAfspraak, setSelectedAfspraak] = useState<Afspraak | null>(null);
 
-  // Pending user applications for psychologist approval
+  // Pending user applications & waitlist for psychologist approval
   const [aanmeldingen, setAanmeldingen] = useState<any[]>([]);
+  const [wachtlijst, setWachtlijst] = useState<any[]>([]);
   const [selectedPatientForLink, setSelectedPatientForLink] = useState<{ [key: string]: string }>({});
   const [patientsList, setPatientsList] = useState<Patient[]>([]);
 
@@ -80,6 +81,9 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
       
       const pending = await patientApi.getAanmeldingen();
       setAanmeldingen(pending);
+
+      const waitlist = await patientApi.getWachtlijst();
+      setWachtlijst(waitlist);
 
       const patients = await patientApi.getAll();
       setPatientsList(patients);
@@ -423,9 +427,10 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
               </div>
             </div>
 
-            {/* New Signups Card */}
+            {/* New Signups & Waitlist Card */}
             <PendingApplicationsWidget
               aanmeldingen={aanmeldingen}
+              wachtlijst={wachtlijst}
               patientsList={patientsList}
               selectedPatientForLink={selectedPatientForLink}
               onSelectPatientChange={(appId, patientId) => setSelectedPatientForLink({
