@@ -141,16 +141,15 @@ export const PendingApplicationsWidget: React.FC<PendingApplicationsWidgetProps>
             return (
               <div key={app.id} className="p-4 bg-slate-50 dark:bg-brand-950/60 border border-slate-100 dark:border-brand-800/40 rounded-2xl space-y-3 hover:border-brand-200 dark:hover:border-brand-700 transition">
                 <div className="flex justify-between items-start gap-2">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center space-x-2">
-                      <h4 className="font-semibold text-slate-800 dark:text-white truncate">{app.voornaam} {app.achternaam}</h4>
-                      {activeTab === 'wachtlijst' && app.wachtlijstDatum && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-800/40">
-                          {formatDate(app.wachtlijstDatum)}
-                        </span>
-                      )}
-                    </div>
+                  <div className="min-w-0 flex-1 space-y-0.5">
+                    <h4 className="font-semibold text-slate-800 dark:text-white truncate">{app.voornaam} {app.achternaam}</h4>
                     <p className="text-xs text-slate-500 dark:text-brand-300 truncate">{app.email}</p>
+                    {activeTab === 'wachtlijst' && app.wachtlijstDatum && (
+                      <div className="inline-flex items-center space-x-1 text-[11px] font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/80 border border-amber-200/60 dark:border-amber-800/50 px-2.5 py-0.5 rounded-full mt-1.5 whitespace-nowrap shrink-0">
+                        <Clock className="h-3 w-3 text-amber-500 shrink-0" />
+                        <span>Wachtlijst sinds {formatDate(app.wachtlijstDatum)}</span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center space-x-1">
                     {activeTab === 'aanmeldingen' && (
