@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { patientApi } from '../services/api';
 import { Patient } from '../types';
 import { 
-  Users, Search, Plus, Edit2, Trash2, ArrowLeft, 
-  Link2, Link2Off, RefreshCw, Calendar, Loader2, AlertCircle
+  Users, Plus, Edit2, Trash2, ArrowLeft, 
+  Link2, Link2Off, Calendar, Loader2, AlertCircle, FileSpreadsheet
 } from 'lucide-react';
 import { InfoTooltip } from '../components/common/InfoTooltip';
-import { getPatientDisplayName } from '../utils/patientUtils';
 import { extractErrorMessage } from '../utils/errorUtils';
+import { isValidRijksregisternummer } from '../utils/validationUtils';
+import { PatientTable } from '../components/patients/PatientTable';
+import { PatientMergeModal } from '../components/patients/PatientMergeModal';
 
 export const Patients: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [activePatients, setActivePatients] = useState<Patient[]>([]);
   const [archivedPatients, setArchivedPatients] = useState<Patient[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
   const [loading, setLoading] = useState(true);
 
@@ -41,7 +44,10 @@ export const Patients: React.FC = () => {
     email: '',
     secundairEmail: '',
     telefoonnummer: '',
-    dossierNummer: ''
+    dossierNummer: '',
+    rijksregisternummer: '',
+    standaardTariefType: 'Regulier',
+    emotioneleStabiliteit: 5.5
   });
 
   // Link Modal State
@@ -51,6 +57,9 @@ export const Patients: React.FC = () => {
   const [unlinkedUsers, setUnlinkedUsers] = useState<any[]>([]);
   const [loadingUnlinked, setLoadingUnlinked] = useState(false);
   const [useManualEmailInput, setUseManualEmailInput] = useState(false);
+
+  // Merge Modal State
+  const [mergeModalPatients, setMergeModalPatients] = useState<[Patient, Patient] | null>(null);
 
   useEffect(() => {
     if (isLinkModalOpen) {
@@ -78,6 +87,19 @@ export const Patients: React.FC = () => {
       setActivePatients(active);
       const archived = await patientApi.getArchive();
       setArchivedPatients(archived);
+
+      const targetId = searchParams.get('id');
+      if (targetId) {
+        const targetNum = parseInt(targetId, 10);
+        const match = active.find((p: any) => p.id === targetNum) || archived.find((p: any) => p.id === targetNum);
+        if (match) {
+          if (!active.some((p: any) => p.id === targetNum)) {
+            setActiveTab('archived');
+          }
+          setSelectedPatient(match);
+          loadPatientDetail(targetNum);
+        }
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -110,6 +132,8 @@ export const Patients: React.FC = () => {
       secundairEmail: '',
       telefoonnummer: '',
       dossierNummer: '',
+      rijksregisternummer: '',
+      standaardTariefType: 'Regulier',
       emotioneleStabiliteit: 5.5
     });
     setIsFormModalOpen(true);
@@ -127,6 +151,8 @@ export const Patients: React.FC = () => {
       secundairEmail: patient.secundairEmail || '',
       telefoonnummer: patient.telefoonnummer || '',
       dossierNummer: patient.dossierNummer || '',
+      rijksregisternummer: patient.rijksregisternummer || '',
+      standaardTariefType: patient.standaardTariefType || 'Regulier',
       emotioneleStabiliteit: patient.emotioneleStabiliteit !== null && patient.emotioneleStabiliteit !== undefined ? patient.emotioneleStabiliteit : 5.5
     });
     setIsFormModalOpen(true);
@@ -155,9 +181,15 @@ export const Patients: React.FC = () => {
       errors.emotioneleStabiliteit = true;
     }
 
+    if (formPatient.rijksregisternummer?.trim()) {
+      if (!isValidRijksregisternummer(formPatient.rijksregisternummer.trim())) {
+        errors.rijksregisternummer = true;
+      }
+    }
+
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
-      setFormError('Vul alle verplichte velden (*) correct in.');
+      setFormError(errors.rijksregisternummer ? 'Ongeldig rijksregisternummer (moet 11 cijfers bevatten).' : 'Vul alle verplichte velden (*) correct in.');
       return;
     }
 
@@ -182,6 +214,7 @@ export const Patients: React.FC = () => {
         secundairEmail: formPatient.secundairEmail?.trim() || null,
         telefoonnummer: formPatient.telefoonnummer?.trim() || null,
         dossierNummer: formPatient.dossierNummer?.trim() || null,
+        rijksregisternummer: formPatient.rijksregisternummer?.trim() || null,
         emotioneleStabiliteit: stabVal
       };
 
@@ -194,6 +227,7 @@ export const Patients: React.FC = () => {
           secundairEmail: payload.secundairEmail,
           telefoonnummer: payload.telefoonnummer,
           dossierNummer: payload.dossierNummer,
+          rijksregisternummer: payload.rijksregisternummer,
           emotioneleStabiliteit: payload.emotioneleStabiliteit
         });
         alert('Patiënt succesvol aangemaakt!');
@@ -265,13 +299,6 @@ export const Patients: React.FC = () => {
       alert(extractErrorMessage(err, 'Ontkoppelen mislukt.'));
     }
   };
-
-  const filteredPatients = (activeTab === 'active' ? activePatients : archivedPatients).filter(
-    (p) =>
-      getPatientDisplayName(p).toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (p.dossierNummer && p.dossierNummer.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
 
   const getNoShowRisk = (patient: Patient) => {
     const birthYear = new Date(patient.geboortedatum).getFullYear();
@@ -365,6 +392,10 @@ export const Patients: React.FC = () => {
                 <span className="text-slate-800 dark:text-white font-semibold font-mono">{patientDetails.dossierNummer || 'DOS-N/A'}</span>
               </div>
               <div className="min-w-0">
+                <span className="text-slate-400 dark:text-brand-300 font-medium block">Rijksregisternummer</span>
+                <span className="text-slate-800 dark:text-white font-semibold font-mono">{patientDetails.rijksregisternummer || '—'}</span>
+              </div>
+              <div className="min-w-0">
                 <span className="text-slate-400 dark:text-brand-300 font-medium block">Geboortedatum</span>
                 <span className="text-slate-800 dark:text-white font-semibold">
                   {new Date(patientDetails.geboortedatum).toLocaleDateString('nl-NL')}
@@ -382,6 +413,16 @@ export const Patients: React.FC = () => {
               <div className="min-w-0">
                 <span className="text-slate-400 dark:text-brand-300 font-medium block">Telefoon</span>
                 <span className="text-slate-800 dark:text-white font-semibold">{patientDetails.telefoonnummer || '—'}</span>
+              </div>
+              <div className="min-w-0">
+                <span className="text-slate-400 dark:text-brand-300 font-medium block">Standaard Tarieftype</span>
+                <span className={`inline-block px-2.5 py-0.5 mt-0.5 rounded-full text-xs font-bold ${
+                  patientDetails.standaardTariefType === 'ELP'
+                    ? 'bg-brand-100 dark:bg-brand-950 text-brand-800 dark:text-brand-300 border border-brand-200 dark:border-brand-800'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                }`}>
+                  {patientDetails.standaardTariefType === 'ELP' ? 'ELP (Eerstelijnszorg)' : 'Regulier'}
+                </span>
               </div>
               <div className="min-w-0">
                 <span className="text-slate-400 dark:text-brand-300 font-medium block flex items-center">
@@ -498,140 +539,74 @@ export const Patients: React.FC = () => {
             <span>Patiëntenbeheer</span>
           </h1>
           <p className="text-slate-500 dark:text-brand-300 mt-1 text-sm sm:text-base">
-            Beheer patiëntendossiers en gebruikersaccountkoppelingen.
+            Beheer patiëntendossiers, raadpleeg afspraken, exporteer gegevens en voeg dubbele patiënten samen.
           </p>
         </div>
         <button
           onClick={handleOpenCreateModal}
-          className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-lg shadow-brand-500/10 w-full sm:w-auto"
+          className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-lg shadow-brand-500/10 w-full sm:w-auto text-sm"
         >
           <Plus className="h-5 w-5" />
           <span>Nieuwe Patiënt</span>
         </button>
       </div>
 
+      {/* Active vs Archived Tab selector */}
+      <div className="flex border-b border-slate-200 dark:border-brand-800">
+        <button
+          onClick={() => { setActiveTab('active'); setSelectedPatient(null); setPatientDetails(null); }}
+          className={`py-3 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'active'
+              ? 'border-brand-600 text-brand-700 dark:text-brand-300'
+              : 'border-transparent text-slate-400 dark:text-brand-400 hover:text-slate-600 dark:hover:text-brand-200'
+          }`}
+        >
+          Actieve Patiënten ({activePatients.length})
+        </button>
+        <button
+          onClick={() => { setActiveTab('archived'); setSelectedPatient(null); setPatientDetails(null); }}
+          className={`py-3 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'archived'
+              ? 'border-brand-600 text-brand-700 dark:text-brand-300'
+              : 'border-transparent text-slate-400 dark:text-brand-400 hover:text-slate-600 dark:hover:text-brand-200'
+          }`}
+        >
+          Archief / Inactief ({archivedPatients.length})
+        </button>
+      </div>
+
       {/* Main View: Split screen if selected patient */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left pane: Search and List */}
-        <div className={`lg:col-span-${selectedPatient ? '1' : '3'} space-y-6`}>
-          <div className="bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm space-y-4 transition-colors">
-            {/* Search filter */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 dark:text-brand-400">
-                <Search className="h-5 w-5" />
-              </div>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Zoek op naam, email of dossiernummer..."
-                className="pl-10 block w-full rounded-2xl border border-slate-200 dark:border-brand-800 bg-slate-50/50 dark:bg-brand-950/60 py-2.5 px-4 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition text-sm"
-              />
+        {/* Left / Main pane: TanStack Table */}
+        <div className={`space-y-6 ${selectedPatient ? 'lg:col-span-1' : 'lg:col-span-3'}`}>
+          <PatientTable
+            data={activeTab === 'active' ? activePatients : archivedPatients}
+            selectedPatientId={selectedPatient?.id || null}
+            activeTab={activeTab}
+            onSelectPatient={(p) => {
+              if (selectedPatient?.id === p.id) {
+                setSelectedPatient(null);
+                setPatientDetails(null);
+              } else {
+                setSelectedPatient(p);
+                loadPatientDetail(p.id);
+              }
+            }}
+            onEditPatient={(p) => handleOpenEditModal(p)}
+            onDeactivatePatient={(id) => handleDeactivate(id)}
+            onReactivatePatient={(id) => handleReactivate(id)}
+            onOpenMergeModal={(patients) => setMergeModalPatients(patients)}
+          />
+
+          {/* Mobile Inline Detail View */}
+          {selectedPatient && (
+            <div className="block lg:hidden">
+              {renderDetailsPanel(true)}
             </div>
-
-            {/* Tabs */}
-            <div className="flex border-b border-slate-100 dark:border-brand-800/40 overflow-x-auto">
-              <button
-                onClick={() => { setActiveTab('active'); setSelectedPatient(null); }}
-                className={`py-2 px-3 sm:px-4 font-semibold text-xs sm:text-sm transition-all border-b-2 whitespace-nowrap ${
-                  activeTab === 'active' 
-                    ? 'border-brand-600 text-brand-700 dark:text-brand-300' 
-                    : 'border-transparent text-slate-400 dark:text-brand-400 hover:text-slate-600 dark:hover:text-brand-200'
-                }`}
-              >
-                Actief ({activePatients.length})
-              </button>
-              <button
-                onClick={() => { setActiveTab('archived'); setSelectedPatient(null); }}
-                className={`py-2 px-3 sm:px-4 font-semibold text-xs sm:text-sm transition-all border-b-2 whitespace-nowrap ${
-                  activeTab === 'archived' 
-                    ? 'border-brand-600 text-brand-700 dark:text-brand-300' 
-                    : 'border-transparent text-slate-400 dark:text-brand-400 hover:text-slate-600 dark:hover:text-brand-200'
-                }`}
-              >
-                Archief / Inactief ({archivedPatients.length})
-              </button>
-            </div>
-          </div>
-
-          {/* Patients Listing */}
-          <div className="space-y-4 max-h-[550px] overflow-y-auto overflow-x-hidden pr-1">
-            {filteredPatients.length > 0 ? (
-              filteredPatients.map((p) => (
-                <React.Fragment key={p.id}>
-                  <div
-                    onClick={() => { 
-                      if (selectedPatient?.id === p.id) {
-                        setSelectedPatient(null);
-                        setPatientDetails(null);
-                      } else {
-                        setSelectedPatient(p); 
-                        loadPatientDetail(p.id); 
-                      }
-                    }}
-                    className={`p-4 rounded-2xl border cursor-pointer transition ${
-                      selectedPatient?.id === p.id
-                        ? 'bg-brand-50/50 dark:bg-brand-800/60 border-brand-200 dark:border-brand-700 shadow-sm'
-                        : 'bg-white dark:bg-brand-900 border-slate-100 dark:border-brand-800/40 hover:border-slate-200 dark:hover:border-brand-700 hover:shadow-sm'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start gap-2">
-                      <div className="space-y-1 min-w-0 flex-1">
-                        <h4 className="font-semibold text-slate-800 dark:text-white truncate">{p.volledigeNaam}</h4>
-                        <p className="text-xs text-slate-500 dark:text-brand-300 truncate break-all">
-                          {p.email}
-                          {p.secundairEmail && <span className="text-slate-400 dark:text-brand-400 font-normal ml-1">({p.secundairEmail})</span>}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5 pt-1">
-                          {p.dossierNummer && (
-                            <span className="text-[10px] bg-slate-100 dark:bg-brand-950 text-slate-600 dark:text-brand-200 py-0.5 px-2 rounded-full font-mono flex-shrink-0">
-                              {p.dossierNummer}
-                            </span>
-                          )}
-                          {activeTab === 'active' && (() => {
-                            const risk = getNoShowRisk(p);
-                            if (risk.category !== 'Low') {
-                              return (
-                                <span className={`text-[10px] py-0.5 px-2 rounded-full font-bold flex-shrink-0 ${
-                                  risk.category === 'High' ? 'bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300' : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
-                                }`}>
-                                  Risk: {risk.category}
-                                </span>
-                              );
-                            }
-                            return null;
-                          })()}
-                        </div>
-                      </div>
-                      {activeTab === 'archived' && (
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleReactivate(p.id); }}
-                          className="text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-300 py-1.5 px-3 rounded-xl transition flex items-center space-x-1 flex-shrink-0 ml-2"
-                        >
-                          <RefreshCw className="h-3.5 w-3.5" />
-                          <span>Heractiveer</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Mobile Inline Detail View */}
-                  {selectedPatient?.id === p.id && (
-                    <div className="block lg:hidden">
-                      {renderDetailsPanel(true)}
-                    </div>
-                  )}
-                </React.Fragment>
-              ))
-            ) : (
-              <div className="text-center py-12 bg-white dark:bg-brand-900 rounded-3xl border border-slate-100 dark:border-brand-800/40 text-slate-400 dark:text-brand-400">
-                Geen patiënten gevonden.
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
-        {/* Desktop Details View */}
+        {/* Desktop Details Side Panel */}
         {selectedPatient && (
           <div className="hidden lg:block lg:col-span-2">
             {renderDetailsPanel(false)}
@@ -639,28 +614,46 @@ export const Patients: React.FC = () => {
         )}
       </div>
 
+      {/* Patient Merge Comparison Modal */}
+      {mergeModalPatients && (
+        <PatientMergeModal
+          patientA={mergeModalPatients[0]}
+          patientB={mergeModalPatients[1]}
+          onClose={() => setMergeModalPatients(null)}
+          onSuccess={() => {
+            setMergeModalPatients(null);
+            setSelectedPatient(null);
+            setPatientDetails(null);
+            loadPatients();
+          }}
+        />
+      )}
+
       {/* Add / Edit Patient Modal */}
       {isFormModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg p-6 border border-slate-100 dark:border-brand-800/40 transition-colors">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
-              {formPatient.id === null ? 'Patiënt Toevoegen' : 'Patiënt Bewerken'}
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-brand-300 mb-4">
-              Velden met een <span className="text-red-500 font-bold">*</span> zijn verplicht.
-            </p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col p-6 border border-slate-100 dark:border-brand-800/40 transition-colors overflow-hidden">
+            <div className="shrink-0">
+              <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-1">
+                {formPatient.id === null ? 'Patiënt Toevoegen' : 'Patiënt Bewerken'}
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-brand-300 mb-3">
+                Velden met een <span className="text-red-500 font-bold">*</span> zijn verplicht.
+              </p>
 
-            {formError && (
-              <div className="mb-4 p-3.5 bg-red-50 dark:bg-red-950/70 border border-red-200 dark:border-red-800/60 rounded-2xl text-red-700 dark:text-red-300 text-sm flex items-start space-x-2.5 shadow-sm">
-                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="font-semibold text-xs uppercase tracking-wide text-red-800 dark:text-red-200">Opslaan Mislukt</p>
-                  <p className="text-xs mt-0.5 leading-relaxed font-medium">{formError}</p>
+              {formError && (
+                <div className="mb-3 p-3.5 bg-red-50 dark:bg-red-950/70 border border-red-200 dark:border-red-800/60 rounded-2xl text-red-700 dark:text-red-300 text-sm flex items-start space-x-2.5 shadow-sm">
+                  <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="font-semibold text-xs uppercase tracking-wide text-red-800 dark:text-red-200">Opslaan Mislukt</p>
+                    <p className="text-xs mt-0.5 leading-relaxed font-medium">{formError}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            <form onSubmit={handleSavePatient} className="space-y-4">
+            <form onSubmit={handleSavePatient} className="flex flex-col flex-1 min-h-0">
+              <div className="flex-1 overflow-y-auto pr-1 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
@@ -773,6 +766,58 @@ export const Patients: React.FC = () => {
 
               <div>
                 <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Rijksregisternummer <span className="text-xs font-normal text-slate-400">(Optioneel)</span>
+                </label>
+                <input
+                  type="text"
+                  value={formPatient.rijksregisternummer || ''}
+                  onChange={(e) => {
+                    setFormPatient({ ...formPatient, rijksregisternummer: e.target.value });
+                    if (fieldErrors.rijksregisternummer) setFieldErrors({ ...fieldErrors, rijksregisternummer: false });
+                  }}
+                  className={`w-full bg-slate-50 dark:bg-brand-950 border ${fieldErrors.rijksregisternummer ? 'border-red-500 ring-2 ring-red-500/30' : 'border-slate-200 dark:border-brand-800'} py-2.5 px-4 rounded-xl text-slate-800 dark:text-white font-mono placeholder-slate-400 dark:placeholder-brand-400`}
+                  placeholder="85.01.01-123.45 of 85010112345"
+                />
+              </div>
+
+              {/* Standaard Tarieftype (Regulier / ELP) */}
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                  Standaard Tarieftype
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setFormPatient({ ...formPatient, standaardTariefType: 'Regulier' })}
+                    className={`py-2.5 px-4 text-xs font-bold rounded-xl border transition flex items-center justify-center space-x-2 cursor-pointer ${
+                      formPatient.standaardTariefType === 'Regulier' || !formPatient.standaardTariefType
+                        ? 'bg-slate-800 text-white border-slate-800 dark:bg-brand-800 shadow-xs'
+                        : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100'
+                    }`}
+                  >
+                    <span>Regulier</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormPatient({ ...formPatient, standaardTariefType: 'ELP' })}
+                    className={`py-2.5 px-4 text-xs font-bold rounded-xl border transition flex items-center justify-center space-x-2 cursor-pointer ${
+                      formPatient.standaardTariefType === 'ELP'
+                        ? 'bg-brand-600 text-white border-brand-600 shadow-xs'
+                        : 'bg-slate-50 dark:bg-brand-950 text-slate-600 dark:text-brand-300 border-slate-200 dark:border-brand-800 hover:bg-slate-100'
+                    }`}
+                  >
+                    <FileSpreadsheet className="h-4 w-4 shrink-0 text-brand-300" />
+                    <span>ELP (Eerstelijnszorg)</span>
+                  </button>
+                </div>
+                <p className="mt-1.5 text-[11px] text-slate-400 dark:text-brand-400">
+                  Nieuwe afspraken voor ELP-patiënten worden automatisch als ELP-sessies ingepland.
+                </p>
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
                   Emotionele Stabiliteit (1.0 - 10.0) <span className="text-red-500 font-bold ml-0.5">*</span>
                 </label>
                 <input
@@ -788,17 +833,19 @@ export const Patients: React.FC = () => {
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100 dark:border-brand-800/40">
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4 mt-2 border-t border-slate-100 dark:border-brand-800/40 shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsFormModalOpen(false)}
-                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2.5 px-5 rounded-xl font-semibold transition"
+                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2.5 px-5 rounded-xl font-semibold transition cursor-pointer"
                 >
                   Annuleren
                 </button>
                 <button
                   type="submit"
-                  className="bg-brand-600 hover:bg-brand-700 text-white py-2.5 px-5 rounded-xl font-semibold transition shadow-sm"
+                  className="bg-brand-600 hover:bg-brand-700 text-white py-2.5 px-5 rounded-xl font-semibold transition shadow-sm cursor-pointer"
                 >
                   Opslaan
                 </button>
@@ -810,94 +857,95 @@ export const Patients: React.FC = () => {
 
       {/* Link Account Modal */}
       {isLinkModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-md p-6 border border-slate-100 dark:border-brand-800/40 transition-colors">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">Gebruikersaccount Koppelen</h3>
-            <p className="text-xs text-slate-500 dark:text-brand-300 mb-4">
-              Selecteer een geregistreerd patiëntenaccount om te koppelen aan dit medisch dossier.
-            </p>
-            <form onSubmit={handleLink} className="space-y-4">
-              {loadingUnlinked ? (
-                <div className="py-6 text-center text-xs text-slate-500 dark:text-brand-300">
-                  Geregistreerde accounts laden...
-                </div>
-              ) : !useManualEmailInput ? (
-                <div>
-                  {unlinkedUsers.length > 0 ? (
-                    <div>
-                      <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
-                        Selecteer Geregistreerde Gebruiker
-                      </label>
-                      <select
-                        required
-                        value={linkEmail}
-                        onChange={(e) => setLinkEmail(e.target.value)}
-                        className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 outline-none"
-                      >
-                        <option value="" disabled>-- Selecteer een geregistreerd account --</option>
-                        {unlinkedUsers.map((u) => (
-                          <option key={u.id} value={u.email}>
-                            {u.voornaam || u.achternaam
-                              ? `${u.voornaam ?? ''} ${u.achternaam ?? ''} (${u.email})`.trim()
-                              : u.email}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  ) : (
-                    <div className="p-3.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-2xl text-xs text-amber-800 dark:text-amber-200">
-                      <p className="font-semibold mb-1">Geen ongekoppelde accounts beschikbaar</p>
-                      <p>Er zijn momenteel geen geregistreerde accounts die nog niet gekoppeld zijn. De patiënt moet zich eerst registreren via het portaal.</p>
-                    </div>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => setUseManualEmailInput(true)}
-                    className="mt-2 text-xs text-brand-600 dark:text-brand-400 hover:underline inline-block font-medium"
-                  >
-                    Handmatig e-mailadres invoeren
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
-                    Gebruiker e-mailadres (handmatig)
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={linkEmail}
-                    onChange={(e) => setLinkEmail(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
-                    placeholder="patient@email.be"
-                  />
-                  {unlinkedUsers.length > 0 && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col p-6 border border-slate-100 dark:border-brand-800/40 transition-colors overflow-hidden">
+            <div className="shrink-0">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-1">Gebruikersaccount Koppelen</h3>
+              <p className="text-xs text-slate-500 dark:text-brand-300 mb-3">
+                Selecteer een geregistreerd patiëntenaccount om te koppelen aan dit medisch dossier.
+              </p>
+            </div>
+            <form onSubmit={handleLink} className="flex flex-col flex-1 min-h-0">
+              <div className="flex-1 overflow-y-auto pr-1 space-y-4">
+                {loadingUnlinked ? (
+                  <div className="py-6 text-center text-xs text-slate-500 dark:text-brand-300">
+                    Geregistreerde accounts laden...
+                  </div>
+                ) : !useManualEmailInput ? (
+                  <div>
+                    {unlinkedUsers.length > 0 ? (
+                      <div>
+                        <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                          Selecteer Geregistreerde Gebruiker
+                        </label>
+                        <select
+                          required
+                          value={linkEmail}
+                          onChange={(e) => setLinkEmail(e.target.value)}
+                          className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                        >
+                          <option value="" disabled>-- Selecteer een geregistreerd account --</option>
+                          {unlinkedUsers.map((u) => (
+                            <option key={u.id} value={u.email}>
+                              {u.voornaam} {u.achternaam} ({u.email})
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <div className="p-3.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-2xl text-xs text-amber-800 dark:text-amber-200">
+                        <p className="font-semibold mb-1">Geen ongekoppelde accounts beschikbaar</p>
+                        <p>Er zijn momenteel geen geregistreerde accounts die nog niet gekoppeld zijn. De patiënt moet zich eerst registreren via het portaal.</p>
+                      </div>
+                    )}
                     <button
                       type="button"
-                      onClick={() => {
-                        setUseManualEmailInput(false);
-                        if (unlinkedUsers.length > 0) setLinkEmail(unlinkedUsers[0].email || '');
-                      }}
+                      onClick={() => setUseManualEmailInput(true)}
                       className="mt-2 text-xs text-brand-600 dark:text-brand-400 hover:underline inline-block font-medium"
                     >
-                      Kies uit geregistreerde accounts ({unlinkedUsers.length})
+                      Handmatig e-mailadres invoeren
                     </button>
-                  )}
-                </div>
-              )}
+                  </div>
+                ) : (
+                  <div>
+                    <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
+                      Gebruiker e-mailadres (handmatig)
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={linkEmail}
+                      onChange={(e) => setLinkEmail(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-brand-400 text-sm focus:ring-2 focus:ring-brand-500 outline-none"
+                      placeholder="patient@email.be"
+                    />
+                    {unlinkedUsers.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUseManualEmailInput(false);
+                          if (unlinkedUsers.length > 0) setLinkEmail(unlinkedUsers[0].email || '');
+                        }}
+                        className="mt-2 text-xs text-brand-600 dark:text-brand-400 hover:underline inline-block font-medium"
+                      >
+                        Kies uit geregistreerde accounts ({unlinkedUsers.length})
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
 
-              <div className="flex justify-end space-x-2 pt-2 border-t border-slate-100 dark:border-brand-800/40">
+              <div className="flex justify-end space-x-2 pt-3 mt-2 border-t border-slate-100 dark:border-brand-800/40 shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsLinkModalOpen(false)}
-                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2 px-4 rounded-xl font-semibold transition text-sm"
+                  className="bg-slate-100 dark:bg-brand-800 hover:bg-slate-200 dark:hover:bg-brand-700 text-slate-700 dark:text-white py-2 px-4 rounded-xl font-semibold transition text-sm cursor-pointer"
                 >
                   Annuleren
                 </button>
                 <button
                   type="submit"
-                  disabled={!linkEmail}
-                  className="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-2 px-4 rounded-xl font-semibold transition text-sm shadow-sm"
+                  className="bg-brand-600 hover:bg-brand-700 text-white py-2 px-4 rounded-xl font-semibold transition text-sm shadow-sm cursor-pointer"
                 >
                   Koppelen
                 </button>

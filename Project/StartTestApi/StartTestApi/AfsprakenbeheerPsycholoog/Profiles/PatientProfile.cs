@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Data.Entities;
+using AfsprakenbeheerPsycholoog.Data.Entities;
 using AfsprakenbeheerPsycholoog.Models.ViewModels.Patient;
 using AfsprakenbeheerPsycholoog.Authentication;
 using AutoMapper;
@@ -18,6 +18,8 @@ namespace AfsprakenbeheerPsycholoog.Profiles
             CreateMap<Patient, PatientListViewModel>()
                 .ForMember(dest => dest.VolledigeNaam,
                     opt => opt.MapFrom(src => $"{src.Voornaam} {src.Achternaam}"))
+                .ForMember(dest => dest.Geboortedatum,
+                    opt => opt.MapFrom(src => src.Geboortedatum.ToString("yyyy-MM-dd")))
                 .ForMember(dest => dest.AantalAfspraken,
                     opt => opt.MapFrom(src => src.Afspraken != null ? src.Afspraken.Count() : 0))
                 .ForMember(dest => dest.IsGekoppeld, opt => opt.Ignore()); // wordt in service gezet

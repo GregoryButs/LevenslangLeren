@@ -29,6 +29,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [fullPatients, setFullPatients] = useState<any[]>([]);
   const [newBooking, setNewBooking] = useState({
     typeId: '',
     patientId: '',
@@ -37,6 +38,8 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
     locatieType: 'Praktijk' as 'Praktijk' | 'GoogleMeet' | 'Telefoon',
     opmerkingen: '',
     status: 'Gepland' as 'Gepland' | 'Voltooid' | 'Geannuleerd',
+    tariefType: 'Regulier' as 'Regulier' | 'ELP',
+    elpType: 'Individueel',
     herhaling: 0,
     herhaalTot: ''
   });
@@ -95,6 +98,8 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             locatieType: (res.viewModel?.locatieType || 'Praktijk') as any,
             opmerkingen: res.viewModel?.opmerkingen || '',
             status: res.viewModel?.status || 'Gepland',
+            tariefType: (res.viewModel?.tariefType || afspraakToEdit.tariefType || 'Regulier') as any,
+            elpType: res.viewModel?.elpType || afspraakToEdit.elpType || 'Individueel',
             herhaling: 0,
             herhaalTot: ''
           });
@@ -104,6 +109,8 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             patientApi.getAll().catch(() => []),
             afspraakTypeApi.getAll().catch(() => [])
           ]);
+
+          setFullPatients(patientsData);
 
           const pList = patientsData.map((p: any) => ({
             id: p.id,
@@ -129,6 +136,8 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             locatieType: 'Praktijk',
             opmerkingen: '',
             status: 'Gepland',
+            tariefType: 'Regulier',
+            elpType: 'Individueel',
             herhaling: 0,
             herhaalTot: ''
           });
@@ -164,7 +173,9 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
           customDuurMinuten: Number(newBooking.duurMinuten),
           locatieType: newBooking.locatieType,
           opmerkingen: newBooking.opmerkingen,
-          status: newBooking.status
+          status: newBooking.status,
+          tariefType: newBooking.tariefType,
+          elpType: newBooking.elpType
         });
       } else {
         const payload = {
@@ -174,6 +185,8 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
           customDuurMinuten: Number(newBooking.duurMinuten),
           locatieType: newBooking.locatieType,
           opmerkingen: newBooking.opmerkingen,
+          tariefType: newBooking.tariefType,
+          elpType: newBooking.elpType,
           herhaling: newBooking.herhaling,
           herhaalTot: newBooking.herhaling !== 0 && newBooking.herhaalTot ? new Date(newBooking.herhaalTot).toISOString() : null
         };
@@ -193,16 +206,16 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg p-6 relative border border-slate-100 dark:border-brand-800/40 transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
+      <div className="bg-white dark:bg-brand-900 rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col p-6 relative border border-slate-100 dark:border-brand-800/40 transition-colors overflow-hidden">
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 dark:text-brand-300 hover:text-slate-600 dark:hover:text-white p-1 rounded-full hover:bg-slate-100 dark:hover:bg-brand-800 transition cursor-pointer"
+          className="absolute top-5 right-5 text-slate-400 dark:text-brand-300 hover:text-slate-600 dark:hover:text-white p-1 rounded-full hover:bg-slate-100 dark:hover:bg-brand-800 transition cursor-pointer z-10"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4">
+        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4 shrink-0">
           {afspraakToEdit ? 'Afspraak Bewerken' : 'Afspraak Inplannen'}
         </h3>
 
@@ -218,7 +231,8 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
             <span className="text-xs font-semibold text-slate-500 dark:text-brand-300">Opties laden...</span>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-4">
             <div>
               <label className="text-sm font-semibold text-slate-600 dark:text-brand-200 block mb-1">
                 Type afspraak <span className="text-red-500 font-bold ml-0.5">*</span>
@@ -303,7 +317,16 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
                   const updatedDuration = (pId !== '' && selectedTypeObj) 
                     ? selectedTypeObj.standaardDuurMinuten 
                     : newBooking.duurMinuten;
-                  setNewBooking({ ...newBooking, patientId: pId, duurMinuten: updatedDuration });
+
+                  const selPatient = fullPatients.find(p => p.id.toString() === pId);
+                  const autoElp = selPatient?.standaardTariefType === 'ELP' || selPatient?.StandaardTariefType === 'ELP' || selPatient?.standaardTariefType === 1;
+
+                  setNewBooking({ 
+                    ...newBooking, 
+                    patientId: pId, 
+                    duurMinuten: updatedDuration,
+                    tariefType: autoElp ? 'ELP' : newBooking.tariefType
+                  });
                 }}
                 className="w-full bg-slate-50 dark:bg-brand-950 border border-slate-200 dark:border-brand-800 py-2.5 px-4 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
@@ -312,6 +335,31 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
                   <option key={p.id} value={p.id}>{p.naam}</option>
                 ))}
               </select>
+            </div>
+
+            {/* ELP-sessie Toggle & Waarschuwing */}
+            <div className="p-3.5 bg-slate-50 dark:bg-brand-950/60 rounded-2xl border border-slate-200/60 dark:border-brand-800/60 space-y-2">
+              <label className="flex items-center space-x-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={newBooking.tariefType === 'ELP'}
+                  onChange={(e) => setNewBooking({ ...newBooking, tariefType: e.target.checked ? 'ELP' : 'Regulier' })}
+                  className="rounded border-slate-300 dark:border-brand-800 text-brand-600 focus:ring-brand-500 h-4 w-4"
+                />
+                <span className="text-xs font-bold text-slate-800 dark:text-brand-100 uppercase tracking-wider">
+                  ELP-sessie (Eerstelijnspsychologische Zorg)
+                </span>
+              </label>
+
+              {newBooking.tariefType === 'ELP' && (() => {
+                const selP = fullPatients.find(p => p.id.toString() === newBooking.patientId);
+                const hasRr = selP && !!(selP.rijksregisternummer || selP.Rijksregisternummer);
+                return !hasRr && newBooking.patientId !== '' ? (
+                  <div className="p-2.5 bg-amber-50 dark:bg-amber-950/70 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs text-amber-800 dark:text-amber-300 font-medium">
+                    ⚠️ <strong>Let op:</strong> Rijksregisternummer ontbreekt bij deze patiënt. Voer dit in op het patiëntenprofiel om de ELP-sessie te verwerken.
+                  </div>
+                ) : null;
+              })()}
             </div>
 
             <div>
@@ -456,8 +504,9 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
                 )}
               </div>
             )}
+          </div>
 
-            <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100 dark:border-brand-800/40">
+            <div className="flex justify-end space-x-3 pt-4 mt-2 border-t border-slate-100 dark:border-brand-800/40 shrink-0">
               <button
                 type="button"
                 onClick={onClose}

@@ -4,7 +4,12 @@ export interface User {
   achternaam: string;
   isPsycholoog: boolean;
   patientId: number | null;
+  geboortedatum?: string | null;
+  isProfileComplete?: boolean;
 }
+
+export type TariefType = 'Regulier' | 'ELP';
+export type ELPStatus = 'TeVerwerken' | 'Verwerkt';
 
 export interface Patient {
   id: number;
@@ -15,6 +20,8 @@ export interface Patient {
   secundairEmail?: string | null;
   telefoonnummer: string | null;
   dossierNummer: string | null;
+  rijksregisternummer?: string | null;
+  standaardTariefType?: TariefType;
   volledigeNaam: string;
   isActief: boolean;
   isGekoppeld?: boolean;
@@ -31,17 +38,48 @@ export interface Afspraak {
   patientVolledigeNaam?: string;
   patientEmail?: string;
   patientTelefoon?: string;
+  patientRijksregisternummer?: string | null;
+  patientDossierNummer?: string | null;
   typeId: number;
   afspraakTypeNaam: string;
   starttijd: string;
   eindtijd: string;
   status: AfspraakStatus;
+  tariefType?: TariefType;
+  elpStatus?: ELPStatus;
+  elpType?: string | null;
+  elpSessieTeller?: string | null;
   kleurcode: string;
   opmerkingen: string | null;
   reeksId: string | null;
   googleEventId: string | null;
   googleMeetLink?: string | null;
   isHeleDag?: boolean;
+}
+
+export interface ElpItem {
+  id: number;
+  starttijd: string;
+  eindtijd: string;
+  patientId: number | null;
+  patientNaam: string;
+  dossierNummer: string;
+  rijksregisternummer: string | null;
+  heeftRijksregisternummer: boolean;
+  elpType: string;
+  elpStatus: ELPStatus;
+  elpSessieTeller: string;
+  status: string;
+}
+
+export interface ElpMaandoverzicht {
+  jaar: number;
+  maand: number;
+  totaalElpSessies: number;
+  totaalVerwerkt: number;
+  totaalTeVerwerken: number;
+  ontbrekendeRijksregisternummers: number;
+  afspraken: ElpItem[];
 }
 
 export interface AfspraakType {

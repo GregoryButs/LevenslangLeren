@@ -51,6 +51,15 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
 
         [Display(Name = "Is Hele Dag / Melding")]
         public bool IsHeleDag { get; set; } = false;
+
+        [Display(Name = "Tarieftype")]
+        public TariefType TariefType { get; set; } = TariefType.Regulier;
+
+        [Display(Name = "ELP Status")]
+        public ELPStatus ELPStatus { get; set; } = ELPStatus.TeVerwerken;
+
+        [Display(Name = "ELP Type")]
+        public string? ELPType { get; set; } = "Individueel";
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -59,6 +68,20 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         Gepland,
         Voltooid,
         Geannuleerd
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum TariefType
+    {
+        Regulier = 0,
+        ELP = 1
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ELPStatus
+    {
+        TeVerwerken = 0,
+        Verwerkt = 1
     }
 }
 

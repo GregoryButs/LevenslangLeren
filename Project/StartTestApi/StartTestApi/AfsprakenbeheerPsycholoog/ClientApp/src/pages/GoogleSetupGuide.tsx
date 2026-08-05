@@ -223,11 +223,11 @@ export const GoogleSetupGuide: React.FC = () => {
       {/* Intro Header */}
       <div className="bg-white dark:bg-brand-900 p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-colors">
         <div>
-          <h2 className="text-xl font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
-            <Settings className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-brand-50 flex items-center space-x-2">
+            <Settings className="h-7 w-7 text-brand-600 dark:text-brand-400" />
             <span>Praktijk Planner Configuraties</span>
-          </h2>
-          <p className="text-slate-500 dark:text-brand-300 text-xs mt-1">
+          </h1>
+          <p className="text-slate-500 dark:text-brand-300 text-sm mt-1">
             Beheer uw werkuren, rusttijden, locatiekeuzes en boekingslimieten. Onze backend synchroniseert alle vrije plekken direct met Google Calendar.
           </p>
         </div>
@@ -281,7 +281,7 @@ export const GoogleSetupGuide: React.FC = () => {
                     key={day.label}
                     className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 overflow-hidden ${
                       isActive1 || isActive2
-                        ? 'border-brand-100 dark:border-brand-800/60 bg-brand-50/5 dark:bg-brand-950/60' 
+                        ? 'border-brand-300 dark:border-brand-800/60 bg-brand-50/80 dark:bg-brand-950/60 shadow-xs' 
                         : 'border-slate-100 dark:border-brand-900 bg-slate-50/50 dark:bg-brand-950/30 opacity-70'
                     }`}
                   >

@@ -26,6 +26,12 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         public DateTime Starttijd { get; set; }
         public DateTime Eindtijd { get; set; }
         public AfspraakStatus Status { get; set; }
+        public TariefType TariefType { get; set; } = TariefType.Regulier;
+        public ELPStatus ELPStatus { get; set; } = ELPStatus.TeVerwerken;
+        public string? ELPType { get; set; } = "Individueel";
+        public string? PatientRijksregisternummer { get; set; }
+        public string? PatientDossierNummer { get; set; }
+        public string? ElpSessieTeller { get; set; }
         public string Kleurcode { get; set; }
 
         public string StatusLabel => Status switch

@@ -12,6 +12,9 @@ namespace AfsprakenbeheerPsycholoog.Authentication
         [PersonalData]
         public string Achternaam { get; set; }
 
+        [PersonalData]
+        public DateOnly? Geboortedatum { get; set; }
+
         // Optionele koppeling aan patiënt-record
         [PersonalData]
         public int? PatientId { get; set; }

@@ -219,6 +219,16 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (!succes) return BadRequest(new { message = "Er was geen gekoppeld account gevonden voor deze patiënt." });
             return Ok(new { message = "Account succesvol ontkoppeld." });
         }
+
+        [HttpPost("merge")]
+        public IActionResult MergePatients([FromBody] MergePatientViewModel vm)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var (succes, errorMessage) = _service.MergePatients(vm);
+            if (!succes) return BadRequest(new { message = errorMessage });
+
+            return Ok(new { message = "Patiënten succesvol samengevoegd. Alle afspraken en contactgegevens zijn bijgewerkt." });
+        }
     }
 
     public class KoppelRequest

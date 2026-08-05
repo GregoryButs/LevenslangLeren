@@ -34,6 +34,12 @@ namespace AfsprakenbeheerPsycholoog.Data.Entities
         [Display(Name = "Dossiernummer")]
         public string? DossierNummer { get; set; }
 
+        [Display(Name = "Rijksregisternummer")]
+        public string? Rijksregisternummer { get; set; }
+
+        [Display(Name = "Standaard Tarieftype")]
+        public TariefType StandaardTariefType { get; set; } = TariefType.Regulier;
+
         // Read-only helper -> nog te zien of ik dit met Automapper en profiles zal doen of hier in de entity zelf laat staan
         public string VolledigeNaam => $"{Voornaam} {Achternaam}";
 

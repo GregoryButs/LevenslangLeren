@@ -113,18 +113,22 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                         {
                             cmd.CommandText = "PRAGMA table_info(Patienten);";
                             bool hasSecundairEmail = false;
+                            bool hasRijksregisternummer = false;
                             bool hasEmotioneleStabiliteit = false;
                             bool hasVerwijderdOp = false;
                             bool hasVerwijderdReden = false;
+                            bool hasStandaardTariefType = false;
                             using (var reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
                                     var name = reader["name"]?.ToString();
                                     if (string.Equals(name, "SecundairEmail", StringComparison.OrdinalIgnoreCase)) hasSecundairEmail = true;
+                                    if (string.Equals(name, "Rijksregisternummer", StringComparison.OrdinalIgnoreCase)) hasRijksregisternummer = true;
                                     if (string.Equals(name, "EmotioneleStabiliteit", StringComparison.OrdinalIgnoreCase)) hasEmotioneleStabiliteit = true;
                                     if (string.Equals(name, "VerwijderdOp", StringComparison.OrdinalIgnoreCase)) hasVerwijderdOp = true;
                                     if (string.Equals(name, "VerwijderdReden", StringComparison.OrdinalIgnoreCase)) hasVerwijderdReden = true;
+                                    if (string.Equals(name, "StandaardTariefType", StringComparison.OrdinalIgnoreCase)) hasStandaardTariefType = true;
                                 }
                             }
 
@@ -133,6 +137,14 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 using (var addColCmd = conn.CreateCommand())
                                 {
                                     addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN SecundairEmail TEXT NULL;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasRijksregisternummer)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN Rijksregisternummer TEXT NULL;";
                                     addColCmd.ExecuteNonQuery();
                                 }
                             }
@@ -160,6 +172,65 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                     addColCmd.ExecuteNonQuery();
                                 }
                             }
+                            if (!hasStandaardTariefType)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Patienten ADD COLUMN StandaardTariefType INTEGER NOT NULL DEFAULT 0;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            // Ensure no existing NULL Telefoonnummer rows trigger SQLite NOT NULL constraint failures
+                            using (var fixNullsCmd = conn.CreateCommand())
+                            {
+                                fixNullsCmd.CommandText = "UPDATE Patienten SET Telefoonnummer = '' WHERE Telefoonnummer IS NULL;";
+                                fixNullsCmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Automatic SQLite schema migration for Afspraken table columns
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.CommandText = "PRAGMA table_info(Afspraken);";
+                            bool hasTariefType = false;
+                            bool hasELPStatus = false;
+                            bool hasELPType = false;
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var name = reader["name"]?.ToString();
+                                    if (string.Equals(name, "TariefType", StringComparison.OrdinalIgnoreCase)) hasTariefType = true;
+                                    if (string.Equals(name, "ELPStatus", StringComparison.OrdinalIgnoreCase)) hasELPStatus = true;
+                                    if (string.Equals(name, "ELPType", StringComparison.OrdinalIgnoreCase)) hasELPType = true;
+                                }
+                            }
+
+                            if (!hasTariefType)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN TariefType INTEGER NOT NULL DEFAULT 0;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasELPStatus)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN ELPStatus INTEGER NOT NULL DEFAULT 0;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasELPType)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE Afspraken ADD COLUMN ELPType TEXT NULL DEFAULT 'Individueel';";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
                         }
 
                         // Automatic SQLite schema migration for AspNetUsers table columns
@@ -168,6 +239,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                             cmd.CommandText = "PRAGMA table_info(AspNetUsers);";
                             bool hasIsOpWachtlijst = false;
                             bool hasWachtlijstDatum = false;
+                            bool hasGeboortedatum = false;
                             using (var reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
@@ -175,6 +247,7 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                     var name = reader["name"]?.ToString();
                                     if (string.Equals(name, "IsOpWachtlijst", StringComparison.OrdinalIgnoreCase)) hasIsOpWachtlijst = true;
                                     if (string.Equals(name, "WachtlijstDatum", StringComparison.OrdinalIgnoreCase)) hasWachtlijstDatum = true;
+                                    if (string.Equals(name, "Geboortedatum", StringComparison.OrdinalIgnoreCase)) hasGeboortedatum = true;
                                 }
                             }
 
@@ -191,6 +264,14 @@ namespace AfsprakenbeheerPsycholoog.Extensions
                                 using (var addColCmd = conn.CreateCommand())
                                 {
                                     addColCmd.CommandText = "ALTER TABLE AspNetUsers ADD COLUMN WachtlijstDatum TEXT NULL;";
+                                    addColCmd.ExecuteNonQuery();
+                                }
+                            }
+                            if (!hasGeboortedatum)
+                            {
+                                using (var addColCmd = conn.CreateCommand())
+                                {
+                                    addColCmd.CommandText = "ALTER TABLE AspNetUsers ADD COLUMN Geboortedatum TEXT NULL;";
                                     addColCmd.ExecuteNonQuery();
                                 }
                             }

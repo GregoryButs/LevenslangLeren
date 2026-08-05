@@ -34,6 +34,15 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Afspraak
         [Display(Name = "Locatie / Consult Vorm")]
         public string? LocatieType { get; set; } // "Praktijk", "GoogleMeet", "Telefoon"
 
+        [Display(Name = "Tarieftype")]
+        public AfsprakenbeheerPsycholoog.Data.Entities.TariefType TariefType { get; set; } = AfsprakenbeheerPsycholoog.Data.Entities.TariefType.Regulier;
+
+        [Display(Name = "ELP Status")]
+        public AfsprakenbeheerPsycholoog.Data.Entities.ELPStatus ELPStatus { get; set; } = AfsprakenbeheerPsycholoog.Data.Entities.ELPStatus.TeVerwerken;
+
+        [Display(Name = "ELP Type")]
+        public string? ELPType { get; set; } = "Individueel";
+
         // Herhalingsopties
         [Display(Name = "Herhaling")]
         public HerhaalPatroon Herhaling { get; set; } = HerhaalPatroon.Geen;

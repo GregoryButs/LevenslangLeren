@@ -26,5 +26,6 @@ namespace AfsprakenbeheerPsycholoog.Services
         Task<bool> PlaatsOpWachtlijstAsync(string userId);
         Task<bool> HerstelVanWachtlijstAsync(string userId);
         Task<(bool succes, string naam)> MaakEnKoppelNieuwePatientAsync(string userId);
+        (bool Success, string ErrorMessage) MergePatients(MergePatientViewModel model);
     }
 }

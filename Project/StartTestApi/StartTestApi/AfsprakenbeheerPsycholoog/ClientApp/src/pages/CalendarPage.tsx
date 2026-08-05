@@ -413,8 +413,8 @@ export const CalendarPage: React.FC = () => {
 
       {/* Legenda Praktijkuren & Boekbaarheid */}
       <div className="flex flex-wrap items-center gap-3 bg-white dark:bg-brand-900 px-4 sm:px-6 py-3 rounded-2xl border border-slate-100 dark:border-brand-800/40 text-xs shadow-xs">
-        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200/60 dark:border-teal-900/40 font-semibold">
-          <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
+        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border border-brand-200/60 dark:border-brand-800/40 font-semibold">
+          <span className="h-2 w-2 rounded-full bg-brand-500 animate-pulse" />
           <span>Praktijkuren</span>
         </div>
         <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-brand-950 text-slate-500 dark:text-brand-400 border border-slate-200/60 dark:border-brand-800/60 font-medium">
@@ -580,7 +580,7 @@ export const CalendarPage: React.FC = () => {
                                       isSelected
                                         ? 'bg-brand-500 text-white font-bold shadow-md z-20 relative -mb-[1px]'
                                         : isBookingSlot
-                                          ? 'bg-teal-50/70 dark:bg-teal-950/35 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/80 dark:hover:bg-teal-900/50 text-slate-700 dark:text-brand-200 group/sub'
+                                          ? 'bg-brand-50/80 dark:bg-brand-950/35 border-l-2 border-brand-500 dark:border-brand-400/80 hover:bg-brand-100/90 dark:hover:bg-brand-900/50 text-slate-700 dark:text-brand-200 group/sub'
                                           : 'bg-slate-100/90 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/90 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
                                     }`}
                                     title={
@@ -633,7 +633,7 @@ export const CalendarPage: React.FC = () => {
                                   className={`p-1.5 border-l-4 rounded-lg shadow-xs hover:shadow-md transition text-left cursor-pointer overflow-hidden ${
                                     coveringAppt.status === 'Geannuleerd' 
                                       ? 'opacity-75 bg-slate-100 dark:bg-slate-800/90 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-300' 
-                                      : 'bg-white dark:bg-slate-900/95 text-slate-900 dark:text-white border border-slate-200/90 dark:border-slate-700/80 hover:border-teal-500 dark:hover:border-teal-400'
+                                      : 'bg-white dark:bg-slate-900/95 text-slate-900 dark:text-white border border-slate-200/90 dark:border-slate-700/80 hover:border-brand-500 dark:hover:border-brand-400'
                                   }`}
                                   title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                 >
@@ -646,7 +646,7 @@ export const CalendarPage: React.FC = () => {
                                     </span>
                                   </div>
                                   {heightPx > 30 && (
-                                    <div className="text-[10px] sm:text-xs text-teal-700 dark:text-teal-300 truncate font-semibold mt-0.5 flex items-center justify-between">
+                                    <div className="text-[10px] sm:text-xs text-brand-700 dark:text-brand-300 truncate font-semibold mt-0.5 flex items-center justify-between">
                                       <span className="truncate">{coveringAppt.afspraakTypeNaam}</span>
                                       {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400 shrink-0 inline ml-1" />}
                                     </div>
@@ -695,7 +695,7 @@ export const CalendarPage: React.FC = () => {
                                       isSelected
                                         ? 'bg-brand-500 text-white font-bold shadow-md z-20 relative -mb-[1px]'
                                         : isBookingSlot
-                                          ? 'bg-teal-50/70 dark:bg-teal-950/35 border-l-2 border-teal-500 dark:border-teal-400/80 hover:bg-teal-100/80 dark:hover:bg-teal-900/50 text-slate-700 dark:text-brand-200 group/sub'
+                                          ? 'bg-brand-50/80 dark:bg-brand-950/35 border-l-2 border-brand-500 dark:border-brand-400/80 hover:bg-brand-100/90 dark:hover:bg-brand-900/50 text-slate-700 dark:text-brand-200 group/sub'
                                           : 'bg-slate-100/90 dark:bg-brand-950/95 border-l-2 border-transparent hover:bg-slate-200/90 dark:hover:bg-brand-900/60 text-slate-400 dark:text-brand-400 group/sub'
                                     }`}
                                     title={
@@ -748,7 +748,7 @@ export const CalendarPage: React.FC = () => {
                                   className={`p-2 border-l-4 rounded-lg shadow-xs hover:shadow-md transition text-left cursor-pointer overflow-hidden ${
                                     coveringAppt.status === 'Geannuleerd' 
                                       ? 'opacity-75 bg-slate-100 dark:bg-slate-800/90 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-300' 
-                                      : 'bg-white dark:bg-slate-900/95 text-slate-900 dark:text-white border border-slate-200/90 dark:border-slate-700/80 hover:border-teal-500 dark:hover:border-teal-400'
+                                      : 'bg-white dark:bg-slate-900/95 text-slate-900 dark:text-white border border-slate-200/90 dark:border-slate-700/80 hover:border-brand-500 dark:hover:border-brand-400'
                                   }`}
                                   title={`${coveringAppt.patientNaam || 'Geblokkeerd'} (${formatLocalTime(coveringAppt.starttijd)} - ${formatLocalTime(coveringAppt.eindtijd)})`}
                                 >
@@ -761,7 +761,7 @@ export const CalendarPage: React.FC = () => {
                                     </span>
                                   </div>
                                   {heightPx > 30 && (
-                                    <div className="text-xs text-teal-700 dark:text-teal-300 truncate font-semibold mt-0.5 flex items-center justify-between">
+                                    <div className="text-xs text-brand-700 dark:text-brand-300 truncate font-semibold mt-0.5 flex items-center justify-between">
                                       <span className="truncate">{coveringAppt.afspraakTypeNaam}</span>
                                       {coveringAppt.googleMeetLink && <Video className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400 shrink-0 inline ml-1" />}
                                     </div>

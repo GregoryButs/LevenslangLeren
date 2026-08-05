@@ -1,4 +1,4 @@
-﻿using AfsprakenbeheerPsycholoog.Authentication;
+using AfsprakenbeheerPsycholoog.Authentication;
 using AfsprakenbeheerPsycholoog.Data.Entities;
 
 namespace AfsprakenbeheerPsycholoog.Data.Repositories
@@ -15,7 +15,9 @@ namespace AfsprakenbeheerPsycholoog.Data.Repositories
         ApplicationUser? GetUserByPatientId(int patientId);
         int? GetPatientIdByUserId(string userId);
 
+        IEnumerable<Patient> GetAlleActievePatientenWithAfspraken();
         IEnumerable<Patient> GetInactievePatienten();
         Patient? GetByIdInclusiefInactief(int id);
+        bool MergePatients(int targetPatientId, int sourcePatientId, Patient targetUpdatedData);
     }
 }

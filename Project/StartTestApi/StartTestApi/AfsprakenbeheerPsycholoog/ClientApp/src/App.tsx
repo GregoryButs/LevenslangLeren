@@ -6,7 +6,7 @@ import { CookieBanner } from './components/CookieBanner';
 import { 
   Brain, LayoutDashboard, Users, CalendarDays, 
   Settings, LogOut, Loader2, Menu, X, UserIcon,
-  RefreshCw, Moon, Sun
+  RefreshCw, Moon, Sun, FileSpreadsheet
 } from 'lucide-react';
 
 const LandingPageModern = lazy(() => import('./pages/LandingPage/LandingPageModern').then(m => ({ default: m.LandingPageModern })));
@@ -20,6 +20,8 @@ const PatientDashboard = lazy(() => import('./pages/PatientDashboard').then(m =>
 const Patients = lazy(() => import('./pages/Patients').then(m => ({ default: m.Patients })));
 const AfspraakTypes = lazy(() => import('./pages/AfspraakTypes').then(m => ({ default: m.AfspraakTypes })));
 const CalendarPage = lazy(() => import('./pages/CalendarPage').then(m => ({ default: m.CalendarPage })));
+const CompleteProfile = lazy(() => import('./pages/CompleteProfile').then(m => ({ default: m.CompleteProfile })));
+const ElpMaandafsluiting = lazy(() => import('./pages/ElpMaandafsluiting').then(m => ({ default: m.ElpMaandafsluiting })));
 
 // Background preloading object for instant zero-latency route transitions
 export const pagePreloaders: Record<string, () => Promise<any>> = {
@@ -27,7 +29,9 @@ export const pagePreloaders: Record<string, () => Promise<any>> = {
   '/calendar': () => import('./pages/CalendarPage'),
   '/patients': () => import('./pages/Patients'),
   '/appointment-types': () => import('./pages/AfspraakTypes'),
+  '/elp-afsluiting': () => import('./pages/ElpMaandafsluiting'),
   '/portal': () => import('./pages/PatientDashboard'),
+  '/complete-profile': () => import('./pages/CompleteProfile'),
   '/login': () => import('./pages/Login'),
   '/register': () => import('./pages/Register'),
   '/forgot-password': () => import('./pages/ForgotPassword'),
@@ -99,23 +103,77 @@ const App: React.FC = () => {
 
           <Route 
             path="/login" 
-            element={user ? <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace /> : <Login setUser={setUser} />} 
+            element={
+              user ? (
+                !user.isPsycholoog && !user.isProfileComplete ? (
+                  <Navigate to="/complete-profile" replace />
+                ) : (
+                  <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace />
+                )
+              ) : (
+                <Login setUser={setUser} />
+              )
+            } 
           />
           <Route 
             path="/register" 
-            element={user ? <Navigate to="/portal" replace /> : <Register setUser={setUser} />} 
+            element={
+              user ? (
+                !user.isPsycholoog && !user.isProfileComplete ? (
+                  <Navigate to="/complete-profile" replace />
+                ) : (
+                  <Navigate to="/portal" replace />
+                )
+              ) : (
+                <Register setUser={setUser} />
+              )
+            } 
           />
           <Route 
             path="/forgot-password" 
-            element={user ? <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace /> : <ForgotPassword />} 
+            element={
+              user ? (
+                !user.isPsycholoog && !user.isProfileComplete ? (
+                  <Navigate to="/complete-profile" replace />
+                ) : (
+                  <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace />
+                )
+              ) : (
+                <ForgotPassword />
+              )
+            } 
           />
           <Route 
             path="/reset-password" 
-            element={user ? <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace /> : <ResetPassword />} 
+            element={
+              user ? (
+                !user.isPsycholoog && !user.isProfileComplete ? (
+                  <Navigate to="/complete-profile" replace />
+                ) : (
+                  <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace />
+                )
+              ) : (
+                <ResetPassword />
+              )
+            } 
           />
           <Route 
             path="/external-auth-callback" 
             element={<ExternalAuthCallback setUser={setUser} />} 
+          />
+          <Route 
+            path="/complete-profile" 
+            element={
+              user ? (
+                user.isProfileComplete ? (
+                  <Navigate to={user.isPsycholoog ? "/dashboard" : "/portal"} replace />
+                ) : (
+                  <CompleteProfile user={user} setUser={setUser} />
+                )
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
           />
           
           {/* Protected App Routes */}
@@ -123,26 +181,31 @@ const App: React.FC = () => {
             path="/*" 
             element={
               user ? (
-                <AppLayout user={user} setUser={setUser}>
-                  <Routes>
-                    {user.isPsycholoog ? (
-                      <>
-                        <Route path="/dashboard" element={<PsycholoogDashboard initialTab="agenda" />} />
-                        <Route path="/calendar" element={<CalendarPage />} />
-                        <Route path="/patients" element={<Patients />} />
-                        <Route path="/ai-lab" element={<PsycholoogDashboard initialTab="ai_lab" />} />
-                        <Route path="/google-sync" element={<PsycholoogDashboard initialTab="google_setup" />} />
-                        <Route path="/appointment-types" element={<AfspraakTypes />} />
-                        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                      </>
-                    ) : (
-                      <>
-                        <Route path="/portal" element={<PatientDashboard />} />
-                        <Route path="*" element={<Navigate to="/portal" replace />} />
-                      </>
-                    )}
-                  </Routes>
-                </AppLayout>
+                !user.isPsycholoog && !user.isProfileComplete ? (
+                  <Navigate to="/complete-profile" replace />
+                ) : (
+                  <AppLayout user={user} setUser={setUser}>
+                    <Routes>
+                      {user.isPsycholoog ? (
+                        <>
+                          <Route path="/dashboard" element={<PsycholoogDashboard initialTab="agenda" />} />
+                          <Route path="/calendar" element={<CalendarPage />} />
+                          <Route path="/patients" element={<Patients />} />
+                          <Route path="/elp-afsluiting" element={<ElpMaandafsluiting />} />
+                          <Route path="/ai-lab" element={<PsycholoogDashboard initialTab="ai_lab" />} />
+                          <Route path="/google-sync" element={<PsycholoogDashboard initialTab="google_setup" />} />
+                          <Route path="/appointment-types" element={<AfspraakTypes />} />
+                          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                        </>
+                      ) : (
+                        <>
+                          <Route path="/portal" element={<PatientDashboard />} />
+                          <Route path="*" element={<Navigate to="/portal" replace />} />
+                        </>
+                      )}
+                    </Routes>
+                  </AppLayout>
+                )
               ) : (
                 <Navigate to="/login" replace />
               )
@@ -182,8 +245,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
         { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { path: '/calendar', label: 'Agenda & Kalender', icon: CalendarDays },
         { path: '/patients', label: 'Patiënten', icon: Users },
+        { path: '/elp-afsluiting', label: 'ELP Afsluiting', icon: FileSpreadsheet },
         { path: '/ai-lab', label: 'AI Lab', icon: Brain },
-        { path: '/google-sync', label: 'Google Agenda Sync', icon: RefreshCw },
+        { path: '/google-sync', label: 'Praktijk Planner', icon: RefreshCw },
         { path: '/appointment-types', label: 'Afspraaktypes', icon: Settings },
       ]
     : [
@@ -218,33 +282,35 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
       </a>
 
       {/* Sidebar Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-brand-900 border-r border-slate-100 dark:border-brand-800/40 p-6 space-y-8 min-h-screen shadow-sm sticky top-0">
-        {/* Brand */}
-        <div className="flex justify-center w-full py-1">
-          <img src="/images/logo_hero.png" alt="De Verstandhouding" className="h-24 w-auto object-contain dark:hidden mx-auto" />
-          <img 
-            src="/images/logo_dark_compact.png" 
-            onError={(e) => { e.currentTarget.src = '/images/logo_dark_compact.svg'; }}
-            alt="De Verstandhouding" 
-            className="h-24 w-auto object-contain hidden dark:block mx-auto rounded-2xl overflow-hidden shadow-md" 
-          />
-        </div>
-
-        {/* User Card */}
-        <div className="p-4 bg-slate-50 dark:bg-brand-950 rounded-2xl border border-slate-100 dark:border-brand-800/40 flex items-center space-x-3">
-          <div className="h-9 w-9 rounded-xl bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-300 flex items-center justify-center">
-            <UserIcon className="h-4 w-4" />
+      <aside className="hidden md:flex flex-col w-64 h-screen sticky top-0 bg-white dark:bg-brand-900 border-r border-slate-100 dark:border-brand-800/40 p-6 shadow-sm shrink-0 z-30">
+        {/* Brand Header */}
+        <div className="shrink-0 space-y-4 mb-4">
+          <div className="flex justify-center w-full py-1">
+            <img src="/images/logo_hero.png" alt="De Verstandhouding" className="h-20 w-auto object-contain dark:hidden mx-auto" />
+            <img 
+              src="/images/logo_dark_compact.png" 
+              onError={(e) => { e.currentTarget.src = '/images/logo_dark_compact.svg'; }}
+              alt="De Verstandhouding" 
+              className="h-20 w-auto object-contain hidden dark:block mx-auto rounded-2xl overflow-hidden shadow-md" 
+            />
           </div>
-          <div className="min-w-0">
-            <p className="text-xs font-bold text-slate-700 dark:text-brand-50 truncate">{user.voornaam} {user.achternaam}</p>
-            <p className="text-[9px] uppercase tracking-wider font-semibold text-slate-400 dark:text-brand-400">
-              {user.isPsycholoog ? 'Psycholoog' : 'Patiënt'}
-            </p>
+
+          {/* User Card */}
+          <div className="p-3 bg-slate-50 dark:bg-brand-950 rounded-2xl border border-slate-100 dark:border-brand-800/40 flex items-center space-x-3">
+            <div className="h-8 w-8 rounded-xl bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-300 flex items-center justify-center shrink-0">
+              <UserIcon className="h-4 w-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold text-slate-700 dark:text-brand-50 truncate">{user.voornaam} {user.achternaam}</p>
+              <p className="text-[9px] uppercase tracking-wider font-semibold text-slate-400 dark:text-brand-400">
+                {user.isPsycholoog ? 'Psycholoog' : 'Patiënt'}
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 space-y-1.5" aria-label="Hoofdnavigatie">
+        <nav className="flex-1 overflow-y-auto min-h-0 space-y-1.5 pr-1" aria-label="Hoofdnavigatie">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -255,13 +321,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
                 onMouseEnter={() => {
                   if (pagePreloaders[item.path]) pagePreloaders[item.path]();
                 }}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 ${
+                className={`flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 ${
                   isActive 
                     ? 'bg-brand-800 text-white shadow-lg shadow-brand-500/15' 
                     : 'text-slate-500 dark:text-brand-300 hover:text-slate-700 dark:hover:text-brand-50 hover:bg-slate-50 dark:hover:bg-brand-800/30'
                 }`}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-5 w-5 shrink-0" />
                 <span>{item.label}</span>
               </Link>
             );
@@ -269,20 +335,20 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, setUser, children }) => {
         </nav>
 
         {/* Footer actions */}
-        <div className="space-y-2">
+        <div className="shrink-0 space-y-1.5 pt-3 mt-auto border-t border-slate-100 dark:border-brand-800/40">
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold text-slate-600 dark:text-brand-300 hover:bg-slate-50 dark:hover:bg-brand-800/30 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl text-sm font-semibold text-slate-600 dark:text-brand-300 hover:bg-slate-50 dark:hover:bg-brand-800/30 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 cursor-pointer"
           >
-            {isDark ? <Sun className="h-5 w-5 text-amber-400" /> : <Moon className="h-5 w-5 text-slate-500" />}
+            {isDark ? <Sun className="h-5 w-5 text-amber-400 shrink-0" /> : <Moon className="h-5 w-5 text-slate-500 shrink-0" />}
             <span>{isDark ? 'Lichte Modus' : 'Donkere Modus'}</span>
           </button>
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-2xl text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer"
           >
-            <LogOut className="h-5 w-5" />
+            <LogOut className="h-5 w-5 shrink-0" />
             <span>Uitloggen</span>
           </button>
         </div>

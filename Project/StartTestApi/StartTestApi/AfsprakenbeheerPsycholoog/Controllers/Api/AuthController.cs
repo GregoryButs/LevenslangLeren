@@ -72,14 +72,18 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (result.Succeeded)
             {
                 var claims = await _userManager.GetClaimsAsync(user);
+                bool isPsycholoog = User.IsPsycholoog(claims);
+                bool isProfileComplete = isPsycholoog || user.Geboortedatum.HasValue;
 
                 return Ok(new
                 {
                     Email = user.Email,
                     Voornaam = user.Voornaam,
                     Achternaam = user.Achternaam,
-                    IsPsycholoog = User.IsPsycholoog(claims),
-                    PatientId = user.PatientId
+                    IsPsycholoog = isPsycholoog,
+                    PatientId = user.PatientId,
+                    Geboortedatum = user.Geboortedatum?.ToString("yyyy-MM-dd"),
+                    IsProfileComplete = isProfileComplete
                 });
             }
 
@@ -490,14 +494,74 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (user == null) return Unauthorized();
 
             var claims = await _userManager.GetClaimsAsync(user);
+            bool isPsycholoog = User.IsPsycholoog(claims);
+            bool isProfileComplete = isPsycholoog || user.Geboortedatum.HasValue;
 
             return Ok(new
             {
                 Email = user.Email,
                 Voornaam = user.Voornaam,
                 Achternaam = user.Achternaam,
-                IsPsycholoog = User.IsPsycholoog(claims),
-                PatientId = user.PatientId
+                IsPsycholoog = isPsycholoog,
+                PatientId = user.PatientId,
+                Geboortedatum = user.Geboortedatum?.ToString("yyyy-MM-dd"),
+                IsProfileComplete = isProfileComplete
+            });
+        }
+
+        [HttpPost("complete-profile")]
+        public async Task<IActionResult> CompleteProfile([FromBody] CompleteProfileDto model)
+        {
+            if (User.Identity?.IsAuthenticated != true)
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return Unauthorized();
+
+            if (!DateOnly.TryParse(model.Geboortedatum, out var geboortedatum))
+            {
+                return BadRequest(new { message = "Ongeldige geboortedatum opgegeven." });
+            }
+
+            user.Geboortedatum = geboortedatum;
+            await _userManager.UpdateAsync(user);
+
+            // Als de gebruiker reeds gekoppeld is aan een patiënt, overschrijf dan de geboortedatum van de patiënt!
+            if (user.PatientId.HasValue)
+            {
+                var patient = _patientRepo.GetById(user.PatientId.Value);
+                if (patient != null)
+                {
+                    patient.Geboortedatum = geboortedatum;
+                    if (!string.IsNullOrWhiteSpace(model.Telefoonnummer))
+                    {
+                        patient.Telefoonnummer = model.Telefoonnummer.Trim();
+                    }
+                    _patientRepo.Update(patient);
+                    _patientRepo.SaveChanges();
+                }
+            }
+
+            var claims = await _userManager.GetClaimsAsync(user);
+            bool isPsycholoog = User.IsPsycholoog(claims);
+
+            return Ok(new
+            {
+                Email = user.Email,
+                Voornaam = user.Voornaam,
+                Achternaam = user.Achternaam,
+                IsPsycholoog = isPsycholoog,
+                PatientId = user.PatientId,
+                Geboortedatum = user.Geboortedatum?.ToString("yyyy-MM-dd"),
+                IsProfileComplete = true,
+                message = "Profiel succesvol bijgewerkt."
             });
         }
     }
@@ -557,5 +621,13 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         [Required]
         [StringLength(100, ErrorMessage = "Wachtwoord moet minimaal {2} tekens bevatten.", MinimumLength = 6)]
         public string NewPassword { get; set; } = null!;
+    }
+
+    public class CompleteProfileDto
+    {
+        [Required(ErrorMessage = "Geboortedatum is verplicht.")]
+        public string Geboortedatum { get; set; } = null!;
+
+        public string? Telefoonnummer { get; set; }
     }
 }

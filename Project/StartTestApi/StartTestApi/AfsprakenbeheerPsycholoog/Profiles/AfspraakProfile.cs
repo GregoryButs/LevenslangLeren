@@ -24,6 +24,10 @@ namespace AfsprakenbeheerPsycholoog.Profiles
                                 : (src.Type != null ? src.Type.Naam : "Praktijkhuis Consultatie")))
                 .ForMember(dest => dest.AfspraakTypeNaam,
                     opt => opt.MapFrom(src => src.Type != null ? src.Type.Naam : (src.PatientId.HasValue ? "Consultatie" : "Blokkering")))
+                .ForMember(dest => dest.PatientRijksregisternummer,
+                    opt => opt.MapFrom(src => src.Patient != null ? src.Patient.Rijksregisternummer : null))
+                .ForMember(dest => dest.PatientDossierNummer,
+                    opt => opt.MapFrom(src => src.Patient != null ? src.Patient.DossierNummer : null))
                 .ForMember(dest => dest.Kleurcode,
                     opt => opt.MapFrom(src => src.Type != null ? src.Type.Kleurcode : (src.PatientId.HasValue ? "#478d96" : "#64748B")));
 

@@ -16,6 +16,8 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
         public string? SecundairEmail { get; set; }
         public string Telefoonnummer { get; set; }
         public string? DossierNummer { get; set; }
+        public string? Rijksregisternummer { get; set; }
+        public AfsprakenbeheerPsycholoog.Data.Entities.TariefType StandaardTariefType { get; set; } = AfsprakenbeheerPsycholoog.Data.Entities.TariefType.Regulier;
         public bool IsGekoppeld { get; set; }
         public double? EmotioneleStabiliteit { get; set; }
         public IEnumerable<AfspraakListViewModel> Afspraken { get; set; }

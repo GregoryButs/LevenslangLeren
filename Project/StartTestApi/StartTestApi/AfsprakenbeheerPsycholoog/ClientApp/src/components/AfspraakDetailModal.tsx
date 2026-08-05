@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { afspraakApi } from '../services/api';
 import { Afspraak } from '../types';
 import { 
-  Calendar as CalendarIcon, X, Edit3, Trash2, Loader2, Video 
+  Calendar as CalendarIcon, X, Edit3, Trash2, Loader2, Video, User, ExternalLink, Copy 
 } from 'lucide-react';
 import { extractErrorMessage } from '../utils/errorUtils';
 
@@ -19,6 +20,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
   onSuccess,
   onEdit
 }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [selectedAfspraakData, setSelectedAfspraakData] = useState<Afspraak | null>(afspraak);
 
@@ -62,11 +64,11 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-brand-900 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 dark:border-brand-800/40 space-y-5 relative max-h-[90vh] overflow-y-auto transition-colors">
+    <div className="fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 overflow-y-auto animate-in fade-in duration-200">
+      <div className="bg-white dark:bg-brand-900 rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col p-6 shadow-2xl border border-slate-100 dark:border-brand-800/40 transition-colors overflow-hidden">
         {/* Modal Header */}
-        <div className="flex justify-between items-center border-b border-slate-100 dark:border-brand-800/40 pb-4">
-          <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center space-x-2">
+        <div className="flex justify-between items-center border-b border-slate-100 dark:border-brand-800/40 pb-4 shrink-0">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
             <CalendarIcon className="h-5 w-5 text-brand-600 dark:text-brand-400" />
             <span>Afspraak Details</span>
           </h3>
@@ -79,12 +81,13 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-12">
+          <div className="flex justify-center items-center py-12 flex-1">
             <Loader2 className="animate-spin h-8 w-8 text-brand-600 dark:text-brand-400" />
           </div>
         ) : (
           /* Details View */
-          <div className="space-y-4">
+          <div className="flex flex-col flex-1 min-h-0">
+            <div className="flex-1 overflow-y-auto pr-1 py-3 space-y-4">
             {(() => {
               const isMeet = !!selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')));
               if (!isMeet) return null;
@@ -94,18 +97,6 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
                 : 'https://meet.google.com/new';
 
               const startDate = new Date(selectedAfspraakData.starttijd);
-              const now = new Date();
-              const diffMs = startDate.getTime() - now.getTime();
-              const diffMins = Math.round(diffMs / 60000);
-              const diffHours = Math.round(diffMs / 3600000);
-              const diffDays = Math.round(diffMs / 86400000);
-
-              let statusText = '';
-              if (diffMins < -60) statusText = 'Afgelopen';
-              else if (diffMins < 0) statusText = '🟢 NU BEZIG';
-              else if (diffMins <= 15) statusText = '⚡ Start binnenkort (< 15 min)!';
-              else if (diffHours <= 24) statusText = `⏳ Start over ca. ${diffHours} uur`;
-              else statusText = `📅 Gepland over ${diffDays} dagen`;
 
               return (
                 <div className="p-4 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl space-y-3 shadow-xs">
@@ -114,9 +105,6 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
                       <Video className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0" />
                       <span>Online Google Meet Videoconsultatie</span>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300">
-                      {statusText}
-                    </span>
                   </div>
 
                   <div className="text-xs text-purple-800 dark:text-purple-300 space-y-1 bg-white/60 dark:bg-purple-900/30 p-2.5 rounded-xl border border-purple-100 dark:border-purple-800/30">
@@ -124,67 +112,107 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
                       <CalendarIcon className="h-4 w-4 text-purple-600 dark:text-purple-400 shrink-0" />
                       <span>Tijdstip: <strong>{startDate.toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} om {startDate.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}</strong></span>
                     </div>
+                    <div className="flex items-center space-x-2">
+                      <User className="h-4 w-4 text-purple-600 dark:text-purple-400 shrink-0" />
+                      <span>Patiënt: <strong>{selectedAfspraakData.patientNaam || 'Onbekend'}</strong></span>
+                    </div>
                   </div>
 
-                  <div>
-                    <a 
-                      href={activeMeetLink} 
-                      target="_blank" 
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
+                    <a
+                      href={activeMeetLink}
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition shadow-sm"
+                      className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 px-4 rounded-xl transition text-xs flex items-center justify-center space-x-2 shadow-sm text-center cursor-pointer"
                     >
                       <Video className="h-4 w-4" />
-                      <span>Deelnemen via Google Meet</span>
+                      <span>Deelnemen aan Google Meet</span>
+                      <ExternalLink className="h-3.5 w-3.5 opacity-80" />
                     </a>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(activeMeetLink);
+                        alert('Google Meet link gekopieerd naar klembord!');
+                      }}
+                      className="bg-purple-100 dark:bg-purple-900/80 hover:bg-purple-200 dark:hover:bg-purple-800 text-purple-900 dark:text-purple-100 font-semibold py-2.5 px-3 rounded-xl transition text-xs flex items-center justify-center space-x-1.5 cursor-pointer shrink-0"
+                      title="Kopieer vergaderlink"
+                    >
+                      <Copy className="h-4 w-4" />
+                      <span className="sm:hidden">Kopiëren</span>
+                    </button>
                   </div>
                 </div>
               );
             })()}
 
-            {selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('Praktijkhuis') || selectedAfspraakData.opmerkingen.includes('[PH9500]')) && (
-              <div className="p-3 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/40 rounded-2xl flex items-center space-x-3 text-purple-800 dark:text-purple-300 text-xs">
-                <span className="text-lg">🏥</span>
-                <div>
-                  <p className="font-bold text-purple-900 dark:text-purple-200">Ingeboekt via Praktijkhuis 9500</p>
-                  <p className="text-xs text-purple-700 dark:text-purple-300 font-normal">Deze afspraak is binnengekomen via de Praktijkhuis 9500 integratie.</p>
-                </div>
-              </div>
-            )}
-
-            <div className="grid grid-cols-3 gap-2">
-              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">
-                {selectedAfspraakData.patientId ? 'Patiënt' : 'Titel / Reden'}
+            <div className="grid grid-cols-3 gap-2 items-center">
+              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Patiënt</span>
+              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-xs">
+                {selectedAfspraakData.patientId ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      navigate(`/patients?id=${selectedAfspraakData.patientId}`);
+                    }}
+                    className="text-brand-600 dark:text-brand-300 hover:text-brand-800 dark:hover:text-white font-bold hover:underline inline-flex items-center space-x-1.5 transition text-left cursor-pointer group"
+                    title="Bekijk patiëntendossier in patiëntenlijst"
+                  >
+                    <span>{selectedAfspraakData.patientNaam || '—'}</span>
+                    <ExternalLink className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100 transition shrink-0 text-brand-600 dark:text-brand-400" />
+                  </button>
+                ) : (
+                  <span>{selectedAfspraakData.patientNaam || '—'}</span>
+                )}
               </span>
-              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-sm">{selectedAfspraakData.patientNaam}</span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2 items-center">
               <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Type</span>
-              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-sm">{selectedAfspraakData.afspraakTypeNaam}</span>
+              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-xs">{selectedAfspraakData.afspraakTypeNaam}</span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
-              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Tijdstip</span>
-              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-sm">
-                {new Date(selectedAfspraakData.starttijd).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+            <div className="grid grid-cols-3 gap-2 items-center">
+              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Starttijd</span>
+              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-xs">
+                {new Date(selectedAfspraakData.starttijd).toLocaleDateString('nl-NL')} om {new Date(selectedAfspraakData.starttijd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 items-center">
+              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Duur</span>
+              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-xs">{(selectedAfspraakData as any).duurMinuten || (selectedAfspraakData as any).customDuurMinuten || 60} minuten</span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 items-center">
+              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Locatie</span>
+              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-xs">{(selectedAfspraakData as any).locatieType || 'Praktijk'}</span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 items-center">
+              <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Tarief</span>
+              <span className="col-span-2 text-slate-800 dark:text-white font-semibold text-xs flex items-center space-x-1">
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                  selectedAfspraakData.tariefType === 'ELP' 
+                    ? 'bg-brand-100 dark:bg-brand-950 text-brand-800 dark:text-brand-300 border border-brand-200 dark:border-brand-800' 
+                    : 'bg-slate-100 dark:bg-brand-950/80 text-slate-700 dark:text-brand-200 border border-slate-200 dark:border-brand-800'
+                }`}>
+                  {selectedAfspraakData.tariefType === 'ELP' ? 'ELP (Eerstelijnszorg)' : 'Regulier'}
+                </span>
               </span>
             </div>
 
             <div className="grid grid-cols-3 gap-2 items-center">
               <span className="text-slate-500 dark:text-brand-300 font-medium text-xs">Status</span>
-              <span className="col-span-2 flex items-center space-x-2">
-                <span className={`inline-block text-xs font-semibold py-1 px-3 rounded-full ${
-                  selectedAfspraakData.status === 'Geannuleerd' ? 'bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800/40' :
-                  selectedAfspraakData.status === 'Voltooid' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40' :
-                  'bg-brand-100 dark:bg-brand-800 text-brand-800 dark:text-brand-100 border border-brand-200 dark:border-brand-700'
-                }`}>
+              <span className="col-span-2">
+                <span 
+                  className="py-1 px-3 rounded-full text-xs font-bold text-white shadow-xs inline-block"
+                  style={{ backgroundColor: selectedAfspraakData.kleurcode || '#478d96' }}
+                >
                   {selectedAfspraakData.status}
                 </span>
-                {selectedAfspraakData.status === 'Geannuleerd' && (
-                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
-                    ✓ Tijdstip is vrij voor nieuwe boeking
-                  </span>
-                )}
               </span>
             </div>
 
@@ -196,11 +224,12 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
                 </span>
               </div>
             )}
+            </div>
 
-            <div className="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-brand-800/40">
+            <div className="flex justify-between items-center pt-4 mt-2 border-t border-slate-100 dark:border-brand-800/40 shrink-0">
               <button
                 onClick={() => handleDeleteBooking(selectedAfspraakData.id)}
-                className="text-red-600 dark:text-red-400 hover:text-red-700 text-xs font-semibold flex items-center space-x-1 py-2 px-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/60 transition cursor-pointer"
+                className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/60 text-xs font-semibold flex items-center space-x-1.5 py-2.5 px-3 rounded-2xl transition cursor-pointer"
               >
                 <Trash2 className="h-4 w-4" />
                 <span>Verwijderen</span>
@@ -212,7 +241,7 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
                     onClose();
                     onEdit(apptToEdit);
                   }}
-                  className="bg-brand-600 hover:bg-brand-700 text-white py-2 px-4 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm cursor-pointer"
+                  className="bg-brand-600 hover:bg-brand-700 dark:bg-brand-600 dark:hover:bg-brand-500 text-white font-bold py-2.5 px-5 rounded-2xl text-xs transition-all flex items-center space-x-2 shadow-md shadow-brand-500/15 cursor-pointer"
                 >
                   <Edit3 className="h-4 w-4" />
                   <span>Bewerken</span>

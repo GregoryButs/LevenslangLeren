@@ -278,30 +278,30 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
 
   return (
     <div className="space-y-8 p-6 max-w-7xl mx-auto">
-      {/* Welcome/Page Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm gap-4 transition-colors">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800 dark:text-brand-50">
-            {currentTab === 'agenda' && `Welkom terug, ${data?.psycholoogNaam || ''}`}
-            {currentTab === 'ai_lab' && 'AI Lab & Simulator'}
-            {currentTab === 'google_setup' && 'Google Agenda Synchronisatie'}
-          </h1>
-          <p className="text-slate-500 dark:text-slate-200 mt-1 font-medium text-sm sm:text-base">
-            {currentTab === 'agenda' && 'Hier is uw agenda-overzicht voor vandaag.'}
-            {currentTab === 'ai_lab' && "Analyseer patiëntrisico's en simuleer Q-learning beslissingen."}
-            {currentTab === 'google_setup' && 'Koppel uw Google Agenda en configureer synchronisatie-instellingen.'}
-          </p>
+      {/* Welcome/Page Header Banner (Verborgen op Praktijk Planner tab) */}
+      {currentTab !== 'google_setup' && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-3xl border border-slate-100 dark:border-brand-800/40 shadow-sm gap-4 transition-colors">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800 dark:text-brand-50">
+              {currentTab === 'agenda' && `Welkom terug, ${data?.psycholoogNaam || ''}`}
+              {currentTab === 'ai_lab' && 'AI Lab & Simulator'}
+            </h1>
+            <p className="text-slate-500 dark:text-slate-200 mt-1 font-medium text-sm sm:text-base">
+              {currentTab === 'agenda' && 'Hier is uw agenda-overzicht voor vandaag.'}
+              {currentTab === 'ai_lab' && "Analyseer patiëntrisico's en simuleer Q-learning beslissingen."}
+            </p>
+          </div>
+          {currentTab === 'agenda' && (
+            <button
+              onClick={handleOpenBookModal}
+              className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-lg shadow-brand-500/10 w-full sm:w-auto"
+            >
+              <Plus className="h-5 w-5" />
+              <span>Afspraak Plannen</span>
+            </button>
+          )}
         </div>
-        {currentTab === 'agenda' && (
-          <button
-            onClick={handleOpenBookModal}
-            className="flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-2xl transition shadow-lg shadow-brand-500/10 w-full sm:w-auto"
-          >
-            <Plus className="h-5 w-5" />
-            <span>Afspraak Plannen</span>
-          </button>
-        )}
-      </div>
+      )}
 
       {currentTab === 'agenda' ? (
         <>

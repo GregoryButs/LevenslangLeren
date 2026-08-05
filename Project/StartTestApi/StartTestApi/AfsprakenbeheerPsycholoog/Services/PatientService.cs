@@ -26,7 +26,7 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         public IEnumerable<PatientListViewModel> GetAllePatienten()
         {
-            var patienten = _repo.GetAllByCondition(p => p.IsActief);
+            var patienten = _repo.GetAlleActievePatientenWithAfspraken();
             var gekoppeldeIds = _repo.GetGekoppeldePatientIds().ToHashSet();
 
             // Map de patiënten naar de ViewModels
@@ -187,6 +187,10 @@ namespace AfsprakenbeheerPsycholoog.Services
                         patient.SecundairEmail = cleanEmail;
                     }
                 }
+                if (user.Geboortedatum.HasValue)
+                {
+                    patient.Geboortedatum = user.Geboortedatum.Value;
+                }
             }
 
             _repo.SaveChanges();
@@ -267,6 +271,43 @@ namespace AfsprakenbeheerPsycholoog.Services
             KoppelPatientAanUser(newPatientId, user.Email);
             
             return (true, $"{newPatientVm.Voornaam} {newPatientVm.Achternaam}");
+        }
+
+        public (bool Success, string ErrorMessage) MergePatients(MergePatientViewModel model)
+        {
+            if (model.TargetPatientId <= 0 || model.SourcePatientId <= 0)
+                return (false, "Ongeldige patiënt IDs opgegeven.");
+
+            if (model.TargetPatientId == model.SourcePatientId)
+                return (false, "Kan een patiënt niet met zichzelf samenvoegen.");
+
+            DateOnly geboortedatum;
+            if (!DateOnly.TryParse(model.Geboortedatum, out geboortedatum))
+            {
+                return (false, "Ongeldige geboortedatum indeling.");
+            }
+
+            var updatedData = new Patient
+            {
+                Id = model.TargetPatientId,
+                Voornaam = model.Voornaam.Trim(),
+                Achternaam = model.Achternaam.Trim(),
+                Geboortedatum = geboortedatum,
+                Email = model.Email.Trim(),
+                SecundairEmail = string.IsNullOrWhiteSpace(model.SecundairEmail) ? null : model.SecundairEmail.Trim(),
+                Telefoonnummer = string.IsNullOrWhiteSpace(model.Telefoonnummer) ? "" : model.Telefoonnummer.Trim(),
+                DossierNummer = string.IsNullOrWhiteSpace(model.DossierNummer) ? null : model.DossierNummer.Trim(),
+                Rijksregisternummer = string.IsNullOrWhiteSpace(model.Rijksregisternummer) ? null : model.Rijksregisternummer.Trim(),
+                EmotioneleStabiliteit = model.EmotioneleStabiliteit
+            };
+
+            var success = _repo.MergePatients(model.TargetPatientId, model.SourcePatientId, updatedData);
+            if (!success)
+            {
+                return (false, "Samenvoegen mislukt. Een of beide patiënten konden niet gevonden worden.");
+            }
+
+            return (true, string.Empty);
         }
     }
 }

@@ -35,6 +35,12 @@ namespace AfsprakenbeheerPsycholoog.Models.ViewModels.Patient
         [Display(Name = "Dossiernummer")]
         public string? DossierNummer { get; set; }
 
+        [Display(Name = "Rijksregisternummer")]
+        public string? Rijksregisternummer { get; set; }
+
+        [Display(Name = "Standaard Tarieftype")]
+        public AfsprakenbeheerPsycholoog.Data.Entities.TariefType StandaardTariefType { get; set; } = AfsprakenbeheerPsycholoog.Data.Entities.TariefType.Regulier;
+
         [Range(1.0, 10.0)]
         [Display(Name = "Emotionele Stabiliteit")]
         public double? EmotioneleStabiliteit { get; set; } = 5.5;

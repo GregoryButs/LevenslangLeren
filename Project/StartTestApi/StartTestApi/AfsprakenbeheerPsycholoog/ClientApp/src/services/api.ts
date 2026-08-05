@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { 
   User, Patient, Afspraak, AfspraakType, 
-  DashboardData, WeekOverzicht, DagOverzicht 
+  DashboardData, WeekOverzicht, DagOverzicht,
+  ElpMaandoverzicht 
 } from '../types';
 
 const api = axios.create({
@@ -52,6 +53,10 @@ export const authApi = {
   },
   resetPassword: async (email: string, token: string, newPassword: string): Promise<{ message: string }> => {
     const res = await api.post<{ message: string }>('/auth/reset-password', { email, token, newPassword });
+    return res.data;
+  },
+  completeProfile: async (data: { geboortedatum: string; telefoonnummer?: string | null }): Promise<User> => {
+    const res = await api.post<User>('/auth/complete-profile', data);
     return res.data;
   }
 };
@@ -119,6 +124,22 @@ export const patientApi = {
   },
   unlink: async (patientId: number): Promise<void> => {
     await api.post(`/patient/${patientId}/ontkoppel`);
+  },
+  merge: async (payload: {
+    targetPatientId: number;
+    sourcePatientId: number;
+    voornaam: string;
+    achternaam: string;
+    geboortedatum: string;
+    email: string;
+    secundairEmail?: string | null;
+    telefoonnummer?: string | null;
+    dossierNummer?: string | null;
+    rijksregisternummer?: string | null;
+    emotioneleStabiliteit?: number | null;
+  }): Promise<{ message: string }> => {
+    const res = await api.post<{ message: string }>('/patient/merge', payload);
+    return res.data;
   }
 };
 
@@ -257,6 +278,27 @@ export const aiApi = {
 export const contactApi = {
   send: async (data: { name: string; surname: string; email: string; message: string }): Promise<void> => {
     await api.post('/contact', data);
+  }
+};
+
+export const elpApi = {
+  getMaandoverzicht: async (jaar?: number, maand?: number): Promise<ElpMaandoverzicht> => {
+    const res = await api.get<ElpMaandoverzicht>('/elp/maandoverzicht', {
+      params: { jaar, maand }
+    });
+    return res.data;
+  },
+  markeerVerwerkt: async (ids: number[]): Promise<{ message: string }> => {
+    const res = await api.post<{ message: string }>('/elp/markeer-verwerkt', ids);
+    return res.data;
+  },
+  markeerTeVerwerken: async (ids: number[]): Promise<{ message: string }> => {
+    const res = await api.post<{ message: string }>('/elp/markeer-te-verwerken', ids);
+    return res.data;
+  },
+  toggleStatus: async (id: number): Promise<{ id: number; elpStatus: string; message: string }> => {
+    const res = await api.post<{ id: number; elpStatus: string; message: string }>(`/elp/toggle-status/${id}`);
+    return res.data;
   }
 };
 

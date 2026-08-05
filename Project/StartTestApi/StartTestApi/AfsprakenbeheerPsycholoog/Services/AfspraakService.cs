@@ -136,6 +136,15 @@ namespace AfsprakenbeheerPsycholoog.Services
                 afspraak.Eindtijd = eindUtc;
                 afspraak.ReeksId = reeksId;
 
+                if (vm.PatientId.HasValue)
+                {
+                    var patientObj = _patientRepo.GetById(vm.PatientId.Value);
+                    if (patientObj != null && patientObj.StandaardTariefType == TariefType.ELP && vm.TariefType == TariefType.Regulier)
+                    {
+                        afspraak.TariefType = TariefType.ELP;
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(vm.LocatieType))
                 {
                     string locationTag = vm.LocatieType switch

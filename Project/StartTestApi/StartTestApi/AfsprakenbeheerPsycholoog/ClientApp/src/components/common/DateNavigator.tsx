@@ -34,7 +34,7 @@ export const DateNavigator: React.FC<DateNavigatorProps> = ({
             onChange(e.target.value);
           }
         }}
-        className="bg-transparent font-bold text-slate-700 dark:text-brand-100 text-xs focus:outline-none border-none cursor-pointer px-1 py-0.5"
+        className="bg-transparent font-bold text-slate-700 dark:text-brand-100 text-xs focus:outline-none border-none cursor-pointer px-1 py-0.5 dark:[color-scheme:dark]"
       />
       <button
         type="button"
