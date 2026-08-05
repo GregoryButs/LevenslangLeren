@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { dashboardApi, patientApi, aiApi } from '../services/api';
 import { DashboardData, Afspraak, Patient } from '../types';
 import { 
-  Calendar, Clock, ArrowRight, ChevronLeft, ChevronRight, 
+  Calendar, Clock, ArrowRight, ChevronRight,
   Plus, AlertCircle, Loader2,
   Brain, LineChart, Activity, Database, RotateCcw, ShieldAlert
 } from 'lucide-react';
@@ -14,6 +14,7 @@ import { DashboardStatCards } from '../components/dashboard/DashboardStatCards';
 import { AiPatientRiskTable } from '../components/dashboard/AiPatientRiskTable';
 import { AiDatasetExplorer } from '../components/dashboard/AiDatasetExplorer';
 import { PendingApplicationsWidget } from '../components/dashboard/PendingApplicationsWidget';
+import { DateNavigator } from '../components/common/DateNavigator';
 
 interface PsycholoogDashboardProps {
   initialTab?: 'agenda' | 'ai_lab' | 'google_setup';
@@ -346,26 +347,16 @@ export const PsycholoogDashboard: React.FC<PsycholoogDashboardProps> = ({ initia
                   <Calendar className="h-5 w-5 text-brand-600 dark:text-brand-400" />
                   <span>Dagplanning</span>
                 </h2>
-                <div className="flex items-center justify-between sm:justify-start space-x-3 bg-slate-50 dark:bg-brand-950/60 p-1.5 rounded-2xl border border-slate-200 dark:border-brand-800/60 w-full sm:w-auto">
-                  <button
-                    onClick={() => handleDateChange(-1)}
-                    className="p-1.5 hover:bg-white dark:hover:bg-brand-900 rounded-xl transition hover:shadow-sm"
-                  >
-                    <ChevronLeft className="h-5 w-5 text-slate-600 dark:text-brand-200" />
-                  </button>
-                  <input
-                    type="date"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="bg-transparent font-semibold text-slate-700 dark:text-brand-100 text-sm focus:outline-none border-none cursor-pointer"
-                  />
-                  <button
-                    onClick={() => handleDateChange(1)}
-                    className="p-1.5 hover:bg-white dark:hover:bg-brand-900 rounded-xl transition hover:shadow-sm"
-                  >
-                    <ChevronRight className="h-5 w-5 text-slate-600 dark:text-brand-200" />
-                  </button>
-                </div>
+                <DateNavigator
+                  value={selectedDate}
+                  onChange={(newDate) => {
+                    setSelectedDate(newDate);
+                    loadDashboard(newDate);
+                  }}
+                  onPrev={() => handleDateChange(-1)}
+                  onNext={() => handleDateChange(1)}
+                  className="w-full sm:w-auto"
+                />
               </div>
 
               {/* Agenda List */}

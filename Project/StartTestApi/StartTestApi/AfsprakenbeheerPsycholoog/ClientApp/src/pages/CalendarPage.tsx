@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { afspraakApi, settingsApi } from '../services/api';
 import { Afspraak, SettingsData } from '../types';
 import { 
-  Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, 
+  Calendar as CalendarIcon, Clock,
   RefreshCw, Loader2, Plus, Video 
 } from 'lucide-react';
 import { AfspraakDetailModal } from '../components/AfspraakDetailModal';
 import { AfspraakInplannenModal } from '../components/AfspraakInplannenModal';
+import { DateNavigator } from '../components/common/DateNavigator';
 import { formatHourString, formatShortDutchDate, formatSlotTimeString } from '../utils/dateUtils';
 
 export const CalendarPage: React.FC = () => {
@@ -320,10 +321,6 @@ export const CalendarPage: React.FC = () => {
     });
   };
 
-  const formatLocalDate = (date: Date) => {
-    return date.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
-  };
-
   const formatLocalTime = (utcString: string) => {
     return new Date(utcString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
@@ -347,26 +344,17 @@ export const CalendarPage: React.FC = () => {
             Vandaag
           </button>
           
-          <div className="flex items-center bg-slate-100 dark:bg-brand-950 p-1 rounded-xl">
-            <button 
-              onClick={handlePrev}
-              className="p-1.5 text-slate-600 dark:text-brand-300 hover:text-slate-800 dark:hover:text-white rounded-lg hover:bg-white dark:hover:bg-brand-900 transition"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <span className="px-2 sm:px-3 text-xs font-bold text-slate-600 dark:text-brand-200">
-              {viewMode === 'week' 
-                ? `Week van ${formatLocalDate(startOfWeek(new Date(currentDate)))}` 
-                : formatLocalDate(currentDate)
+          <DateNavigator
+            value={`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`}
+            onChange={(newDateStr) => {
+              const parts = newDateStr.split('-');
+              if (parts.length === 3) {
+                setCurrentDate(new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])));
               }
-            </span>
-            <button 
-              onClick={handleNext}
-              className="p-1.5 text-slate-600 dark:text-brand-300 hover:text-slate-800 dark:hover:text-white rounded-lg hover:bg-white dark:hover:bg-brand-900 transition"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
+            }}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
 
           <div className="flex items-center bg-slate-100 dark:bg-brand-950 p-1 rounded-xl">
             <button 
