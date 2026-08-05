@@ -97,11 +97,19 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (id != vm.Id) return BadRequest(new { message = "ID in URL komt niet overeen met ID in body." });
 
-            var patient = _service.GetPatientDetail(id);
-            if (patient == null) return NotFound(new { message = "Patiënt niet gevonden." });
+            try
+            {
+                var patient = _service.GetPatientDetail(id);
+                if (patient == null) return NotFound(new { message = "Patiënt niet gevonden." });
 
-            _service.EditPatient(vm);
-            return Ok(new { message = "Patiënt succesvol bijgewerkt." });
+                _service.EditPatient(vm);
+                return Ok(new { message = "Patiënt succesvol bijgewerkt." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fout bij bijwerken van patiënt {Id}", id);
+                return StatusCode(500, new { message = $"Bijwerken van patiënt mislukt: {ex.Message}" });
+            }
         }
 
         [HttpDelete("{id}")]

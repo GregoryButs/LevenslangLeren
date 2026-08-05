@@ -312,7 +312,7 @@ namespace AfsprakenbeheerPsycholoog.Services
                         localAppointment.Opmerkingen = patientInfo.Opmerkingen;
                     }
                 }
-                else
+                else if (isExplicitBlocker)
                 {
                     localAppointment.PatientId = null;
                 }

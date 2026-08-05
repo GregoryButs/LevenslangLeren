@@ -67,10 +67,20 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
         if (afspraakToEdit) {
           // Edit Mode
           const res = await afspraakApi.getEditData(afspraakToEdit.id);
-          const pList = (res.patienten || []).map((p: any) => ({
+          const rawPatients = res.patienten || [];
+          setFullPatients(rawPatients);
+
+          const pList = rawPatients.map((p: any) => ({
             id: p.id ?? p.Id,
             naam: p.naam || p.Naam || getPatientDisplayName(p)
           }));
+
+          const editPatientId = res.viewModel?.patientId ?? afspraakToEdit.patientId;
+          if (editPatientId && !pList.some((p: any) => String(p.id) === String(editPatientId))) {
+            const fallbackName = afspraakToEdit.patientNaam || ('Patiënt #' + editPatientId);
+            pList.unshift({ id: editPatientId, naam: fallbackName });
+          }
+
           const tList = (res.types || []).map((t: any) => ({
             id: t.id ?? t.Id,
             naam: t.naam || t.Naam,
@@ -92,7 +102,7 @@ export const AfspraakInplannenModal: React.FC<AfspraakInplannenModalProps> = ({
 
           setNewBooking({
             typeId: res.viewModel?.typeId ? String(res.viewModel.typeId) : '',
-            patientId: res.viewModel?.patientId ? String(res.viewModel.patientId) : '',
+            patientId: editPatientId ? String(editPatientId) : '',
             starttijd: localIso,
             duurMinuten: duration,
             locatieType: (res.viewModel?.locatieType || 'Praktijk') as any,

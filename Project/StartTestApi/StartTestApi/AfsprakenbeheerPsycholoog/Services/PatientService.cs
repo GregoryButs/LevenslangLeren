@@ -89,7 +89,18 @@ namespace AfsprakenbeheerPsycholoog.Services
             var patientInDb = _repo.GetById(vm.Id);
             if (patientInDb != null)
             {
+                vm.Telefoonnummer ??= "";
+                vm.SecundairEmail ??= "";
+                vm.DossierNummer ??= "";
+                vm.Rijksregisternummer ??= "";
+
                 _mapper.Map(vm, patientInDb);
+
+                patientInDb.Telefoonnummer ??= "";
+                patientInDb.SecundairEmail ??= "";
+                patientInDb.DossierNummer ??= "";
+                patientInDb.Rijksregisternummer ??= "";
+
                 _repo.Update(patientInDb);
                 _repo.SaveChanges();
             }

@@ -63,7 +63,14 @@ namespace AfsprakenbeheerPsycholoog.Profiles
 
             // Afspraak -> EditAfspraakViewModel
             CreateMap<Afspraak, EditAfspraakViewModel>()
-                .ForMember(dest => dest.CustomDuurMinuten, opt => opt.MapFrom(src => (int)Math.Max(15, Math.Round((src.Eindtijd - src.Starttijd).TotalMinutes))));
+                .ForMember(dest => dest.CustomDuurMinuten, opt => opt.MapFrom(src => (int)Math.Max(15, Math.Round((src.Eindtijd - src.Starttijd).TotalMinutes))))
+                .ForMember(dest => dest.LocatieType, opt => opt.MapFrom(src =>
+                    !string.IsNullOrEmpty(src.GoogleMeetLink) || (src.Opmerkingen != null && (src.Opmerkingen.Contains("GoogleMeet") || src.Opmerkingen.Contains("Google Meet") || src.Opmerkingen.Contains("[Online via Google Meet]")))
+                        ? "GoogleMeet"
+                        : (src.Opmerkingen != null && (src.Opmerkingen.Contains("Telefoon") || src.Opmerkingen.Contains("Telefonisch") || src.Opmerkingen.Contains("[Telefonische meeting]")))
+                            ? "Telefoon"
+                            : "Praktijk"
+                ));
 
             // PatientBoekAfspraakViewModel → Afspraak
             CreateMap<PatientBoekAfspraakViewModel, Afspraak>()

@@ -286,6 +286,46 @@ namespace AfsprakenbeheerPsycholoog.Services
             afspraakInDb.Starttijd = startUtc;
             afspraakInDb.Eindtijd = eindtijdUtc;
 
+            // Verwerk LocatieType en update Opmerkingen & GoogleMeetLink
+            if (!string.IsNullOrEmpty(vm.LocatieType))
+            {
+                string newLocationTag = vm.LocatieType switch
+                {
+                    "GoogleMeet" => "[Online via Google Meet]",
+                    "Telefoon" => "[Telefonische meeting]",
+                    "Praktijk" => "[Op de praktijk]",
+                    _ => ""
+                };
+
+                if (afspraakInDb.Opmerkingen != null)
+                {
+                    var oldTags = new[] { "[Online via Google Meet]", "[Telefonische meeting]", "[Op de praktijk]" };
+                    foreach (var tag in oldTags)
+                    {
+                        afspraakInDb.Opmerkingen = afspraakInDb.Opmerkingen.Replace(tag + "\n", "").Replace(tag, "").Trim();
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(newLocationTag))
+                {
+                    afspraakInDb.Opmerkingen = string.IsNullOrEmpty(afspraakInDb.Opmerkingen)
+                        ? newLocationTag
+                        : $"{newLocationTag}\n{afspraakInDb.Opmerkingen}";
+                }
+
+                if (vm.LocatieType == "GoogleMeet")
+                {
+                    if (string.IsNullOrEmpty(afspraakInDb.GoogleMeetLink) || afspraakInDb.GoogleMeetLink.Contains("meet-dv") || afspraakInDb.GoogleMeetLink.Contains("lookup"))
+                    {
+                        afspraakInDb.GoogleMeetLink = "https://meet.google.com/new";
+                    }
+                }
+                else
+                {
+                    afspraakInDb.GoogleMeetLink = null;
+                }
+            }
+
             _afspraakRepo.Update(afspraakInDb);
             _afspraakRepo.SaveChanges();
 
@@ -304,9 +344,10 @@ namespace AfsprakenbeheerPsycholoog.Services
                 {
                     var patientObj = afspraakInDb.Patient ?? (afspraakInDb.PatientId.HasValue ? _patientRepo.GetById(afspraakInDb.PatientId.Value) : null);
                     var pNaam = patientObj != null ? $"{patientObj.Voornaam} {patientObj.Achternaam}".Trim() : "";
-                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id, false, "", pNaam);
+                    bool isMeet = vm.LocatieType == "GoogleMeet";
+                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id, isMeet, "", pNaam);
                     afspraakInDb.GoogleEventId = googleEventId;
-                    if (!string.IsNullOrEmpty(googleMeetLink))
+                    if (isMeet && !string.IsNullOrEmpty(googleMeetLink))
                     {
                         afspraakInDb.GoogleMeetLink = googleMeetLink;
                     }

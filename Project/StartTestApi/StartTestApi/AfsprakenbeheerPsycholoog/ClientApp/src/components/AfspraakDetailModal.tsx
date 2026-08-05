@@ -88,6 +88,16 @@ export const AfspraakDetailModal: React.FC<AfspraakDetailModalProps> = ({
           /* Details View */
           <div className="flex flex-col flex-1 min-h-0">
             <div className="flex-1 overflow-y-auto pr-1 py-3 space-y-4">
+            {selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('[PH9500]') || selectedAfspraakData.opmerkingen.includes('[Praktijkhuis9500]')) && (
+              <div className="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/40 rounded-2xl text-amber-800 dark:text-amber-200 text-xs font-semibold flex items-start space-x-3 shadow-xs">
+                <span className="text-lg mt-0.5 shrink-0">🏠</span>
+                <div>
+                  <p className="font-bold text-slate-800 dark:text-white mb-0.5">Praktijkhuis Boeking</p>
+                  <p className="text-slate-600 dark:text-brand-300">Deze afspraak is extern ingepland via het boekingsplatform van Praktijkhuis9500.</p>
+                </div>
+              </div>
+            )}
+
             {(() => {
               const isMeet = !!selectedAfspraakData.googleMeetLink || (selectedAfspraakData.opmerkingen && (selectedAfspraakData.opmerkingen.includes('GoogleMeet') || selectedAfspraakData.opmerkingen.includes('Google Meet')));
               if (!isMeet) return null;

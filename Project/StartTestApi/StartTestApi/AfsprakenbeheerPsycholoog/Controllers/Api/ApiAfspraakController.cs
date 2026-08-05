@@ -121,7 +121,16 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
             var vm = _afspraakService.GetEditViewModel(id);
             if (vm == null) return NotFound(new { message = "Afspraak niet gevonden." });
 
-            var patienten = _patientRepo.GetAllByCondition(p => p.IsActief).Select(p => new { p.Id, Naam = $"{p.Voornaam} {p.Achternaam}" }).OrderBy(p => p.Naam);
+            var patientenList = _patientRepo.GetAllByCondition(p => p.IsActief).ToList();
+            if (vm.PatientId.HasValue && !patientenList.Any(p => p.Id == vm.PatientId.Value))
+            {
+                var currentPatient = _patientRepo.GetByIdInclusiefInactief(vm.PatientId.Value);
+                if (currentPatient != null)
+                {
+                    patientenList.Add(currentPatient);
+                }
+            }
+            var patienten = patientenList.Select(p => new { p.Id, Naam = $"{p.Voornaam} {p.Achternaam}".Trim() }).OrderBy(p => p.Naam);
             var types = _typeRepo.GetAll().Select(t => new { t.Id, t.Naam, t.StandaardDuurMinuten, t.Kleurcode, t.VereistPatient });
             return Ok(new
             {

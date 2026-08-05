@@ -8,6 +8,10 @@
     scroll-behavior: smooth;
   }
 
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 400;
@@ -140,15 +144,19 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
+html.dark input[type="date"]::-webkit-calendar-picker-indicator,
+html.dark input[type="time"]::-webkit-calendar-picker-indicator,
 .dark input[type="date"]::-webkit-calendar-picker-indicator,
 .dark input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.9) sepia(0.2) saturate(2) hue-rotate(315deg) brightness(1.1);
-  opacity: 0.9;
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.85;
 }
 
+html.dark input[type="date"]::-webkit-calendar-picker-indicator:hover,
+html.dark input[type="time"]::-webkit-calendar-picker-indicator:hover,
 .dark input[type="date"]::-webkit-calendar-picker-indicator:hover,
 .dark input[type="time"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
-  filter: invert(1) brightness(1.2);
+  filter: brightness(0) invert(1) brightness(1.2) !important;
 }
 
