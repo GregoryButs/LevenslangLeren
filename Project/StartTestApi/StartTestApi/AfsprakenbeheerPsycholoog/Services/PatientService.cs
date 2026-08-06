@@ -69,15 +69,27 @@ namespace AfsprakenbeheerPsycholoog.Services
 
         public int CreatePatient(CreatePatientViewModel vm)
         {
+            // 1. Controleer of er al een actieve patiënt bestaat met dit e-mailadres
+            if (!string.IsNullOrWhiteSpace(vm.Email))
+            {
+                var cleanEmail = vm.Email.Trim().ToLower();
+
+                bool emailBestaatAl = _repo.GetAllByCondition(p => p.IsActief && p.Email.ToLower() == cleanEmail).Any();
+
+                if (emailBestaatAl)
+                {
+                    throw new InvalidOperationException($"Er bestaat al een actieve patiënt met het e-mailadres '{vm.Email.Trim()}'.");
+                }
+            }
+
+            // 2. Map de ViewModel naar de Entity
             var patient = _mapper.Map<Patient>(vm);
 
-            // FIX 1: Voorkom NULL op kolommen die in de database verplicht een string verwachten
+            // 3. Voorkom NULL waarden op niet-optionele databasetekstvelden
             patient.Telefoonnummer ??= "";
             patient.SecundairEmail ??= "";
             patient.DossierNummer ??= "";
             patient.Rijksregisternummer ??= "";
-
-            // FIX 2: Zorg dat IsActief altijd op true staat bij een nieuwe patiënt
             patient.IsActief = true;
 
             _repo.Add(patient);
@@ -88,11 +100,10 @@ namespace AfsprakenbeheerPsycholoog.Services
             }
             catch (DbUpdateException ex)
             {
-                // Geeft een duidelijke foutmelding als bijvoorbeeld het DossierNummer of E-mailadres al bestaat
                 throw new InvalidOperationException("Kan patiënt niet opslaan. Mogelijks bestaat het e-mailadres of dossiernummer al in de database.", ex);
             }
 
-                return patient.Id;
+            return patient.Id;
         }
 
         public EditPatientViewModel? GetPatientForEdit(int id)
