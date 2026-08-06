@@ -334,25 +334,18 @@ namespace AfsprakenbeheerPsycholoog.Services
             {
                 try
                 {
-                    await _calendarService.UpdateEventAsync(afspraakInDb.GoogleEventId, afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id);
-                }
-                catch (Exception) { }
-            }
-            else
-            {
-                try
-                {
+                    // 1. Haal de patiënt op om de (nieuwe) naam vast te stellen
                     var patientObj = afspraakInDb.Patient ?? (afspraakInDb.PatientId.HasValue ? _patientRepo.GetById(afspraakInDb.PatientId.Value) : null);
                     var pNaam = patientObj != null ? $"{patientObj.Voornaam} {patientObj.Achternaam}".Trim() : "";
-                    bool isMeet = vm.LocatieType == "GoogleMeet";
-                    var (googleEventId, googleMeetLink) = await _calendarService.CreateEventAsync(afspraakInDb.Starttijd, afspraakInDb.Eindtijd, afspraakInDb.Id, isMeet, "", pNaam);
-                    afspraakInDb.GoogleEventId = googleEventId;
-                    if (isMeet && !string.IsNullOrEmpty(googleMeetLink))
-                    {
-                        afspraakInDb.GoogleMeetLink = googleMeetLink;
-                    }
-                    _afspraakRepo.Update(afspraakInDb);
-                    _afspraakRepo.SaveChanges();
+
+                    // 2. Geef pNaam mee als 5e argument aan UpdateEventAsync
+                    await _calendarService.UpdateEventAsync(
+                        afspraakInDb.GoogleEventId,
+                        afspraakInDb.Starttijd,
+                        afspraakInDb.Eindtijd,
+                        afspraakInDb.Id,
+                        pNaam
+                    );
                 }
                 catch (Exception) { }
             }
