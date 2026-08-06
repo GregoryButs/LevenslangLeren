@@ -70,10 +70,29 @@ namespace AfsprakenbeheerPsycholoog.Services
         public int CreatePatient(CreatePatientViewModel vm)
         {
             var patient = _mapper.Map<Patient>(vm);
+
+            // FIX 1: Voorkom NULL op kolommen die in de database verplicht een string verwachten
+            patient.Telefoonnummer ??= "";
+            patient.SecundairEmail ??= "";
+            patient.DossierNummer ??= "";
+            patient.Rijksregisternummer ??= "";
+
+            // FIX 2: Zorg dat IsActief altijd op true staat bij een nieuwe patiënt
+            patient.IsActief = true;
+
             _repo.Add(patient);
-            _repo.SaveChanges();
-            
-            return patient.Id;
+
+            try
+            {
+                _repo.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Geeft een duidelijke foutmelding als bijvoorbeeld het DossierNummer of E-mailadres al bestaat
+                throw new InvalidOperationException("Kan patiënt niet opslaan. Mogelijks bestaat het e-mailadres of dossiernummer al in de database.", ex);
+            }
+
+                return patient.Id;
         }
 
         public EditPatientViewModel? GetPatientForEdit(int id)
