@@ -51,6 +51,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
 
             if (shouldSync)
             {
+                // Synchroniseer Google Calendar wijzigingen op de achtergrond
                 _ = Task.Run(async () =>
                 {
                     try
@@ -63,11 +64,8 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
                 });
             }
 
-            using (var scope = HttpContext.RequestServices.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                DatabaseMigrationExtensions.RestoreFromDump(db);
-            }
+            // OPMERKING: DatabaseMigrationExtensions.RestoreFromDump(db) is hier verwijderd!
+            // Dit overschreef bij elke pagina-load jouw database.
 
             var afspraken = _afspraakService.GetAlleAfspraken();
             return Ok(afspraken);
@@ -92,7 +90,7 @@ namespace AfsprakenbeheerPsycholoog.Controllers.Api
         [HttpGet("create-data")]
         public IActionResult GetCreateData()
         {
-            var patienten = _patientRepo.GetAllByCondition(p => p.IsActief).Select(p => new { p.Id, Naam = $"{p.Voornaam} {p.Achternaam}" }).OrderBy(p => p.Naam);
+            var patienten = _patientRepo.GetAllByCondition(p => p.IsActief).Select(p => new { p.Id, Naam = $"{p.Voornaam} {p.Achternaam}".Trim() }).OrderBy(p => p.Naam);
             var types = _typeRepo.GetAll().Select(t => new { t.Id, t.Naam, t.StandaardDuurMinuten, t.Kleurcode, t.VereistPatient });
             return Ok(new
             {

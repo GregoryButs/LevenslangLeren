@@ -286,81 +286,94 @@ namespace AfsprakenbeheerPsycholoog.Services
             var localAppointment = dbContext.Afspraken.Local.FirstOrDefault(a => a.GoogleEventId == ev.Id)
                 ?? dbContext.Afspraken.FirstOrDefault(a => a.GoogleEventId == ev.Id);
 
-            if (localAppointment != null)
+        // ==========================================
+        // 1. BESTAANDE AFSPRAAK BIJWERKEN
+        // ==========================================
+        if (localAppointment != null)
+        {       
+            // Pas alleen datum, tijd, status, type en meet-link aan uit Google
+            localAppointment.Starttijd = startUtc;
+            localAppointment.Eindtijd = endUtc;
+            localAppointment.IsHeleDag = isAllDay || isTransparent;
+            localAppointment.Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland;
+            localAppointment.GoogleMeetLink = googleMeetLink;
+
+            var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
+            if (afspraakType != null)
             {
-                localAppointment.Starttijd = startUtc;
-                localAppointment.Eindtijd = endUtc;
-                localAppointment.IsHeleDag = isAllDay || isTransparent;
-                localAppointment.Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland;
-                localAppointment.GoogleMeetLink = googleMeetLink;
-
-                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
-                if (afspraakType != null)
-                {
-                    localAppointment.TypeId = afspraakType.Id;
-                }
-
-                if (isPatientAppointment)
-                {
-                    var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
-                    if (patient != null && patient.Id > 0)
-                    {
-                        localAppointment.PatientId = patient.Id;
-                    }
-                    if (!string.IsNullOrWhiteSpace(patientInfo.Opmerkingen))
-                    {
-                        localAppointment.Opmerkingen = patientInfo.Opmerkingen;
-                    }
-                }
-                else if (isExplicitBlocker)
-                {
-                    localAppointment.PatientId = null;
-                }
-                return;
+                localAppointment.TypeId = afspraakType.Id;
             }
 
-            if (isPatientAppointment)
+            // CRUCIALE FIX: Vul PatientId ALLEEN in als de afspraak er lokaal nog geen heeft.
+            // Als localAppointment.PatientId != null is, laten we jouw handmatige koppeling/wijziging intact!
+            if (localAppointment.PatientId == null && isPatientAppointment)
             {
                 var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
-                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
-                int? assignedPatientId = (patient != null && patient.Id > 0) ? patient.Id : null;
-
-                var nieuweAfspraak = new Afspraak
+                if (patient != null && patient.Id > 0)
                 {
-                    PatientId = assignedPatientId,
-                    TypeId = afspraakType?.Id,
-                    Starttijd = startUtc,
-                    Eindtijd = endUtc,
-                    Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
-                    GoogleEventId = ev.Id,
-                    GoogleMeetLink = googleMeetLink,
-                    Opmerkingen = patientInfo.Opmerkingen,
-                    IsHeleDag = isAllDay || isTransparent
-                };
-
-                dbContext.Afspraken.Add(nieuweAfspraak);
+                    localAppointment.PatientId = patient.Id;
+                }
             }
-            else
+
+            if (!string.IsNullOrWhiteSpace(patientInfo.Opmerkingen) && string.IsNullOrWhiteSpace(localAppointment.Opmerkingen))
             {
-                var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
-                var blockerAfspraak = new Afspraak
-                {
-                    PatientId = null,
-                    TypeId = afspraakType?.Id,
-                    Starttijd = startUtc,
-                    Eindtijd = endUtc,
-                    Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
-                    GoogleEventId = ev.Id,
-                    GoogleMeetLink = googleMeetLink,
-                    Opmerkingen = ev.Summary ?? "Blokkering / Melding",
-                    IsHeleDag = isAllDay || isTransparent
-                };
-
-                dbContext.Afspraken.Add(blockerAfspraak);
+                localAppointment.Opmerkingen = patientInfo.Opmerkingen;
             }
+
+            if (isExplicitBlocker)
+            {
+                localAppointment.PatientId = null;
+            }
+
+            return;
         }
 
-        private static bool ShouldSkipEvent(Event ev)
+        // ==========================================
+        // 2. NIEUWE AFSPRAAK AANMAKEN
+        // ==========================================
+        if (isPatientAppointment)
+        {
+            var patient = await GetOrCreatePatientAsync(dbContext, patientInfo);
+            var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
+            int? assignedPatientId = (patient != null && patient.Id > 0) ? patient.Id : null;
+
+            var nieuweAfspraak = new Afspraak
+            {
+                PatientId = assignedPatientId,
+                TypeId = afspraakType?.Id,
+                Starttijd = startUtc,
+                Eindtijd = endUtc,
+                Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
+                GoogleEventId = ev.Id,
+                GoogleMeetLink = googleMeetLink,
+                Opmerkingen = patientInfo.Opmerkingen,
+                IsHeleDag = isAllDay || isTransparent
+            };
+
+            dbContext.Afspraken.Add(nieuweAfspraak);
+        }
+        else
+        {
+            var afspraakType = ResolveAfspraakType(dbContext, isPraktijkhuis, ev?.Summary, ev?.Description, googleMeetLink);
+            var blockerAfspraak = new Afspraak
+            {
+                PatientId = null,
+                TypeId = afspraakType?.Id,
+                Starttijd = startUtc,
+                Eindtijd = endUtc,
+                Status = isDeclined ? AfspraakStatus.Geannuleerd : AfspraakStatus.Gepland,
+                GoogleEventId = ev.Id,
+                GoogleMeetLink = googleMeetLink,
+                Opmerkingen = ev.Summary ?? "Blokkering / Melding",
+                IsHeleDag = isAllDay || isTransparent
+            };
+
+            dbContext.Afspraken.Add(blockerAfspraak);
+        }
+    }
+
+
+    private static bool ShouldSkipEvent(Event ev)
         {
             if (ev == null) return true;
             if (string.Equals(ev.EventType, "workingLocation", StringComparison.OrdinalIgnoreCase)) return true;
